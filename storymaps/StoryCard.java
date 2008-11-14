@@ -6,6 +6,19 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PPaintContext;
+import java.awt.Graphics2D;
+
+/* TODO
+ * 
+ * Need a global singleton Mediator object:
+ * 
+ * - When a story card is clicked on it informs the mediator, which causes the
+ *   camera to zoom in on that node.
+ * - When the camera is zoomed out again the mediator is also informed, and can
+ *   inform the node that it is no longer zoomed in on so that it can change its
+ *   level of detail back down again.
+ */
 
 public class StoryCard {
     
@@ -18,36 +31,34 @@ public class StoryCard {
      * The description that appears on this story card.
      */
     private String description;
-    
-    /**
-     * Callback object for zooming to the card.
-     */
-    private final StoryCardDemo demo;
-    
+        
     /**
      * The root node of this StoryCard tree of nodes.
      */
     private PNode node;    
     
-    public StoryCard(String title, String description, final StoryCardDemo demo) {
+    private PText title_node;
+    private PImage image_node;
+    private PText description_node;
+    
+    public StoryCard(String title, String description) {
         this.title = title;
         this.description = description;
-        this.demo = demo;
                 
         node = PPath.createRectangle(-100, -120, 200, 240); // x,y,width,height
         node.setPaint(Color.WHITE);
 
-        PText title_node = new PText(title);
+        title_node = new PText(title);
         node.addChild(title_node);
         title_node.setOffset(-98,-120);
         title_node.setScale(2);
                 
-        PNode image_node = new PImage("/home/seanh/git/phd/storymaps_java/storymaps/home.png");
+        image_node = new PImage("/home/seanh/git/phd/storymaps_java/storymaps/home.png");
         node.addChild(image_node);
         image_node.setOffset(-98,-90);
         
-        PText description_node = new PText(description);
-        node.addChild(description_node);
+        description_node = new PText(description);
+        //node.addChild(description_node);
         description_node.setOffset(-98,0);
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
@@ -69,10 +80,9 @@ public class StoryCard {
             // Make the camera zoom in on the story card when it's clicked.
             @Override
             public void mousePressed(PInputEvent event) {
-                // Here need to send a message to the controlling application
-                // somehow so it can decide to zoom the camera to this node with
-                // a method call like:
-                demo.getCanvas().getCamera().animateViewToCenterBounds(node.getGlobalBounds(), true, 500);
+                Messager m = Messager.getMessager();
+                m.send("StoryCard clicked", StoryCard.this);                
+                node.addChild(description_node);
                 event.setHandled(true);
             }
         });        
@@ -80,5 +90,5 @@ public class StoryCard {
     
     public PNode getNode() {
         return node;
-    }
+    }    
 }
