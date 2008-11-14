@@ -1,6 +1,8 @@
 package storymaps;
 import java.awt.Color;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,25 +28,41 @@ public class StoryCard {
         this.title = title;
         this.description = description;
                 
-        node = PPath.createRectangle(0, 0, 200, 240);
+        node = PPath.createRectangle(-100, -120, 200, 240); // x,y,width,height
         node.setPaint(Color.WHITE);
 
         PText title_node = new PText(title);
         node.addChild(title_node);
-        title_node.setOffset(2,0);
+        title_node.setOffset(-98,-120);
         title_node.setScale(2);
                 
         PNode image_node = new PImage("/home/seanh/git/phd/storymaps_java/storymaps/home.png");
         node.addChild(image_node);
-        image_node.setOffset(2,30);
+        image_node.setOffset(-98,-90);
         
         PText description_node = new PText(description);
         node.addChild(description_node);
-        description_node.setOffset(2,120);
+        description_node.setOffset(-98,0);
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
                 
-        node.setChildrenPickable(false);                        
+        node.setChildrenPickable(false);            
+        
+        node.addInputEventListener(new PBasicInputEventHandler() { 		        
+            // Make the story card scale up when the mouse enters it, and down
+            // again when the mouse leaves it.
+            @Override
+            public void mouseEntered(PInputEvent event) {
+                node.setScale(1.2);
+                event.setHandled(true);
+            }        
+            @Override
+            public void mouseExited(PInputEvent event) {
+                node.setScale(1);
+                event.setHandled(true);
+            }        
+        });
+        
     }
     
     public PNode getNode() {
