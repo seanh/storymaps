@@ -11,7 +11,7 @@ public class StoryCardDemo extends PFrame {
     // Override PFrame's initialize method to run the demo.
     @Override
     public void initialize() {
-        StoryCard card = new StoryCard("Villainy", "A villainous act by a villain, committed in a villainous way and, generally, in the spirit of villainy.");
+        StoryCard card = new StoryCard("Villainy", "A villainous act by a villain, committed in a villainous way and, generally, in the spirit of villainy.",this);
         getCanvas().getLayer().addChild(card.getNode());
     }    
 

@@ -18,15 +18,21 @@ public class StoryCard {
      * The description that appears on this story card.
      */
     private String description;
-        
+    
+    /**
+     * Callback object for zooming to the card.
+     */
+    private final StoryCardDemo demo;
+    
     /**
      * The root node of this StoryCard tree of nodes.
      */
-    private PNode node;
+    private PNode node;    
     
-    public StoryCard(String title, String description) {
+    public StoryCard(String title, String description, final StoryCardDemo demo) {
         this.title = title;
         this.description = description;
+        this.demo = demo;
                 
         node = PPath.createRectangle(-100, -120, 200, 240); // x,y,width,height
         node.setPaint(Color.WHITE);
@@ -54,15 +60,22 @@ public class StoryCard {
             @Override
             public void mouseEntered(PInputEvent event) {
                 node.setScale(1.2);
-                event.setHandled(true);
-            }        
+            }
             @Override
             public void mouseExited(PInputEvent event) {
                 node.setScale(1);
+            }    
+            
+            // Make the camera zoom in on the story card when it's clicked.
+            @Override
+            public void mousePressed(PInputEvent event) {
+                // Here need to send a message to the controlling application
+                // somehow so it can decide to zoom the camera to this node with
+                // a method call like:
+                demo.getCanvas().getCamera().animateViewToCenterBounds(node.getGlobalBounds(), true, 500);
                 event.setHandled(true);
-            }        
-        });
-        
+            }
+        });        
     }
     
     public PNode getNode() {
