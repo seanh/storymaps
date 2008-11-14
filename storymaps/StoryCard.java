@@ -41,7 +41,6 @@ public class StoryCard {
         PText description_node = new PText(description);
         node.addChild(description_node);
         description_node.setOffset(2,120);
-        description_node.setWidth(196);
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
                 
