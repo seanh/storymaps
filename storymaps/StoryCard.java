@@ -20,11 +20,8 @@ public class StoryCard {
      */
     private String description;
         
-    /**
-     * The root node of this StoryCard tree of nodes.
-     */
-    private PNode node;    
-    
+    private PNode background;
+    private VerticalLayoutNode vnode;    
     private PText title_node;
     private PImage image_node;
     private PText description_node;
@@ -33,36 +30,40 @@ public class StoryCard {
         this.title = title;
         this.description = description;
                 
-        node = PPath.createRectangle(-100, -120, 200, 240); // x,y,width,height
-        node.setPaint(Color.WHITE);
+        background = PPath.createRectangle(0, 0, 200, 240); // x,y,width,height
+        background.setPaint(Color.WHITE);
 
-        title_node = new PText(title);
-        node.addChild(title_node);
-        title_node.setOffset(-98,-120);
+        vnode = new VerticalLayoutNode(10);
+        vnode.setOffset(2,2);
+        background.addChild(vnode);
+        
+        title_node = new PText(title);        
         title_node.setScale(2);
+        vnode.addChild(title_node);
                 
         image_node = new PImage("/home/seanh/git/phd/storymaps_java/storymaps/home.png");
-        node.addChild(image_node);
-        image_node.setOffset(-98,-90);
+        vnode.addChild(image_node);
         
         description_node = new PText(description);
-        //node.addChild(description_node);
-        description_node.setOffset(-98,0);
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
                 
-        node.setChildrenPickable(false);            
+        background.setChildrenPickable(false);  
         
-        node.addInputEventListener(new PBasicInputEventHandler() { 		        
+        background.addInputEventListener(new PBasicInputEventHandler() { 		        
             // Make the story card scale up when the mouse enters it, and down
             // again when the mouse leaves it.
             @Override
             public void mouseEntered(PInputEvent event) {
-                node.setScale(1.2);
+                double centerx = background.getX() + (background.getWidth()/2.0);
+                double centery = background.getY() + (background.getHeight()/2.0);
+                background.scaleAboutPoint(1.2, centerx, centery);
             }
             @Override
             public void mouseExited(PInputEvent event) {
-                node.setScale(1);
+                double centerx = background.getX() + (background.getWidth()/2.0);
+                double centery = background.getY() + (background.getHeight()/2.0);
+                background.scaleAboutPoint(1.0/1.2, centerx, centery);
             }    
             
             // Make the camera zoom in on the story card when it's clicked.
@@ -71,7 +72,7 @@ public class StoryCard {
                 if (event.getButton() == 1) {
                     Messager m = Messager.getMessager();
                     m.send("StoryCard clicked", StoryCard.this);                
-                    node.addChild(description_node);
+                    vnode.addChild(description_node);
                     event.setHandled(true);
                 }
             }
@@ -79,6 +80,6 @@ public class StoryCard {
     }
     
     public PNode getNode() {
-        return node;
+        return background;
     }    
 }
