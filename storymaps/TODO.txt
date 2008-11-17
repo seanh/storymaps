@@ -1,36 +1,32 @@
 StoryCard:
 
-*   <del>White card shape and background</del>
-*   <del>Display title, image and descriptions</del>
-*   <del>Scale when mouse-over</del>
-*   Make scaling animated
-*   <del>Zoom to when clicked on</del>
-*   Drag & drop, perhaps onto a highlighting target
+*   Animated scaling
+*   Enabling & disabling of story cards
+*   Duplicating of story cards
 *   Changing levels of detail
 
 StoryMap:
 
-*   <del>A StoryMap object should compose a variable number of StoryCard objects
-    and arrange them into a grid formation. Have a single empty PNode be the
-    parent node of all the StoryCard nodes, and act as a layout node.</del>
-*   <del>Should also have an editable title above the cards</del>
-*   Should be possible to have the StoryMap node itself visible as a coloured
-    rectangle behind the StoryCards, user can drop a StoryCard onto the
-    StoryMap, and it will be grabbed by the StoryMap and snapped to the nearest
-    grid position.
+*   Dragging a card from top story map to bottom should duplicate the card and
+    add the duplicate to the bottom story map, original should snap back to
+    where it was and become disabled. Perhaps the duplicate should be made on
+    drag start and dragged instead of the original, which could be disabled on
+    drag start.
+*   Highlight when mouse-over
+*   Refactoring
 
 Other:
 
-*   Implement home node as an empty PNode that is the parent of all other nodes,
-    and implement zooming out to this node.
+*   The zoom out needs to zoom out a little further. Implement home node as a
+    decorator node with padding? Or just zoom further.
 *   Transparent overlay text messages (in Piccolo this would be implemented
     using a sticky node)    
 *   Saving and loading of stories
 
 Swing document editor:
 
-*   Implement a scrolling text-editor pane, with a separate area for each
-    function, functions displayed on left, text on right.
+*   Scrolling document-editor pane, with a separate area for each function,
+    functions displayed on left, text editors on right
 *   As functions are added to and removed from the StoryMap they are added to
     and removed from the document editor
 *   Document editor jumps to selected card in story map
