@@ -10,9 +10,9 @@ StoryCard:
 
 StoryMap:
 
-*   A StoryMap object should compose a variable number of StoryCard objects and
-    arrange them into a grid formation. Have a single empty PNode be the
-    parent node of all the StoryCard nodes, and act as a layout node.
+*   <del>A StoryMap object should compose a variable number of StoryCard objects
+    and arrange them into a grid formation. Have a single empty PNode be the
+    parent node of all the StoryCard nodes, and act as a layout node.</del>
 *   Should also have an editable title above the cards
 *   Should be possible to have the StoryMap node itself visible as a coloured
     rectangle behind the StoryCards, user can drop a StoryCard onto the
@@ -23,7 +23,8 @@ Other:
 
 *   Implement home node as an empty PNode that is the parent of all other nodes,
     and implement zooming out to this node.
-*   Transparent overlay text messages    
+*   Transparent overlay text messages (in Piccolo this would be implemented
+    using a sticky node)    
 *   Saving and loading of stories
 
 Swing document editor:
