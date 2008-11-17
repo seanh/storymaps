@@ -1,0 +1,38 @@
+StoryCard:
+
+*   <del>White card shape and background</del>
+*   <del>Display title, image and descriptions</del>
+*   <del>Scale when mouse-over</del>
+*   Make scaling animated
+*   <del>Zoom to when clicked on</del>
+*   Drag & drop, perhaps onto a highlighting target
+*   Changing levels of detail
+
+StoryMap:
+
+*   A StoryMap object should compose a variable number of StoryCard objects and
+    arrange them into a grid formation. Have a single empty PNode be the
+    parent node of all the StoryCard nodes, and act as a layout node.
+*   Should also have an editable title above the cards
+*   Should be possible to have the StoryMap node itself visible as a coloured
+    rectangle behind the StoryCards, user can drop a StoryCard onto the
+    StoryMap, and it will be grabbed by the StoryMap and snapped to the nearest
+    grid position.
+
+Other:
+
+*   Implement home node as an empty PNode that is the parent of all other nodes,
+    and implement zooming out to this node.
+*   Transparent overlay text messages    
+*   Saving and loading of stories
+
+Swing document editor:
+
+*   Implement a scrolling text-editor pane, with a separate area for each
+    function, functions displayed on left, text on right.
+*   As functions are added to and removed from the StoryMap they are added to
+    and removed from the document editor
+*   Document editor jumps to selected card in story map
+*   Piccolo camera should zoom to show only the user's story map when document
+    editor is uncollapsed, when document editor is collapsed piccolo camera
+    shows story cards and story map.
