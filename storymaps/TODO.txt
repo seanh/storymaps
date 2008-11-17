@@ -13,7 +13,7 @@ StoryMap:
 *   <del>A StoryMap object should compose a variable number of StoryCard objects
     and arrange them into a grid formation. Have a single empty PNode be the
     parent node of all the StoryCard nodes, and act as a layout node.</del>
-*   Should also have an editable title above the cards
+*   <del>Should also have an editable title above the cards</del>
 *   Should be possible to have the StoryMap node itself visible as a coloured
     rectangle behind the StoryCards, user can drop a StoryCard onto the
     StoryMap, and it will be grabbed by the StoryMap and snapped to the nearest
