@@ -6,19 +6,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PPaintContext;
-import java.awt.Graphics2D;
 
-/* TODO
- * 
- * Need a global singleton Mediator object:
- * 
- * - When a story card is clicked on it informs the mediator, which causes the
- *   camera to zoom in on that node.
- * - When the camera is zoomed out again the mediator is also informed, and can
- *   inform the node that it is no longer zoomed in on so that it can change its
- *   level of detail back down again.
- */
 
 public class StoryCard {
     
