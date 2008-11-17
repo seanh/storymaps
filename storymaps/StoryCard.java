@@ -80,10 +80,12 @@ public class StoryCard {
             // Make the camera zoom in on the story card when it's clicked.
             @Override
             public void mousePressed(PInputEvent event) {
-                Messager m = Messager.getMessager();
-                m.send("StoryCard clicked", StoryCard.this);                
-                node.addChild(description_node);
-                event.setHandled(true);
+                if (event.getButton() == 1) {
+                    Messager m = Messager.getMessager();
+                    m.send("StoryCard clicked", StoryCard.this);                
+                    node.addChild(description_node);
+                    event.setHandled(true);
+                }
             }
         });        
     }
