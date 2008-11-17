@@ -9,6 +9,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class StoryCard {
+
+    public static final String attribute = "storycard";
     
     /**
      * The title that appears on this story card,
@@ -30,8 +32,10 @@ public class StoryCard {
         this.title = title;
         this.description = description;
                 
-        background = PPath.createRectangle(0, 0, 200, 240); // x,y,width,height
+        background = PPath.createRoundRectangle(0, 0, 200, 240,20,20);
         background.setPaint(Color.WHITE);
+        
+        background.addAttribute(attribute,this);
 
         vnode = new VerticalLayoutNode(10);
         vnode.setOffset(2,2);
@@ -69,7 +73,7 @@ public class StoryCard {
             // Make the camera zoom in on the story card when it's clicked.
             @Override
             public void mousePressed(PInputEvent event) {
-                if (event.getButton() == 1) {
+                if (event.getButton() == 3) {
                     Messager m = Messager.getMessager();
                     m.send("StoryCard clicked", StoryCard.this);                
                     vnode.addChild(description_node);
