@@ -1,0 +1,23 @@
+Story Maps is a prototype story-authoring tool for children, that I created as a
+research tool for my PhD. It uses the Java Structured 2D Graphics Framework
+[Piccolo2D][1].
+
+[1]: http://www.piccolo2d.org/
+    
+The files piccolo.jar and piccolox.jar are from piccolo2d, they are copyrighted
+by the [Piccolo2D Google Code Project Owners][2] and are made available as free
+software for license according to the [BSD Public License][3].
+
+[2]: http://code.google.com/p/piccolo2d/
+[3]: http://opensource.org/licenses/bsd-license.php
+
+The rest of the code, under the storymaps/ dir, is copyright Sean Hammond, and
+is made available as free software under the [GNU General Public License][4]
+version 3 or later.
+
+[4]: http://www.gnu.org/licenses/gpl.txt
+
+Contact:
+
+    Sean Hammond, S.P.Hammond@sms.ed.ac.uk
+    http://homepages.inf.ed.ac.uk/s0094060/
