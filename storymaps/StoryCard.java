@@ -11,26 +11,22 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class StoryCard {
 
     public static final String attribute = "storycard";
-    
-    /**
-     * The title that appears on this story card,
-     */
-    private String title;
-    
-    /**
-     * The description that appears on this story card.
-     */
-    private String description;
-        
+            
     private PNode background;
     private VerticalLayoutNode vnode;    
     private PText title_node;
     private PImage image_node;
     private PText description_node;
+
+    /**
+     * Copy constructor.
+     */
+    public static StoryCard newInstance(StoryCard card) {
+        return new StoryCard(card.getTitle(),card.getDescription());
+    }
+        
     
     public StoryCard(String title, String description) {
-        this.title = title;
-        this.description = description;
                 
         background = PPath.createRoundRectangle(0, 0, 200, 240,20,20);
         background.setPaint(Color.WHITE);
@@ -85,5 +81,13 @@ public class StoryCard {
     
     public PNode getNode() {
         return background;
-    }    
+    }
+    
+    public String getTitle() {
+        return title_node.getText();
+    }
+    
+    public String getDescription() {
+        return description_node.getText();
+    }
 }
