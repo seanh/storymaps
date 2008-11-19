@@ -1,8 +1,7 @@
 StoryCard:
 
 *   Animated scaling
-*   Enabling & disabling of story cards
-*   Duplicating of story cards
+*   Fix enabling & disabling of story cards (image transparency)
 *   Changing levels of detail
 
 StoryMap:
@@ -17,6 +16,15 @@ StoryMap:
 
 Other:
 
+*   There should be exactly one instance of each card, and the user text written
+    for that function should be stored with the card. If the card is in the
+    story map or in the bank, the same instance is passed between the two story
+    maps and retains its user text. Only a disabled copy is left in the story
+    bank.
+
+*   Move over the functions xml file and images from panda code, add a Functions
+    class that parses it all and returns a list of Function objects. Have
+    StoryMap read this list and create StoryCards to fill itself with.
 *   The zoom out needs to zoom out a little further. Implement home node as a
     decorator node with padding? Or just zoom further.
 *   Transparent overlay text messages (in Piccolo this would be implemented
@@ -25,6 +33,7 @@ Other:
 
 Swing document editor:
 
+*   Embed the PCanvas in a Swing GUI.
 *   Scrolling document-editor pane, with a separate area for each function,
     functions displayed on left, text editors on right
 *   As functions are added to and removed from the StoryMap they are added to
