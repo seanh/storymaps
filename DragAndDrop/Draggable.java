@@ -10,8 +10,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPickPath;
 import java.awt.geom.Point2D;
 
-class NodeAlreadyDraggableException extends Exception {}
-
 /**
  * A wrapper class for PNode that makes a PNode 'draggable' (i.e. it can be
  * dragged and dropped).

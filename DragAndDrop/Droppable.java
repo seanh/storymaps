@@ -2,8 +2,6 @@ package DragAndDrop;
 
 import edu.umd.cs.piccolo.PNode;
 
-class NodeAlreadyDroppableException extends Exception {}
-
 /**
  * A wrapper class for PNode that makes a PNode 'droppable' (i.e. a draggable
  * can be dropped onto it).
