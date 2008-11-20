@@ -32,8 +32,7 @@ import java.util.HashSet;
  */
 
 //FIXME: Need a different name for this class.
-public class StoryCards extends StoryBase
-                        implements DroppableOwner, DragDropObserver {
+public class StoryCards extends StoryBase implements DragDropObserver {
 
     private HashSet<StoryCard> disabled_storycards = new HashSet<StoryCard>();    
     private HashSet<StoryCard> storycards = new HashSet<StoryCard>();
