@@ -3,42 +3,49 @@ StoryCard:
 *   Animated scaling
 *   Fix enabling & disabling of story cards (image transparency)
 *   Changing levels of detail
+*   User text should be stored with StoryCard object. Show a text icon on
+    StoryCard when it has some user text associated with it.
 
 StoryMap:
 
-*   Dragging a card from top story map to bottom should duplicate the card and
-    add the duplicate to the bottom story map, original should snap back to
-    where it was and become disabled. Perhaps the duplicate should be made on
-    drag start and dragged instead of the original, which could be disabled on
-    drag start.
-*   Highlight when mouse-over
-*   Refactoring
+*   Write the PlaceHolder class, simple PPath rect background like StoryCard,
+    but doesn't need the other stuff that StoryCard has. Have a boolean `taken`
+    field, use that instead of offset to find not-taken placeholders.
 
+*   Highlight when mouse over?
+    
 Other:
 
-*   There should be exactly one instance of each card, and the user text written
-    for that function should be stored with the card. If the card is in the
-    story map or in the bank, the same instance is passed between the two story
-    maps and retains its user text. Only a disabled copy is left in the story
-    bank.
+*   Change the mouse cursor when over a story card or when dragging a story card
+    over a story map?
+    
+*   Change the controls: left-click to drag, double-left-click to zoom,
+    right-click to zoom out.
 
 *   Move over the functions xml file and images from panda code, add a Functions
     class that parses it all and returns a list of Function objects. Have
     StoryMap read this list and create StoryCards to fill itself with.
+
 *   The zoom out needs to zoom out a little further. Implement home node as a
     decorator node with padding? Or just zoom further.
+
 *   Transparent overlay text messages (in Piccolo this would be implemented
     using a sticky node)    
+
 *   Saving and loading of stories
 
 Swing document editor:
 
 *   Embed the PCanvas in a Swing GUI.
+
 *   Scrolling document-editor pane, with a separate area for each function,
     functions displayed on left, text editors on right
+
 *   As functions are added to and removed from the StoryMap they are added to
     and removed from the document editor
+
 *   Document editor jumps to selected card in story map
+
 *   Piccolo camera should zoom to show only the user's story map when document
     editor is uncollapsed, when document editor is collapsed piccolo camera
     shows story cards and story map.
