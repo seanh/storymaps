@@ -11,9 +11,8 @@ software for license according to the [BSD Public License][3].
 [2]: http://code.google.com/p/piccolo2d/
 [3]: http://opensource.org/licenses/bsd-license.php
 
-The rest of the code, under the storymaps/ dir, is copyright Sean Hammond, and
-is made available as free software under the [GNU General Public License][4]
-version 3 or later.
+The rest of the code is copyright Sean Hammond, and is made available as free
+software under the [GNU General Public License][4] version 3 or later.
 
 [4]: http://www.gnu.org/licenses/gpl.txt
 
