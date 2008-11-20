@@ -83,7 +83,7 @@ public class Draggable extends DragDropSubject {
                     dragNode.setOffset(startPos);
                 } else {
                     // Construct a DropEvent to represent the drop.
-                    DropEvent de = new DropEvent(draggable,droppable);
+                    DropEvent de = new DropEvent(draggable,droppable,e.getPosition());
                     boolean accepted = droppable.dropped_onto(de);                                        
                     if (accepted) {
                         // The droppable accepted the drop, notify observers.                       
