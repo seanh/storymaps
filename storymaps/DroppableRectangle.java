@@ -33,7 +33,11 @@ class DroppableRectangle implements DroppableOwner {
      */
     public boolean dropped_onto(DropEvent de) {                        
         
-        Droppable d = de.getDroppee();        
+        Droppable droppee = de.getDroppee();
+        Draggable draggee = de.getDraggee();
+        rect.addChild(draggee.getNode());
+        draggee.getNode().setOffset(0,0);
+        draggee.getNode().moveToFront();        
         // Accept the drop, observers will be notified.
         return true;        
     }
