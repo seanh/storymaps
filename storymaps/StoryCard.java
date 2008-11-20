@@ -16,12 +16,14 @@ public class StoryCard {
     private PImage image_node;
     private PText description_node;
     private boolean disabled = false;
+    private boolean highlighted = false;
     
     /**
      * Copy constructor.
+     * @return A new StoryCard that is a copy of this one.
      */
-    public static StoryCard newInstance(StoryCard card) {
-        return new StoryCard(card.getTitle(),card.getDescription());
+    public StoryCard copy() {
+        return new StoryCard(getTitle(),getDescription());
     }
             
     public StoryCard(String title, String description) {
@@ -53,18 +55,13 @@ public class StoryCard {
             @Override
             public void mouseEntered(PInputEvent event) {
                 if (!StoryCard.this.disabled) {
-                    double centerx = background.getX() + (background.getWidth()/2.0);
-                    double centery = background.getY() + (background.getHeight()/2.0);
-                    background.scaleAboutPoint(1.2, centerx, centery);
+                    StoryCard.this.highlight();
                 }
             }
             @Override
             public void mouseExited(PInputEvent event) {
                 if (!StoryCard.this.disabled) {
-                    double centerx = background.getX() + (background.getWidth()/2.0);
-                    double centery = background.getY() + (background.getHeight()/2.0);
-                    background.scaleAboutPoint(1.0/1.2, centerx, centery);
-                }
+                    StoryCard.this.unhighlight();                }
             }    
             
             // Make the camera zoom in on the story card when it's clicked.
@@ -80,6 +77,24 @@ public class StoryCard {
         });             
     }
     
+    public void highlight() {
+        if (!highlighted) {
+            double centerx = background.getX() + (background.getWidth()/2.0);
+            double centery = background.getY() + (background.getHeight()/2.0);
+            background.scaleAboutPoint(1.2, centerx, centery);
+            highlighted = true;
+        }
+    }
+    
+    public void unhighlight() {
+        if (highlighted) {
+            double centerx = background.getX() + (background.getWidth()/2.0);
+            double centery = background.getY() + (background.getHeight()/2.0);
+            background.scaleAboutPoint(1.0/1.2, centerx, centery);
+            highlighted = false;
+        }
+    }
+                     
     public void disable() {
         if (!disabled) {
             disabled = true;
