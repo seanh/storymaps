@@ -136,6 +136,7 @@ public class StoryCards extends StoryBase implements DragDropObserver {
         // Position the story card over its disabled counterpart.
         StoryCard disabled = findDisabled(s);        
         s.unhighlight();
+        addToOverlay(s.getNode());
         s.getNode().setOffset(disabled.getNode().getOffset());
         return true;
     }
