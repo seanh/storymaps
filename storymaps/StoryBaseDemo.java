@@ -11,15 +11,15 @@ import edu.umd.cs.piccolox.PFrame;
 public class StoryBaseDemo extends PFrame {
 
     private StoryBase base;
-
+        
     // Override PFrame's initialize method to run the demo.
     @Override
     public void initialize() {
         base = new StoryBase("Story Base");
-        getCanvas().getLayer().addChild(base.getNode());
+        getCanvas().getLayer().addChild(base.getRoot());
         for (int i = 0; i < 31; i++) {
             PPath rect = PPath.createRoundRectangle(0, 0, 200, 250,30,30);
-            base.add(rect);
+            base.addToGrid(rect);
         }
     }
     
@@ -27,4 +27,3 @@ public class StoryBaseDemo extends PFrame {
         StoryBaseDemo demo = new StoryBaseDemo();
     }
 }
-
