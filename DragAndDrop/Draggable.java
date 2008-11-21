@@ -4,6 +4,8 @@
 //the canvas to add the event handler?
 package DragAndDrop;
 
+import edu.umd.cs.piccolo.PCamera;
+import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -50,13 +52,34 @@ public class Draggable extends DragDropSubject {
     private static PDragEventHandler createEventHandler() {       
         PDragEventHandler dragEventHandler = new PDragEventHandler() {
             private Point2D startPos;
+            private PNode previousParent;
             @Override
             protected void startDrag(PInputEvent e) {
                 super.startDrag(e);
                 startPos = getDraggedNode().getOffset();
+                // We want the dragged node to appear on top of all other nodes
+                // in the scene graph, so we use getParent() to search up the
+                // scene graph starting from the dragged node untul we find the
+                // PLayer at the top, then we reparent the dragged node to the
+                // PLayer. (If no PLayer is found, the dragged node simply won't
+                // be reparented.)
+                PNode node = getDraggedNode();
+                // Save the nodes original parent so we can reparent it later.
+                previousParent = node.getParent();
+                while (node != null) {
+                    if (node instanceof PLayer) {
+                        PLayer layer = (PLayer) node;                        
+                        getDraggedNode().reparent(layer);
+                        break;
+                    }
+                    node = node.getParent();
+                }
             }
             @Override
             protected void endDrag(PInputEvent e) {
+                // Return the node to its original parent.
+                getDraggedNode().reparent(previousParent);
+                
                 // Find the draggable that was dragged.
                 PNode dragNode = getDraggedNode();
                 Draggable draggable = (Draggable)
@@ -87,6 +110,9 @@ public class Draggable extends DragDropSubject {
                     boolean accepted = droppable.dropped_onto(de);                                        
                     if (accepted) {
                         // The droppable accepted the drop, notify observers.                       
+                        // FIXME: should we reparent the draggee's node to the
+                        // droppee's node here? Or leave that up to the
+                        // DroppableOwner to do if it pleases?
                         draggable.notify_observers(de);
                         droppable.notify_observers(de);
                     }
@@ -99,7 +125,6 @@ public class Draggable extends DragDropSubject {
                 super.endDrag(e);
             }
         };
-        dragEventHandler.setMoveToFrontOnPress(true);
         return dragEventHandler;
     }
         
