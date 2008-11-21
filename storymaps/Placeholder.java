@@ -11,7 +11,8 @@ public class Placeholder {
     
     public Placeholder() {                
         background = PPath.createRoundRectangle(0, 0, 200, 240,20,20);
-        background.setPaint(Color.WHITE);        
+        background.setPaint(Color.CYAN);
+        background.setTransparency(0);              
         background.addAttribute("Placeholder",this);                
         background.setPickable(false);        
     }
