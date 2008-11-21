@@ -64,10 +64,10 @@ public class StoryCard {
                     StoryCard.this.unhighlight();                }
             }    
             
-            // Make the camera zoom in on the story card when it's clicked.
+            // Make the camera zoom in on the story card when double-clicked.
             @Override
             public void mousePressed(PInputEvent event) {
-                if (event.getButton() == 3) {
+                if (event.getButton() == 1 && event.getClickCount() == 2) {
                     Messager m = Messager.getMessager();
                     m.send("StoryCard clicked", StoryCard.this);                
                     vnode.addChild(description_node);

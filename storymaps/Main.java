@@ -53,7 +53,7 @@ public class Main extends PFrame implements Receiver {
         cam.addInputEventListener(new PBasicInputEventHandler() { 		                    
             @Override
             public void mousePressed(PInputEvent event) {
-                if (event.getButton() == 2) {
+                if (event.getButton() == 3) {
                     cam.animateViewToCenterBounds(home.getGlobalFullBounds(), true, 750);
                 }
             }
