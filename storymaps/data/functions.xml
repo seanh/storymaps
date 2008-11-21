@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+
+<resultset statement="SELECT * FROM ProppFunctions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <row>
+	<field name="symbol">0</field>
+	<field name="propp name">Initial Situation</field>
+	<field name="friendly name">Home</field>
+	<field name="description">The initial situation</field>
+	<field name="friendly description">Family members or just the future hero are introduced with their names and situations.</field>
+  </row>
+
+  <row>
+	<field name="symbol">1</field>
+	<field name="propp name">Absence</field>
+	<field name="friendly name">Someone Leaves</field>
+	<field name="description">The absence of a character or characters (the absent guardian(s)) is created</field>
+	<field name="friendly description">Parents or elders leave home because of: work, travel, business, war, death or another reason.</field>
+  </row>
+
+  <row>
+	<field name="symbol">2</field>
+	<field name="propp name">Interdiction</field>
+	<field name="friendly name">Warning or
+Request</field>
+	<field name="description">An interdiction or injunction is given</field>
+	<field name="friendly description">The hero gets a warning not to do something or a request to do something.</field>
+  </row>
+
+  <row>
+	<field name="symbol">3</field>
+	<field name="propp name">Violation</field>
+	<field name="friendly name">Ignored</field>
+	<field name="description">An interdiction is violated or an injunction fulfilled</field>
+	<field name="friendly description">The hero ignores a warning or request that has been given to him.</field>
+  </row>
+
+  <row>
+	<field name="symbol">4</field>
+	<field name="propp name">Reconnaissance</field>
+	<field name="friendly name">Spying</field>
+	<field name="description">An attempt to obtain information is made</field>
+	<field name="friendly description">The villain spies or asks questions about the object or person he wants to get,</field>
+  </row>
+
+  <row>
+	<field name="symbol">5</field>
+	<field name="propp name">Delivery</field>
+	<field name="friendly name">Information</field>
+	<field name="description">Information is delivered</field>
+	<field name="friendly description">The villain gets the information he wants.</field>
+  </row>
+
+  <row>
+	<field name="symbol">6</field>
+	<field name="propp name">Fraud</field>
+	<field name="friendly name">Trick</field>
+	<field name="description">The villain attempts to deceive or coerce the victim</field>
+	<field name="friendly description">The villain puts on a disguise and plays a nasty trick on the hero or victim.</field>
+  </row>
+
+  <row>
+	<field name="symbol">7</field>
+	<field name="propp name">Complicity</field>
+	<field name="friendly name">Fooled</field>
+	<field name="description">The victim submits to deception or coercion</field>
+	<field name="friendly description">The hero falls for the villain's trick and helps the villain.</field>
+  </row>
+
+  <row>
+	<field name="symbol">8</field>
+	<field name="propp name">Villainy</field>
+	<field name="friendly name">Villainy</field>
+	<field name="description">The villain creates a misfortune or crisis</field>
+	<field name="friendly description">The villain steals an object, kidnaps a victim, or puts a spell on a victim.</field>
+  </row>
+
+  <row>
+	<field name="symbol">8.5</field>
+	<field name="propp name">Lack</field>
+	<field name="friendly name">Need or Want</field>
+	<field name="description">Something is lacking or desired</field>
+	<field name="friendly description">The hero or someone else needs or wants something.</field>
+  </row>
+
+  <row>
+	<field name="symbol">9</field>
+	<field name="propp name">Mediation</field>
+	<field name="friendly name">Help</field>
+	<field name="description">The misfortune or shortage is made known to the hero</field>
+	<field name="friendly description">The hero learns of the villainy, need or want from a call for help, a request, a command, a threat, or news.</field>
+  </row>
+
+  <row>
+	<field name="symbol">10</field>
+	<field name="propp name">Deciding Counteraction</field>
+	<field name="friendly name">Deciding</field>
+	<field name="description">The seeker hero agrees to or decides upon counteraction</field>
+	<field name="friendly description">The hero decides or agrees to go on a journey to search for it and bring it.</field>
+  </row>
+
+  <row>
+	<field name="symbol">11</field>
+	<field name="propp name">Departure</field>
+	<field name="friendly name">Leaving</field>
+	<field name="description">The hero leaves home</field>
+	<field name="friendly description">The hero leaves on a journey.</field>
+  </row>
+
+  <row>
+	<field name="symbol">12</field>
+	<field name="propp name">Test</field>
+	<field name="friendly name">Test</field>
+	<field name="description">The donor presents a test to the hero</field>
+	<field name="friendly description">The hero meets a magical person or animal and is tested for kindness, sympathy, willingness to help, or another test.</field>
+  </row>
+
+  <row>
+	<field name="symbol">13</field>
+	<field name="propp name">Reaction</field>
+	<field name="friendly name">Answer</field>
+	<field name="description">The hero reacts to the donor</field>
+	<field name="friendly description">The hero answers the test.</field>
+  </row>
+
+  <row>
+	<field name="symbol">14</field>
+	<field name="propp name">Receipt</field>
+	<field name="friendly name">Reward</field>
+	<field name="description">The hero receives the magical agent</field>
+	<field name="friendly description">The hero is rewarded with magical things.</field>
+  </row>
+
+  <row>
+	<field name="symbol">15</field>
+	<field name="propp name">Arrival</field>
+	<field name="friendly name">Arrival</field>
+	<field name="description">The hero arrives at the whereabouts of the object of search.</field>
+	<field name="friendly description">The hero arrives at his destination by magic, guidance, or normally.</field>
+  </row>
+
+  <row>
+	<field name="symbol">16</field>
+	<field name="propp name">Struggle</field>
+	<field name="friendly name">Struggle</field>
+	<field name="description">A struggle begins between the hero and the villain</field>
+	<field name="friendly description">The hero and villain have a competition of cleverness or fighting.</field>
+  </row>
+
+  <row>
+	<field name="symbol">17</field>
+	<field name="propp name">Branding</field>
+	<field name="friendly name">Wounded</field>
+	<field name="description">The hero is branded or marked</field>
+	<field name="friendly description">The hero is wounded, leaving a special mark on the hero.</field>
+  </row>
+
+  <row>
+	<field name="symbol">18</field>
+	<field name="propp name">Victory</field>
+	<field name="friendly name">Defeated</field>
+	<field name="description">The villain is defeated</field>
+	<field name="friendly description">The villain is defeated.</field>
+  </row>
+
+  <row>
+	<field name="symbol">19</field>
+	<field name="propp name">Liquidation</field>
+	<field name="friendly name">Victory</field>
+	<field name="description">The misfortune or lack is liquidated</field>
+	<field name="friendly description">The hero gets back the stolen object, the kidnapped victim is rescued, or the villain's spell is broken.</field>
+  </row>
+
+  <row>
+	<field name="symbol">20</field>
+	<field name="propp name">Return</field>
+	<field name="friendly name">Return or
+Escape</field>
+	<field name="description">The hero sets out to return</field>
+	<field name="friendly description">The hero returns home or escapes from the villain.</field>
+  </row>
+
+  <row>
+	<field name="symbol">21</field>
+	<field name="propp name">Pursuit</field>
+	<field name="friendly name">Chase</field>
+	<field name="description">A pursuit of the hero begins</field>
+	<field name="friendly description">The hero is chased by the villain.</field>
+  </row>
+
+  <row>
+	<field name="symbol">22</field>
+	<field name="propp name">Escape</field>
+	<field name="friendly name">Escape
+from Chase</field>
+	<field name="description">The hero is rescued from or escapes pursuit</field>
+	<field name="friendly description">The hero escapes from the chase by hiding, placing obstacles, or another way.</field>
+  </row>
+
+  <row>
+	<field name="symbol">23</field>
+	<field name="propp name">Unrecognised Arrival</field>
+	<field name="friendly name">Unappreciated</field>
+	<field name="description">The hero, unrecognised, arrives home or in another domain</field>
+	<field name="friendly description">The hero arrives home but people don't know who he is or believe he's a hero.</field>
+  </row>
+
+  <row>
+	<field name="symbol">24</field>
+	<field name="propp name">Difficult Task</field>
+	<field name="friendly name">Task or Test</field>
+	<field name="description">A difficult task is proposed to the hero</field>
+	<field name="friendly description">The hero is given a difficult task or competition: to survive an ordeal, to guess a riddle, to choose correctly, other.</field>
+  </row>
+
+  <row>
+	<field name="symbol">25</field>
+	<field name="propp name">Solution</field>
+	<field name="friendly name">Accomplished</field>
+	<field name="description">The hero accomplishes a difficult task</field>
+	<field name="friendly description">The hero succeeds at a difficult task or competition.</field>
+  </row>
+
+  <row>
+	<field name="symbol">26</field>
+	<field name="propp name">Recognition</field>
+	<field name="friendly name">Recognised</field>
+	<field name="description">The hero is recognised</field>
+	<field name="friendly description">The hero is recognised as who he is or is appreciated as a hero.</field>
+  </row>
+
+  <row>
+	<field name="symbol">27</field>
+	<field name="propp name">Exposure</field>
+	<field name="friendly name">Found Out</field>
+	<field name="description">The false hero or villain is exposed</field>
+	<field name="friendly description">The villain is found out: people find out he is a villain.</field>
+  </row>
+
+  <row>
+	<field name="symbol">28</field>
+	<field name="propp name">Transfiguration</field>
+	<field name="friendly name">Promoted</field>
+	<field name="description">The hero is given a new appearance</field>
+	<field name="friendly description">The hero is given a new rank, a new appearance, or new clothes.</field>
+  </row>
+
+  <row>
+	<field name="symbol">29</field>
+	<field name="propp name">Punishment</field>
+    <field name="friendly name">Punishment</field>
+	<field name="description">The false hero or villain is punished</field>
+	<field name="friendly description">The villain is punished.</field>
+  </row>
+
+  <row>
+	<field name="symbol">30</field>
+	<field name="propp name">Reward</field>
+	<field name="friendly name">Reward</field>
+	<field name="description">The hero is rewarded</field>
+	<field name="friendly description">The hero is rewarded.</field>
+  </row>
+</resultset>

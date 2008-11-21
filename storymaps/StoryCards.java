@@ -42,9 +42,9 @@ public class StoryCards extends StoryBase implements DragDropObserver {
         
         // For each Propp function, add a StoryCard to the grid node, and
         // disable the StoryCard. Keep references to all these story cards in
-        // disabled_storycards.
-        for (int i=0; i<31; i++) {
-            StoryCard disabled = new StoryCard(""+i,""+i);
+        // disabled_storycards.        
+        for (Function f : Functions.getFunctions()) {
+            StoryCard disabled = new StoryCard(f.friendly_name,f.description);
             disabled.disable();
             addToGrid(disabled.getNode());
             disabled_storycards.add(disabled);
