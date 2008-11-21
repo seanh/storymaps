@@ -1,9 +1,5 @@
 Drag & Drop:
 
-*    Need to make sure that a node being dragged appears on top of all other
-     nodes in the scene graph. Attach it to a special parent node for this
-     purpose?
-
 *    Need to make sure that when dropped, a dragged node appears on top of the
      node it was dropped on, reparent it to the droppee and call moveToFront().
 
@@ -19,16 +15,12 @@ StoryMap:
 
 *   If you drag a story card and drop it onto a story card in the story map, the
     drop should be accepted as normal.
-*   Highlight when mouse over?
     
 Other:
 
 *   Change the mouse cursor when over a story card or when dragging a story card
     over a story map?
     
-*   Change the controls: left-click to drag, double-left-click to zoom,
-    right-click to zoom out.
-
 *   Move over the functions xml file and images from panda code, add a Functions
     class that parses it all and returns a list of Function objects. Have
     StoryMap read this list and create StoryCards to fill itself with.
