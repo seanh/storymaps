@@ -37,9 +37,6 @@ public class Functions {
         } catch (Exception e) {
             System.out.println(e);
         }
-        for (Function function : functions) {
-            System.out.println(function.propp_name);
-        }
     }
     
     private void parse_xml() throws ParserConfigurationException, SAXException,
