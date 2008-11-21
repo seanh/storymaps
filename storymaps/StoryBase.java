@@ -71,7 +71,7 @@ public class StoryBase implements DroppableOwner {
         vnode = new VerticalLayoutNode(10);                
 
         title = new PText(title_string);
-        title.setScale(10);
+        title.setScale(7.3);
         title.setPickable(false);
         vnode.addChild(title);
               
