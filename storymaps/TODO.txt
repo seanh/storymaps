@@ -1,3 +1,12 @@
+Drag & Drop:
+
+*    Need to make sure that a node being dragged appears on top of all other
+     nodes in the scene graph. Attach it to a special parent node for this
+     purpose?
+
+*    Need to make sure that when dropped, a dragged node appears on top of the
+     node it was dropped on, reparent it to the droppee and call moveToFront().
+
 StoryCard:
 
 *   Animated scaling
@@ -8,10 +17,8 @@ StoryCard:
 
 StoryMap:
 
-*   Write the PlaceHolder class, simple PPath rect background like StoryCard,
-    but doesn't need the other stuff that StoryCard has. Have a boolean `taken`
-    field, use that instead of offset to find not-taken placeholders.
-
+*   If you drag a story card and drop it onto a story card in the story map, the
+    drop should be accepted as normal.
 *   Highlight when mouse over?
     
 Other:
