@@ -1,9 +1,7 @@
 /**
- * A demonstration of the drag & drop protocol implemented by Draggable.java,
- * Droppable.java, DroppableOwner.java, DragDropObserver.java, DropEvent.java
- * and DragDropSubject.java. This is a general and flexible drag & drop protocol
- * for Piccolo, that you might be able to integrate into your own Piccolo
- * application.
+ * A demonstration of the drag & drop protocol implemented by this package.
+ * This is a general and flexible drag & drop protocol for Piccolo, that you
+ * might be able to integrate into your own Piccolo application.
  * 
  * The demo has a number of rectangles that can be dragged, and a number of
  * ellipses that can be dropped onto. When a rectangle is dropped onto an
