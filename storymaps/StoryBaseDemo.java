@@ -16,7 +16,7 @@ public class StoryBaseDemo extends PFrame {
     @Override
     public void initialize() {
         base = new StoryBase("Story Base");
-        getCanvas().getLayer().addChild(base.getRoot());
+        getCanvas().getLayer().addChild(base.getNode());
         for (int i = 0; i < 31; i++) {
             PPath rect = PPath.createRoundRectangle(0, 0, 200, 250,30,30);
             base.addToGrid(rect);

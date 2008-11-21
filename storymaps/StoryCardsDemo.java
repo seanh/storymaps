@@ -29,8 +29,8 @@ public class StoryCardsDemo extends PFrame implements Receiver {
         home.addChild(rect.getNode());
                 
         cards = new StoryCards("Story Cards");
-        final PNode node = cards.getRoot();        
-        home.addChild(cards.getRoot());
+        final PNode node = cards.getNode();        
+        home.addChild(cards.getNode());
                 
         // Remove the default event handler that enables panning with the mouse.    
         canvas.removeInputEventListener(canvas.getPanEventHandler());

@@ -27,8 +27,8 @@ public class StoryMapDemo extends PFrame implements Receiver {
         canvas.getLayer().addChild(home);
 
         map = new StoryMap("Story Map");
-        final PNode node = map.getRoot();        
-        home.addChild(map.getRoot());        
+        final PNode node = map.getNode();        
+        home.addChild(map.getNode());        
         
         DroppableRectangle rect = new DroppableRectangle(2000,400);
         home.addChild(rect.getNode());

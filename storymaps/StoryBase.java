@@ -25,7 +25,7 @@ import java.awt.Color;
  *     |-> overlay Any nodes added to this node appear on top of any nodes added
  *                 to the grid node. grid and overlay have the same parent node
  *                 and the same local transform, so if a child node of the
- *       import DragAndDrop.*;          overlay node has the same local transform as a child node of
+ *                 overlay node has the same local transform as a child node of
  *                 the grid node, then it will appear exactly on top of the
  *                 child of the grid node.
  * 
@@ -107,7 +107,7 @@ public class StoryBase implements DroppableOwner {
     /**
      * Return the root node of this story base.
      */
-    public PNode getRoot() {
+    public PNode getNode() {
         return vnode;
     }
     
