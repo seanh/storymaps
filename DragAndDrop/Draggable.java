@@ -4,7 +4,6 @@
 //the canvas to add the event handler?
 package DragAndDrop;
 
-import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -59,12 +58,12 @@ public class Draggable extends DragDropSubject {
                 startPos = getDraggedNode().getOffset();
                 // We want the dragged node to appear on top of all other nodes
                 // in the scene graph, so we use getParent() to search up the
-                // scene graph starting from the dragged node untul we find the
+                // scene graph starting from the dragged node until we find the
                 // PLayer at the top, then we reparent the dragged node to the
                 // PLayer. (If no PLayer is found, the dragged node simply won't
                 // be reparented.)
                 PNode node = getDraggedNode();
-                // Save the nodes original parent so we can reparent it later.
+                // Save the node's original parent so we can return it later.
                 previousParent = node.getParent();
                 while (node != null) {
                     if (node instanceof PLayer) {
