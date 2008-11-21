@@ -10,6 +10,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 public class StoryCard {
             
+    private Function function;
     private PNode background;
     private VerticalLayoutNode vnode;    
     private PText title_node;
@@ -23,11 +24,13 @@ public class StoryCard {
      * @return A new StoryCard that is a copy of this one.
      */
     public StoryCard copy() {
-        return new StoryCard(getTitle(),getDescription());
+        return new StoryCard(function);
     }
             
-    public StoryCard(String title, String description) {
-                
+    public StoryCard(Function function) {
+
+        this.function = function;
+        
         background = PPath.createRoundRectangle(0, 0, 200, 240,20,20);
         background.setPaint(Color.WHITE);        
         background.addAttribute("StoryCard",this);
@@ -36,14 +39,14 @@ public class StoryCard {
         vnode.setOffset(2,2);
         background.addChild(vnode);
         
-        title_node = new PText(title);        
+        title_node = new PText(function.friendly_name);        
         title_node.setScale(2);
         vnode.addChild(title_node);
                 
-        image_node = new PImage("/home/seanh/git/phd/storymaps_java/storymaps/home.png");
+        image_node = new PImage(function.image);
         vnode.addChild(image_node);
         
-        description_node = new PText(description);
+        description_node = new PText(function.friendly_description);
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
                 

@@ -86,7 +86,8 @@ public class Functions {
                     }                                                                                                                            
                 }
             }
-            Function function = new Function(symbol,propp_name,friendly_name,description,friendly_description);
+            String image = "src/storymaps/data/" + symbol + ".svg-512.png";
+            Function function = new Function(symbol,propp_name,friendly_name,description,friendly_description,image);
             functions.add(function);
         }
     }

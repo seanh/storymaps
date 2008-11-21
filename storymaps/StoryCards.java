@@ -44,7 +44,7 @@ public class StoryCards extends StoryBase implements DragDropObserver {
         // disable the StoryCard. Keep references to all these story cards in
         // disabled_storycards.        
         for (Function f : Functions.getFunctions()) {
-            StoryCard disabled = new StoryCard(f.friendly_name,f.description);
+            StoryCard disabled = new StoryCard(f);
             disabled.disable();
             addToGrid(disabled.getNode());
             disabled_storycards.add(disabled);
