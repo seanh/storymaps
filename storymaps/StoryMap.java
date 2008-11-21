@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 public class StoryMap  extends StoryBase implements DragDropObserver {
 
-    private HashSet<StoryCard> placeholders = new HashSet<StoryCard>();    
+    private HashSet<Placeholder> placeholders = new HashSet<Placeholder>();    
     private HashSet<StoryCard> storycards = new HashSet<StoryCard>();
                         
     public StoryMap(String title_text) {
@@ -18,10 +18,9 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         // TODO: implement PlaceHolder class and use it here instead of disabled
         // story cards.
         for (int i=0; i<31; i++) {
-            StoryCard disabled = new StoryCard(""+i,""+i);
-            disabled.disable();
-            addToGrid(disabled.getNode());
-            placeholders.add(disabled);
+            Placeholder p = new Placeholder();
+            addToGrid(p.getNode());
+            placeholders.add(p);
         }        
     }
 
@@ -29,6 +28,7 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
      * Return the distance between two points.
      */
     private double findDistance(double x1, double y1, double x2, double y2) {
+        // Go Pythagoras!
         double a = (x2-x1)*(x2-x1);
         double b = (y2-y1)*(y2-y1);
         return Math.sqrt(a+b);
@@ -44,23 +44,15 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
     /**
      * Return the nearest PlaceHolder in placeholders to the given StoryCard.
      */
-    private StoryCard findNearest(StoryCard s) {
+    private Placeholder findNearest(StoryCard s) {
         // First translate the storycard's x and y offsets to global coords.        
         Point2D p2d = globalPos(s.getNode());
         double x1 = p2d.getX();
         double y1 = p2d.getY();
         double nearest_distance = -1;
-        StoryCard nearest_placeholder = null;        
-        for (StoryCard p : placeholders) {
-            boolean taken = false;
-            for (StoryCard c : storycards) {
-                if (c.getNode().getOffset().equals(p.getNode().getOffset())) {
-                    // This placeholder already has a node.
-                    taken = true;
-                    break;
-                }
-            }
-            if (taken) { continue; }
+        Placeholder nearest_placeholder = null;        
+        for (Placeholder p : placeholders) {
+            if (p.taken()) { continue; }
             p2d = globalPos(p.getNode());
             double x2 = p2d.getX();
             double y2 = p2d.getY();            
@@ -127,10 +119,12 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         Draggable d = (Draggable) s.getNode().getAttribute("Draggable");            
         d.attach(this);
         // Position the story card over the nearest free placeholder.
-        StoryCard nearest = findNearest(s);        
+        Placeholder nearest = findNearest(s);        
         s.unhighlight();
         addToOverlay(s.getNode());
         s.getNode().setOffset(nearest.getNode().getOffset());
+        nearest.setTaken(true);
+        s.getNode().addAttribute("Placeholder", nearest);
         return true;
     }
 
@@ -152,6 +146,8 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         Draggable draggee = de.getDraggee();
         Droppable droppee = de.getDroppee();
         StoryCard s = (StoryCard) draggee.getNode().getAttribute("StoryCard");
+        Placeholder p = (Placeholder) s.getNode().getAttribute("Placeholder");
+        p.setTaken(false);
         storycards.remove(s);
         return false;
     }   
