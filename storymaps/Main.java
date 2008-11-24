@@ -5,7 +5,10 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.PFrame;
+import java.awt.Color;
 
 /**
  * The main class that runs the Story Maps application.
@@ -28,6 +31,8 @@ public class Main extends PFrame implements Receiver {
      * The story map where the user places and arranges her chosen cards.
      */
     private StoryMap map;    
+    
+    private HelpText help_text = new HelpText();
     
     // Override PFrame's initialize method to run the demo.
     @Override
@@ -62,7 +67,11 @@ public class Main extends PFrame implements Receiver {
         // Listen for 'clicked' messages from story cards (the receive method
         // will be called), this is how we make RMB zoom in on cards.
         Messager m = Messager.getMessager();
-        m.accept("StoryCard clicked", this, null);        
+        m.accept("StoryCard clicked", this, null);
+                        
+        cam.addChild(help_text.getNode());
+        help_text.getNode().setOffset(1024/2f,768/2f);
+        help_text.show("Welcome to the Story Maps application!\nLeft-click to drag,\ndouble-click to zoom in,\nright-click to zoom out.");
     }
 
      public void receive(String name, Object receiver_arg, Object sender_arg) {
