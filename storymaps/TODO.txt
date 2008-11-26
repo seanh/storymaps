@@ -1,11 +1,5 @@
 StoryEditor:
 
-+   Currently the functions are not in the same order as they are 
-    in the story map. Could be because StoryMap uses a HashSet, and
-    sets don't support order? Or could be because StoryCards get
-    added to this HashSet in the order that they are added to the
-    StoryMap, rather than in the order that they are arranged in.
-
 +   This breaks moving story cards around within the story map 
     (since that was being enabled by a bug!) Need to re-enable this
     in StoryMap.notify inside this if block:

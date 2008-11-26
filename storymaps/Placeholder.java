@@ -8,6 +8,7 @@ public class Placeholder {
             
     private PNode background;
     private boolean taken = false;
+    private StoryCard storycard = null;
     
     public Placeholder() {                
         background = PPath.createRoundRectangle(0, 0, 200, 240,20,20);
@@ -24,8 +25,22 @@ public class Placeholder {
     public boolean taken() {
         return taken;
     }    
+        
+    public StoryCard getStoryCard() {
+        return storycard;
+    }
     
-    public void setTaken(boolean b) {
-        taken = b;
+    public void setStoryCard(StoryCard s) {
+        if (s == null) {
+            clearStoryCard();
+        } else {
+            storycard = s;
+            taken = true;
+        }
+    }
+    
+    public void clearStoryCard() {
+        storycard = null;
+        taken = false;
     }
 }

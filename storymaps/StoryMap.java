@@ -3,13 +3,13 @@ package storymaps;
 import DragAndDrop.*;
 import edu.umd.cs.piccolo.PNode;
 import java.awt.geom.Point2D;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class StoryMap  extends StoryBase implements DragDropObserver {
 
-    private HashSet<Placeholder> placeholders = new HashSet<Placeholder>();    
-    private HashSet<StoryCard> storycards = new HashSet<StoryCard>();
-                        
+    private LinkedHashSet<Placeholder> placeholders = 
+            new LinkedHashSet<Placeholder>();    
+        
     public StoryMap(String title_text) {
         super(title_text);
         
@@ -70,7 +70,7 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
      * null if no such story card exists.
      */
     private StoryCard findStoryCard(StoryCard s) {
-        for (StoryCard c : storycards) {
+        for (StoryCard c : getStoryCards()) {
             if (s.getTitle().equals(c.getTitle())) {
                 return c;
             }
@@ -95,7 +95,7 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
     @Override
     public boolean dropped_onto(DropEvent de) {
 
-        if (placeholders.size() <= storycards.size()) {
+        if (placeholders.size() <= getStoryCards().size()) {
             // We have no space, reject the drop.
             return false;
         }
@@ -126,10 +126,9 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         s.unhighlight();
         addToOverlay(s.getNode());
         s.getNode().setOffset(nearest.getNode().getOffset());
-        nearest.setTaken(true);
-        s.getNode().addAttribute("Placeholder", nearest);
+        s.getNode().addAttribute("Placeholder",nearest);
+        nearest.setStoryCard(s);        
         // Add it to storycards and broadcast a message.
-        storycards.add(s);
         Messager.getMessager().send("StoryMap changed", this);
         return true;
     }
@@ -155,13 +154,18 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         // onto something else, so remove the story card from this story map.        
         StoryCard s = (StoryCard) draggee.getNode().getAttribute("StoryCard");
         Placeholder p = (Placeholder) s.getNode().getAttribute("Placeholder");
-        p.setTaken(false);
-        storycards.remove(s);
+        p.clearStoryCard();
         Messager.getMessager().send("StoryMap changed", this);
         return false;
     }
-    
-    public HashSet<StoryCard> getStoryCards() {
+        
+    public LinkedHashSet<StoryCard> getStoryCards() {
+        LinkedHashSet<StoryCard> storycards = new LinkedHashSet<StoryCard>();
+        for (Placeholder p: placeholders) {
+            if (p.taken()) {
+                storycards.add(p.getStoryCard());
+            }
+        }
         return storycards;
     }
 }
