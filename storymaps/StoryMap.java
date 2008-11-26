@@ -76,7 +76,30 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
             }
         }
         return null;
-    }    
+    }
+
+    private StoryCard findStoryCardInstance(StoryCard s) {
+        for (StoryCard c : getStoryCards()) {
+            if (s == c) { return c; }
+        }
+        return null;
+    }
+    
+    
+    private void positionStoryCard(StoryCard s) {
+        Placeholder previous = (Placeholder)
+                s.getNode().getAttribute("Placeholder");
+        if (previous != null) {
+            previous.clearStoryCard();
+        }
+        Placeholder nearest = findNearest(s);        
+        s.unhighlight();
+        addToOverlay(s.getNode());
+        s.getNode().setOffset(nearest.getNode().getOffset());
+        s.getNode().addAttribute("Placeholder",nearest);
+        nearest.setStoryCard(s);        
+        
+    }
     
     /**
      * Called when a node is dropped onto this story map. Accept the node only
@@ -108,6 +131,13 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
             return false;
         }
         
+        if (findStoryCardInstance(s) != null) {
+            // This is one of our own story cards, just reposition it.
+            positionStoryCard(s);
+            Messager.getMessager().send("StoryMap changed", this);
+            return true;
+        }
+                                    
         if (findStoryCard(s) != null) { 
             // We already have a story card like this one, reject it.
             return false;
@@ -122,18 +152,12 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         Draggable d = (Draggable) s.getNode().getAttribute("Draggable");            
         d.attach(this);
         // Position the story card over the nearest free placeholder.
-        Placeholder nearest = findNearest(s);        
-        s.unhighlight();
-        addToOverlay(s.getNode());
-        s.getNode().setOffset(nearest.getNode().getOffset());
-        s.getNode().addAttribute("Placeholder",nearest);
-        nearest.setStoryCard(s);        
-        // Add it to storycards and broadcast a message.
+        positionStoryCard(s);
+        // Broadcast a message.
         Messager.getMessager().send("StoryMap changed", this);
         return true;
     }
-    
-        
+            
     /**
      * Called when a draggable that this story map is subscribed to is dropped
      * onto something. Get the StoryCard that the Draggable instance belongs to
@@ -142,18 +166,18 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
      */
     public boolean notify(DropEvent de) {
         Draggable draggee = de.getDraggee();
-        Droppable droppee = de.getDroppee();
-
+        Droppable droppee = de.getDroppee();        
+        
         // If the droppee is that of this StoryMap's background node, then a
         // story card was dragged from this story map and dropped onto this
         // story map again, so ignore the event.
-        if (droppee == this.background.getAttribute("Droppable")) {
+        if (droppee == this.background.getAttribute("Droppable")) {            
             return true;
         }
         // Otherwise, a story card was dragged from this story map and dropped
-        // onto something else, so remove the story card from this story map.        
+        // onto something else, so remove the story card from this story map. 
         StoryCard s = (StoryCard) draggee.getNode().getAttribute("StoryCard");
-        Placeholder p = (Placeholder) s.getNode().getAttribute("Placeholder");
+        Placeholder p = (Placeholder) s.getNode().getAttribute("Placeholder");        
         p.clearStoryCard();
         Messager.getMessager().send("StoryMap changed", this);
         return false;

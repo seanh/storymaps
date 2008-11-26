@@ -1,12 +1,4 @@
 StoryEditor:
-
-+   This breaks moving story cards around within the story map 
-    (since that was being enabled by a bug!) Need to re-enable this
-    in StoryMap.notify inside this if block:
-    
-        if (droppee == this.background.getAttribute("Droppable")) {
-            return true;
-        }
         
 +    Things are starting to get messy, some refactoring of the 
      drag-drop protocol and/or the StoryMaps classes is needed.

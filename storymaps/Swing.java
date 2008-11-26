@@ -161,6 +161,5 @@ public class Swing implements Receiver {
     
     public static void main(String[] args) {
         new Swing();
-    }
-    
+    }   
 }
