@@ -76,6 +76,9 @@ public class StoryCard {
                     m.send("StoryCard clicked", StoryCard.this);                
                     vnode.addChild(description_node);
                     event.setHandled(true);
+                } else if (event.getButton() == 1 && event.getClickCount() == 1) {
+                    Messager.getMessager().send("StoryCard single-clicked", StoryCard.this);
+                    event.setHandled(true);
                 }
             }
         });

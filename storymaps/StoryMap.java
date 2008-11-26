@@ -5,7 +5,7 @@ import edu.umd.cs.piccolo.PNode;
 import java.awt.geom.Point2D;
 import java.util.LinkedHashSet;
 
-public class StoryMap  extends StoryBase implements DragDropObserver {
+public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
 
     private LinkedHashSet<Placeholder> placeholders = 
             new LinkedHashSet<Placeholder>();    
@@ -22,6 +22,8 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
             addToGrid(p.getNode());
             placeholders.add(p);
         }        
+        
+        Messager.getMessager().accept("StoryCard single-clicked", this, null);
     }
 
     /**
@@ -108,7 +110,7 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
      * +   It has a StoryCard attribute attached to it.
      * +   Field storycards does not already contain a story card with the same
      *     function.
-     * +   There's at least one empty space: we have more placeholders than
+     * +   There's at least onsender_arge empty space: we have more placeholders than
      *     story cards.
      * 
      * If the story card is accepted thethen add it to storycards, subscribe to its
@@ -192,4 +194,18 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         }
         return storycards;
     }
+    
+    private void focus(StoryCard s) {
+        Messager.getMessager().send("New focus",s);
+    }
+    
+    public void receive(String name, Object receiver_arg, Object sender_arg) {
+        if (name.equals("StoryCard single-clicked")) {
+            StoryCard s = (StoryCard) sender_arg;
+            if (getStoryCards().contains(s)) {
+                focus(s);
+            }
+        }
+    }    
+    
 }

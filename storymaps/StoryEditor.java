@@ -24,6 +24,7 @@ public class StoryEditor implements Receiver {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         scrollPane = new JScrollPane(panel);
         Messager.getMessager().accept("StoryMap changed", this, null);
+        Messager.getMessager().accept("New focus", this, null);        
     }
 
     private void updateFunctions() {
@@ -38,10 +39,7 @@ public class StoryEditor implements Receiver {
         panel.doLayout();
         for (FunctionEditor e : new_editors) {
             if (!editors.contains(e)) {
-                JComponent jc = e.getComponent();
-                Rectangle r = jc.getBounds();
-                panel.scrollRectToVisible(r);
-                e.focus();
+                focus(e);
                 break;
             }
         }        
@@ -55,10 +53,21 @@ public class StoryEditor implements Receiver {
     public JComponent getComponent() {
         return scrollPane;
     }
+    
+    private void focus(FunctionEditor f) {
+        JComponent jc = f.getComponent();
+        Rectangle r = jc.getBounds();
+        panel.scrollRectToVisible(r);
+        f.focus();        
+    }
 
     public void receive(String name, Object receiver_arg, Object sender_arg) {
         if (name.equals("StoryMap changed")) {
             updateFunctions();
+        } else if (name.equals("New focus")) {
+            StoryCard s = (StoryCard) sender_arg;
+            FunctionEditor f = s.getEditor();
+            focus(f);
         }
     }       
 }
