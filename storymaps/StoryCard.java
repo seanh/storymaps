@@ -18,6 +18,7 @@ public class StoryCard {
     private PText description_node;
     private boolean disabled = false;
     private boolean highlighted = false;
+    private FunctionEditor editor;
     
     /**
      * Copy constructor.
@@ -77,7 +78,9 @@ public class StoryCard {
                     event.setHandled(true);
                 }
             }
-        });             
+        });
+        
+        editor = new FunctionEditor(function);
     }
     
     public void highlight() {
@@ -126,5 +129,13 @@ public class StoryCard {
     
     public String getDescription() {
         return description_node.getText();
+    }
+    
+    public Function getFunction() {
+            return function;
+    }
+    
+    public FunctionEditor getEditor() {
+        return editor;
     }
 }

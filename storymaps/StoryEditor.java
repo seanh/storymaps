@@ -1,25 +1,49 @@
-/*
- * StoryEditor should be a Container containing a variable number of JLabel and
- * JEditorPane pairs (the JLabel containing the label for a function, and the
- * editor being for the user text for the fuction) with the correct layouts,
- * and methods for adding and removing functions.
- * 
- * Hiding and unhiding the StoryEditor will be handled higher up, either by a
- * JSplitPane or with a JButton and my own hide/unhide code.
- * 
- * StoryEditor should have its own main method that opens up a JFrame and sets
- * the StoryEditor Container as the content pane of that JFrame, and loads a
- * few functions, maybe put menu items or buttons on the JFrame to add and
- * remove functions, in other words its own test suite.
- * 
- */
-
 package storymaps;
+
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
  * @author seanh
  */
-public class StoryEditor {
+public class StoryEditor implements Receiver {
 
+    private StoryMap storyMap;
+    private JPanel panel;
+    private JScrollPane scrollPane;
+    
+    public StoryEditor(StoryMap storyMap) {    
+        this.storyMap = storyMap;
+        panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        scrollPane = new JScrollPane(panel);
+        Messager.getMessager().accept("StoryMap changed", this, null);
+    }
+
+    private void updateFunctions() {
+        panel.removeAll();
+        for (StoryCard s : storyMap.getStoryCards()) {
+            FunctionEditor e = s.getEditor();
+            panel.add(e.getComponent());
+        }
+        scrollPane.validate();
+    }
+        
+    /**
+     * Return the root component of this StoryEditor, i.e. the component that
+     * should be added to a contentPane to add this StoryEditor to a JFrame.
+     */
+    public JComponent getComponent() {
+        return scrollPane;
+    }
+
+    public void receive(String name, Object receiver_arg, Object sender_arg) {
+        if (name.equals("StoryMap changed")) {
+            updateFunctions();
+        }
+    }    
+    
 }

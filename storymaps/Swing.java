@@ -18,7 +18,7 @@ public class Swing implements Receiver {
     private JFrame frame;
 
     private PCanvas canvas;
-    
+
     /**
      * The home node, to which all other nodes are attached.
      */
@@ -40,12 +40,6 @@ public class Swing implements Receiver {
     public Swing() {
         makeFrame();
     }
-
-    /** Returns an ImageIcon, or null if the path was invalid. */
-    protected static ImageIcon createImageIcon(String path, String description)
-    {
-        return new ImageIcon(path, description);
-    }
         
     private void makeFrame() {
         frame = new JFrame("StoryMaps");        
@@ -57,16 +51,10 @@ public class Swing implements Receiver {
         initializePCanvas();
         contentPane.add(canvas);
                 
-        JPanel documentPanel = new JPanel();
-        documentPanel.setLayout(new BoxLayout(
-                                    documentPanel, BoxLayout.PAGE_AXIS));
-        JScrollPane scrollPane = new JScrollPane(documentPanel);
-        contentPane.add(scrollPane);
+        JComponent editor = new StoryEditor(map).getComponent();
+        editor.setPreferredSize(new Dimension(1024,200));
+        contentPane.add(editor);
                 
-        for (Function f : Functions.getFunctions()) {
-            documentPanel.add(makeFunctionEditor(f));
-        }        
-        
         makeMenu();
         
         frame.pack();
@@ -77,8 +65,8 @@ public class Swing implements Receiver {
     public void initializePCanvas() {
 
         canvas = new PCanvas();
-        canvas.setPreferredSize(new Dimension(800,600));
-        canvas.setMinimumSize(new Dimension(800,600));
+        canvas.setPreferredSize(new Dimension(1024,568));
+        //canvas.setMinimumSize(new Dimension(800,600));
         canvas.setBackground(Color.DARK_GRAY);
                 
         canvas.getLayer().addChild(home);
@@ -124,19 +112,6 @@ public class Swing implements Receiver {
          }
      }    
               
-    private JPanel makeFunctionEditor(Function f) {
-        JPanel container = new JPanel();
-        FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
-        container.setLayout(flowLayout);
-        ImageIcon icon = createImageIcon(f.image,"Illustation for function.");
-        JLabel label = new JLabel(icon);
-        container.add(label);
-        JTextArea textArea = new JTextArea(7,66);
-        JScrollPane scrollPane = new JScrollPane(textArea);                    
-        container.add(scrollPane);
-        return container;
-    }
-
     private void makeMenu() {
         JMenuBar menubar = new JMenuBar();
         frame.setJMenuBar(menubar);

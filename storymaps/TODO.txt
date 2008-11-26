@@ -1,3 +1,32 @@
+StoryEditor:
+
++   Currently the functions are not in the same order as they are 
+    in the story map. Could be because StoryMap uses a HashSet, and
+    sets don't support order? Or could be because StoryCards get
+    added to this HashSet in the order that they are added to the
+    StoryMap, rather than in the order that they are arranged in.
+
++   This breaks moving story cards around within the story map 
+    (since that was being enabled by a bug!) Need to re-enable this
+    in StoryMap.notify inside this if block:
+    
+        if (droppee == this.background.getAttribute("Droppable")) {
+            return true;
+        }
+        
++    Things are starting to get messy, some refactoring of the 
+     drag-drop protocol and/or the StoryMaps classes is needed.
+     See the FIXME in StoryMap.dropped_onto.
+     
++    StoryMap and StoryEditor need to support the concept of a 
+     selected story card, and need to keep their selected card in
+     sync.
+
+Main things:
+
+*   Implement saving and loading of stories, using Memento pattern as in Panda.
+*   Implement text export of story documents.
+
 Drag & Drop:
 
 *    Need to make sure that when dropped, a dragged node appears on top of the
@@ -24,23 +53,6 @@ Other:
     
 *   The zoom out needs to zoom out a little further. Implement home node as a
     decorator node with padding? Or just zoom further.
-
-*   Transparent overlay text messages (in Piccolo this would be implemented
-    using a sticky node).
-
-*   Saving and loading of stories
-
-Swing document editor:
-
-*   Embed the PCanvas in a Swing GUI.
-
-*   Scrolling document-editor pane, with a separate area for each function,
-    functions displayed on left, text editors on right
-
-*   As functions are added to and removed from the StoryMap they are added to
-    and removed from the document editor
-
-*   Document editor jumps to selected card in story map
 
 *   Piccolo camera should zoom to show only the user's story map when document
     editor is uncollapsed, when document editor is collapsed piccolo camera

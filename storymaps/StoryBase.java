@@ -45,7 +45,7 @@ public class StoryBase implements DroppableOwner {
      * The big rounded rectangle that acts as the colorful background and
      * droppable area of the story base.
      */
-    private PNode background;
+    protected PNode background;
     
     /**
      * The big title text above the story base

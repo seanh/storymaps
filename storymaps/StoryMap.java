@@ -88,7 +88,7 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
      * +   There's at least one empty space: we have more placeholders than
      *     story cards.
      * 
-     * If the story card is accepted then add it to storycards, subscribe to its
+     * If the story card is accepted thethen add it to storycards, subscribe to its
      * draggable instance, position the story card on top of the nearest free
      * placeholder, and return true to indicate the drop was accepted.
      */
@@ -114,8 +114,11 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         }
                 
         // Accept the new story card...
-        storycards.add(s);
         // Subscribe to the Draggable of this story card.
+        // FIXME: this method gets called when a storycard is dropped onto this
+        // story map, then by the time this method has finished executing this
+        // story map has subscribed to the card's draggable also, and the notify
+        // method below gets called for the same drop event!
         Draggable d = (Draggable) s.getNode().getAttribute("Draggable");            
         d.attach(this);
         // Position the story card over the nearest free placeholder.
@@ -125,9 +128,13 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
         s.getNode().setOffset(nearest.getNode().getOffset());
         nearest.setTaken(true);
         s.getNode().addAttribute("Placeholder", nearest);
+        // Add it to storycards and broadcast a message.
+        storycards.add(s);
+        Messager.getMessager().send("StoryMap changed", this);
         return true;
     }
-
+    
+        
     /**
      * Called when a draggable that this story map is subscribed to is dropped
      * onto something. Get the StoryCard that the Draggable instance belongs to
@@ -135,20 +142,26 @@ public class StoryMap  extends StoryBase implements DragDropObserver {
      * Draggable instance.
      */
     public boolean notify(DropEvent de) {
-        /* Note: this method is tightly coupled to method dropped_onto above!
-         * 
-         * Here we don't check whether the droppee belonged to this StoryCards
-         * object (i.e. a StoryCard was dragged from this StoryCards then
-         * dropped back onto this StoryCards) because if that was the case then
-         * dropped_onto above would not have accepted the drop and this method
-         * would not be getting called.
-         */
         Draggable draggee = de.getDraggee();
         Droppable droppee = de.getDroppee();
+
+        // If the droppee is that of this StoryMap's background node, then a
+        // story card was dragged from this story map and dropped onto this
+        // story map again, so ignore the event.
+        if (droppee == this.background.getAttribute("Droppable")) {
+            return true;
+        }
+        // Otherwise, a story card was dragged from this story map and dropped
+        // onto something else, so remove the story card from this story map.        
         StoryCard s = (StoryCard) draggee.getNode().getAttribute("StoryCard");
         Placeholder p = (Placeholder) s.getNode().getAttribute("Placeholder");
         p.setTaken(false);
         storycards.remove(s);
+        Messager.getMessager().send("StoryMap changed", this);
         return false;
-    }   
+    }
+    
+    public HashSet<StoryCard> getStoryCards() {
+        return storycards;
+    }
 }
