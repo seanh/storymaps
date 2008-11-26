@@ -12,6 +12,12 @@ Main things:
 
 *   Implement saving and loading of stories, using Memento pattern as in Panda.
 *   Implement text export of story documents.
+*   Build as an executable jar file and as an applet.
+
+Swing:
+
+*   Should replace menubar with a toolbar (big icons with text under them) with
+    New, Save, Load, Help, About and Quit buttons.
 
 Drag & Drop:
 
@@ -23,8 +29,7 @@ StoryCard:
 *   Animated scaling
 *   Fix enabling & disabling of story cards (image transparency)
 *   Changing levels of detail
-*   User text should be stored with StoryCard object. Show a text icon on
-    StoryCard when it has some user text associated with it.
+*   Show a text icon on StoryCard when it has some user text associated with it.
 
 StoryMap:
 
