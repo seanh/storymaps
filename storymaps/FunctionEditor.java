@@ -27,12 +27,20 @@ public class FunctionEditor {
         ImageIcon icon = new ImageIcon(function.image, "Illustation for function.");
         label = new JLabel(icon);
         panel.add(label);
-        textArea = new JTextArea(7,66);
+        textArea = new JTextArea(5,66);
         JScrollPane scrollPane = new JScrollPane(textArea);                    
         panel.add(scrollPane);
     }
     
     public JComponent getComponent() {
         return panel;
+    }
+    
+    public Function getFunction() {
+        return function;
+    }
+    
+    public void focus() {
+        textArea.requestFocusInWindow();
     }
 }
