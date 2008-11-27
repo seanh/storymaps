@@ -1,23 +1,31 @@
-StoryEditor:
-        
-+    Things are starting to get messy, some refactoring of the 
-     drag-drop protocol and/or the StoryMaps classes is needed.
-     See the FIXME in StoryMap.dropped_onto.
-     
-+    StoryMap and StoryEditor need to support the concept of a 
-     selected story card, and need to keep their selected card in
-     sync.
-
-Main things:
+High Priority
+-------------
 
 *   Implement saving and loading of stories, using Memento pattern as in Panda.
 *   Implement text export of story documents.
 *   Build as an executable jar file and as an applet.
+*   Replace menubar with a toolbar with New, Save, Load, Help, About and Quit
+    buttons.
+*   Changing levels of detail on story cards.
+*   Show a text icon on StoryCard when it has some user text associated with it.
 
-Swing:
+Low Priority
+------------
 
-*   Should replace menubar with a toolbar (big icons with text under them) with
-    New, Save, Load, Help, About and Quit buttons.
+StoryEditor:
+             
++   StoryMap and StoryEditor need to support the concept of a selected story
+    card. The selected card should be kept in sync between the StoryMap and the
+    StoryEditor. The selected card should be highlighted somehow in both
+    (Decorator node?). In StoryEditor the selected card should be scrolled to
+    and focused (nasty bug here). Zooming in on a StoryCard in the StoryMap
+    should make it selected.
+
++   Things are starting to get messy, some refactoring of the 
+    drag-drop protocol and/or the StoryMaps classes is needed.
+    See the FIXME in StoryMap.dropped_onto.
+
++   Unit tests.
 
 Drag & Drop:
 
@@ -28,8 +36,6 @@ StoryCard:
 
 *   Animated scaling
 *   Fix enabling & disabling of story cards (image transparency)
-*   Changing levels of detail
-*   Show a text icon on StoryCard when it has some user text associated with it.
 
 StoryMap:
 
