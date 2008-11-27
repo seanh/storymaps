@@ -1,7 +1,7 @@
 package storymaps;
 
 import DragAndDrop.*;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * The collection of story cards that the user can drag from.
@@ -34,8 +34,8 @@ import java.util.HashSet;
 //FIXME: Need a different name for this class.
 public class StoryCards extends StoryBase implements DragDropObserver {
 
-    private HashSet<StoryCard> disabled_storycards = new HashSet<StoryCard>();    
-    private HashSet<StoryCard> storycards = new HashSet<StoryCard>();
+    private ArrayList<StoryCard> disabled_storycards = new ArrayList<StoryCard>();    
+    private ArrayList<StoryCard> storycards = new ArrayList<StoryCard>();
                         
     public StoryCards(String title_text) {
         super(title_text);
@@ -55,13 +55,7 @@ public class StoryCards extends StoryBase implements DragDropObserver {
         // all these story cards in storycards.
         for (StoryCard disabled : disabled_storycards) {            
             StoryCard s = disabled.copy();
-            // FIXME: StoryCard should take care of wrapping and unwrapping itself.
-            try {
-                Draggable d = new Draggable(s.getNode());
-                d.attach(this);
-            } catch (NodeAlreadyDraggableException e) {
-                // ...
-            }              
+            s.attach(this);
             addToOverlay(s.getNode());
             s.getNode().setOffset(disabled.getNode().getOffset());            
             storycards.add(s);

@@ -16,7 +16,8 @@ import javax.swing.*;
 public class Swing implements Receiver {
     
     private JFrame frame;
-
+    private Container contentPane;
+    
     private PCanvas canvas;
 
     /**
@@ -37,6 +38,8 @@ public class Swing implements Receiver {
     private HelpText help_text = new HelpText();
     
     
+    private Object storymap_memento = null;
+    
     public Swing() {
         makeFrame();
     }
@@ -45,18 +48,18 @@ public class Swing implements Receiver {
         frame = new JFrame("StoryMaps");        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 
-        Container contentPane = frame.getContentPane();
+        contentPane = frame.getContentPane();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
-                            
+        
+        makeToolBar();
+        
         initializePCanvas();
         contentPane.add(canvas);
                 
         JComponent editor = new StoryEditor(map).getComponent();
         editor.setPreferredSize(new Dimension(1024,200));
         contentPane.add(editor);
-                
-        makeMenu();
-        
+                                
         frame.pack();
         frame.setVisible(true);
     }
@@ -111,44 +114,76 @@ public class Swing implements Receiver {
             cam.animateViewToCenterBounds(node.getGlobalBounds(), true, 750);
          }
      }    
-              
-    private void makeMenu() {
-        JMenuBar menubar = new JMenuBar();
-        frame.setJMenuBar(menubar);
+     
+    private void makeToolBar() {
+        JToolBar toolBar = new JToolBar("StoryMaps");
+        toolBar.setFloatable(false);
+        toolBar.setRollover(true);
         
-        JMenu fileMenu = new JMenu("File");
-        menubar.add(fileMenu);
-        JMenuItem openItem = new JMenuItem("Open");
-        openItem.addActionListener(new ActionListener() {
+        ImageIcon newIcon = new ImageIcon("src/storymaps/data/document-new.png");
+        JButton newButton = new JButton("New",newIcon);
+        newButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        newButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        toolBar.add(newButton);
+        newButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                openFile();
+                newStory();
             }
         });
-        fileMenu.add(openItem);
-        JMenuItem quitItem = new JMenuItem("Quit");
-        quitItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                quit();
-            }
-        });
-        fileMenu.add(quitItem);
         
-        JMenu helpMenu = new JMenu("Help");
-        menubar.add(helpMenu);
-        JMenuItem aboutItem = new JMenuItem("About");
-        aboutItem.addActionListener(new ActionListener() {
+        ImageIcon openIcon = new ImageIcon("src/storymaps/data/document-open.png");
+        JButton openButton = new JButton("Open",openIcon);
+        openButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        openButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        toolBar.add(openButton);
+        openButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showAbout();
+                open();
             }
         });
-        helpMenu.add(aboutItem);        
+        
+        ImageIcon saveIcon = new ImageIcon("src/storymaps/data/document-save.png");
+        JButton saveButton = new JButton("Save",saveIcon);
+        saveButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        saveButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        toolBar.add(saveButton);
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                save();
+            }
+        });
+        
+        toolBar.addSeparator();
+        
+        ImageIcon printIcon = new ImageIcon("src/storymaps/data/document-print.png");
+        JButton printButton = new JButton("Print",printIcon);
+        printButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        printButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        toolBar.add(printButton);
+        printButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                print();
+            }
+        });
+        
+        contentPane.add(toolBar);    
     }
     
-    private void openFile() {
+    private void newStory() {
         
     }
     
-    private void quit() {
+    private void open() {
+        System.out.println("Restoring");
+        map.restoreFromMemento(storymap_memento);
+    }
+
+    private void save() {
+        System.out.println("Saving");
+        storymap_memento = map.saveToMemento();
+    }
+
+    private void print() {
         
     }
     

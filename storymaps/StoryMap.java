@@ -3,13 +3,21 @@ package storymaps;
 import DragAndDrop.*;
 import edu.umd.cs.piccolo.PNode;
 import java.awt.geom.Point2D;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
-public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
-
-    private LinkedHashSet<Placeholder> placeholders = 
-            new LinkedHashSet<Placeholder>();    
+public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
+        Originator {
         
+    private ArrayList<Placeholder> placeholders = 
+            new ArrayList<Placeholder>();    
+
+    private class Memento {
+        public ArrayList<Object> placeholder_mementos;
+        public Memento(ArrayList<Object> placeholder_mementos) {
+            this.placeholder_mementos = placeholder_mementos;
+        }
+    }
+    
     public StoryMap(String title_text) {
         super(title_text);
         
@@ -47,6 +55,8 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
      * Return the nearest PlaceHolder in placeholders to the given StoryCard.
      */
     private Placeholder findNearest(StoryCard s) {
+        System.out.println("Num. placeholders: "+placeholders.size());
+        
         // First translate the storycard's x and y offsets to global coords.        
         Point2D p2d = globalPos(s.getNode());
         double x1 = p2d.getX();
@@ -64,7 +74,17 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
                 nearest_placeholder = p;
             }
         }
-        return nearest_placeholder;
+        if (nearest_placeholder != null) {
+            return nearest_placeholder;
+        } else {
+            // Fall back on returning first free placeholder
+            for (Placeholder p : placeholders) {
+                if (!p.taken()) {return p;}
+            }
+        }
+        // If can't find nearest and all placeholders taken finally return null.
+        System.out.println("Returning null");
+        return null;
     }
     
     /**
@@ -97,6 +117,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
         Placeholder nearest = findNearest(s);        
         s.unhighlight();
         addToOverlay(s.getNode());
+        System.out.println(nearest==null);
         s.getNode().setOffset(nearest.getNode().getOffset());
         s.getNode().addAttribute("Placeholder",nearest);
         nearest.setStoryCard(s);        
@@ -151,13 +172,16 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
         // story map, then by the time this method has finished executing this
         // story map has subscribed to the card's draggable also, and the notify
         // method below gets called for the same drop event!
-        Draggable d = (Draggable) s.getNode().getAttribute("Draggable");            
-        d.attach(this);
-        // Position the story card over the nearest free placeholder.
-        positionStoryCard(s);
+        addStoryCard(s);
         // Broadcast a message.
         Messager.getMessager().send("StoryMap changed", this);
         return true;
+    }
+    
+    private void addStoryCard(StoryCard s) {
+        s.attach(this);
+        // Position the story card over the nearest free placeholder.
+        positionStoryCard(s);
     }
             
     /**
@@ -185,8 +209,8 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
         return false;
     }
         
-    public LinkedHashSet<StoryCard> getStoryCards() {
-        LinkedHashSet<StoryCard> storycards = new LinkedHashSet<StoryCard>();
+    public ArrayList<StoryCard> getStoryCards() {
+        ArrayList<StoryCard> storycards = new ArrayList<StoryCard>();
         for (Placeholder p: placeholders) {
             if (p.taken()) {
                 storycards.add(p.getStoryCard());
@@ -200,12 +224,68 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
     }
     
     public void receive(String name, Object receiver_arg, Object sender_arg) {
-        if (name.equals("StoryCard single-clicked")) {
+        if (name.equals("StoryCard single-clicked")) {            
             StoryCard s = (StoryCard) sender_arg;
             if (getStoryCards().contains(s)) {
                 focus(s);
             }
         }
     }    
+
+    /** Return a memento object for the current state of this StoryMap. */
+    public Object saveToMemento() {
+        ArrayList<Object> placeholder_mementos = new ArrayList<Object>();
+        System.out.println(placeholders.size()+" placeholders.");
+        for (Placeholder p : placeholders) {
+            placeholder_mementos.add(p.saveToMemento());
+        }
+        System.out.println("Saving "+placeholder_mementos.size()+" placeholder mementos");
+        return new Memento(placeholder_mementos);
+    }                          
+
+    /** 
+     * Restore the state of this StoryMap from a memento object. 
+     * 
+     * @throws IllegalArgumentException if the argument cannot be cast to the
+     * private StoryMap.Memento type (i.e. the argument is not an object
+     * returned by the saveToMemento method of this class).
+     */
+    public void restoreFromMemento(Object o) {
+        if (!(o instanceof Memento)) {
+            throw new IllegalArgumentException();
+        } else {            
+            Memento m = (Memento) o;
+            // First remove all existing placeholders from the scene graph.
+            for (Placeholder p : placeholders) {
+                StoryCard s = p.getStoryCard();
+                if (s != null) {
+                    Draggable d = (Draggable) s.getNode().getAttribute("Draggable");
+                    d.detach(this);
+                    s.getNode().removeFromParent();
+                }
+                p.getNode().removeFromParent();
+            }
+            // Now replace the list of placeholders.
+            placeholders = new ArrayList<Placeholder>();            
+            System.out.println("Restoring "+m.placeholder_mementos.size()+" placeholder mementos");
+            for (Object pm : m.placeholder_mementos) {
+                placeholders.add(Placeholder.newFromMemento(pm));
+            }
+            // Add each new placeholder to the grid, in order.
+            for (Placeholder p: placeholders) {
+                addToGrid(p.getNode());
+            }
+            // For each placeholder, if it has a StoryCard, add the story card
+            // to the overlay.
+            for (Placeholder p: placeholders) {
+                StoryCard s = p.getStoryCard();
+                if (s != null) {
+                    addStoryCard(s);
+                }
+            }
+            // Broadcast a message so that the StoryEditor will update itself.
+            Messager.getMessager().send("StoryMap changed", this);
+        }
+    }
     
 }

@@ -1,11 +1,11 @@
 High Priority
 -------------
 
-*   Implement saving and loading of stories, using Memento pattern as in Panda.
+*   Implement saving and loading of stories, using Memento pattern.
 *   Implement text export of story documents.
-*   Build as an executable jar file and as an applet.
 *   Replace menubar with a toolbar with New, Save, Load, Help, About and Quit
     buttons.
+*   Build as an executable jar file and as an applet.
 *   Changing levels of detail on story cards.
 *   Show a text icon on StoryCard when it has some user text associated with it.
 
@@ -54,3 +54,39 @@ Other:
 *   Piccolo camera should zoom to show only the user's story map when document
     editor is uncollapsed, when document editor is collapsed piccolo camera
     shows story cards and story map.
+    
+Refactoring
+-----------
+
+*   Don't use fucking sets when you don't really need them. It will come back to
+    bite you in the butt.
+
+*   Class Swing should become Main, Main should be no more.
+
+*   StoryMap should hold a reference to StoryEditor, not vice-versa. Then
+    StoryMap could just call StoryEditor when cards are added, removed, or
+    moved, no need to mess around with Messager.
+
+*   StoryCard should not have a disabled field and enable and disable
+    methods. Instead, DisabledStoryCard should be a subclass of StoryCard. The 
+    code will be simpler, and it will be closer to how StoryCard is actually
+    used.
+
+*   FunctionEditor shouldn't need to keep a reference to a Function. Is this
+    being made use of anywhere? StoryCard should just pass the image URL to the
+    FunctionEditor constructor instead, FunctionEditor doesn't know what
+    function it represents, but StoryCard does.
+
+*   StoryCards should be made to work more like StoryMaps does, and
+    DisabledStoryCard more like Placeholder: the StoryCards maintains a list of
+    DisabledStoryCards only, the DisabledStoryCards hold references to
+    StoryCards or null, and StoryCards has a getStoryCards() method that
+    iterates over DisabledStoryCards and returns all the non-null StoryCard
+    instances in an ordered list. The same add method should always be used to
+    add a StoryCard, whether on initialising, after a drop, or on restore, and
+    the method should implement the policy of finding a matching empty
+    DisabledStoryCard to place it on, or refusing the StoryCard.
+    
+*   If StoryCards is refactored to work more like StoryMap, and if Placeholder
+    and DisabledStoryCard share a base class or interface, then save and restore
+    functionality might be able to be moved into StoryBase.    

@@ -1,7 +1,7 @@
 package storymaps;
 
 import java.awt.Rectangle;
-import java.util.HashSet;
+import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -16,7 +16,7 @@ public class StoryEditor implements Receiver {
     private StoryMap storyMap;
     private JPanel panel;
     private JScrollPane scrollPane;
-    private HashSet<FunctionEditor> editors = new HashSet<FunctionEditor>();
+    private ArrayList<FunctionEditor> editors = new ArrayList<FunctionEditor>();
     
     public StoryEditor(StoryMap storyMap) {    
         this.storyMap = storyMap;
@@ -28,7 +28,7 @@ public class StoryEditor implements Receiver {
     }
 
     private void updateFunctions() {
-        HashSet<FunctionEditor> new_editors = new HashSet<FunctionEditor>();        
+        ArrayList<FunctionEditor> new_editors = new ArrayList<FunctionEditor>();        
         panel.removeAll();        
         for (StoryCard s : storyMap.getStoryCards()) {
             FunctionEditor e = s.getEditor();

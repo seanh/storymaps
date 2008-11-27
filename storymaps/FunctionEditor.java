@@ -18,8 +18,21 @@ public class FunctionEditor {
     private JLabel label;
     private JTextArea textArea;
     private Function function;
+
+    private class Memento {
+        public Object function_memento;
+        public String text;
+        public Memento(Object function_memento, String text) {
+            this.function_memento = function_memento;
+            this.text = text;
+        }
+    }    
     
     public FunctionEditor(Function function) {
+        this(function,"");
+    }
+    
+    public FunctionEditor(Function function, String text) {
         this.function = function;
         panel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
@@ -28,10 +41,11 @@ public class FunctionEditor {
         label = new JLabel(icon);
         panel.add(label);
         textArea = new JTextArea(5,66);
+        textArea.setText(text);
         JScrollPane scrollPane = new JScrollPane(textArea);                    
         panel.add(scrollPane);
     }
-    
+        
     public JComponent getComponent() {
         return panel;
     }
@@ -40,7 +54,45 @@ public class FunctionEditor {
         return function;
     }
     
+    public String getText() {
+        return textArea.getText();
+    }
+    
     public void focus() {
         textArea.requestFocusInWindow();
     }
+
+    /**
+     * Return true if obj is equivalent to this function editor, false
+     * otherwise.
+     */
+    public boolean compare(Object obj) {
+        if (!(obj instanceof FunctionEditor)) {
+            return false;
+        } else {
+            FunctionEditor f = (FunctionEditor) obj;
+            if (!(f.getFunction().compare(getFunction()))) { return false; }
+            if (!(f.getText().equals(getText()))) { return false; }
+            return true;
+        }        
+    }    
+    
+    public Object saveToMemento() {
+        return new Memento(this.function.saveToMemento(),
+                this.textArea.getText());
+    }
+    
+    /** 
+     * Return a new FunctionEditor constructed from a memento object.
+     */
+    public static FunctionEditor newFromMemento(Object o) {
+        if (!(o instanceof Memento)) {
+            throw new IllegalArgumentException("Argument not instanceof Memento.");
+        }
+        else {
+            Memento m = (Memento) o;
+            Function f = Function.newFromMemento(m.function_memento);
+            return new FunctionEditor(f,m.text);
+        }
+    }        
 }

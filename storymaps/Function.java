@@ -26,4 +26,36 @@ public class Function {
         this.image = image;
     }
     
+    /**
+     * Return true if obj is equivalent to this function, false otherwise.
+     */
+    public boolean compare(Object obj) {
+        if (!(obj instanceof Function)) {
+            return false;
+        } else {
+            Function f = (Function) obj;
+            return f.propp_name.equals(this.propp_name);
+        }        
+    }
+    
+    /** Return a memento object for the current state of this originator. */
+    public Object saveToMemento() {
+        // Since Function is a passive class anyway, we just use the Function
+        // object itself as the Memento.
+        return this;                
+    }
+
+    /** 
+     * Return a new Function constructed from a memento object.
+     */
+    public static Function newFromMemento(Object m) {
+        // And this is just a copy-constructor.
+        if (!(m instanceof Function)) {
+            throw new IllegalArgumentException("Argument not instanceof Function.");
+        }
+        else {
+            Function f = (Function) m;
+            return f;
+        }
+    }
 }

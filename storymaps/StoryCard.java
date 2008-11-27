@@ -1,4 +1,7 @@
 package storymaps;
+import DragAndDrop.DragDropObserver;
+import DragAndDrop.Draggable;
+import DragAndDrop.NodeAlreadyDraggableException;
 import java.awt.Color;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -6,7 +9,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
-
 
 public class StoryCard {
             
@@ -19,6 +21,16 @@ public class StoryCard {
     private boolean disabled = false;
     private boolean highlighted = false;
     private FunctionEditor editor;
+    private Draggable draggable;
+
+    private class Memento {
+        public Object function_memento;
+        public Object editor_memento;
+        public Memento(Object function_memento, Object editor_memento) {
+            this.function_memento = function_memento;
+            this.editor_memento = editor_memento;
+        }
+    }
     
     /**
      * Copy constructor.
@@ -27,15 +39,19 @@ public class StoryCard {
     public StoryCard copy() {
         return new StoryCard(function);
     }
-            
+    
     public StoryCard(Function function) {
+        this(function,"");
+    }
+    
+    public StoryCard(Function function, String text) {
 
         this.function = function;
         
         background = PPath.createRoundRectangle(0, 0, 200, 240,20,20);
         background.setPaint(Color.WHITE);        
         background.addAttribute("StoryCard",this);
-
+                               
         vnode = new VerticalLayoutNode(10);
         vnode.setOffset(2,2);
         background.addChild(vnode);
@@ -83,7 +99,22 @@ public class StoryCard {
             }
         });
         
-        editor = new FunctionEditor(function);
+        editor = new FunctionEditor(function,text);
+        
+        try {
+            draggable = new Draggable(background);            
+        } catch (NodeAlreadyDraggableException e) {
+            // ...
+        }              
+        
+    }
+    
+    public void attach(DragDropObserver o) {
+        draggable.attach(o);
+    }
+    
+    public Draggable getDraggable() {
+        return draggable;
     }
     
     public void highlight() {
@@ -141,4 +172,33 @@ public class StoryCard {
     public FunctionEditor getEditor() {
         return editor;
     }
+    
+    @Override
+    public String toString() {
+        return function.toString() + "\n" + editor.getText();
+    }
+    
+    // Implement the Originator interface.
+    
+    /** Return a memento object for the current state of this StoryCard. */
+    public Object saveToMemento() {
+        Object function_memento = function.saveToMemento();
+        Object editor_memento = editor.saveToMemento();
+        return new Memento(function_memento,editor_memento);
+    }
+
+    /** 
+     * Return a new StoryCard constructed from a memento object.
+     */
+    public static StoryCard newFromMemento(Object o) {
+        if (!(o instanceof Memento)) {
+            throw new IllegalArgumentException("Argument not instanceof Memento.");
+        }
+        else {
+            Memento m = (Memento) o;
+            Function f = Function.newFromMemento(m.function_memento);
+            FunctionEditor e = FunctionEditor.newFromMemento(m.editor_memento);
+            return new StoryCard(f,e.getText());
+        }
+    }   
 }

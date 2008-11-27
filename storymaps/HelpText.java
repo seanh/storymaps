@@ -49,6 +49,7 @@ public class HelpText {
                 long timeToGo = getStopTime() - currentTime;
                 if (timeTaken < 0 || timeToGo < 0) {
                     // Just in case.
+                    terminate();
                     return 1;
                 }
                 if (timeTaken < 1000) {

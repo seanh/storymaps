@@ -43,4 +43,23 @@ public class Placeholder {
         storycard = null;
         taken = false;
     }
+    
+    public Object saveToMemento() {
+        if (storycard == null) {
+            return null;
+        } else {
+            return storycard.saveToMemento();
+        }
+    }
+    
+    public static Placeholder newFromMemento(Object o) {
+        Placeholder p = new Placeholder();
+        if (o == null) {
+            return p;
+        } else {
+            StoryCard s = StoryCard.newFromMemento(o);            
+            p.setStoryCard(s);
+            return p;
+        }
+    }
 }
