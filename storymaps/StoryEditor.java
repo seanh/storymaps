@@ -28,8 +28,8 @@ public class StoryEditor implements Receiver {
     }
 
     private void updateFunctions() {
-        HashSet<FunctionEditor> new_editors = new HashSet<FunctionEditor>();
-        
+        HashSet<FunctionEditor> new_editors = new HashSet<FunctionEditor>();        
+        panel.removeAll();        
         for (StoryCard s : storyMap.getStoryCards()) {
             FunctionEditor e = s.getEditor();
             new_editors.add(e);
