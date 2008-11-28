@@ -10,26 +10,17 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         
     private ArrayList<Placeholder> placeholders = 
             new ArrayList<Placeholder>();    
-
-    private class Memento {
-        public ArrayList<Object> placeholder_mementos;
-        public Memento(ArrayList<Object> placeholder_mementos) {
-            this.placeholder_mementos = placeholder_mementos;
-        }
-    }
     
     public StoryMap(String title_text) {
         super(title_text);
         
         // For each Propp function add a PlaceHolder to the grid node. Keep
         // references to all these placeholders in placeholders.
-        // TODO: implement PlaceHolder class and use it here instead of disabled
-        // story cards.
         for (int i=0; i<31; i++) {
             Placeholder p = new Placeholder();
             addToGrid(p.getNode());
             placeholders.add(p);
-        }        
+        }
         
         Messager.getMessager().accept("StoryCard single-clicked", this, null);
     }
@@ -52,19 +43,29 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
     }
     
     /**
-     * Return the nearest PlaceHolder in placeholders to the given StoryCard.
+     * Return the nearest free PlaceHolder in placeholders to the given
+     * StoryCard, or null if there are no free placeholders.
      */
     private Placeholder findNearest(StoryCard s) {
-        System.out.println("Num. placeholders: "+placeholders.size());
+        ArrayList<Placeholder> free_placeholders = new ArrayList<Placeholder>();
+        for (Placeholder p: placeholders) {
+            if (!p.taken()) {
+                free_placeholders.add(p);
+            }
+        }
+        if (free_placeholders.size() == 0) {
+            // There's no free placeholders.
+            return null;
+        }
         
-        // First translate the storycard's x and y offsets to global coords.        
+        // Translate the storycard's x and y offsets to global coords.        
         Point2D p2d = globalPos(s.getNode());
         double x1 = p2d.getX();
         double y1 = p2d.getY();
+        
         double nearest_distance = -1;
         Placeholder nearest_placeholder = null;        
         for (Placeholder p : placeholders) {
-            if (p.taken()) { continue; }
             p2d = globalPos(p.getNode());
             double x2 = p2d.getX();
             double y2 = p2d.getY();            
@@ -74,32 +75,29 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
                 nearest_placeholder = p;
             }
         }
-        if (nearest_placeholder != null) {
-            return nearest_placeholder;
-        } else {
-            // Fall back on returning first free placeholder
-            for (Placeholder p : placeholders) {
-                if (!p.taken()) {return p;}
-            }
-        }
-        // If can't find nearest and all placeholders taken finally return null.
-        System.out.println("Returning null");
-        return null;
+        
+        assert nearest_placeholder != null : "findNearest did not find a placeholder, even though there are free placeholders? This shouldn't happen.";
+        
+        return nearest_placeholder;
     }
     
     /**
      * Return a StoryCard from storycards that has the same function as s, or
-     * null if no such story card exists.
+     * null if no such story card exists in storycards.
      */
     private StoryCard findStoryCard(StoryCard s) {
         for (StoryCard c : getStoryCards()) {
-            if (s.getTitle().equals(c.getTitle())) {
+            if (s.getFunction().compare(c.getFunction())) {
                 return c;
             }
         }
         return null;
     }
 
+    /** 
+     * Return a StoryCard from storycard that is the same object instance as
+     * StoryCard s, or null if no such StoryCard exists in storycards.
+     */
     private StoryCard findStoryCardInstance(StoryCard s) {
         for (StoryCard c : getStoryCards()) {
             if (s == c) { return c; }
@@ -107,21 +105,47 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         return null;
     }
     
-    
+    /**
+     * Reposition StoryCard s in the scene graph, placing it over the nearest
+     * Placeholder in placeholders.
+     */
     private void positionStoryCard(StoryCard s) {
+        // Detach s from any existing placeholder, if it's attached to one.
         Placeholder previous = (Placeholder)
                 s.getNode().getAttribute("Placeholder");
         if (previous != null) {
             previous.clearStoryCard();
         }
         Placeholder nearest = findNearest(s);        
-        s.unhighlight();
+        s.unhighlight(); // Scale the SotyrCard down, to position it properly.
         addToOverlay(s.getNode());
-        System.out.println(nearest==null);
         s.getNode().setOffset(nearest.getNode().getOffset());
-        s.getNode().addAttribute("Placeholder",nearest);
-        nearest.setStoryCard(s);        
-        
+        nearest.setStoryCard(s);                
+    }
+    
+    /**
+     * Add a new StoryCard to this StoryMap, positioning it over the nearest
+     * free placeholder.
+     */
+    private void addStoryCard(StoryCard s) {
+        s.attach(this);
+        positionStoryCard(s);
+    }
+    
+    /**
+     * Add a new StoryCard to this StoryMap, positioning it over placeholder p.
+     */
+    private void addStoryCard(StoryCard s, Placeholder p) {
+        s.attach(this);
+        Placeholder previous = (Placeholder)
+                s.getNode().getAttribute("Placeholder");
+        if (previous != null) {
+            previous.clearStoryCard();
+        }
+        s.unhighlight(); // Scale the SotyrCard down, to position it properly.
+        addToOverlay(s.getNode());
+        s.getNode().setOffset(p.getNode().getOffset());
+        p.setStoryCard(s);                    
     }
     
     /**
@@ -131,10 +155,10 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
      * +   It has a StoryCard attribute attached to it.
      * +   Field storycards does not already contain a story card with the same
      *     function.
-     * +   There's at least onsender_arge empty space: we have more placeholders than
+     * +   There's at least one empty space: we have more placeholders than
      *     story cards.
      * 
-     * If the story card is accepted thethen add it to storycards, subscribe to its
+     * If the story card is accepted then add it to storycards, subscribe to its
      * draggable instance, position the story card on top of the nearest free
      * placeholder, and return true to indicate the drop was accepted.
      */
@@ -177,13 +201,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         Messager.getMessager().send("StoryMap changed", this);
         return true;
     }
-    
-    private void addStoryCard(StoryCard s) {
-        s.attach(this);
-        // Position the story card over the nearest free placeholder.
-        positionStoryCard(s);
-    }
-            
+                
     /**
      * Called when a draggable that this story map is subscribed to is dropped
      * onto something. Get the StoryCard that the Draggable instance belongs to
@@ -209,6 +227,9 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         return false;
     }
         
+    /**
+     * Return a list of all the StoryCards in this StoryMap.
+     */
     public ArrayList<StoryCard> getStoryCards() {
         ArrayList<StoryCard> storycards = new ArrayList<StoryCard>();
         for (Placeholder p: placeholders) {
@@ -219,10 +240,18 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         return storycards;
     }
     
+    /**
+     * Called when a StoryCard in this StoryMap is single-clicked, focus the
+     * StoryCard in the StoryMap and the StoryEditor.
+     */
     private void focus(StoryCard s) {
         Messager.getMessager().send("New focus",s);
     }
     
+    /**
+     * Receive messages (from Messager) that we have subscribed to using
+     * Messager.accept or Messager.acceptOnce.
+     */
     public void receive(String name, Object receiver_arg, Object sender_arg) {
         if (name.equals("StoryCard single-clicked")) {            
             StoryCard s = (StoryCard) sender_arg;
@@ -232,14 +261,21 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         }
     }    
 
+    private class Memento {
+        public ArrayList<Object> placeholder_mementos;
+        public Memento(ArrayList<Object> placeholder_mementos) {
+            this.placeholder_mementos = placeholder_mementos;
+        }
+    }    
+    
     /** Return a memento object for the current state of this StoryMap. */
     public Object saveToMemento() {
+        // We just save a list of placeholder mementos for each placeholder in
+        // the story map.
         ArrayList<Object> placeholder_mementos = new ArrayList<Object>();
-        System.out.println(placeholders.size()+" placeholders.");
         for (Placeholder p : placeholders) {
             placeholder_mementos.add(p.saveToMemento());
         }
-        System.out.println("Saving "+placeholder_mementos.size()+" placeholder mementos");
         return new Memento(placeholder_mementos);
     }                          
 
@@ -262,12 +298,12 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
                     Draggable d = (Draggable) s.getNode().getAttribute("Draggable");
                     d.detach(this);
                     s.getNode().removeFromParent();
+                    s.getNode().addAttribute("Placeholder",null);
                 }
                 p.getNode().removeFromParent();
             }
             // Now replace the list of placeholders.
             placeholders = new ArrayList<Placeholder>();            
-            System.out.println("Restoring "+m.placeholder_mementos.size()+" placeholder mementos");
             for (Object pm : m.placeholder_mementos) {
                 placeholders.add(Placeholder.newFromMemento(pm));
             }
@@ -280,10 +316,10 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             for (Placeholder p: placeholders) {
                 StoryCard s = p.getStoryCard();
                 if (s != null) {
-                    addStoryCard(s);
+                    addStoryCard(s,p);
                 }
             }
-            // Broadcast a message so that the StoryEditor will update itself.
+            // Update the StoryEditor.
             Messager.getMessager().send("StoryMap changed", this);
         }
     }
