@@ -69,7 +69,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         
         double nearest_distance = -1;
         Placeholder nearest_placeholder = null;        
-        for (Placeholder p : placeholders) {
+        for (Placeholder p : free_placeholders) {
             p2d = globalPos(p.getNode());
             double x2 = p2d.getX();
             double y2 = p2d.getY();            
