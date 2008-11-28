@@ -40,6 +40,7 @@ public class Swing implements Receiver {
     private HelpText help_text = new HelpText();
         
     private Object storymap_memento = null;
+    private Object storycards_memento = null;
     
     public Swing() {
         makeFrame();
@@ -179,11 +180,13 @@ public class Swing implements Receiver {
     private void open() {
         System.out.println("Restoring");
         map.restoreFromMemento(storymap_memento);
+        cards.restoreFromMemento(storycards_memento);
     }
 
     private void save() {
         System.out.println("Saving");
         storymap_memento = map.saveToMemento();
+        storycards_memento = cards.saveToMemento();
     }
 
     private void print() {
