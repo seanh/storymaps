@@ -40,6 +40,7 @@ public class Placeholder {
     }
     
     public void clearStoryCard() {
+        storycard.getNode().addAttribute("Placeholder",null);
         storycard = null;
         taken = false;
     }
