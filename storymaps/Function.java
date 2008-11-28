@@ -14,6 +14,26 @@ public class Function {
     public String description;
     public String friendly_description;
     public String image;
+
+    // Ok, the memento class looks a lot like the Function class itself, but
+    // it's here just to stick to the pattern and avoid confusion, and for
+    // future extensibility.
+    private class Memento {
+        public String symbol;
+        public String propp_name;
+        public String friendly_name;
+        public String description;
+        public String friendly_description;
+        public String image;
+        public Memento(Function f) {
+            this.symbol = f.symbol;
+            this.propp_name = f.propp_name;
+            this.friendly_name = f.friendly_name;
+            this.description = f.description;
+            this.friendly_description = f.friendly_description;
+            this.image = f.image;            
+        }
+    }
     
     public Function(String symbol, String propp_name, String friendly_name,
                     String description, String friendly_description,
@@ -40,21 +60,20 @@ public class Function {
     
     /** Return a memento object for the current state of this originator. */
     public Object saveToMemento() {
-        // Since Function is a passive class anyway, we just use the Function
-        // object itself as the Memento.
-        return this;                
+        return new Memento(this);
     }
 
     /** 
      * Return a new Function constructed from a memento object.
      */
-    public static Function newFromMemento(Object m) {
-        // And this is just a copy-constructor.
-        if (!(m instanceof Function)) {
-            throw new IllegalArgumentException("Argument not instanceof Function.");
+    public static Function newFromMemento(Object o) {
+        if (!(o instanceof Memento)) {
+            throw new IllegalArgumentException("Argument not instanceof Memento.");
         }
         else {
-            Function f = (Function) m;
+            Memento m = (Memento) o;
+            Function f = new Function(m.symbol, m.propp_name, m.friendly_name,
+                    m.description, m.friendly_description, m.image);
             return f;
         }
     }
