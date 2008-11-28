@@ -1,30 +1,35 @@
 High Priority
 -------------
 
-*   Implement saving and loading of stories, using Memento pattern.
-*   Implement text export of story documents.
-*   Replace menubar with a toolbar with New, Save, Load, Help, About and Quit
-    buttons.
+*   File selector dialogs for save and restore.
+*   Implement text export of story documents. Do this by adding toString()
+    methods to all the memento objects.
 *   Build as an executable jar file and as an applet.
+    NetBeans already builds it as a jar file, but it can't find any of the
+    images or other data files.
+
 *   Changing levels of detail on story cards.
 *   Show a text icon on StoryCard when it has some user text associated with it.
+*   If you drag a story card and drop it onto another story card in the story
+    map, the drop should be accepted as normal. (Right now I think the droppable
+    is not found by the drag-drop system because the story card is in the way.)
+    To implement this StoryCard will have to implement Droppable, and use the
+    Messager to pass the message on up to the StoryMap. Or the drag-drop
+    protocol could search up the scene graph until it finds a node with a 
+    Droppable attribute, instead of just looking at the first pickable node that
+    is not the draggee.
 
 Low Priority
 ------------
 
 StoryEditor:
              
-+   StoryMap and StoryEditor need to support the concept of a selected story
-    card. The selected card should be kept in sync between the StoryMap and the
-    StoryEditor. The selected card should be highlighted somehow in both
-    (Decorator node?). In StoryEditor the selected card should be scrolled to
-    and focused (nasty bug here). Zooming in on a StoryCard in the StoryMap
-    should make it selected.
-
-+   Things are starting to get messy, some refactoring of the 
-    drag-drop protocol and/or the StoryMaps classes is needed.
-    See the FIXME in StoryMap.dropped_onto.
-
++   Make StoryMap highlight the currently selected StoryCard, the one that is
+    focused in StoryEditor. If the user changes the focus in StoryEditor,
+    StoryMap should respond. This is going to require changing the relationship
+    between StoryMap and StoryEditor, instead of StoryMap holding a reference to
+    StoryEditor or vice-versa they need two-way communication.
+        
 +   Unit tests.
 
 Drag & Drop:
@@ -35,13 +40,7 @@ Drag & Drop:
 StoryCard:
 
 *   Animated scaling
-*   Fix enabling & disabling of story cards (image transparency)
-
-StoryMap:
-
-*   If you drag a story card and drop it onto another story card in the story
-    map, the drop should be accepted as normal. (Right now I think the droppable
-    is not found by the drag-drop system because the story card is in the way.)
+*   Fix image transparency problem on disabled story cards.
     
 Other:
 
@@ -58,14 +57,11 @@ Other:
 Refactoring
 -----------
 
-*   Don't use fucking sets when you don't really need them. It will come back to
-    bite you in the butt.
+*   Quite a lot of duplicated code between StoryMap and StoryCards. Do this by
+    moving code into StoryBase. Will require use of a common interface of 
+    Placeholder and DisabledStoryCard.
 
-*   Class Swing should become Main, Main should be no more.
-
-*   StoryMap should hold a reference to StoryEditor, not vice-versa. Then
-    StoryMap could just call StoryEditor when cards are added, removed, or
-    moved, no need to mess around with Messager.
+*   Commit unit tests into git.
 
 *   StoryCard should not have a disabled field and enable and disable
     methods. Instead, DisabledStoryCard should be a subclass of StoryCard. The 
@@ -76,17 +72,3 @@ Refactoring
     being made use of anywhere? StoryCard should just pass the image URL to the
     FunctionEditor constructor instead, FunctionEditor doesn't know what
     function it represents, but StoryCard does.
-
-*   StoryCards should be made to work more like StoryMaps does, and
-    DisabledStoryCard more like Placeholder: the StoryCards maintains a list of
-    DisabledStoryCards only, the DisabledStoryCards hold references to
-    StoryCards or null, and StoryCards has a getStoryCards() method that
-    iterates over DisabledStoryCards and returns all the non-null StoryCard
-    instances in an ordered list. The same add method should always be used to
-    add a StoryCard, whether on initialising, after a drop, or on restore, and
-    the method should implement the policy of finding a matching empty
-    DisabledStoryCard to place it on, or refusing the StoryCard.
-    
-*   If StoryCards is refactored to work more like StoryMap, and if Placeholder
-    and DisabledStoryCard share a base class or interface, then save and restore
-    functionality might be able to be moved into StoryBase.    
