@@ -192,7 +192,7 @@ public class Main implements Receiver, Originator {
         // Listen for 'clicked' messages from story cards (the receive method
         // will be called), this is how we make RMB zoom in on cards.
         Messager m = Messager.getMessager();
-        m.accept("StoryCard clicked", this, null);
+        m.accept("StoryCard double-clicked", this, null);
                         
         cam.addChild(help_text.getNode());
         help_text.getNode().setOffset(1024/2f,768/2f);
@@ -203,9 +203,9 @@ public class Main implements Receiver, Originator {
      * Receive messages from the global singleton Messager object.
      */
     public void receive(String name, Object receiver_arg, Object sender_arg) {
-        if (name.equals("StoryCard clicked")) {
+        if (name.equals("StoryCard double-clicked")) {
            PCamera cam = canvas.getCamera();
-           StoryCard card = (StoryCard) sender_arg;
+           StoryCardBase card = (StoryCardBase) sender_arg;
            PNode node = card.getNode();
            cam.animateViewToCenterBounds(node.getGlobalBounds(), true, 750);
         }

@@ -18,7 +18,6 @@ public class DisabledStoryCard extends StoryCardBase {
         getNode().addAttribute("DisabledStoryCard",this);
         background.setTransparency(.3f);
         image_node.setTransparency(.3f);
-        background.setPickable(false);
         background.addInputEventListener(new PBasicInputEventHandler() { 		        
             @Override
             public void mouseClicked(PInputEvent event) {
