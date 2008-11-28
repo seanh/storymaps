@@ -7,7 +7,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
 
 /**
@@ -58,13 +57,11 @@ public class Main implements Receiver, Originator {
      * Object used to display transparent overlay text messages to the user.
      */
     private HelpText help_text = new HelpText();
-        
+
     /**
-     * List of saved states of the application. The application can be restored
-     * to any of these saved states, or a saved state can be written out to
-     * disk and read in again.
+     * The Caretaker object that holds onto saved states of the application.
      */
-    private ArrayList<Object> saved_states = new ArrayList<Object>();
+    private Caretaker caretaker = new Caretaker();
     
     /**
      * Construct and start the application.
@@ -224,7 +221,7 @@ public class Main implements Receiver, Originator {
      * This method is called when the Open button is pressed.
      */
     private void open() {
-        Memento m = (Memento) getMemento(saved_states.size()-1);
+        Memento m = (Memento) caretaker.getMemento();
         restoreFromMemento(m);
     }
 
@@ -232,7 +229,7 @@ public class Main implements Receiver, Originator {
      * This method is called when the Save button is pressed.
      */
     private void save() {
-        addMemento(saveToMemento());
+        caretaker.addMemento(saveToMemento());
     }
 
     /**
@@ -290,22 +287,6 @@ public class Main implements Receiver, Originator {
         }        
     }
     
-    // Implement the Caretaker interface.
-
-    /**
-     * Add a new memento object to the runtime list of saved states.
-     */
-    public void addMemento(Object m) {
-        saved_states.add(m);
-    }
-
-    /**
-     * Get a memento object from the runtime list of saved states.
-     */
-    public Object getMemento(int index) {
-        return saved_states.get(index);
-    }
-
     /**
      * Start the application.
      */
