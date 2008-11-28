@@ -86,7 +86,7 @@ public class StoryCard {
             
             // Make the camera zoom in on the story card when double-clicked.
             @Override
-            public void mousePressed(PInputEvent event) {
+            public void mouseClicked(PInputEvent event) {
                 if (event.getButton() == 1 && event.getClickCount() == 2) {
                     Messager m = Messager.getMessager();
                     m.send("StoryCard clicked", StoryCard.this);                
