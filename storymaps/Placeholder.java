@@ -45,6 +45,9 @@ public class Placeholder {
     }
     
     public Object saveToMemento() {
+        // The only state a Placeholder needs to save is the StoryCard (or null)
+        // that it's holding, so instead of a Placeholder.Memento class we just
+        // use a StoryCard.Memento, or null.
         if (storycard == null) {
             return null;
         } else {
