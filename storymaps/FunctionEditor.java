@@ -1,6 +1,7 @@
 package storymaps;
 
 import java.awt.FlowLayout;
+import java.io.Serializable;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -18,15 +19,6 @@ public class FunctionEditor {
     private JLabel label;
     private JTextArea textArea;
     private Function function;
-
-    private class Memento {
-        public Object function_memento;
-        public String text;
-        public Memento(Object function_memento, String text) {
-            this.function_memento = function_memento;
-            this.text = text;
-        }
-    }    
     
     public FunctionEditor(Function function) {
         this(function,"");
@@ -75,6 +67,15 @@ public class FunctionEditor {
             if (!(f.getText().equals(getText()))) { return false; }
             return true;
         }        
+    }    
+
+    private static class Memento implements Serializable {
+        public Object function_memento;
+        public String text;
+        public Memento(Object function_memento, String text) {
+            this.function_memento = function_memento;
+            this.text = text;
+        }
     }    
     
     public Object saveToMemento() {
