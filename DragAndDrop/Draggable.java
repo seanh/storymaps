@@ -4,6 +4,7 @@
 //the canvas to add the event handler?
 package DragAndDrop;
 
+import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -40,7 +41,7 @@ public class Draggable extends DragDropSubject {
             node.addInputEventListener(createEventHandler());            
         }
     }
-
+        
     /**
      * Return a new drag & drop event handler, that can then be added to a node.
      * It's in this event handler that most of the actual work of dragging and
@@ -95,10 +96,17 @@ public class Draggable extends DragDropSubject {
                 // picked node that is not the dragged node.
                 while (dropNode == dragNode) {                    
                     dropNode = path.nextPickedNode();
-                }                
-                // Find the Droppable object attached to the dropNode
-                Droppable droppable =
-                                 (Droppable) dropNode.getAttribute("Droppable");                                                
+                }
+                Droppable droppable = null;
+                if (dropNode != null) {
+                    // Find the Droppable object attached to the dropNode                
+                    droppable = (Droppable) dropNode.getAttribute("Droppable");
+                    while (droppable == null) {
+                        dropNode = path.nextPickedNode();
+                        if (dropNode instanceof PCamera || dropNode == null) { break; }
+                        droppable = (Droppable) dropNode.getAttribute("Droppable");
+                    }
+                }
                 if (droppable == null) {
                     // No droppable attribute, just return the dragged node to
                     // where it was dragged from.
