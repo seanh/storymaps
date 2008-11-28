@@ -8,17 +8,17 @@ package storymaps;
 public class Function {
 
     // Too dizzy to write accessor methods right now.
-    public String symbol;
-    public String propp_name;
-    public String friendly_name;
-    public String description;
-    public String friendly_description;
-    public String image;
+    private String symbol;
+    private String propp_name;
+    private String friendly_name;
+    private String description;
+    private String friendly_description;
+    private String image;
 
     // Ok, the memento class looks a lot like the Function class itself, but
     // it's here just to stick to the pattern and avoid confusion, and for
     // future extensibility.
-    private class Memento {
+    private class Memento {        
         public String symbol;
         public String propp_name;
         public String friendly_name;
@@ -45,6 +45,13 @@ public class Function {
         this.friendly_description = friendly_description;
         this.image = image;
     }
+    
+    public String getSymbol() { return symbol; }
+    public String getProppName() { return propp_name; }
+    public String getFriendlyName() { return friendly_name; }
+    public String getDescription() { return description; }
+    public String getFriendlyDescription() { return friendly_description; }
+    public String getImage() { return image; }
     
     /**
      * Return true if obj is equivalent to this function, false otherwise.
