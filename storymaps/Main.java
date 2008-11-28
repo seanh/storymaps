@@ -220,7 +220,7 @@ public class Main implements Receiver, Originator {
     /**
      * This method is called when the Open button is pressed.
      */
-    private void open() {
+    private void open() {        
         Memento m = (Memento) caretaker.getMemento();
         restoreFromMemento(m);
     }
@@ -229,7 +229,7 @@ public class Main implements Receiver, Originator {
      * This method is called when the Save button is pressed.
      */
     private void save() {
-        caretaker.addMemento(saveToMemento());
+        caretaker.addMemento(saveToMemento());        
     }
 
     /**
@@ -291,6 +291,6 @@ public class Main implements Receiver, Originator {
      * Start the application.
      */
     public static void main(String[] args) {
-        new Swing();
+        new Main();
     }   
 }
