@@ -37,7 +37,7 @@ public class FunctionEditor {
         panel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
         panel.setLayout(flowLayout);
-        ImageIcon icon = new ImageIcon(function.image, "Illustation for function.");
+        ImageIcon icon = new ImageIcon(function.getImage(), "Illustation for function.");
         label = new JLabel(icon);
         panel.add(label);
         textArea = new JTextArea(5,66);
