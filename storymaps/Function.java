@@ -54,7 +54,9 @@ public class Function {
             return false;
         } else {
             Function f = (Function) obj;
-            return f.propp_name.equals(this.propp_name);
+            // A function's symbol is supposed to uniquely identify that
+            // function, so we just check if the symbol's are the same.
+            return f.symbol.equals(this.symbol);
         }        
     }
     
