@@ -1,28 +1,50 @@
 High Priority
 -------------
 
-*   File selector dialogs for save and restore.
-*   Implement text export of story documents. Do this by adding toString()
-    methods to all the memento objects.
-*   Build as an executable jar file and as an applet.
-    NetBeans already builds it as a jar file, but it can't find any of the
-    images or other data files.
+*   Listen for the window changing size and zoom the piccolo camera to fit, 
+    especially when the application first starts.
 
 *   Changing levels of detail on story cards.
-*   Show a text icon on StoryCard when it has some user text associated with it.
-*   If you drag a story card and drop it onto another story card in the story
-    map, the drop should be accepted as normal. (Right now I think the droppable
-    is not found by the drag-drop system because the story card is in the way.)
-    To implement this StoryCard will have to implement Droppable, and use the
-    Messager to pass the message on up to the StoryMap. Or the drag-drop
-    protocol could search up the scene graph until it finds a node with a 
-    Droppable attribute, instead of just looking at the first pickable node that
-    is not the draggee.
+
+*   Hide/Show the StoryEditor, and have the Piccolo camera show only the 
+    StoryMap when the StoryEditor is shown. Will the cards be big enough to read
+    the instruction text? Or should the instruction text show up in the
+    StoryEditor?
+
+*   Build as an executable jar file and as an applet, then you can get people
+    testing it.
+    NetBeans already builds it as a jar file, but it can't find any of the
+    images or other data files. No idea how to build as an applet.
+
+*   Swing file selector dialogs for save and restore.
+
+*   Implement text export of story documents. Do this by adding toString()
+    methods to all the memento objects.
+
+*   Get the toolbar looking right. Icons should be flush left, and there should
+    be Help and About buttons.
+
+*   Allow the user to give their story a title, add a JTextField labelled Title
+    into the StoryEditor, and have the JTextField itself be stored with the
+    StoryMap (and its memento).
+
+*   StoryEditor should focus a card when the card is double-clicked (zoomed in 
+    on).
+
+*   Get the descriptions of the Propp functions on the cards right.
+
+*   Support ordering of story cards by having a 'Sort' button on the story map,
+    and perhaps having numbers on the story cards.
 
 Low Priority
 ------------
 
-StoryEditor:
+*   Testing, bug fixing and refactoring.
+
+*   Bug in StoryEditor when removing cards: last card still appears, and gaps
+    appear between cards, until window is refreshed.
+
+*   Show a text icon on StoryCard when it has some user text associated with it.
              
 +   Make StoryMap highlight the currently selected StoryCard, the one that is
     focused in StoryEditor. If the user changes the focus in StoryEditor,
@@ -30,13 +52,6 @@ StoryEditor:
     between StoryMap and StoryEditor, instead of StoryMap holding a reference to
     StoryEditor or vice-versa they need two-way communication.
         
-+   Unit tests.
-
-Drag & Drop:
-
-*    Need to make sure that when dropped, a dragged node appears on top of the
-     node it was dropped on, reparent it to the droppee and call moveToFront().
-
 StoryCard:
 
 *   Animated scaling
@@ -44,29 +59,31 @@ StoryCard:
     
 Other:
 
-*   Change the mouse cursor when over a story card or when dragging a story card
-    over a story map?
+*   Change the mouse cursor to indicate actions when over a story card or when 
+    dragging a story card over a story map?
     
 *   The zoom out needs to zoom out a little further. Implement home node as a
     decorator node with padding? Or just zoom further.
-
-*   Piccolo camera should zoom to show only the user's story map when document
-    editor is uncollapsed, when document editor is collapsed piccolo camera
-    shows story cards and story map.
     
+*   When zoomed in there should be left, right up & down arrows buttons on 
+    the overlay to move from card to card, instead of clicking on the cards.
+    This allows moving around without having to zoom out when there are gaps
+    between the cards. Perhaps the camera should zoom to focus on the 
+    placeholder behind the card rather than the card itself? Also might want 
+    to make story cards not draggable or scaleable when zoomed in.     
+    
+*   Make it use nicer fonts.    
+
+*   Cut, Copy and Paste buttons on the FunctionEditors or on the StoryEditor?
+        
 Refactoring
 -----------
 
-*   Quite a lot of duplicated code between StoryMap and StoryCards. Do this by
+*   Quite a lot of duplicated code between StoryMap and StoryCards. Fix this by
     moving code into StoryBase. Will require use of a common interface of 
     Placeholder and DisabledStoryCard.
 
-*   Commit unit tests into git.
-
-*   StoryCard should not have a disabled field and enable and disable
-    methods. Instead, DisabledStoryCard should be a subclass of StoryCard. The 
-    code will be simpler, and it will be closer to how StoryCard is actually
-    used.
+*   Get test package and jar and applet builds committed to git.
 
 *   FunctionEditor shouldn't need to keep a reference to a Function. Is this
     being made use of anywhere? StoryCard should just pass the image URL to the
