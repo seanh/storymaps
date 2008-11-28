@@ -1,5 +1,7 @@
 package storymaps;
 
+import java.io.Serializable;
+
 /**
  * Just a passive class that holds information about a Propp function.
  * 
@@ -14,26 +16,6 @@ public class Function {
     private String description;
     private String friendly_description;
     private String image;
-
-    // Ok, the memento class looks a lot like the Function class itself, but
-    // it's here just to stick to the pattern and avoid confusion, and for
-    // future extensibility.
-    private class Memento {        
-        public String symbol;
-        public String propp_name;
-        public String friendly_name;
-        public String description;
-        public String friendly_description;
-        public String image;
-        public Memento(Function f) {
-            this.symbol = f.symbol;
-            this.propp_name = f.propp_name;
-            this.friendly_name = f.friendly_name;
-            this.description = f.description;
-            this.friendly_description = f.friendly_description;
-            this.image = f.image;            
-        }
-    }
     
     public Function(String symbol, String propp_name, String friendly_name,
                     String description, String friendly_description,
@@ -71,7 +53,26 @@ public class Function {
             return f.symbol.equals(this.symbol);
         }        
     }
-    
+
+    private static class Memento implements Serializable {
+
+        public String symbol;
+        public String propp_name;
+        public String friendly_name;
+        public String description;
+        public String friendly_description;
+        public String image;
+
+        public Memento(Function f) {
+            this.symbol = f.getSymbol();
+            this.propp_name = f.getProppName();
+            this.friendly_name = f.getFriendlyName();
+            this.description = f.getDescription();
+            this.friendly_description = f.getFriendlyDescription();
+            this.image = f.getImage();
+        }
+    }     
+  
     /** Return a memento object for the current state of this originator. */
     public Object saveToMemento() {
         return new Memento(this);

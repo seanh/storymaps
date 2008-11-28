@@ -1,6 +1,7 @@
 package storymaps;
 
 import DragAndDrop.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -169,7 +170,7 @@ public class StoryCards extends StoryBase implements DragDropObserver,
     
     // Implement the Originator interface.
     
-    private class Memento {
+    private static class Memento implements Serializable {
         public ArrayList<Object> mementos;
         public Memento(ArrayList<Object> mementos) {
             this.mementos = mementos;

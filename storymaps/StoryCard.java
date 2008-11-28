@@ -9,6 +9,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import java.io.Serializable;
 
 public class StoryCard extends StoryCardBase {
             
@@ -118,7 +119,7 @@ public class StoryCard extends StoryCardBase {
     
     // Implement the Originator interface.
 
-    private class Memento {
+    private static class Memento implements Serializable {
         public Object function_memento;
         public Object editor_memento;
         public Memento(Object function_memento, Object editor_memento) {

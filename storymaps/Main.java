@@ -7,6 +7,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.Serializable;
 import javax.swing.*;
 
 /**
@@ -221,15 +222,17 @@ public class Main implements Receiver, Originator {
      * This method is called when the Open button is pressed.
      */
     private void open() {        
-        Memento m = (Memento) caretaker.getMemento();
-        restoreFromMemento(m);
+        //Memento m = (Memento) caretaker.getMemento();
+        //restoreFromMemento(m);
+        restoreFromMemento(caretaker.readMemento());
     }
 
     /**
      * This method is called when the Save button is pressed.
      */
     private void save() {
-        caretaker.addMemento(saveToMemento());        
+        //caretaker.addMemento(saveToMemento());
+        caretaker.writeMemento(saveToMemento());
     }
 
     /**
@@ -254,7 +257,7 @@ public class Main implements Receiver, Originator {
     /**
      * A Memento object holds a saved state of the application.
      */
-    private class Memento {
+    private static class Memento implements Serializable {
         public Object storycards_memento;
         public Object storymap_memento;
         public Memento(Object storycards_memento, Object storymap_memento) {
