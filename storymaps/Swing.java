@@ -57,7 +57,7 @@ public class Swing implements Receiver {
         editor = new StoryEditor();
         editor.getComponent().setPreferredSize(new Dimension(1024,200));
                 
-        initializePCanvas();
+        initializePCanvas();        
         contentPane.add(canvas);
                 
         contentPane.add(editor.getComponent());
@@ -73,6 +73,7 @@ public class Swing implements Receiver {
         canvas.setPreferredSize(new Dimension(1024,568));
         //canvas.setMinimumSize(new Dimension(800,600));
         canvas.setBackground(Color.DARK_GRAY);
+        canvas.setFocusable(false); // Never get the keyboard focus.
                 
         canvas.getLayer().addChild(home);
 
