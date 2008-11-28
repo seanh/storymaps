@@ -35,9 +35,10 @@ public class Swing implements Receiver {
      */
     private StoryMap map;    
     
+    private StoryEditor editor;
+    
     private HelpText help_text = new HelpText();
-    
-    
+        
     private Object storymap_memento = null;
     
     public Swing() {
@@ -52,13 +53,14 @@ public class Swing implements Receiver {
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
         
         makeToolBar();
-        
+
+        editor = new StoryEditor();
+        editor.getComponent().setPreferredSize(new Dimension(1024,200));
+                
         initializePCanvas();
         contentPane.add(canvas);
                 
-        JComponent editor = new StoryEditor(map).getComponent();
-        editor.setPreferredSize(new Dimension(1024,200));
-        contentPane.add(editor);
+        contentPane.add(editor.getComponent());
                                 
         frame.pack();
         frame.setVisible(true);
@@ -77,7 +79,7 @@ public class Swing implements Receiver {
         cards = new StoryCards("Choose the Story Cards you want from here...");
         home.addChild(cards.getNode());
         
-        map = new StoryMap("... and arrange them into your own Story Map here.");        
+        map = new StoryMap("... and arrange them into your own Story Map here.",editor);
         home.addChild(map.getNode());        
                                 
         // Remove the default event handler that enables panning with the mouse.    

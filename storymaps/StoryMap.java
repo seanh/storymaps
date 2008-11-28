@@ -11,12 +11,15 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
     private ArrayList<Placeholder> placeholders = 
             new ArrayList<Placeholder>();    
     
-    public StoryMap(String title_text) {
+    private StoryEditor editor;
+    
+    public StoryMap(String title_text, StoryEditor editor) {
         super(title_text);
+        this.editor = editor;
         
         // For each Propp function add a PlaceHolder to the grid node. Keep
         // references to all these placeholders in placeholders.
-        for (int i=0; i<31; i++) {
+        for (int i=0; i<33; i++) {
             Placeholder p = new Placeholder();
             addToGrid(p.getNode());
             placeholders.add(p);
@@ -181,7 +184,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         if (findStoryCardInstance(s) != null) {
             // This is one of our own story cards, just reposition it.
             positionStoryCard(s);
-            Messager.getMessager().send("StoryMap changed", this);
+            editor.update(getStoryCards());
             return true;
         }
                                     
@@ -197,8 +200,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         // story map has subscribed to the card's draggable also, and the notify
         // method below gets called for the same drop event!
         addStoryCard(s);
-        // Broadcast a message.
-        Messager.getMessager().send("StoryMap changed", this);
+        editor.update(getStoryCards());
         return true;
     }
                 
@@ -223,7 +225,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         StoryCard s = (StoryCard) draggee.getNode().getAttribute("StoryCard");
         Placeholder p = (Placeholder) s.getNode().getAttribute("Placeholder");        
         p.clearStoryCard();
-        Messager.getMessager().send("StoryMap changed", this);
+        editor.update(getStoryCards());
         return false;
     }
         
@@ -245,7 +247,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
      * StoryCard in the StoryMap and the StoryEditor.
      */
     private void focus(StoryCard s) {
-        Messager.getMessager().send("New focus",s);
+        editor.focus(s);
     }
     
     /**
@@ -320,7 +322,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
                 }
             }
             // Update the StoryEditor.
-            Messager.getMessager().send("StoryMap changed", this);
+            editor.update(getStoryCards());
         }
     }
     

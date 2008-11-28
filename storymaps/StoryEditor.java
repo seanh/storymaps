@@ -11,38 +11,43 @@ import javax.swing.JScrollPane;
  *
  * @author seanh
  */
-public class StoryEditor implements Receiver {
+public class StoryEditor {
 
-    private StoryMap storyMap;
     private JPanel panel;
     private JScrollPane scrollPane;
     private ArrayList<FunctionEditor> editors = new ArrayList<FunctionEditor>();
     
-    public StoryEditor(StoryMap storyMap) {    
-        this.storyMap = storyMap;
+    public StoryEditor() {    
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
         scrollPane = new JScrollPane(panel);
-        Messager.getMessager().accept("StoryMap changed", this, null);
-        Messager.getMessager().accept("New focus", this, null);        
     }
 
-    private void updateFunctions() {
+    /**
+     * Update the list of FunctionEditors in this StoryEditor.
+     */
+    public void update(ArrayList<StoryCard> new_cards) {
+        // Remove all the FunctionEditors from the panel, then add the new ones.
         ArrayList<FunctionEditor> new_editors = new ArrayList<FunctionEditor>();        
         panel.removeAll();        
-        for (StoryCard s : storyMap.getStoryCards()) {
+        for (StoryCard s : new_cards) {
             FunctionEditor e = s.getEditor();
             new_editors.add(e);
             panel.add(e.getComponent());
         }
         panel.invalidate();
         panel.doLayout();
+        
+        // Find the first new FunctionEditor that has just been added, and focus
+        // it.
         for (FunctionEditor e : new_editors) {
             if (!editors.contains(e)) {
                 focus(e);
                 break;
             }
-        }        
+        }
+        
+        // Update the list of FunctionEditors.
         editors = new_editors;        
     }
         
@@ -54,20 +59,24 @@ public class StoryEditor implements Receiver {
         return scrollPane;
     }
     
+    /**
+     * Scroll so that the FunctionEditor belonging to StoryCard s is in view,
+     * and give it the keyboard focus.
+     */
+    public void focus(StoryCard s) {
+        FunctionEditor f = s.getEditor();
+        assert editors.contains(f) : "The FunctionEditor must be one that the StoryEditor contains";
+        focus(f);
+    }
+    
+    /**
+     * Scroll so that FunctionEditor f is in view, and give f the keyboard
+     * focus.
+     */
     private void focus(FunctionEditor f) {
         JComponent jc = f.getComponent();
         Rectangle r = jc.getBounds();
         panel.scrollRectToVisible(r);
         f.focus();        
     }
-
-    public void receive(String name, Object receiver_arg, Object sender_arg) {
-        if (name.equals("StoryMap changed")) {
-            updateFunctions();
-        } else if (name.equals("New focus")) {
-            StoryCard s = (StoryCard) sender_arg;
-            FunctionEditor f = s.getEditor();
-            focus(f);
-        }
-    }       
 }
