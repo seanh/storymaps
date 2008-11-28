@@ -56,14 +56,14 @@ public class StoryCard {
         vnode.setOffset(2,2);
         background.addChild(vnode);
         
-        title_node = new PText(function.friendly_name);        
+        title_node = new PText(function.getFriendlyName());        
         title_node.setScale(2);
         vnode.addChild(title_node);
                 
-        image_node = new PImage(function.image);
+        image_node = new PImage(function.getImage());
         vnode.addChild(image_node);
         
-        description_node = new PText(function.friendly_description);
+        description_node = new PText(function.getFriendlyDescription());
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
                 
@@ -176,6 +176,21 @@ public class StoryCard {
     @Override
     public String toString() {
         return function.toString() + "\n" + editor.getText();
+    }
+    
+    public boolean compare(Object o) {
+        if (!(o instanceof StoryCard)) {
+            return false;            
+        } else {
+            StoryCard s = (StoryCard) o;
+            if (!s.getEditor().getText().equals(editor.getText())) {
+                return false;
+            }
+            if (!s.getFunction().compare(getFunction())) {
+                return false;
+            }
+            return true;
+        }
     }
     
     // Implement the Originator interface.
