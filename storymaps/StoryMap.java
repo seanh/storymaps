@@ -297,7 +297,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             for (Placeholder p : placeholders) {
                 StoryCard s = p.getStoryCard();
                 if (s != null) {
-                    Draggable d = (Draggable) s.getNode().getAttribute("Draggable");
+                    Draggable d = s.getDraggable();
                     d.detach(this);
                     s.getNode().removeFromParent();
                     s.getNode().addAttribute("Placeholder",null);
@@ -325,5 +325,4 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             editor.update(getStoryCards());
         }
     }
-    
 }
