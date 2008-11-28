@@ -34,13 +34,13 @@ public class Placeholder {
         if (s == null) {
             clearStoryCard();
         } else {
+            s.getNode().addAttribute("Placeholder",this);            
             storycard = s;
             taken = true;
         }
     }
     
     public void clearStoryCard() {
-        storycard.getNode().addAttribute("Placeholder",null);
         storycard = null;
         taken = false;
     }
