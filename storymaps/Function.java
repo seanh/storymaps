@@ -53,6 +53,11 @@ public class Function {
     public String getFriendlyDescription() { return friendly_description; }
     public String getImage() { return image; }
     
+    @Override
+    public String toString() {
+        return friendly_name + " (" + friendly_description + " )";
+    }
+    
     /**
      * Return true if obj is equivalent to this function, false otherwise.
      */
