@@ -7,17 +7,17 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 /**
  *
  * @author seanh
  */
-public class Swing implements Receiver {
+public class Swing implements Receiver, Originator {
     
     private JFrame frame;
-    private Container contentPane;
-    
+    private Container contentPane;    
     private PCanvas canvas;
 
     /**
@@ -41,6 +41,8 @@ public class Swing implements Receiver {
         
     private Object storymap_memento = null;
     private Object storycards_memento = null;
+    
+    private ArrayList<Object> saved_states = new ArrayList<Object>();
     
     public Swing() {
         makeFrame();
@@ -178,15 +180,12 @@ public class Swing implements Receiver {
     }
     
     private void open() {
-        System.out.println("Restoring");
-        map.restoreFromMemento(storymap_memento);
-        cards.restoreFromMemento(storycards_memento);
+        Memento m = (Memento) getMemento(saved_states.size()-1);
+        restoreFromMemento(m);
     }
 
     private void save() {
-        System.out.println("Saving");
-        storymap_memento = map.saveToMemento();
-        storycards_memento = cards.saveToMemento();
+        addMemento(saveToMemento());
     }
 
     private void print() {
@@ -200,6 +199,51 @@ public class Swing implements Receiver {
                 JOptionPane.INFORMATION_MESSAGE);
     }
     
+    private class Memento {
+        public Object storycards_memento;
+        public Object storymap_memento;
+        public Memento(Object storycards_memento, Object storymap_memento) {
+            this.storycards_memento = storycards_memento;
+            this.storymap_memento = storymap_memento;
+        }
+    }
+    
+    // Originator interface.
+    
+    /** Return a memento object for the current state of this originator. */
+    public Object saveToMemento() {
+        storycards_memento = cards.saveToMemento();
+        storymap_memento = map.saveToMemento();        
+        return new Memento(storycards_memento,storymap_memento);
+    }                          
+
+    /** 
+     * Restore state from a memento object. 
+     * 
+     * @throws IllegalArgumentException if the argument cannot be cast to the
+     * Memento type (i.e. the object m is not an object returned by the
+     * saveToMemento method of the same originator class).
+     */
+    public void restoreFromMemento(Object o) {
+        if (!(o instanceof Memento)) {
+            throw new IllegalArgumentException("Argument not instanceof Memento.");
+        } else {
+            Memento m = (Memento) o;
+            cards.restoreFromMemento(m.storycards_memento);
+            map.restoreFromMemento(m.storymap_memento);            
+        }        
+    }
+    
+    // Caretaker interface.
+
+    public void addMemento(Object m) {
+        saved_states.add(m);
+    }
+
+    public Object getMemento(int index) {
+        return saved_states.get(index);
+    }
+        
     public static void main(String[] args) {
         new Swing();
     }   
