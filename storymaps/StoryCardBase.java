@@ -5,6 +5,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 
 /**
  * Absract base class for StoryCard and DisabledStoryCard.
@@ -34,8 +38,13 @@ public abstract class StoryCardBase {
         title_node = new PText(function.getFriendlyName());        
         title_node.setScale(2.3);
         vnode.addChild(title_node);
-                
-        image_node = new PImage(function.getImage());
+
+        InputStream imagefile = this.getClass().getResourceAsStream(function.getImage());
+        Image image = null;
+        try {
+            image = ImageIO.read(imagefile);
+        } catch (IOException e) { }
+        image_node = new PImage(image);
         image_node.setScale(1.6);
         vnode.addChild(image_node);
         

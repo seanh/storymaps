@@ -7,7 +7,10 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -76,6 +79,7 @@ public class Main implements Receiver, Originator {
         makeFrame();
         Messager.getMessager().accept("Editor uncollapsed",this,null);
         Messager.getMessager().accept("Editor collapsed",this,null);
+        
     }
     
     /**
@@ -127,6 +131,15 @@ public class Main implements Receiver, Originator {
         initializePCanvas();                
     }
 
+    private ImageIcon loadImage(String path) {
+        InputStream imagefile = this.getClass().getResourceAsStream(path);
+        Image image = null;
+        try {
+            image = ImageIO.read(imagefile);
+        } catch (IOException e) { }        
+        return new ImageIcon(image);        
+    }
+    
     /**
      * Construct the application's toolbar, with buttons for controlling the
      * application.
@@ -135,8 +148,9 @@ public class Main implements Receiver, Originator {
         JToolBar toolBar = new JToolBar("StoryMaps");
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
-        
-        ImageIcon newIcon = new ImageIcon("src/storymaps/data/document-new.png");
+                
+
+        ImageIcon newIcon = loadImage("/storymaps/data/document-open.png");
         JButton newButton = new JButton("New",newIcon);
         newButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         newButton.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -147,7 +161,7 @@ public class Main implements Receiver, Originator {
             }
         });
         
-        ImageIcon openIcon = new ImageIcon("src/storymaps/data/document-open.png");
+        ImageIcon openIcon  = loadImage("/storymaps/data/document-open.png");
         JButton openButton = new JButton("Open",openIcon);
         openButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         openButton.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -158,7 +172,7 @@ public class Main implements Receiver, Originator {
             }
         });
         
-        ImageIcon saveIcon = new ImageIcon("src/storymaps/data/document-save.png");
+        ImageIcon saveIcon = loadImage("/storymaps/data/document-save.png");
         JButton saveButton = new JButton("Save",saveIcon);
         saveButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         saveButton.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -171,7 +185,7 @@ public class Main implements Receiver, Originator {
         
         toolBar.addSeparator();
         
-        ImageIcon printIcon = new ImageIcon("src/storymaps/data/document-print.png");
+        ImageIcon printIcon = loadImage("/storymaps/data/document-print.png");
         JButton printButton = new JButton("Print",printIcon);
         printButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         printButton.setHorizontalTextPosition(AbstractButton.CENTER);

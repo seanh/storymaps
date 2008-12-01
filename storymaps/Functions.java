@@ -43,7 +43,10 @@ public class Functions {
                                     IOException  {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder parser = factory.newDocumentBuilder();
-        Document document = parser.parse(new File("src/storymaps/data/functions.xml"));
+        
+
+        InputStream xmlfile = this.getClass().getResourceAsStream("/storymaps/data/functions.xml");
+        Document document = parser.parse(xmlfile);
         NodeList rows = document.getElementsByTagName("row");
         int numRows = rows.getLength();
         for (int i=0; i<numRows; i++) {
@@ -83,7 +86,7 @@ public class Functions {
                     }                                                                                                                            
                 }
             }
-            String image = "src/storymaps/data/" + symbol + ".svg-512.png";
+            String image = "/storymaps/data/" + symbol + ".svg-512.png";
             Function function = new Function(symbol,propp_name,friendly_name,description,friendly_description,image);
             functions.add(function);
         }
