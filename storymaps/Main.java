@@ -65,6 +65,11 @@ public class Main implements Receiver, Originator {
     private Caretaker caretaker = new Caretaker();
     
     /**
+     * The PNode that the PCamera is currently focused on.
+     */
+    private PNode target;
+    
+    /**
      * Construct and start the application.
      */
     public Main() {
@@ -86,14 +91,40 @@ public class Main implements Receiver, Originator {
 
         editor = new StoryEditor();
         editor.getComponent().setPreferredSize(new Dimension(1024,200));
-                
-        initializePCanvas();        
+
+        canvas = new PCanvas();
+        canvas.setPreferredSize(new Dimension(1024,568));
+        //canvas.setMinimumSize(new Dimension(800,600));
+        canvas.setBackground(Color.DARK_GRAY);
+        canvas.setFocusable(false); // Never get the keyboard focus.                        
         contentPane.add(canvas);
+        
+        canvas.addComponentListener(new ComponentListener() 
+        {  
+            // This method is called after the component's size changes
+            public void componentResized(ComponentEvent evt) {
+                repositionCamera();
+            }
+
+            public void componentMoved(ComponentEvent arg0) {
+                
+            }
+
+            public void componentShown(ComponentEvent arg0) {
+                
+            }
+
+            public void componentHidden(ComponentEvent arg0) {
+                
+            }
+        });
                 
         contentPane.add(editor.getComponent());
-                                
+                
         frame.pack();
         frame.setVisible(true);
+                
+        initializePCanvas();                
     }
 
     /**
@@ -158,12 +189,6 @@ public class Main implements Receiver, Originator {
      * Initialise the Piccolo canvas.
      */
     public void initializePCanvas() {
-
-        canvas = new PCanvas();
-        canvas.setPreferredSize(new Dimension(1024,568));
-        //canvas.setMinimumSize(new Dimension(800,600));
-        canvas.setBackground(Color.DARK_GRAY);
-        canvas.setFocusable(false); // Never get the keyboard focus.
                 
         canvas.getLayer().addChild(home);
 
@@ -176,15 +201,16 @@ public class Main implements Receiver, Originator {
         // Remove the default event handler that enables panning with the mouse.    
         canvas.removeInputEventListener(canvas.getPanEventHandler());
         
-        final PCamera cam = canvas.getCamera();
-        cam.animateViewToCenterBounds(home.getGlobalFullBounds(), true, 750);
+        target = home;
+        repositionCamera();
         
         // Make middle mouse button return camera to home position.
-        cam.addInputEventListener(new PBasicInputEventHandler() { 		                    
+        canvas.getCamera().addInputEventListener(new PBasicInputEventHandler() { 		                    
             @Override
             public void mousePressed(PInputEvent event) {
                 if (event.getButton() == 3) {
-                    cam.animateViewToCenterBounds(home.getGlobalFullBounds(), true, 750);
+                    target = home;
+                    repositionCamera(750);
                 }
             }
         });
@@ -194,7 +220,7 @@ public class Main implements Receiver, Originator {
         Messager m = Messager.getMessager();
         m.accept("StoryCard double-clicked", this, null);
                         
-        cam.addChild(help_text.getNode());
+        canvas.getCamera().addChild(help_text.getNode());
         help_text.getNode().setOffset(1024/2f,768/2f);
         help_text.show("Welcome to the Story Maps application!\nLeft-click to drag,\ndouble-click to zoom in,\nright-click to zoom out.");        
     }
@@ -204,13 +230,47 @@ public class Main implements Receiver, Originator {
      */
     public void receive(String name, Object receiver_arg, Object sender_arg) {
         if (name.equals("StoryCard double-clicked")) {
-           PCamera cam = canvas.getCamera();
            StoryCardBase card = (StoryCardBase) sender_arg;
            PNode node = card.getNode();
-           cam.animateViewToCenterBounds(node.getGlobalBounds(), true, 750);
+           target = node;
+           repositionCamera(750);
         }
     }    
-         
+    
+    /**
+     * If the PNode field target is not null, reposition the camera to focus on
+     * that node. (Used to correct the focus when the piccolo component is
+     * resized).
+     */
+    private void repositionCamera() {
+        if (target != null) {
+            repositionCamera(target,0);
+        }
+    }
+    
+    /**
+     * If the PNode field target is not null, reposition the camera to focus on
+     * that node, and take duration milliseconds to animate the camera to its
+     * new position.
+     */
+    private void repositionCamera(long duration) {
+        if (target != null) {
+            repositionCamera(target,duration);
+        }
+    }
+    
+    /**
+     * Zoom the Piccolo camera in or out so that it focuses on a given node.
+     * @param node The node to focus on.
+     * @param duration The amount of time (in milliseconds) to take to animate
+     * the camera to its new position.
+     */
+    private void repositionCamera(PNode node, long duration) {
+        final PCamera cam = canvas.getCamera();                
+        cam.animateViewToCenterBounds(node.getGlobalFullBounds(), true,
+                duration);
+    }
+    
     /**
      * This method is called when the New button is pressed.
      */
