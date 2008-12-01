@@ -1,32 +1,12 @@
 High Priority
 -------------
 
-*   Listen for the window changing size and zoom the piccolo camera to fit, 
-    especially when the application first starts.
-
-*   Changing levels of detail on story cards.
-
-*   Hide/Show the StoryEditor, and have the Piccolo camera show only the 
-    StoryMap when the StoryEditor is shown. Will the cards be big enough to read
-    the instruction text? Or should the instruction text show up in the
-    StoryEditor?
-
-*   Build as an executable jar file and as an applet, then you can get people
-    testing it.
-    NetBeans already builds it as a jar file, but it can't find any of the
-    images or other data files. No idea how to build as an applet.
-
 *   Swing file selector dialogs for save and restore.
 
 *   Implement text export of story documents. Do this by adding toString()
     methods to all the memento objects.
 
-*   Get the toolbar looking right. Icons should be flush left, and there should
-    be Help and About buttons.
-
-*   Allow the user to give their story a title, add a JTextField labelled Title
-    into the StoryEditor, and have the JTextField itself be stored with the
-    StoryMap (and its memento).
+*   Help and About buttons on toolbar.
 
 *   StoryEditor should focus a card when the card is double-clicked (zoomed in 
     on).
