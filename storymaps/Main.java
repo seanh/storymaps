@@ -26,7 +26,7 @@ public class Main implements Receiver, Originator {
     /**
      * The Swing frame's conentPane.
      */
-    private Container contentPane;    
+    private Container contentPane;
     
     /**
      * The Piccolo canvas, where all the Piccolo action happens.
@@ -85,19 +85,17 @@ public class Main implements Receiver, Originator {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 
         contentPane = frame.getContentPane();
-        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
+        contentPane.setLayout(new BorderLayout());
         
         makeToolBar();
 
         editor = new StoryEditor();
-        editor.getComponent().setPreferredSize(new Dimension(1024,200));
 
         canvas = new PCanvas();
-        canvas.setPreferredSize(new Dimension(1024,568));
-        //canvas.setMinimumSize(new Dimension(800,600));
+        canvas.setPreferredSize(new Dimension(1024,768));
         canvas.setBackground(Color.DARK_GRAY);
         canvas.setFocusable(false); // Never get the keyboard focus.                        
-        contentPane.add(canvas);
+        contentPane.add(canvas,BorderLayout.CENTER);
         
         canvas.addComponentListener(new ComponentListener() 
         {  
@@ -119,7 +117,7 @@ public class Main implements Receiver, Originator {
             }
         });
                 
-        contentPane.add(editor.getComponent());
+        contentPane.add(editor.getComponent(),BorderLayout.SOUTH);
                 
         frame.pack();
         frame.setVisible(true);
@@ -182,7 +180,7 @@ public class Main implements Receiver, Originator {
             }
         });
         
-        contentPane.add(toolBar);    
+        contentPane.add(toolBar,BorderLayout.NORTH);    
     }    
     
     /**

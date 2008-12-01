@@ -1,8 +1,13 @@
 package storymaps;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -13,14 +18,72 @@ import javax.swing.JScrollPane;
  */
 public class StoryEditor {
 
-    private JPanel panel;
-    private JScrollPane scrollPane;
-    private ArrayList<FunctionEditor> editors = new ArrayList<FunctionEditor>();
+    /**
+     * The top-level panel of the StoryEditor, to which the button and document
+     * panels are added.
+     */
+    private JPanel top_panel;
     
+    /**
+     * Button that collapses/uncollapses the story editor.
+     */
+    private JButton collapse_button;
+    
+    /**
+     * Whether or not the story editor is collapsed.
+     */
+    private boolean collapsed = true;
+    
+    /**
+     * The document panel contains the FunctionEditors for each function in the
+     * story. FunctionEditors are dynamically added and removed as the story map
+     * is changed.
+     */
+    private JPanel document_panel;
+    
+    /**
+     * ScrollPane that contains the document panel.
+     */
+    private JScrollPane scrollPane;
+    
+    /**
+     * The FunctionEditors currently on the document panel.
+     */
+    private ArrayList<FunctionEditor> editors = new ArrayList<FunctionEditor>();
+        
     public StoryEditor() {    
-        panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        scrollPane = new JScrollPane(panel);
+        top_panel = new JPanel();
+        top_panel.setLayout(new BorderLayout());
+                
+        document_panel = new JPanel();
+        document_panel.setLayout(new BoxLayout(document_panel, BoxLayout.PAGE_AXIS));                        
+        
+        scrollPane = new JScrollPane(document_panel);        
+        top_panel.add(scrollPane,BorderLayout.CENTER);
+        scrollPane.setVisible(false);// The document panel starts off collapsed.
+        
+        collapse_button = new JButton("Click here to write your story...");
+        collapse_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                collapse();
+            }
+        });
+        top_panel.add(collapse_button,BorderLayout.SOUTH);        
+        top_panel.setPreferredSize(new Dimension(1024,25));
+    }
+    
+    private void collapse() {
+        if (collapsed) {
+            top_panel.setPreferredSize(new Dimension(1024,384));
+            scrollPane.setVisible(true);
+            collapse_button.setText("Hide story");
+        } else {
+            top_panel.setPreferredSize(new Dimension(1024,25));
+            scrollPane.setVisible(false);
+            collapse_button.setText("Click here to write your story...");
+        }
+        collapsed = !collapsed;
+        top_panel.getParent().validate();
     }
 
     /**
@@ -29,14 +92,14 @@ public class StoryEditor {
     public void update(ArrayList<StoryCard> new_cards) {
         // Remove all the FunctionEditors from the panel, then add the new ones.
         ArrayList<FunctionEditor> new_editors = new ArrayList<FunctionEditor>();        
-        panel.removeAll();        
+        document_panel.removeAll();        
         for (StoryCard s : new_cards) {
             FunctionEditor e = s.getEditor();
             new_editors.add(e);
-            panel.add(e.getComponent());
+            document_panel.add(e.getComponent());
         }
-        panel.invalidate();
-        panel.doLayout();
+        document_panel.invalidate();
+        document_panel.doLayout();
         
         // Find the first new FunctionEditor that has just been added, and focus
         // it.
@@ -56,7 +119,7 @@ public class StoryEditor {
      * should be added to a contentPane to add this StoryEditor to a JFrame.
      */
     public JComponent getComponent() {
-        return scrollPane;
+        return top_panel;
     }
     
     /**
@@ -76,7 +139,7 @@ public class StoryEditor {
     private void focus(FunctionEditor f) {
         JComponent jc = f.getComponent();
         Rectangle r = jc.getBounds();
-        panel.scrollRectToVisible(r);
+        document_panel.scrollRectToVisible(r);
         f.focus();        
     }
 }
