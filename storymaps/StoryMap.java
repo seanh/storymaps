@@ -269,8 +269,10 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
     }    
 
     private static class Memento implements Serializable {
+        public String title;
         public ArrayList<Object> placeholder_mementos;
-        public Memento(ArrayList<Object> placeholder_mementos) {
+        public Memento(String title, ArrayList<Object> placeholder_mementos) {
+            this.title = title;
             this.placeholder_mementos = placeholder_mementos;
         }
     }    
@@ -283,7 +285,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         for (Placeholder p : placeholders) {
             placeholder_mementos.add(p.saveToMemento());
         }
-        return new Memento(placeholder_mementos);
+        return new Memento(editor.getTitle(),placeholder_mementos);
     }                          
 
     /** 
@@ -328,6 +330,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             }
             // Update the StoryEditor.
             editor.update(getStoryCards());
+            editor.setTitle(m.title);
         }
     }
 }

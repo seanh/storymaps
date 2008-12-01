@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -47,6 +48,11 @@ public class StoryEditor {
     private JScrollPane scrollPane;
     
     /**
+     * The title of the story.
+     */
+    private JTextField title = new JTextField("Enter your story's title here.");
+    
+    /**
      * The FunctionEditors currently on the document panel.
      */
     private ArrayList<FunctionEditor> editors = new ArrayList<FunctionEditor>();
@@ -57,6 +63,9 @@ public class StoryEditor {
                 
         document_panel = new JPanel();
         document_panel.setLayout(new BoxLayout(document_panel, BoxLayout.PAGE_AXIS));                        
+
+        title.setVisible(false);
+        top_panel.add(title,BorderLayout.NORTH);
         
         scrollPane = new JScrollPane(document_panel);        
         top_panel.add(scrollPane,BorderLayout.CENTER);
@@ -76,7 +85,8 @@ public class StoryEditor {
         if (collapsed) {
             collapsed = false;
             top_panel.setPreferredSize(new Dimension(1024,384));
-            scrollPane.setVisible(true);
+            title.setVisible(true);
+            scrollPane.setVisible(true);            
             collapse_button.setText("Hide story");
             top_panel.getParent().validate();
             top_panel.getParent().repaint();
@@ -84,6 +94,7 @@ public class StoryEditor {
         } else {
             collapsed = true;
             top_panel.setPreferredSize(new Dimension(1024,25));
+            title.setVisible(false);
             scrollPane.setVisible(false);
             collapse_button.setText("Click here to write your story...");
             top_panel.getParent().validate();
@@ -151,5 +162,13 @@ public class StoryEditor {
     
     public boolean getCollapsed() {
         return collapsed;
+    }
+    
+    public String getTitle() {
+        return title.getText();
+    }
+    
+    public void setTitle(String title) {
+        this.title.setText(title);
     }
 }
