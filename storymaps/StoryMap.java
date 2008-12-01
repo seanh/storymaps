@@ -28,6 +28,10 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         
         Messager.getMessager().accept("StoryCard single-clicked", this, null);
     }
+    
+    public StoryEditor getEditor() {
+        return editor;
+    }
 
     /**
      * Return the distance between two points.

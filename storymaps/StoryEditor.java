@@ -74,16 +74,22 @@ public class StoryEditor {
     
     private void collapse() {
         if (collapsed) {
+            collapsed = false;
             top_panel.setPreferredSize(new Dimension(1024,384));
             scrollPane.setVisible(true);
             collapse_button.setText("Hide story");
+            top_panel.getParent().validate();
+            top_panel.getParent().repaint();
+            Messager.getMessager().send("Editor uncollapsed", this);
         } else {
+            collapsed = true;
             top_panel.setPreferredSize(new Dimension(1024,25));
             scrollPane.setVisible(false);
             collapse_button.setText("Click here to write your story...");
+            top_panel.getParent().validate();
+            top_panel.getParent().repaint();
+            Messager.getMessager().send("Editor collapsed", this);
         }
-        collapsed = !collapsed;
-        top_panel.getParent().validate();
     }
 
     /**
@@ -98,7 +104,7 @@ public class StoryEditor {
             new_editors.add(e);
             document_panel.add(e.getComponent());
         }
-        document_panel.invalidate();
+        document_panel.validate();
         document_panel.doLayout();
         
         // Find the first new FunctionEditor that has just been added, and focus
@@ -141,5 +147,9 @@ public class StoryEditor {
         Rectangle r = jc.getBounds();
         document_panel.scrollRectToVisible(r);
         f.focus();        
+    }
+    
+    public boolean getCollapsed() {
+        return collapsed;
     }
 }

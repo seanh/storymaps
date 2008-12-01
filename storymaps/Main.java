@@ -74,6 +74,8 @@ public class Main implements Receiver, Originator {
      */
     public Main() {
         makeFrame();
+        Messager.getMessager().accept("Editor uncollapsed",this,null);
+        Messager.getMessager().accept("Editor collapsed",this,null);
     }
     
     /**
@@ -206,12 +208,7 @@ public class Main implements Receiver, Originator {
             @Override
             public void mousePressed(PInputEvent event) {
                 if (event.getButton() == 3) {
-                    StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
-                    if (prev != null) {
-                        prev.goToLowDetail();
-                    }
-                    target = home;
-                    repositionCamera(750);
+                    zoomToHome();
                 }
             }
         });
@@ -224,6 +221,19 @@ public class Main implements Receiver, Originator {
         canvas.getCamera().addChild(help_text.getNode());
         help_text.getNode().setOffset(1024/2f,768/2f);
         help_text.show("Welcome to the Story Maps application!\nLeft-click to drag,\ndouble-click to zoom in,\nright-click to zoom out.");        
+    }
+
+    private void zoomToHome() {
+        StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
+        if (prev != null) {
+            prev.goToLowDetail();
+        }
+        if (map.getEditor().getCollapsed()) {
+            target = home;
+        } else {
+            target = map.getNode();
+        }
+        repositionCamera(750);
     }
     
     /**
@@ -239,6 +249,10 @@ public class Main implements Receiver, Originator {
            }
            target = node;
            repositionCamera(750);
+        } else if (name.equals("Editor uncollapsed")) {
+            zoomToHome();
+        } else if (name.equals("Editor collapsed")) {
+            zoomToHome();
         }
     }    
     
