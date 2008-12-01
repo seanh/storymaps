@@ -45,8 +45,8 @@ public class StoryCard extends StoryCardBase {
                     // If the StoryCard is double-clicked with the left mouse
                     // button send the "StoryCard double-clicked" message.
                     Messager m = Messager.getMessager();
-                    m.send("StoryCard double-clicked", StoryCard.this);                
-                    vnode.addChild(description_node);
+                    m.send("StoryCard double-clicked", StoryCard.this);
+                    goToHighDetail();
                     event.setHandled(true);
                 } else if (event.getButton() == 1 && event.getClickCount() == 1) {
                     // If the StoryCard is single-clicked with the left mouse
@@ -66,7 +66,7 @@ public class StoryCard extends StoryCardBase {
         }              
         
     }
-    
+        
     public void attach(DragDropObserver o) {
         draggable.attach(o);
     }

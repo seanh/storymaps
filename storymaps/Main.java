@@ -204,11 +204,14 @@ public class Main implements Receiver, Originator {
         target = home;
         repositionCamera();
         
-        // Make middle mouse button return camera to home position.
         canvas.getCamera().addInputEventListener(new PBasicInputEventHandler() { 		                    
             @Override
             public void mousePressed(PInputEvent event) {
                 if (event.getButton() == 3) {
+                    StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
+                    if (prev != null) {
+                        prev.goToLowDetail();
+                    }
                     target = home;
                     repositionCamera(750);
                 }
@@ -232,6 +235,10 @@ public class Main implements Receiver, Originator {
         if (name.equals("StoryCard double-clicked")) {
            StoryCardBase card = (StoryCardBase) sender_arg;
            PNode node = card.getNode();
+           StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
+           if (prev != null) {
+              prev.goToLowDetail();
+           }
            target = node;
            repositionCamera(750);
         }

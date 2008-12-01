@@ -26,7 +26,7 @@ public class DisabledStoryCard extends StoryCardBase {
                     // button send the "StoryCard double-clicked" message.
                     Messager m = Messager.getMessager();
                     m.send("StoryCard double-clicked", DisabledStoryCard.this);                
-                    vnode.addChild(description_node);
+                    goToHighDetail();
                     event.setHandled(true);
                 }
             }

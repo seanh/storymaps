@@ -12,7 +12,8 @@
   <row>
 	<field name="symbol">1</field>
 	<field name="propp name">Absence</field>
-	<field name="friendly name">Someone Leaves</field>
+	<field name="friendly name">Someone
+Leaves</field>
 	<field name="description">The absence of a character or characters (the absent guardian(s)) is created</field>
 	<field name="friendly description">Parents or elders leave home because of: work, travel, business, war, death or another reason.</field>
   </row>
