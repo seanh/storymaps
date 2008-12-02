@@ -7,10 +7,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -71,6 +68,11 @@ public class Main implements Receiver, Originator {
      * The PNode that the PCamera is currently focused on.
      */
     private PNode target;
+    
+    /**
+     * Swing file chooser dialog used for saving and restoring to and from file.
+     */
+    final JFileChooser fc = new JFileChooser();    
     
     /**
      * Construct and start the application.
@@ -305,18 +307,27 @@ public class Main implements Receiver, Originator {
     /**
      * This method is called when the Open button is pressed.
      */
-    private void open() {        
-        //Memento m = (Memento) caretaker.getMemento();
-        //restoreFromMemento(m);
-        restoreFromMemento(caretaker.readMemento());
+    private void open() {                
+        int returnVal = fc.showOpenDialog(frame);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            restoreFromMemento(caretaker.readMemento(fc.getSelectedFile()));
+        } else {
+            // Open command cancelled by user.
+        }                
     }
 
     /**
      * This method is called when the Save button is pressed.
      */
-    private void save() {
-        //caretaker.addMemento(saveToMemento());
-        caretaker.writeMemento(saveToMemento());
+    private void save() {        
+        int returnVal = fc.showSaveDialog(frame);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            caretaker.writeMemento(saveToMemento(),fc.getSelectedFile());
+        } else {
+            // Open command cancelled by user.
+        }                
+        
+
     }
 
     /**

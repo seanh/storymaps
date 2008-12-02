@@ -48,10 +48,9 @@ public class Caretaker {
     /**
      * Write a memento object to a file.
      */
-    public void writeMemento(Object m) {
+    public void writeMemento(Object m, File f) {
         m = (Serializable) m;
         System.out.println("Writing");
-        File f = new File("src/storymaps/saved_stories/story");
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
             oos.writeObject(m);
@@ -65,8 +64,7 @@ public class Caretaker {
      * Return a memento object read in from a file.
      * @return
      */
-    public Object readMemento() {
-        File f = new File("src/storymaps/saved_stories/story");
+    public Object readMemento(File f) {
         Object copy = null;
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
