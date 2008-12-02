@@ -39,12 +39,7 @@ public abstract class StoryCardBase {
         title_node.setScale(2.3);
         vnode.addChild(title_node);
 
-        InputStream imagefile = this.getClass().getResourceAsStream(function.getImage());
-        Image image = null;
-        try {
-            image = ImageIO.read(imagefile);
-        } catch (IOException e) { }
-        image_node = new PImage(image);
+        image_node = new PImage(function.getImage());
         image_node.setScale(1.6);
         vnode.addChild(image_node);
         

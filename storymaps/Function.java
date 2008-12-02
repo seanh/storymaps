@@ -1,5 +1,6 @@
 package storymaps;
 
+import java.awt.Image;
 import java.io.Serializable;
 
 /**
@@ -15,17 +16,19 @@ public class Function {
     private String friendly_name;
     private String description;
     private String friendly_description;
-    private String image;
+    private String image_path;
+    private Image image;
     
     public Function(String symbol, String propp_name, String friendly_name,
                     String description, String friendly_description,
-                    String image) {
+                    String image_path) {
         this.symbol = symbol;
         this.propp_name = propp_name;
         this.friendly_name = friendly_name;
         this.description = description;
         this.friendly_description = friendly_description;
-        this.image = image;
+        this.image_path = image_path;
+        this.image = ResourceLoader.loadImage(image_path);
     }
     
     public String getSymbol() { return symbol; }
@@ -33,7 +36,8 @@ public class Function {
     public String getFriendlyName() { return friendly_name; }
     public String getDescription() { return description; }
     public String getFriendlyDescription() { return friendly_description; }
-    public String getImage() { return image; }
+    public Image getImage() { return image; }
+    public String getImagePath() { return image_path; }
     
     @Override
     public String toString() {
@@ -61,7 +65,7 @@ public class Function {
         public String friendly_name;
         public String description;
         public String friendly_description;
-        public String image;
+        public String image_path;
 
         public Memento(Function f) {
             this.symbol = f.getSymbol();
@@ -69,7 +73,7 @@ public class Function {
             this.friendly_name = f.getFriendlyName();
             this.description = f.getDescription();
             this.friendly_description = f.getFriendlyDescription();
-            this.image = f.getImage();
+            this.image_path = f.getImagePath();
         }
     }     
   
@@ -88,7 +92,7 @@ public class Function {
         else {
             Memento m = (Memento) o;
             Function f = new Function(m.symbol, m.propp_name, m.friendly_name,
-                    m.description, m.friendly_description, m.image);
+                    m.description, m.friendly_description, m.image_path);
             return f;
         }
     }

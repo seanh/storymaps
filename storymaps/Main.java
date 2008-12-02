@@ -130,15 +130,6 @@ public class Main implements Receiver, Originator {
                 
         initializePCanvas();                
     }
-
-    private ImageIcon loadImage(String path) {
-        InputStream imagefile = this.getClass().getResourceAsStream(path);
-        Image image = null;
-        try {
-            image = ImageIO.read(imagefile);
-        } catch (IOException e) { }        
-        return new ImageIcon(image);        
-    }
     
     /**
      * Construct the application's toolbar, with buttons for controlling the
@@ -150,7 +141,7 @@ public class Main implements Receiver, Originator {
         toolBar.setRollover(true);
                 
 
-        ImageIcon newIcon = loadImage("/storymaps/data/document-open.png");
+        ImageIcon newIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-open.png");
         JButton newButton = new JButton("New",newIcon);
         newButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         newButton.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -161,7 +152,7 @@ public class Main implements Receiver, Originator {
             }
         });
         
-        ImageIcon openIcon  = loadImage("/storymaps/data/document-open.png");
+        ImageIcon openIcon  = ResourceLoader.loadImageIcon("/storymaps/data/document-open.png");
         JButton openButton = new JButton("Open",openIcon);
         openButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         openButton.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -172,7 +163,7 @@ public class Main implements Receiver, Originator {
             }
         });
         
-        ImageIcon saveIcon = loadImage("/storymaps/data/document-save.png");
+        ImageIcon saveIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-save.png");
         JButton saveButton = new JButton("Save",saveIcon);
         saveButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         saveButton.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -185,7 +176,7 @@ public class Main implements Receiver, Originator {
         
         toolBar.addSeparator();
         
-        ImageIcon printIcon = loadImage("/storymaps/data/document-print.png");
+        ImageIcon printIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-print.png");
         JButton printButton = new JButton("Print",printIcon);
         printButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         printButton.setHorizontalTextPosition(AbstractButton.CENTER);
