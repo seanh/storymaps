@@ -19,6 +19,18 @@ public class ResourceLoader {
     
     // Prevent instantiation from outside of the class.
     private ResourceLoader() {}
+
+    public static String loadString(String path) {
+        InputStream textfile = instance.getClass().getResourceAsStream(path);
+        StringBuffer out = new StringBuffer();
+        byte[] b = new byte[4096];
+        try {
+            for (int n; (n = textfile.read(b)) != -1;) {
+                out.append(new String(b, 0, n));
+            }
+        } catch (IOException e) { System.out.println(e); }
+        return out.toString();
+    }
     
     public static PImage loadPImage(String path) {
         return new PImage(loadImage(path));
@@ -33,7 +45,7 @@ public class ResourceLoader {
         Image image = null;
         try {
             image = ImageIO.read(imagefile);
-        } catch (IOException e) { }        
+        } catch (IOException e) { System.out.println(e); }        
         return new ImageIcon(image);        
     }    
     

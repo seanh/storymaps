@@ -74,6 +74,9 @@ public class Main implements Receiver, Originator {
      */
     final JFileChooser fc = new JFileChooser();    
     
+    ImageIcon aboutIcon;
+    ImageIcon helpIcon;
+    
     /**
      * Construct and start the application.
      */
@@ -143,7 +146,7 @@ public class Main implements Receiver, Originator {
         toolBar.setRollover(true);
                 
 
-        ImageIcon newIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-open.png");
+        /*ImageIcon newIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-new.png");
         JButton newButton = new JButton("New",newIcon);
         newButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         newButton.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -152,7 +155,7 @@ public class Main implements Receiver, Originator {
             public void actionPerformed(ActionEvent e) {
                 newStory();
             }
-        });
+        });*/
         
         ImageIcon openIcon  = ResourceLoader.loadImageIcon("/storymaps/data/document-open.png");
         JButton openButton = new JButton("Open",openIcon);
@@ -188,6 +191,28 @@ public class Main implements Receiver, Originator {
                 print();
             }
         });
+
+        helpIcon = ResourceLoader.loadImageIcon("/storymaps/data/help-browser.png");
+        JButton helpButton = new JButton("Help",helpIcon);
+        helpButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        helpButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        toolBar.add(helpButton);
+        helpButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                help();
+            }
+        });        
+
+        aboutIcon = ResourceLoader.loadImageIcon("/storymaps/data/emblem-favorite.png");
+        JButton aboutButton = new JButton("About",aboutIcon);
+        aboutButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        aboutButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        toolBar.add(aboutButton);
+        aboutButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                about();
+            }
+        });        
         
         contentPane.add(toolBar,BorderLayout.NORTH);    
     }    
@@ -336,17 +361,31 @@ public class Main implements Receiver, Originator {
     private void print() {
         
     }
+    
+    /**
+     * This method is called when the Help button is pressed, shows the Help
+     * dialog.
+     */
+     private void help() {
+        JOptionPane.showMessageDialog(frame,                
+                ResourceLoader.loadString("/HELP"),
+                "Help",
+                JOptionPane.INFORMATION_MESSAGE,
+                helpIcon);         
+     }    
+    
     /**
      * This method is called when the About button is pressed. Shows the About
      * dialog.
      */    
-    private void showAbout() {
-        JOptionPane.showMessageDialog(frame,
-                "StoryMaps",
+    private void about() {    
+        JOptionPane.showMessageDialog(frame,                
+                ResourceLoader.loadString("/README"),
                 "About StoryMaps",
-                JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE,
+                aboutIcon);        
     }
-
+    
         // Implement the Originator interface.
     
     /**

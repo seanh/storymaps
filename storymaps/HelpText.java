@@ -16,7 +16,7 @@ public class HelpText {
     PText text = new PText();
     
     public HelpText() {
-        background.setPaint(Color.DARK_GRAY);
+        background.setPaint(Color.ORANGE);
         background.setTransparency(0);
         background.setOffset(100,200);
         background.setPickable(false);
@@ -35,7 +35,7 @@ public class HelpText {
     }
     
     public void show(String text) {
-        show(text,5000);
+        show(text,8000);
     }
         
     public void show(String text, long duration) {
@@ -54,11 +54,11 @@ public class HelpText {
                 }
                 if (timeTaken < 1000) {
                     // fading in
-                    float alpha = ((float)timeTaken/1000f)*0.7f;
+                    float alpha = ((float)timeTaken/1000f)*0.9f;
                     background.setTransparency(alpha);
                 } else if (timeToGo < 1000) {
                     // fading out
-                    float alpha = ((float)timeToGo/1000f)*0.7f;
+                    float alpha = ((float)timeToGo/1000f)*0.9f;
                     background.setTransparency(alpha);
                 } else {
                     // in- between
