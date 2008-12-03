@@ -2,11 +2,16 @@ Story Maps is a prototype story writing tool for children, that I
 created as a research tool for my PhD. It is based on ideas from
 _The Morphology of the Folktale_ by Vladimir Propp and _The Grammar
 of Fantasy_ by Gianni Rodari. For more info see the publications on
-my website. 
+my website.
+
+You can download the source from github, but the easiest way to try
+out the application is by launching it directly from its web page: 
+
+    http://homepages.inf.ed.ac.uk/s0094060/webstart/
 
 Sean Hammond  
-Email: <S.P.Hammond@sms.ed.ac.uk>   
-Website: <http://homepages.inf.ed.ac.uk/s0094060/>
+Email:    S.P.Hammond@sms.ed.ac.uk
+Website:  http://homepages.inf.ed.ac.uk/s0094060/
 
 # Copyrights
 
