@@ -2,7 +2,6 @@ package storymaps;
 
 import java.util.ArrayList;
 import java.io.*;
-import java.util.zip.*;
 
 /**
  * Only one Caretaker object is constructed, by Main (although I haven't
