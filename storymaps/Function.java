@@ -79,7 +79,7 @@ public class Function {
         public String toString() {
             String string = "<div class=\"function\">\n";
             string += "<p>" + symbol + "\n" + friendly_name + "\n" + friendly_description + "</p>\n";
-            string += "<img src=" + image_path + "</img>\n";
+            string += "<img alt='"+friendly_name+"' src='"+image_path+"'/>\n";
             string += "</div><!--function-->\n";
             return string;
         }
