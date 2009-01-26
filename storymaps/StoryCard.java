@@ -2,13 +2,8 @@ package storymaps;
 import DragAndDrop.DragDropObserver;
 import DragAndDrop.Draggable;
 import DragAndDrop.NodeAlreadyDraggableException;
-import java.awt.Color;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 import java.io.Serializable;
 
 public class StoryCard extends StoryCardBase {
