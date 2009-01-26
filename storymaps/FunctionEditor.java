@@ -1,8 +1,6 @@
 package storymaps;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.io.Serializable;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -71,12 +69,20 @@ public class FunctionEditor {
         }        
     }    
 
-    private static class Memento implements Serializable {
+    private static class Memento {
         public Object function_memento;
         public String text;
         public Memento(Object function_memento, String text) {
             this.function_memento = function_memento;
             this.text = text;
+        }
+        @Override
+        public String toString() {
+            String string = "<div class='FunctionEditor'>\n";
+            string += this.function_memento.toString();
+            string += "<div class='user_text'>" + this.text + "</div><!--user_text-->\n";
+            string += "</div><!--FunctionEditor-->\n";
+            return string;
         }
     }    
     

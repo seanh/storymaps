@@ -7,7 +7,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.Serializable;
 import javax.swing.*;
 
 /**
@@ -391,12 +390,18 @@ public class Main implements Receiver, Originator {
     /**
      * A Memento object holds a saved state of the application.
      */
-    private static class Memento implements Serializable {
+    private static class Memento {
         public Object storycards_memento;
         public Object storymap_memento;
         public Memento(Object storycards_memento, Object storymap_memento) {
             this.storycards_memento = storycards_memento;
             this.storymap_memento = storymap_memento;
+        }
+        @Override
+        public String toString() {
+            String string = this.storymap_memento.toString();
+            string += this.storycards_memento.toString();
+            return string;
         }
     }
         

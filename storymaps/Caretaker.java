@@ -45,18 +45,35 @@ public class Caretaker {
     }
     
     /**
-     * Write a memento object to a file.
+     * Write a memento object to a file. Write a valid XHTML file (assuming the
+     * toString() method of the memento object produces a valid snippet of
+     * XHTML).
      */
-    public void writeMemento(Object m, File f) {
-        m = (Serializable) m;
-        System.out.println("Writing");
+    public void writeMemento(Object m, File f)
+    {
+        // First the XHTML 1.0 Strict header.
+        String string = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n";
+        string += "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n";
+        string += "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+        string += "<head>\n";
+        //FIXME: Where should the page title come from?
+        string += "<title>Conforming XHTML 1.0 Strict Template</title>\n";
+        string += "</head>\n";
+        string += "<body>\n";
+
+        // Now append the XHTML from the memento.
+        string += m.toString();
+        
+        // And finally append an XHTML footer.
+        string += "</body>\n";
+        string += "</html>";
+                        
+        // Then write the string to file.
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
-            oos.writeObject(m);
-            oos.close();
-        } catch (IOException e) {
-            System.out.println("IOException when saving to file!\n"+e);
-        }    
+            PrintWriter out = new PrintWriter(new FileWriter(f));
+            out.print(string);
+            out.close();
+        } catch (IOException e) { /* Handle exceptions */ }                        
     }
     
     /**

@@ -44,24 +44,39 @@ public class Placeholder {
         storycard = null;
         taken = false;
     }
+
+    private static class Memento {
+        public Object storycard_memento;
+        public Memento(Object storycard_memento) {
+            this.storycard_memento = storycard_memento;
+        }
+        @Override
+        public String toString() {
+            String string = "<div class='placeholder'>\n";
+            if (storycard_memento != null) {
+                string += storycard_memento.toString();
+            }
+            string += "</div><!--placeholder-->\n";
+            return string;
+        }        
+    }      
     
     public Object saveToMemento() {
-        // The only state a Placeholder needs to save is the StoryCard (or null)
-        // that it's holding, so instead of a Placeholder.Memento class we just
-        // use a StoryCard.Memento, or null.
         if (storycard == null) {
-            return null;
+            return new Memento(null);
         } else {
-            return storycard.saveToMemento();
+            return new Memento(storycard.saveToMemento());
         }
     }
     
     public static Placeholder newFromMemento(Object o) {
-        Placeholder p = new Placeholder();
-        if (o == null) {
-            return p;
-        } else {
-            StoryCard s = StoryCard.newFromMemento(o);            
+        if (!(o instanceof Memento)) {
+            throw new IllegalArgumentException("Argument not instanceof Memento.");
+        }
+        else {
+            Memento m = (Memento) o;
+            Placeholder p = new Placeholder();
+            StoryCard s = StoryCard.newFromMemento(m.storycard_memento);
             p.setStoryCard(s);
             return p;
         }

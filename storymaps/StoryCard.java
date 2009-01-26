@@ -4,7 +4,6 @@ import DragAndDrop.Draggable;
 import DragAndDrop.NodeAlreadyDraggableException;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import java.io.Serializable;
 
 public class StoryCard extends StoryCardBase {
             
@@ -114,13 +113,21 @@ public class StoryCard extends StoryCardBase {
     
     // Implement the Originator interface.
 
-    private static class Memento implements Serializable {
+    private static class Memento {
         public Object function_memento;
         public Object editor_memento;
         public Memento(Object function_memento, Object editor_memento) {
             this.function_memento = function_memento;
             this.editor_memento = editor_memento;
         }
+        @Override
+        public String toString() {
+            String string = "<div class='StoryCard'>\n";
+            string += this.function_memento.toString();
+            string += this.editor_memento.toString();
+            string += "</div><!--StoryCard-->\n";
+            return string;
+        }        
     }    
     
     /** Return a memento object for the current state of this StoryCard. */

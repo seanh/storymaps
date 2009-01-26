@@ -2,7 +2,6 @@ package storymaps;
 
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import java.io.Serializable;
 
 /**
  *
@@ -56,12 +55,22 @@ public class DisabledStoryCard extends StoryCardBase {
         taken = false;
     }
     
-    private static class Memento implements Serializable {
+    private static class Memento {
         public Object function_memento;
         public Object storycard_memento;
         public Memento(Object function_memento, Object storycard_memento) {
             this.function_memento = function_memento;
             this.storycard_memento = storycard_memento;
+        }
+        @Override
+        public String toString() {
+            String string = "<div class='DisabledStoryCard'>\n";
+            string += function_memento.toString();
+            if (storycard_memento != null) {
+                string += storycard_memento.toString();
+            }
+            string += "</div><!--DisabledStoryCard-->\n";
+            return string;
         }
     }
     

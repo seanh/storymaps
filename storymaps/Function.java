@@ -1,7 +1,6 @@
 package storymaps;
 
 import java.awt.Image;
-import java.io.Serializable;
 
 /**
  * Just a passive class that holds information about a Propp function.
@@ -58,7 +57,7 @@ public class Function {
         }        
     }
 
-    private static class Memento implements Serializable {
+    private static class Memento {
 
         public String symbol;
         public String propp_name;
@@ -74,6 +73,15 @@ public class Function {
             this.description = f.getDescription();
             this.friendly_description = f.getFriendlyDescription();
             this.image_path = f.getImagePath();
+        }
+        
+        @Override
+        public String toString() {
+            String string = "<div class=\"function\">\n";
+            string += "<p>" + symbol + "\n" + friendly_name + "\n" + friendly_description + "</p>\n";
+            string += "<img src=" + image_path + "</img>\n";
+            string += "</div><!--function-->\n";
+            return string;
         }
     }     
   

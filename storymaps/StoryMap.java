@@ -3,7 +3,6 @@ package storymaps;
 import DragAndDrop.*;
 import edu.umd.cs.piccolo.PNode;
 import java.awt.geom.Point2D;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
@@ -268,13 +267,22 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         }
     }    
 
-    private static class Memento implements Serializable {
+    private static class Memento {
         public String title;
         public ArrayList<Object> placeholder_mementos;
         public Memento(String title, ArrayList<Object> placeholder_mementos) {
             this.title = title;
             this.placeholder_mementos = placeholder_mementos;
         }
+        @Override
+        public String toString() {
+            String string = "<div class='StoryMap'>\n";
+            for (Object m : this.placeholder_mementos) {
+                string += m.toString();
+            }
+            string += "</div><!--StoryMap-->\n";
+            return string;
+        }           
     }    
     
     /** Return a memento object for the current state of this StoryMap. */
