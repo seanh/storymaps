@@ -1,5 +1,6 @@
 package storymaps;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
@@ -32,9 +33,10 @@ public class FunctionEditor {
         ImageIcon icon = new ImageIcon(function.getImage(), "Illustation for function.");
         label = new JLabel(icon);
         panel.add(label);
-        textArea = new JTextArea(5,66);
+        textArea = new JTextArea(6,45);
+        textArea.setLineWrap(true);
         textArea.setText(text);
-        JScrollPane scrollPane = new JScrollPane(textArea);                    
+        JScrollPane scrollPane = new JScrollPane(textArea);
         panel.add(scrollPane);
     }
         
