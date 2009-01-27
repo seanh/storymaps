@@ -267,7 +267,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         }
     }    
 
-    private static class Memento {
+    public static class Memento {
         public String title;
         public ArrayList<Object> placeholder_mementos;
         public Memento(String title, ArrayList<Object> placeholder_mementos) {

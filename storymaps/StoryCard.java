@@ -113,7 +113,7 @@ public class StoryCard extends StoryCardBase {
     
     // Implement the Originator interface.
 
-    private static class Memento {
+    public static class Memento {
         public Object function_memento;
         public Object editor_memento;
         public Memento(Object function_memento, Object editor_memento) {

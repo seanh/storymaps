@@ -57,7 +57,7 @@ public class Function {
         }        
     }
 
-    private static class Memento {
+    public static class Memento {
 
         public String symbol;
         public String propp_name;

@@ -1,5 +1,6 @@
 package storymaps;
 
+import com.thoughtworks.xstream.XStream;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -22,7 +23,24 @@ public class Caretaker {
      * disk and read in again.
      */
     private ArrayList<Object> mementos = new ArrayList<Object>();    
-        
+
+    /**
+     * The XStream object that is used for serializing and deserializing memento
+     * objects to and from XML.
+     */
+    private XStream xstream = new XStream();
+    
+    public Caretaker() {
+        xstream.alias("Main",Main.Memento.class);
+        xstream.alias("CardStore",StoryCards.Memento.class);
+        xstream.alias("DisabledStoryCard",DisabledStoryCard.Memento.class);
+        xstream.alias("ProppFunction",Function.Memento.class);
+        xstream.alias("StoryCard", StoryCard.Memento.class);
+        xstream.alias("StoryMap", StoryMap.Memento.class);
+        xstream.alias("Placeholder", Placeholder.Memento.class);
+        xstream.alias("FunctionEditor", FunctionEditor.Memento.class);
+    }
+    
     /**
      * Add a new memento object to the runtime list of saved states.
      */
@@ -45,54 +63,70 @@ public class Caretaker {
     }
     
     /**
-     * Write a memento object to a file. Write a valid XHTML file (assuming the
-     * toString() method of the memento object produces a valid snippet of
-     * XHTML).
+     * Write a memento object to a file. Serializes the object to XML using
+     * XStream.
+     * 
      */
     public void writeMemento(Object m, File f)
     {
-        // First the XHTML 1.0 Strict header.
-        String string = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n";
-        string += "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n";
-        string += "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-        string += "<head>\n";
-        //FIXME: Where should the page title come from?
-        string += "<title>Conforming XHTML 1.0 Strict Template</title>\n";
-        string += "</head>\n";
-        string += "<body>\n";
-
-        // Now append the XHTML from the memento.
-        string += m.toString();
-        
-        // And finally append an XHTML footer.
-        string += "</body>\n";
-        string += "</html>";
-                        
-        // Then write the string to file.
+        // Use XStream to convert the given memento object to a string of XML.
+        String xml = xstream.toXML(m);
+        // Add an XML 1.0 declaration and stylesheet reference.
+        String head = "";
+        try {            
+            InputStream is = this.getClass().getResourceAsStream("/storymaps/data/stylesheet.xml");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line=br.readLine()) != null) {
+                head = head + line + '\n';
+            }
+            br.close();
+        } catch (IOException e) {
+            // Handle IOException
+        }
+        xml = head + xml + "</doc>";                
+        // Then write the string of XML to file.
         try {
             PrintWriter out = new PrintWriter(new FileWriter(f));
-            out.print(string);
+            out.print(xml);
             out.close();
         } catch (IOException e) { /* Handle exceptions */ }                        
     }
     
     /**
-     * Return a memento object read in from a file.
-     * @return
+     * Return a memento object read in from a file. Deserializises the object
+     * from XML using XStream.
+     * 
+     * This method is tightly coupled to the writeMemento method above and to
+     * the contents of the stylesheet.xml file read by writeMemento. It uses
+     * hardcoded strings to strip out the stylesheet stuff from the XML file
+     * and pass only the XML to XStream.
+     * 
+     * @return The deserialized memento object.
      */
     public Object readMemento(File f) {
-        Object copy = null;
+        String xml = "";
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
-            copy = ois.readObject();
-            ois.close();
-        } catch (ClassNotFoundException cnfe) {
-            System.out.println("ClassNotFoundException when reading from file!\n"+cnfe);
-        } catch (FileNotFoundException e) {
-            System.out.println("FileNotFoundException when reading from file!\n"+e);
+            BufferedReader in = new BufferedReader(new FileReader(f));            
+            String line;
+            boolean passed_stylesheet = false;
+            while ((line = in.readLine()) != null) {
+                if (passed_stylesheet) {
+                    if (line.equals("</doc>")) {
+                        continue;
+                    } else {
+                        xml = xml + line;
+                    }
+                } else if (line.equals("</xsl:stylesheet>")) {
+                    passed_stylesheet = true;                    
+                }
+            }
+            in.close();
         } catch (IOException e) {
-            System.out.println("IOException when reading from file!\n"+e);
+            // Handle IOException here.
         }
-        return copy;
+        Object memento = xstream.fromXML(xml);        
+        return memento;
     }
 }

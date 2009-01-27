@@ -55,7 +55,7 @@ public class DisabledStoryCard extends StoryCardBase {
         taken = false;
     }
     
-    private static class Memento {
+    public static class Memento {
         public Object function_memento;
         public Object storycard_memento;
         public Memento(Object function_memento, Object storycard_memento) {

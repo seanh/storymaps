@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xml" href="#stylesheet"?>
+<!DOCTYPE doc [
+<!ATTLIST xsl:stylesheet
+  id	ID	#REQUIRED>
+]>
+<doc>
+<xsl:stylesheet id="stylesheet"
+                version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <!-- any xsl:import elements -->
+  <xsl:template match="xsl:stylesheet" />
+  
+  <xsl:output method="html"/>
+
+  <xsl:template match="Main">    
+    <html>
+    <head>
+    <title><xsl:value-of select="storymap__memento/title"/></title>
+    <style type="text/css">
+body{
+    background:#fff;
+    color:#000;
+    font:2em/4em Arial, Helvetica, "Liberation sans", "Bitstream Vera Sans", sans-serif;
+    position:relative;
+}
+h1{
+	font-size:2em;
+	font-weight:700;
+	margin:0 0 0.75em;
+}
+h2{
+	font-size:1.5em;
+	margin:0 0 1em;
+}
+h3{
+	font-size:1.1666em;
+	margin:0 0 1.285em;
+}
+h4{
+	font-size:1em;
+	margin:0 0 1.5em;
+}
+h5{
+	font-size:0.8333em;
+	margin:0 0 1.8em;
+}
+h6{
+	font-size:0.666em;
+	margin:0 0 2.25em;
+}
+img{
+	display:inline-block;
+	vertical-align:bottom;
+}
+p{
+	font-weight:300;
+	margin:0 0 0.5em;
+}
+.notice{
+	background:#eef;
+	border:1px solid #00f;
+	margin:1.5em;
+	padding:0.666em;
+	text-align:center;
+}
+.amp{
+    font-family: Baskerville, "Goudy Old Style", Palatino, "Book Antiqua", "URW Chancery L", Gentium, serif;
+	font-style:italic;
+}    
+    </style>    
+    </head>
+    <body>
+    <xsl:apply-templates />
+    </body>
+    </html>
+  </xsl:template>
+  
+  <xsl:template match="storycards__memento">
+  </xsl:template>
+  
+  <xsl:template match="storymap__memento">
+    <xsl:apply-templates />
+  </xsl:template>
+  
+  <xsl:template match="title">
+    <h1 class="amp"><xsl:value-of select="." /></h1>
+  </xsl:template>
+
+  <xsl:template match="Placeholder">
+      <xsl:apply-templates />
+  </xsl:template>
+  
+  <xsl:template match="function__memento">
+  </xsl:template>
+  
+  <xsl:template match="storycard__memento">
+      <xsl:apply-templates />
+  </xsl:template>
+  
+  <xsl:template match="editor__memento">
+    <p class="amp"><xsl:value-of select="text" /></p>
+  </xsl:template>
+  
+</xsl:stylesheet>

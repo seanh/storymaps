@@ -169,7 +169,7 @@ public class StoryCards extends StoryBase implements DragDropObserver,
     
     // Implement the Originator interface.
     
-    private static class Memento {
+    public static class Memento {
         public ArrayList<Object> mementos;
         public Memento(ArrayList<Object> mementos) {
             this.mementos = mementos;

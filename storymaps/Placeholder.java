@@ -45,7 +45,7 @@ public class Placeholder {
         taken = false;
     }
 
-    private static class Memento {
+    public static class Memento {
         public Object storycard_memento;
         public Memento(Object storycard_memento) {
             this.storycard_memento = storycard_memento;
@@ -76,8 +76,10 @@ public class Placeholder {
         else {
             Memento m = (Memento) o;
             Placeholder p = new Placeholder();
-            StoryCard s = StoryCard.newFromMemento(m.storycard_memento);
-            p.setStoryCard(s);
+            if (m.storycard_memento != null) {
+                StoryCard s = StoryCard.newFromMemento(m.storycard_memento);
+                p.setStoryCard(s);
+            }                        
             return p;
         }
     }

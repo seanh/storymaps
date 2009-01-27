@@ -390,7 +390,7 @@ public class Main implements Receiver, Originator {
     /**
      * A Memento object holds a saved state of the application.
      */
-    private static class Memento {
+    public static class Memento {
         public Object storycards_memento;
         public Object storymap_memento;
         public Memento(Object storycards_memento, Object storymap_memento) {

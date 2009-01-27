@@ -25,20 +25,25 @@ license according to the [BSD Public License][3].
 [2]: http://code.google.com/p/piccolo2d/
 [3]: http://opensource.org/licenses/bsd-license.php
 
+StoryMaps also uses the Java library [XStream][4] which is released under the a
+BSD style license. See XStream-LICENSE.txt.
+
+[4]: http://xstream.codehaus.org/
+
 The rest of the code is copyright Sean Hammond, and is made
 available as free software under the [GNU General Public License][4]
 version 3 or later.
 
-[4]: http://www.gnu.org/licenses/gpl.txt
+[5]: http://www.gnu.org/licenses/gpl.txt
 
 The icons (for Open, Save, Print, Help, About, etc.) are from the
 [Tango Desktop Project][5] and are licensed under the [Creative
 Commons Attribution-Share Alike license][6].
 
-[5]: http://tango.freedesktop.org/
-[6]: http://creativecommons.org/licenses/by-sa/2.5/
+[6]: http://tango.freedesktop.org/
+[7]: http://creativecommons.org/licenses/by-sa/2.5/
 
 The images used on the story cards are derived from Tango icons and
 public domain images from the [Open Clipart Library][7].
 
-[7]: http://www.openclipart.org/
+[8]: http://www.openclipart.org/

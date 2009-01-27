@@ -69,7 +69,7 @@ public class FunctionEditor {
         }        
     }    
 
-    private static class Memento {
+    public static class Memento {
         public Object function_memento;
         public String text;
         public Memento(Object function_memento, String text) {
