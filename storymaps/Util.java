@@ -175,21 +175,8 @@ public class Util {
      * exception occurred while parsing the file.
      */
     private static org.w3c.dom.Document readDocumentRelative(String filename) {
-        try {
-            InputStream is = Util.class.getResourceAsStream(filename);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder parser = factory.newDocumentBuilder();
-            org.w3c.dom.Document document = parser.parse(is);
-            is.close();
-            return document;
-        } catch (ParserConfigurationException e) {
-            System.out.println(e);
-        } catch (SAXException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return null;        
+        String absolute_path = Util.class.getResource(filename).getPath();
+        return readDocumentAbsolute(absolute_path);
     }    
     
     /**
