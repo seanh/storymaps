@@ -21,7 +21,7 @@
 body{
     background:#fff;
     color:#000;
-    font:2em/4em Arial, Helvetica, "Liberation sans", "Bitstream Vera Sans", sans-serif;
+    font:1em/2em Arial, Helvetica, "Liberation sans", "Bitstream Vera Sans", sans-serif;
     position:relative;
 }
 h1{
@@ -92,6 +92,7 @@ p{
   </xsl:template>
   
   <xsl:template match="function__memento">
+    <p><xsl:value-of select="symbol"/>, <xsl:value-of select="propp__name"/></p>
   </xsl:template>
   
   <xsl:template match="storycard__memento">
