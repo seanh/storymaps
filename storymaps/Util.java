@@ -84,7 +84,7 @@ public class Util {
         } catch (IOException e) {
             System.out.println("IOException when reading stylesheet.xml" + e);
         }                
-        //xml = head + xml + "</doc>";
+        xml = head + xml + "\n</doc>";
         
         // Write the XML out to file.
         try {
@@ -97,6 +97,53 @@ public class Util {
     }
         
     /**
+     * Strip the XSLT stylesheet from the XML file at filename, saved the
+     * stripped XML to a temporary file and return the filename of the temp
+     * file.
+     * @param filename
+     * @return
+     */
+    private static String stripXSLT(String filename) {
+        
+        // Read the contents of the XML file into the string XML, skipping over
+        // the stylesheet stuff.
+        String xml = "";
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(filename));
+            String line;
+            boolean passed_stylesheet = false;
+            while ((line = in.readLine()) != null) {
+                if (passed_stylesheet) {
+                    if (line.equals("</doc>")) {
+                        continue;
+                    } else {
+                        xml = xml + "\n" + line;
+                    }
+                } else if (line.equals("</xsl:stylesheet>")) {
+                    passed_stylesheet = true;                    
+                }
+            }
+            in.close();
+        } catch (IOException e) {
+            System.out.println("IOException when reading "+filename+" "+e.toString());
+        }
+        
+        // Create a temporary file and write the XML to it.
+        File temp = null;
+        try {
+            // Then write the string of XML to file.
+            temp = File.createTempFile("StoryMaps_temp",".xml");
+            temp.deleteOnExit();
+            PrintWriter out = new PrintWriter(new FileWriter(temp));
+            out.print(xml);
+            out.close();
+        } catch (IOException e) {
+            System.out.println("IOException when writing to temp file "+e);
+        }
+        return temp.getAbsolutePath();
+    }
+    
+    /**
      * Return an org.w3c.dom.Document object parsed from a given XML file.
      * 
      * @param filename The absolute path to the XML file to parse.
@@ -107,6 +154,7 @@ public class Util {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder parser = factory.newDocumentBuilder();
+            filename = stripXSLT(filename);
             org.w3c.dom.Document document = parser.parse(filename);
             return document;
         } catch (ParserConfigurationException e) {
