@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -227,5 +229,14 @@ public class Util {
         DomReader domreader = new DomReader(document);            
         Object o = xstream.unmarshal(domreader);
         return o;
-    }        
+    }
+    
+    /**
+     * Return a string representing the current time.
+     */
+    public static String nowStr() {
+        DateFormat longTimeStamp =
+                DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.FULL);
+        return longTimeStamp.format(new Date());
+    }
 }
