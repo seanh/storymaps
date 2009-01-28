@@ -1,5 +1,6 @@
 /*
- * Some static utility methods. (Particularly for readin and writing XML files.)
+ * Some static utility methods. (Particularly for reading and writing XML
+ * files.)
  */
 
 package storymaps;
@@ -100,6 +101,7 @@ public class Util {
      * Strip the XSLT stylesheet from the XML file at filename, saved the
      * stripped XML to a temporary file and return the filename of the temp
      * file.
+     * 
      * @param filename
      * @return
      */
