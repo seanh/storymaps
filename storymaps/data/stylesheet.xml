@@ -11,8 +11,15 @@
   <!-- any xsl:import elements -->
   <xsl:template match="xsl:stylesheet" />
   
-  <xsl:output method="html"/>
-
+  <xsl:output
+      method="html"
+      version="4.01"
+      encoding="UTF-8"
+      indent="yes"
+      doctype-public="-//W3C//DTD HTML 4.01//EN"
+      doctype-system="http://www.w3.org/TR/html4/strict.dtd"
+      />
+        
   <xsl:template match="Main">    
     <html>
     <head>
