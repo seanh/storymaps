@@ -1,8 +1,6 @@
 package storymaps;
 
-import com.thoughtworks.xstream.XStream;
 import java.util.ArrayList;
-import java.io.*;
 
 /**
  * Only one Caretaker object is constructed, by Main (although I haven't
@@ -23,24 +21,7 @@ public class Caretaker {
      * disk and read in again.
      */
     private ArrayList<Object> mementos = new ArrayList<Object>();    
-
-    /**
-     * The XStream object that is used for serializing and deserializing memento
-     * objects to and from XML.
-     */
-    private XStream xstream = new XStream();
-    
-    public Caretaker() {
-        xstream.alias("Main",Main.Memento.class);
-        xstream.alias("CardStore",StoryCards.Memento.class);
-        xstream.alias("DisabledStoryCard",DisabledStoryCard.Memento.class);
-        xstream.alias("ProppFunction",Function.Memento.class);
-        xstream.alias("StoryCard", StoryCard.Memento.class);
-        xstream.alias("StoryMap", StoryMap.Memento.class);
-        xstream.alias("Placeholder", Placeholder.Memento.class);
-        xstream.alias("FunctionEditor", FunctionEditor.Memento.class);
-    }
-    
+        
     /**
      * Add a new memento object to the runtime list of saved states.
      */
@@ -67,66 +48,19 @@ public class Caretaker {
      * XStream.
      * 
      */
-    public void writeMemento(Object m, File f)
+    public void writeMemento(Object m, String filename)
     {
-        // Use XStream to convert the given memento object to a string of XML.
-        String xml = xstream.toXML(m);
-        // Add an XML 1.0 declaration and stylesheet reference.
-        String head = "";
-        try {            
-            InputStream is = this.getClass().getResourceAsStream("/storymaps/data/stylesheet.xml");
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String line;
-            while ((line=br.readLine()) != null) {
-                head = head + line + '\n';
-            }
-            br.close();
-        } catch (IOException e) {
-            // Handle IOException
-        }
-        xml = head + xml + "</doc>";                
-        // Then write the string of XML to file.
-        try {
-            PrintWriter out = new PrintWriter(new FileWriter(f));
-            out.print(xml);
-            out.close();
-        } catch (IOException e) { /* Handle exceptions */ }                        
+        Util.writeXML(m,filename);
     }
     
     /**
      * Return a memento object read in from a file. Deserializises the object
      * from XML using XStream.
      * 
-     * This method is tightly coupled to the writeMemento method above and to
-     * the contents of the stylesheet.xml file read by writeMemento. It uses
-     * hardcoded strings to strip out the stylesheet stuff from the XML file
-     * and pass only the XML to XStream.
-     * 
      * @return The deserialized memento object.
      */
-    public Object readMemento(File f) {
-        String xml = "";
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(f));            
-            String line;
-            boolean passed_stylesheet = false;
-            while ((line = in.readLine()) != null) {
-                if (passed_stylesheet) {
-                    if (line.equals("</doc>")) {
-                        continue;
-                    } else {
-                        xml = xml + line;
-                    }
-                } else if (line.equals("</xsl:stylesheet>")) {
-                    passed_stylesheet = true;                    
-                }
-            }
-            in.close();
-        } catch (IOException e) {
-            System.out.println("IOException when opening story file "+e.toString());
-        }
-        Object memento = xstream.fromXML(xml);        
+    public Object readMemento(String filename) {
+        Object memento = Util.readXMLAbsolute(filename);
         return memento;
     }
 }

@@ -334,7 +334,7 @@ public class Main implements Receiver, Originator {
     private void open() {                
         int returnVal = fc.showOpenDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            restoreFromMemento(caretaker.readMemento(fc.getSelectedFile()));
+            restoreFromMemento(caretaker.readMemento(fc.getSelectedFile().getAbsolutePath()));
         } else {
             // Open command cancelled by user.
         }                
@@ -346,7 +346,7 @@ public class Main implements Receiver, Originator {
     private void save() {        
         int returnVal = fc.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            caretaker.writeMemento(saveToMemento(),fc.getSelectedFile());
+            caretaker.writeMemento(saveToMemento(),fc.getSelectedFile().getAbsolutePath());
         } else {
             // Open command cancelled by user.
         }                
