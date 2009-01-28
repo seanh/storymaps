@@ -1,263 +1,262 @@
-<?xml version="1.0"?>
-
-<resultset statement="SELECT * FROM ProppFunctions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <row>
-	<field name="symbol">0</field>
-	<field name="propp name">Initial Situation</field>
-	<field name="friendly name">Home</field>
-	<field name="description">The initial situation</field>
-	<field name="friendly description">Family members or just the future hero are introduced with their names and situations.</field>
-  </row>
-
-  <row>
-	<field name="symbol">1</field>
-	<field name="propp name">Absence</field>
-	<field name="friendly name">Someone
-Leaves</field>
-	<field name="description">The absence of a character or characters (the absent guardian(s)) is created</field>
-	<field name="friendly description">Parents or elders leave home because of: work, travel, business, war, death or another reason.</field>
-  </row>
-
-  <row>
-	<field name="symbol">2</field>
-	<field name="propp name">Interdiction</field>
-	<field name="friendly name">Warning or
-Request</field>
-	<field name="description">An interdiction or injunction is given</field>
-	<field name="friendly description">The hero gets a warning not to do something or a request to do something.</field>
-  </row>
-
-  <row>
-	<field name="symbol">3</field>
-	<field name="propp name">Violation</field>
-	<field name="friendly name">Ignored</field>
-	<field name="description">An interdiction is violated or an injunction fulfilled</field>
-	<field name="friendly description">The hero ignores a warning or request that has been given to him.</field>
-  </row>
-
-  <row>
-	<field name="symbol">4</field>
-	<field name="propp name">Reconnaissance</field>
-	<field name="friendly name">Spying</field>
-	<field name="description">An attempt to obtain information is made</field>
-	<field name="friendly description">The villain spies or asks questions about the object or person he wants to get,</field>
-  </row>
-
-  <row>
-	<field name="symbol">5</field>
-	<field name="propp name">Delivery</field>
-	<field name="friendly name">Information</field>
-	<field name="description">Information is delivered</field>
-	<field name="friendly description">The villain gets the information he wants.</field>
-  </row>
-
-  <row>
-	<field name="symbol">6</field>
-	<field name="propp name">Fraud</field>
-	<field name="friendly name">Trick</field>
-	<field name="description">The villain attempts to deceive or coerce the victim</field>
-	<field name="friendly description">The villain puts on a disguise and plays a nasty trick on the hero or victim.</field>
-  </row>
-
-  <row>
-	<field name="symbol">7</field>
-	<field name="propp name">Complicity</field>
-	<field name="friendly name">Fooled</field>
-	<field name="description">The victim submits to deception or coercion</field>
-	<field name="friendly description">The hero falls for the villain's trick and helps the villain.</field>
-  </row>
-
-  <row>
-	<field name="symbol">8</field>
-	<field name="propp name">Villainy</field>
-	<field name="friendly name">Villainy</field>
-	<field name="description">The villain creates a misfortune or crisis</field>
-	<field name="friendly description">The villain steals an object, kidnaps a victim, or puts a spell on a victim.</field>
-  </row>
-
-  <row>
-	<field name="symbol">8.5</field>
-	<field name="propp name">Lack</field>
-	<field name="friendly name">Need or Want</field>
-	<field name="description">Something is lacking or desired</field>
-	<field name="friendly description">The hero or someone else needs or wants something.</field>
-  </row>
-
-  <row>
-	<field name="symbol">9</field>
-	<field name="propp name">Mediation</field>
-	<field name="friendly name">Help</field>
-	<field name="description">The misfortune or shortage is made known to the hero</field>
-	<field name="friendly description">The hero learns of the villainy, need or want from a call for help, a request, a command, a threat, or news.</field>
-  </row>
-
-  <row>
-	<field name="symbol">10</field>
-	<field name="propp name">Deciding Counteraction</field>
-	<field name="friendly name">Deciding</field>
-	<field name="description">The seeker hero agrees to or decides upon counteraction</field>
-	<field name="friendly description">The hero decides or agrees to go on a journey to search for it and bring it.</field>
-  </row>
-
-  <row>
-	<field name="symbol">11</field>
-	<field name="propp name">Departure</field>
-	<field name="friendly name">Leaving</field>
-	<field name="description">The hero leaves home</field>
-	<field name="friendly description">The hero leaves on a journey.</field>
-  </row>
-
-  <row>
-	<field name="symbol">12</field>
-	<field name="propp name">Test</field>
-	<field name="friendly name">Test</field>
-	<field name="description">The donor presents a test to the hero</field>
-	<field name="friendly description">The hero meets a magical person or animal and is tested for kindness, sympathy, willingness to help, or another test.</field>
-  </row>
-
-  <row>
-	<field name="symbol">13</field>
-	<field name="propp name">Reaction</field>
-	<field name="friendly name">Answer</field>
-	<field name="description">The hero reacts to the donor</field>
-	<field name="friendly description">The hero answers the test.</field>
-  </row>
-
-  <row>
-	<field name="symbol">14</field>
-	<field name="propp name">Receipt</field>
-	<field name="friendly name">Reward</field>
-	<field name="description">The hero receives the magical agent</field>
-	<field name="friendly description">The hero is rewarded with magical things.</field>
-  </row>
-
-  <row>
-	<field name="symbol">15</field>
-	<field name="propp name">Arrival</field>
-	<field name="friendly name">Arrival</field>
-	<field name="description">The hero arrives at the whereabouts of the object of search.</field>
-	<field name="friendly description">The hero arrives at his destination by magic, guidance, or normally.</field>
-  </row>
-
-  <row>
-	<field name="symbol">16</field>
-	<field name="propp name">Struggle</field>
-	<field name="friendly name">Struggle</field>
-	<field name="description">A struggle begins between the hero and the villain</field>
-	<field name="friendly description">The hero and villain have a competition of cleverness or fighting.</field>
-  </row>
-
-  <row>
-	<field name="symbol">17</field>
-	<field name="propp name">Branding</field>
-	<field name="friendly name">Wounded</field>
-	<field name="description">The hero is branded or marked</field>
-	<field name="friendly description">The hero is wounded, leaving a special mark on the hero.</field>
-  </row>
-
-  <row>
-	<field name="symbol">18</field>
-	<field name="propp name">Victory</field>
-	<field name="friendly name">Defeated</field>
-	<field name="description">The villain is defeated</field>
-	<field name="friendly description">The villain is defeated.</field>
-  </row>
-
-  <row>
-	<field name="symbol">19</field>
-	<field name="propp name">Liquidation</field>
-	<field name="friendly name">Victory</field>
-	<field name="description">The misfortune or lack is liquidated</field>
-	<field name="friendly description">The hero gets back the stolen object, the kidnapped victim is rescued, or the villain's spell is broken.</field>
-  </row>
-
-  <row>
-	<field name="symbol">20</field>
-	<field name="propp name">Return</field>
-	<field name="friendly name">Return or
-Escape</field>
-	<field name="description">The hero sets out to return</field>
-	<field name="friendly description">The hero returns home or escapes from the villain.</field>
-  </row>
-
-  <row>
-	<field name="symbol">21</field>
-	<field name="propp name">Pursuit</field>
-	<field name="friendly name">Chase</field>
-	<field name="description">A pursuit of the hero begins</field>
-	<field name="friendly description">The hero is chased by the villain.</field>
-  </row>
-
-  <row>
-	<field name="symbol">22</field>
-	<field name="propp name">Escape</field>
-	<field name="friendly name">Escape
-from Chase</field>
-	<field name="description">The hero is rescued from or escapes pursuit</field>
-	<field name="friendly description">The hero escapes from the chase by hiding, placing obstacles, or another way.</field>
-  </row>
-
-  <row>
-	<field name="symbol">23</field>
-	<field name="propp name">Unrecognised Arrival</field>
-	<field name="friendly name">Unappreciated</field>
-	<field name="description">The hero, unrecognised, arrives home or in another domain</field>
-	<field name="friendly description">The hero arrives home but people don't know who he is or believe he's a hero.</field>
-  </row>
-
-  <row>
-	<field name="symbol">24</field>
-	<field name="propp name">Difficult Task</field>
-	<field name="friendly name">Task or Test</field>
-	<field name="description">A difficult task is proposed to the hero</field>
-	<field name="friendly description">The hero is given a difficult task or competition: to survive an ordeal, to guess a riddle, to choose correctly, other.</field>
-  </row>
-
-  <row>
-	<field name="symbol">25</field>
-	<field name="propp name">Solution</field>
-	<field name="friendly name">Accomplished</field>
-	<field name="description">The hero accomplishes a difficult task</field>
-	<field name="friendly description">The hero succeeds at a difficult task or competition.</field>
-  </row>
-
-  <row>
-	<field name="symbol">26</field>
-	<field name="propp name">Recognition</field>
-	<field name="friendly name">Recognised</field>
-	<field name="description">The hero is recognised</field>
-	<field name="friendly description">The hero is recognised as who he is or is appreciated as a hero.</field>
-  </row>
-
-  <row>
-	<field name="symbol">27</field>
-	<field name="propp name">Exposure</field>
-	<field name="friendly name">Found Out</field>
-	<field name="description">The false hero or villain is exposed</field>
-	<field name="friendly description">The villain is found out: people find out he is a villain.</field>
-  </row>
-
-  <row>
-	<field name="symbol">28</field>
-	<field name="propp name">Transfiguration</field>
-	<field name="friendly name">Promoted</field>
-	<field name="description">The hero is given a new appearance</field>
-	<field name="friendly description">The hero is given a new rank, a new appearance, or new clothes.</field>
-  </row>
-
-  <row>
-	<field name="symbol">29</field>
-	<field name="propp name">Punishment</field>
-    <field name="friendly name">Punishment</field>
-	<field name="description">The false hero or villain is punished</field>
-	<field name="friendly description">The villain is punished.</field>
-  </row>
-
-  <row>
-	<field name="symbol">30</field>
-	<field name="propp name">Reward</field>
-	<field name="friendly name">Reward</field>
-	<field name="description">The hero is rewarded</field>
-	<field name="friendly description">The hero is rewarded.</field>
-  </row>
-</resultset>
+<list>
+  <storymaps.Function_-Memento>
+    <symbol>0</symbol>
+    <propp__name>Initial Situation</propp__name>
+    <friendly__name>Home</friendly__name>
+    <description>The initial situation</description>
+    <friendly__description>Family members or just the future hero are introduced with their names and situations.</friendly__description>
+    <image__path>/storymaps/data/0.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>1</symbol>
+    <propp__name>Absence</propp__name>
+    <friendly__name>Someone
+Leaves</friendly__name>
+    <description>The absence of a character or characters (the absent guardian(s)) is created</description>
+    <friendly__description>Parents or elders leave home because of: work, travel, business, war, death or another reason.</friendly__description>
+    <image__path>/storymaps/data/1.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>2</symbol>
+    <propp__name>Interdiction</propp__name>
+    <friendly__name>Warning or
+Request</friendly__name>
+    <description>An interdiction or injunction is given</description>
+    <friendly__description>The hero gets a warning not to do something or a request to do something.</friendly__description>
+    <image__path>/storymaps/data/2.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>3</symbol>
+    <propp__name>Violation</propp__name>
+    <friendly__name>Ignored</friendly__name>
+    <description>An interdiction is violated or an injunction fulfilled</description>
+    <friendly__description>The hero ignores a warning or request that has been given to him.</friendly__description>
+    <image__path>/storymaps/data/3.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>4</symbol>
+    <propp__name>Reconnaissance</propp__name>
+    <friendly__name>Spying</friendly__name>
+    <description>An attempt to obtain information is made</description>
+    <friendly__description>The villain spies or asks questions about the object or person he wants to get,</friendly__description>
+    <image__path>/storymaps/data/4.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>5</symbol>
+    <propp__name>Delivery</propp__name>
+    <friendly__name>Information</friendly__name>
+    <description>Information is delivered</description>
+    <friendly__description>The villain gets the information he wants.</friendly__description>
+    <image__path>/storymaps/data/5.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>6</symbol>
+    <propp__name>Fraud</propp__name>
+    <friendly__name>Trick</friendly__name>
+    <description>The villain attempts to deceive or coerce the victim</description>
+    <friendly__description>The villain puts on a disguise and plays a nasty trick on the hero or victim.</friendly__description>
+    <image__path>/storymaps/data/6.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>7</symbol>
+    <propp__name>Complicity</propp__name>
+    <friendly__name>Fooled</friendly__name>
+    <description>The victim submits to deception or coercion</description>
+    <friendly__description>The hero falls for the villain&apos;s trick and helps the villain.</friendly__description>
+    <image__path>/storymaps/data/7.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>8</symbol>
+    <propp__name>Villainy</propp__name>
+    <friendly__name>Villainy</friendly__name>
+    <description>The villain creates a misfortune or crisis</description>
+    <friendly__description>The villain steals an object, kidnaps a victim, or puts a spell on a victim.</friendly__description>
+    <image__path>/storymaps/data/8.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>8.5</symbol>
+    <propp__name>Lack</propp__name>
+    <friendly__name>Need or Want</friendly__name>
+    <description>Something is lacking or desired</description>
+    <friendly__description>The hero or someone else needs or wants something.</friendly__description>
+    <image__path>/storymaps/data/8.5.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>9</symbol>
+    <propp__name>Mediation</propp__name>
+    <friendly__name>Help</friendly__name>
+    <description>The misfortune or shortage is made known to the hero</description>
+    <friendly__description>The hero learns of the villainy, need or want from a call for help, a request, a command, a threat, or news.</friendly__description>
+    <image__path>/storymaps/data/9.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>10</symbol>
+    <propp__name>Deciding Counteraction</propp__name>
+    <friendly__name>Deciding</friendly__name>
+    <description>The seeker hero agrees to or decides upon counteraction</description>
+    <friendly__description>The hero decides or agrees to go on a journey to search for it and bring it.</friendly__description>
+    <image__path>/storymaps/data/10.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>11</symbol>
+    <propp__name>Departure</propp__name>
+    <friendly__name>Leaving</friendly__name>
+    <description>The hero leaves home</description>
+    <friendly__description>The hero leaves on a journey.</friendly__description>
+    <image__path>/storymaps/data/11.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>12</symbol>
+    <propp__name>Test</propp__name>
+    <friendly__name>Test</friendly__name>
+    <description>The donor presents a test to the hero</description>
+    <friendly__description>The hero meets a magical person or animal and is tested for kindness, sympathy, willingness to help, or another test.</friendly__description>
+    <image__path>/storymaps/data/12.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>13</symbol>
+    <propp__name>Reaction</propp__name>
+    <friendly__name>Answer</friendly__name>
+    <description>The hero reacts to the donor</description>
+    <friendly__description>The hero answers the test.</friendly__description>
+    <image__path>/storymaps/data/13.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>14</symbol>
+    <propp__name>Receipt</propp__name>
+    <friendly__name>Reward</friendly__name>
+    <description>The hero receives the magical agent</description>
+    <friendly__description>The hero is rewarded with magical things.</friendly__description>
+    <image__path>/storymaps/data/14.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>15</symbol>
+    <propp__name>Arrival</propp__name>
+    <friendly__name>Arrival</friendly__name>
+    <description>The hero arrives at the whereabouts of the object of search.</description>
+    <friendly__description>The hero arrives at his destination by magic, guidance, or normally.</friendly__description>
+    <image__path>/storymaps/data/15.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>16</symbol>
+    <propp__name>Struggle</propp__name>
+    <friendly__name>Struggle</friendly__name>
+    <description>A struggle begins between the hero and the villain</description>
+    <friendly__description>The hero and villain have a competition of cleverness or fighting.</friendly__description>
+    <image__path>/storymaps/data/16.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>17</symbol>
+    <propp__name>Branding</propp__name>
+    <friendly__name>Wounded</friendly__name>
+    <description>The hero is branded or marked</description>
+    <friendly__description>The hero is wounded, leaving a special mark on the hero.</friendly__description>
+    <image__path>/storymaps/data/17.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>18</symbol>
+    <propp__name>Victory</propp__name>
+    <friendly__name>Defeated</friendly__name>
+    <description>The villain is defeated</description>
+    <friendly__description>The villain is defeated.</friendly__description>
+    <image__path>/storymaps/data/18.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>19</symbol>
+    <propp__name>Liquidation</propp__name>
+    <friendly__name>Victory</friendly__name>
+    <description>The misfortune or lack is liquidated</description>
+    <friendly__description>The hero gets back the stolen object, the kidnapped victim is rescued, or the villain&apos;s spell is broken.</friendly__description>
+    <image__path>/storymaps/data/19.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>20</symbol>
+    <propp__name>Return</propp__name>
+    <friendly__name>Return or
+Escape</friendly__name>
+    <description>The hero sets out to return</description>
+    <friendly__description>The hero returns home or escapes from the villain.</friendly__description>
+    <image__path>/storymaps/data/20.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>21</symbol>
+    <propp__name>Pursuit</propp__name>
+    <friendly__name>Chase</friendly__name>
+    <description>A pursuit of the hero begins</description>
+    <friendly__description>The hero is chased by the villain.</friendly__description>
+    <image__path>/storymaps/data/21.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>22</symbol>
+    <propp__name>Escape</propp__name>
+    <friendly__name>Escape
+from Chase</friendly__name>
+    <description>The hero is rescued from or escapes pursuit</description>
+    <friendly__description>The hero escapes from the chase by hiding, placing obstacles, or another way.</friendly__description>
+    <image__path>/storymaps/data/22.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>23</symbol>
+    <propp__name>Unrecognised Arrival</propp__name>
+    <friendly__name>Unappreciated</friendly__name>
+    <description>The hero, unrecognised, arrives home or in another domain</description>
+    <friendly__description>The hero arrives home but people don&apos;t know who he is or believe he&apos;s a hero.</friendly__description>
+    <image__path>/storymaps/data/23.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>24</symbol>
+    <propp__name>Difficult Task</propp__name>
+    <friendly__name>Task or Test</friendly__name>
+    <description>A difficult task is proposed to the hero</description>
+    <friendly__description>The hero is given a difficult task or competition: to survive an ordeal, to guess a riddle, to choose correctly, other.</friendly__description>
+    <image__path>/storymaps/data/24.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>25</symbol>
+    <propp__name>Solution</propp__name>
+    <friendly__name>Accomplished</friendly__name>
+    <description>The hero accomplishes a difficult task</description>
+    <friendly__description>The hero succeeds at a difficult task or competition.</friendly__description>
+    <image__path>/storymaps/data/25.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>26</symbol>
+    <propp__name>Recognition</propp__name>
+    <friendly__name>Recognised</friendly__name>
+    <description>The hero is recognised</description>
+    <friendly__description>The hero is recognised as who he is or is appreciated as a hero.</friendly__description>
+    <image__path>/storymaps/data/26.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>27</symbol>
+    <propp__name>Exposure</propp__name>
+    <friendly__name>Found Out</friendly__name>
+    <description>The false hero or villain is exposed</description>
+    <friendly__description>The villain is found out: people find out he is a villain.</friendly__description>
+    <image__path>/storymaps/data/27.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>28</symbol>
+    <propp__name>Transfiguration</propp__name>
+    <friendly__name>Promoted</friendly__name>
+    <description>The hero is given a new appearance</description>
+    <friendly__description>The hero is given a new rank, a new appearance, or new clothes.</friendly__description>
+    <image__path>/storymaps/data/28.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>29</symbol>
+    <propp__name>Punishment</propp__name>
+    <friendly__name>Punishment</friendly__name>
+    <description>The false hero or villain is punished</description>
+    <friendly__description>The villain is punished.</friendly__description>
+    <image__path>/storymaps/data/29.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+  <storymaps.Function_-Memento>
+    <symbol>30</symbol>
+    <propp__name>Reward</propp__name>
+    <friendly__name>Reward</friendly__name>
+    <description>The hero is rewarded</description>
+    <friendly__description>The hero is rewarded.</friendly__description>
+    <image__path>/storymaps/data/30.svg-512.png</image__path>
+  </storymaps.Function_-Memento>
+</list>

@@ -5,94 +5,111 @@ import java.util.ArrayList;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomReader;
 
 /**
- * Singleton.
+ * A singleton class that reads the functions.xml file and returns a list of
+ * Function objects, one for each function in functions.xml, via the
+ * getFunctions() static method.
  *  
  * @author seanh
  */
 public class Functions {
 
     /**
-     * The single object-instance of messager.
+     * The XStream instance used to read and write XML.
+     */
+    private static XStream xstream = new XStream();
+    
+    /**
+     * The single object-instance of Functions.
      */
     private static Functions f = new Functions();    
-
+    
+    /**
+     * The list of function objects held by the singleton object-instance.
+     */
     private ArrayList<Function> functions = new ArrayList<Function>();
     
     /**
-     * Return the singleton Functions instance.
+     * Return the list of functions.
      */
     public static ArrayList<Function> getFunctions() {
-        return f.getList();
+        return f.functions;
     }
     
-    public ArrayList<Function> getList() {
-        return functions;
-    }
-    
+    /**
+     * Construct the singleton Functions instance, parse the functions.xml file
+     * and instantiate the Function objects.
+     */
     private Functions() {
+        parse_xml();            
+    }
+    
+    /**
+     * Parse the functions.xml file, instantiate Function objects, and add them
+     * to the list functions.
+     * 
+     */     
+    private void parse_xml() {
+        // Normally deserializing XML with XStream is very simple, but it strips
+        // any newline characters out of text nodes in the XML. To prevent it
+        // from stripping newline characters you have to do a lot more work.
+        // That's what this is.
         try {
-            parse_xml();
-        } catch (Exception e) {
+            // Via a series of other classes eventually construct a DomReader
+            // object for the functions.xml file.
+            InputStream is = this.getClass().getResourceAsStream("/storymaps/data/functions.xml");
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder parser = factory.newDocumentBuilder();
+            Document document = parser.parse(is);
+            DomReader domreader = new DomReader(document);
+            
+            // Pass the DomReader to XStream's unmarshal method to deserialize
+            // the XML with newlines in text nodes intact.
+            Object o = xstream.unmarshal(domreader);
+            
+            // Cast the object back to its original type.
+            ArrayList<Function.Memento> mementos = (ArrayList<Function.Memento>) o;
+            
+            // I felt I probably ought to close something at this point.
+            is.close();
+            
+            // Instantiate Function objects from the deserialized list of
+            // mementos and add them to the list of functions.
+            for (Function.Memento m : mementos) {
+                functions.add(Function.newFromMemento(m));
+            }
+            
+        } catch (ParserConfigurationException e) {
+            System.out.println(e);
+        } catch (SAXException e) {
+            System.out.println(e);
+        } catch (IOException e) {
             System.out.println(e);
         }
-    }
+    }        
     
-    private void parse_xml() throws ParserConfigurationException, SAXException,
-                                    IOException  {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder parser = factory.newDocumentBuilder();
-        
+    /**
+     * Write the list of functions out to an XML file.
+     */
+    public static void write_xml() {
+        ArrayList<Function.Memento> mementos = new ArrayList<Function.Memento>();
+        for (Function function : getFunctions()) {
+            mementos.add((Function.Memento)function.saveToMemento());
+        }        
+        String xml = xstream.toXML(mementos);
+        try {
+            PrintWriter out = new PrintWriter(new FileWriter("/home/seanh/Desktop/functions.xml"));
+            out.print(xml);
+            out.close();
+        } catch (IOException e) {
+            System.out.println("IOException when writing functions.xml" + e.toString());
+        }                   
+    }            
 
-        InputStream xmlfile = this.getClass().getResourceAsStream("/storymaps/data/functions.xml");
-        Document document = parser.parse(xmlfile);
-        NodeList rows = document.getElementsByTagName("row");
-        int numRows = rows.getLength();
-        for (int i=0; i<numRows; i++) {
-            String symbol = null;
-            String propp_name = null;
-            String friendly_name = null;
-            String description = null;
-            String friendly_description = null;
-                                    
-            Element row = (Element) rows.item(i);
-            NodeList fields = row.getElementsByTagName("field");
-            int numFields = fields.getLength();
-            for (int j=0; j<numFields; j++) {                
-                Element field = (Element) fields.item(j);
-                if (field.hasAttribute("name")) {                    
-                    String name = field.getAttribute("name");
-                    String text = null;
-                    NodeList children = field.getChildNodes();
-                    int numChildren = children.getLength();
-                    for (int k=0; k<numChildren; k++) {
-                        Node child = children.item(k);
-                        if (child.getNodeType() == Node.TEXT_NODE) {
-                            text = child.getNodeValue();
-                            break;
-                        }
-                    }
-                    if (name.equals("symbol")) {
-                        symbol = text;
-                    } else if (name.equals("propp name")) {
-                        propp_name = text;
-                    } else if (name.equals("friendly name")) {
-                        friendly_name = text;
-                    } else if (name.equals("description")) {
-                        description = text;
-                    } else if (name.equals("friendly description")) {
-                        friendly_description = text;
-                    }                                                                                                                            
-                }
-            }
-            String image = "/storymaps/data/" + symbol + ".svg-512.png";
-            Function function = new Function(symbol,propp_name,friendly_name,description,friendly_description,image);
-            functions.add(function);
-        }
-    }
-    
     public static void main(String args[]) {
         Functions.getFunctions();
-    }    
+    }
 }

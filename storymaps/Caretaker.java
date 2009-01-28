@@ -124,7 +124,7 @@ public class Caretaker {
             }
             in.close();
         } catch (IOException e) {
-            // Handle IOException here.
+            System.out.println("IOException when opening story file "+e.toString());
         }
         Object memento = xstream.fromXML(xml);        
         return memento;
