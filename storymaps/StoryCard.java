@@ -2,15 +2,23 @@ package storymaps;
 import DragAndDrop.DragDropObserver;
 import DragAndDrop.Draggable;
 import DragAndDrop.NodeAlreadyDraggableException;
+import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PUtil;
 
 public class StoryCard extends StoryCardBase {
             
     private boolean highlighted = false;
     private FunctionEditor editor;
     private Draggable draggable;
-        
+    
+    /**
+     * The activity used for both scaling up and scaling down the story card
+     * to highlight and unhighlight it.
+     */
+    private PInterpolatingActivity activity;
+    
     public StoryCard(Function function) {
         this(function,"");
     }
@@ -57,8 +65,7 @@ public class StoryCard extends StoryCardBase {
             draggable = new Draggable(background);            
         } catch (NodeAlreadyDraggableException e) {
             // ...
-        }              
-        
+        }                      
     }
         
     public void attach(DragDropObserver o) {
@@ -68,22 +75,76 @@ public class StoryCard extends StoryCardBase {
     public Draggable getDraggable() {
         return draggable;
     }
-    
+                
+    /**
+     * Start an activity that smoothly scales the story card over time.
+     * 
+     * Starts a PInterpolatingActivity and stores it in this.activity. Scales
+     * the story card by scaling its background node.
+     * 
+     * @param dest The value to scale up or down to.
+     */
+    private void smoothlyScale(final float dest) {
+        // First make sure no other scale up or scale down activity is running.
+        if (activity != null) {
+            activity.terminate();
+        }
+        
+        int duration = 500;
+        int delay = 150;
+	activity = new PInterpolatingActivity(
+            duration,
+            PUtil.DEFAULT_ACTIVITY_STEP_RATE,
+            delay + System.currentTimeMillis(),
+            1, // Number of times the activity should loop before ending            
+            PInterpolatingActivity.SOURCE_TO_DESTINATION
+        ){
+            // Override some of PInterpolatingActivity's methods to make
+            // something actually happen as the activity runs.
+            private float source;
+
+            /**
+             * Called before the activity is scheduled to start running.
+             */ 
+            @Override
+            protected void activityStarted() {
+                source = (float)background.getScale();
+                super.activityStarted();
+            }
+            /**
+             * Called to set the target value at each step of the activity.
+             */
+            @Override
+            public void setRelativeTargetValue(float scale) {
+                double centerx = background.getX() + (background.getWidth()/2.0);
+                double centery = background.getY() + (background.getHeight()/2.0);
+                float scaleTo = source + (scale * (dest - source));
+                background.setScale(scaleTo);
+            }
+        };
+        background.addActivity(activity);
+    }
+        
     public void highlight() {
         if (!highlighted) {
-            double centerx = background.getX() + (background.getWidth()/2.0);
-            double centery = background.getY() + (background.getHeight()/2.0);
-            background.scaleAboutPoint(1.2, centerx, centery);
+            getNode().reparent(getNode().getParent());
+            //double centerx = background.getX() + (background.getWidth()/2.0);
+            //double centery = background.getY() + (background.getHeight()/2.0);
+            //background.scaleAboutPoint(scaleTo, centerx, centery);
             highlighted = true;
+            goToHighDetail();
+            smoothlyScale(2.25f);
         }
     }
     
     public void unhighlight() {
         if (highlighted) {
-            double centerx = background.getX() + (background.getWidth()/2.0);
-            double centery = background.getY() + (background.getHeight()/2.0);
-            background.scaleAboutPoint(1.0/1.2, centerx, centery);
+            //double centerx = background.getX() + (background.getWidth()/2.0);
+            //double centery = background.getY() + (background.getHeight()/2.0);
+            //background.scaleAboutPoint(1/scaleTo, centerx, centery);
             highlighted = false;
+            goToLowDetail();
+            smoothlyScale(1.0f);
         }
     }
                                  

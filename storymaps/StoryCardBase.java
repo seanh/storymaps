@@ -27,12 +27,12 @@ public abstract class StoryCardBase {
 
         this.function = function;
         
-        background = PPath.createRoundRectangle(0, 0, 200, 240,20,20);
+        background = PPath.createRoundRectangle(-100, -120, 200, 240,20,20);
         background.setPaint(Color.WHITE);
         background.addAttribute("StoryCardBase",this);
         
         vnode = new VerticalLayoutNode(10);
-        vnode.setOffset(2,2);
+        vnode.setOffset(-98,-118);
         background.addChild(vnode);
         
         title_node = new PText(function.getFriendlyName());        
@@ -47,7 +47,7 @@ public abstract class StoryCardBase {
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
                 
-        background.setChildrenPickable(false);        
+        background.setChildrenPickable(false);       
     }
 
     protected void goToHighDetail() {

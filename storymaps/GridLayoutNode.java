@@ -54,12 +54,16 @@ public class GridLayoutNode extends PNode {
         double yoffset = 0;
         for (int i = 0; i < getChildrenCount(); i++) {
             PNode child = getChild(i);            
-            if (i > 0 && i % this.columns == 0) {
-                // FIXME: this uses the height of the last child in a row to
-                // determine the offset of the next row. That's okay if all
-                // children are the same height, but if they can vary then you
-                // need to use the height of the tallest child in the previous
-                // row.
+            if (i == 0) {
+                // If this is the first node in the first row then set the
+                // yoffset to be half the height of the node. This is a hack to
+                // deal with the fact that the (0,0) in a storycard's space is
+                // the center of the story card, not the top-left.
+                yoffset = child.getHeight()/2.0;
+            } else if (i > 0 && i % this.columns == 0) {
+                // If this is the first node of a later row then use its height
+                // to determine the offset of the next row.
+                // (This assumes all nodes in the grid have the same height.)
                 yoffset += child.getFullBoundsReference().getHeight() + margin;
                 xoffset = 0;
             }
