@@ -11,7 +11,7 @@ public class Placeholder {
     private StoryCard storycard = null;
     
     public Placeholder() {                
-        background = PPath.createRoundRectangle(0, 0, 200, 240,20,20);
+        background = PPath.createRoundRectangle(-100, -120, 200, 240,20,20);
         background.setPaint(Color.CYAN);
         background.setTransparency(0);              
         background.addAttribute("Placeholder",this);                
