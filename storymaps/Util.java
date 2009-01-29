@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
@@ -107,13 +108,11 @@ public class Util {
      * @param filename
      * @return
      */
-    private static String stripXSLT(String filename) {
-        
+    private static String stripXSLT(BufferedReader in) {        
         // Read the contents of the XML file into the string XML, skipping over
         // the stylesheet stuff.
         String xml = "";
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(filename));
+        try {            
             String line;
             boolean passed_stylesheet = false;
             while ((line = in.readLine()) != null) {
@@ -129,7 +128,7 @@ public class Util {
             }
             in.close();
         } catch (IOException e) {
-            System.out.println("IOException when reading "+filename+" "+e.toString());
+            System.out.println("IOException when reading an XML file "+e.toString());
         }
         
         // Create a temporary file and write the XML to it.
@@ -158,7 +157,8 @@ public class Util {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder parser = factory.newDocumentBuilder();
-            filename = stripXSLT(filename);
+            BufferedReader in = new BufferedReader(new FileReader(filename));
+            filename = stripXSLT(in);
             org.w3c.dom.Document document = parser.parse(filename);
             return document;
         } catch (ParserConfigurationException e) {
@@ -178,9 +178,25 @@ public class Util {
      * @return The Document parsed from the XML file. May return null if an
      * exception occurred while parsing the file.
      */
-    private static org.w3c.dom.Document readDocumentRelative(String filename) {
-        String absolute_path = Util.class.getResource(filename).getPath();
-        return readDocumentAbsolute(absolute_path);
+    private static org.w3c.dom.Document readDocumentRelative(String filename) {                
+        try {
+
+            InputStream is = Util.class.getResourceAsStream(filename);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            filename = stripXSLT(br);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder parser = factory.newDocumentBuilder();
+            org.w3c.dom.Document document = parser.parse(filename);
+            return document;
+        } catch (ParserConfigurationException e) {
+            System.out.println(e);
+        } catch (SAXException e) {
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return null;        
     }    
     
     /**
