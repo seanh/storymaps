@@ -133,7 +133,7 @@ public class StoryCard extends StoryCardBase {
             //background.scaleAboutPoint(scaleTo, centerx, centery);
             highlighted = true;
             goToHighDetail();
-            smoothlyScale(2.25f);
+            smoothlyScale(2.6f);
         }
     }
     

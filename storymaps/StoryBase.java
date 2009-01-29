@@ -75,7 +75,7 @@ public class StoryBase implements DroppableOwner {
         title.setPickable(false);
         vnode.addChild(title);
               
-        background = PPath.createRoundRectangle(0, 0, 2350, 850, 100, 100);
+        background = PPath.createRoundRectangle(0, 0, 2800, 925, 100, 100);
         background.setPaint(Color.MAGENTA);
         vnode.addChild(background);
 
@@ -85,7 +85,7 @@ public class StoryBase implements DroppableOwner {
             // ...
         }        
         
-        grid = new GridLayoutNode(11, 3);
+        grid = new GridLayoutNode(11, 48);
         background.addChild(grid);
         int x = 50;
         int y = 50;
