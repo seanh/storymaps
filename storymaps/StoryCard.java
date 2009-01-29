@@ -1,17 +1,21 @@
 package storymaps;
 import DragAndDrop.DragDropObserver;
 import DragAndDrop.Draggable;
+import DragAndDrop.DropEvent;
 import DragAndDrop.NodeAlreadyDraggableException;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PUtil;
 
-public class StoryCard extends StoryCardBase {
+public class StoryCard extends StoryCardBase implements Receiver,
+        DragDropObserver {
             
     private boolean highlighted = false;
     private FunctionEditor editor;
     private Draggable draggable;
+    private boolean dragging = false;
     
     /**
      * The activity used for both scaling up and scaling down the story card
@@ -62,10 +66,13 @@ public class StoryCard extends StoryCardBase {
         editor = new FunctionEditor(function,text);
         
         try {
-            draggable = new Draggable(background);            
+            draggable = new Draggable(background);
+            draggable.attach(this);
         } catch (NodeAlreadyDraggableException e) {
             // ...
-        }                      
+        }       
+        
+        Messager.getMessager().accept("drag started", this, null);
     }
         
     public void attach(DragDropObserver o) {
@@ -116,8 +123,6 @@ public class StoryCard extends StoryCardBase {
              */
             @Override
             public void setRelativeTargetValue(float scale) {
-                double centerx = background.getX() + (background.getWidth()/2.0);
-                double centery = background.getY() + (background.getHeight()/2.0);
                 float scaleTo = source + (scale * (dest - source));
                 background.setScale(scaleTo);
             }
@@ -126,11 +131,8 @@ public class StoryCard extends StoryCardBase {
     }
         
     public void highlight() {
-        if (!highlighted) {
+        if (!highlighted && !dragging) {
             getNode().reparent(getNode().getParent());
-            //double centerx = background.getX() + (background.getWidth()/2.0);
-            //double centery = background.getY() + (background.getHeight()/2.0);
-            //background.scaleAboutPoint(scaleTo, centerx, centery);
             highlighted = true;
             goToHighDetail();
             smoothlyScale(2.6f);
@@ -138,10 +140,7 @@ public class StoryCard extends StoryCardBase {
     }
     
     public void unhighlight() {
-        if (highlighted) {
-            //double centerx = background.getX() + (background.getWidth()/2.0);
-            //double centery = background.getY() + (background.getHeight()/2.0);
-            //background.scaleAboutPoint(1/scaleTo, centerx, centery);
+        if (highlighted && !dragging) {
             highlighted = false;
             goToLowDetail();
             smoothlyScale(1.0f);
@@ -211,5 +210,26 @@ public class StoryCard extends StoryCardBase {
             FunctionEditor e = FunctionEditor.newFromMemento(m.editor_memento);
             return new StoryCard(f,e.getText());
         }
-    }   
+    }
+
+    public void receive(String name, Object receiver_arg, Object sender_arg) {
+        if (name.equals("drag started")) {
+            if (sender_arg instanceof PNode) {
+                PNode node = (PNode) sender_arg;
+                if (node.equals(background)) {
+                    if (activity != null) {
+                        activity.terminate();
+                    }
+                    background.setScale(1.0);
+                    dragging = true;
+                }
+            }
+        }
+    }
+    
+    public boolean notify(DropEvent de) {
+        dragging = false;
+        return true;
+    }
+    
 }

@@ -11,6 +11,7 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPickPath;
 import java.awt.geom.Point2D;
+import storymaps.Messager;
 
 /**
  * A wrapper class for PNode that makes a PNode 'draggable' (i.e. it can be
@@ -74,6 +75,7 @@ public class Draggable extends DragDropSubject {
                     }
                     node = node.getParent();
                 }
+                Messager.getMessager().send("drag started", getDraggedNode());                                
             }
             @Override
             protected void endDrag(PInputEvent e) {
@@ -134,7 +136,7 @@ public class Draggable extends DragDropSubject {
         };
         return dragEventHandler;
     }
-        
+    
     public PNode getNode() {
         return node;
     }

@@ -35,7 +35,7 @@ class Subscription {
  * 
  * @author seanh
  */
-final class Messager { // Class is final so it can't be subclassed.
+final public class Messager { // Class is final so it can't be subclassed.
     
     /**
      * The single object-instance of messager.
