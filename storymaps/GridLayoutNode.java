@@ -53,32 +53,27 @@ public class GridLayoutNode extends PNode {
         double xoffset = 0;
         double yoffset = 0;
         for (int i = 0; i < getChildrenCount(); i++) {
-            if (i == 0) {
-                PNode child = getChild(i);
-                double top = child.getY();
-                double left = child.getX();
-                child.setOffset(xoffset-left,yoffset-top);
-                continue;
-            }            
-            // If this is the first node in a row other than the first row.
-            if (i % this.columns == 0) {
-                // Increment yoffset by the height of the tallest node in the
-                // previous row plus the margin.
-                double maxheight = 0;
-                for (int j = i-this.columns; j<i; j++) {
-                    double height = getChild(j).getHeight();
-                    if (height > maxheight) {
-                        maxheight = height;
+            if (i > 0) {
+                // If this is the first node in a row other than the first row.
+                if (i % this.columns == 0) {
+                    // Increment yoffset by the height of the tallest node in the
+                    // previous row plus the margin.
+                    double maxheight = 0;
+                    for (int j = i-this.columns; j<i; j++) {
+                        double height = getChild(j).getHeight();
+                        if (height > maxheight) {
+                            maxheight = height;
+                        }
                     }
+                    yoffset += maxheight + margin;
+                    // Reset xoffset to 0.
+                    xoffset = 0;                
+                } else {
+                    // Increment xoffset by the width of the previous node plus the
+                    // margin
+                    double width = getChild(i-1).getWidth();
+                    xoffset += width + margin;
                 }
-                yoffset += maxheight + margin;
-                // Reset xoffset to 0.
-                xoffset = 0;                
-            } else {
-                // Increment xoffset by the width of the previous node plus the
-                // margin
-                double width = getChild(i-1).getWidth();
-                xoffset += width + margin;
             }
             // Position the node so that its top-left corner is at
             // (xoffset,yoffset)
