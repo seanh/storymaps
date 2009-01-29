@@ -271,7 +271,8 @@ public class Main implements Receiver, Originator {
             @Override
             public void mousePressed(PInputEvent event) {
                 if (event.getButton() == 3) {
-                    zoomToHome();
+                    // Zooming in and zooming out disabled.
+                    //zoomToHome();
                 }
             }
         });
@@ -304,14 +305,15 @@ public class Main implements Receiver, Originator {
      */
     public void receive(String name, Object receiver_arg, Object sender_arg) {
         if (name.equals("StoryCard double-clicked")) {
-            StoryCardBase card = (StoryCardBase) sender_arg;
+            // Zooming in when story card double-clicked disabled.
+            /*StoryCardBase card = (StoryCardBase) sender_arg;
             PNode node = card.getNode();
             StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
             if (prev != null) {
                 prev.goToLowDetail();
             }
             target = node;
-            repositionCamera(750);
+            repositionCamera(750);*/
         } else if (name.equals("Editor uncollapsed")) {
             zoomToHome();
         } else if (name.equals("Editor collapsed")) {
