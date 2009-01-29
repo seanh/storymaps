@@ -21,7 +21,7 @@ public interface DragDropObserver {
      * be unsubscribed.
      * 
      * @param An object that stores information about the drag-drop.
-     * @return true to remina subscribed to the draggable or droppable that sent
+     * @return true to remain subscribed to the draggable or droppable that sent
      * the notification, false to unsubscribe.
      */
     public boolean notify(DropEvent de);
