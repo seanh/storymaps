@@ -49,10 +49,7 @@ public class Main implements Receiver, Originator {
      * story.
      */
     private StoryEditor editor;
-    /**
-     * Object used to display transparent overlay text messages to the user.
-     */
-    private HelpText help_text = new HelpText();
+
     /**
      * The Caretaker object that holds onto saved states of the application.
      */
@@ -281,10 +278,6 @@ public class Main implements Receiver, Originator {
         // will be called), this is how we make RMB zoom in on cards.
         Messager m = Messager.getMessager();
         m.accept("StoryCard double-clicked", this, null);
-
-        canvas.getCamera().addChild(help_text.getNode());
-        help_text.getNode().setOffset(1024 / 2f, 768 / 2f);
-        help_text.show("Welcome to the Story Maps application!\nLeft-click to drag,\ndouble-click to zoom in,\nright-click to zoom out.");
     }
 
     private void zoomToHome() {
