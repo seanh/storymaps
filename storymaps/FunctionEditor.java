@@ -1,5 +1,7 @@
 package storymaps;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -14,27 +16,45 @@ import javax.swing.JTextArea;
  */
 public class FunctionEditor {
 
-    private JPanel panel;
-    private JLabel label;
-    private JTextArea textArea;
     private Function function;
-    
+    private JPanel panel = new JPanel();
+    private JPanel subpanel = new JPanel();
+    private JLabel title;
+    private JLabel icon;
+    private JTextArea desc;
+    private JTextArea editor;
+            
     public FunctionEditor(Function function) {
         this(function,"");
     }
     
     public FunctionEditor(Function function, String text) {
         this.function = function;
-        panel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
         panel.setLayout(flowLayout);
-        ImageIcon icon = new ImageIcon(function.getImage(), "Illustation for function.");
-        label = new JLabel(icon);
-        panel.add(label);
-        textArea = new JTextArea(6,45);
-        textArea.setLineWrap(true);
-        textArea.setText(text);
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        //panel.setBackground(Color.WHITE);
+        BorderLayout borderLayout = new BorderLayout();
+        subpanel.setLayout(borderLayout);
+        subpanel.setBackground(Color.WHITE);
+        
+        title = new JLabel(function.getFriendlyName());
+        subpanel.add(title,BorderLayout.NORTH);        
+        ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustation for function.");
+        icon = new JLabel(imageIcon);
+        subpanel.add(icon,BorderLayout.CENTER);
+        desc = new JTextArea(6,20);
+        desc.setEditable(false);
+        desc.setLineWrap(true);
+        desc.setWrapStyleWord(true);
+        desc.setText(function.getFriendlyDescription());   
+        subpanel.add(desc,BorderLayout.SOUTH);
+        
+        panel.add(subpanel);        
+        editor = new JTextArea(6,45);
+        editor.setLineWrap(true);
+        editor.setWrapStyleWord(true);
+        editor.setText(text);
+        JScrollPane scrollPane = new JScrollPane(editor);
         panel.add(scrollPane);
     }
         
@@ -47,11 +67,11 @@ public class FunctionEditor {
     }
     
     public String getText() {
-        return textArea.getText();
+        return editor.getText();
     }
     
     public void focus() {
-        textArea.requestFocusInWindow();
+        editor.requestFocusInWindow();
     }
 
     /**
@@ -88,7 +108,7 @@ public class FunctionEditor {
     
     public Object saveToMemento() {
         return new Memento(this.function.saveToMemento(),
-                this.textArea.getText());
+                this.editor.getText());
     }
     
     /** 
