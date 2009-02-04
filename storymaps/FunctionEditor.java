@@ -36,8 +36,9 @@ public class FunctionEditor {
         BorderLayout borderLayout = new BorderLayout();
         subpanel.setLayout(borderLayout);
         subpanel.setBackground(Color.WHITE);
-        
+
         title = new JLabel(function.getFriendlyName());
+        title.setFont(ResourceLoader.titleFont);
         subpanel.add(title,BorderLayout.NORTH);        
         ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustation for function.");
         icon = new JLabel(imageIcon);
@@ -45,8 +46,9 @@ public class FunctionEditor {
         desc = new JTextArea(6,20);
         desc.setEditable(false);
         desc.setLineWrap(true);
-        desc.setWrapStyleWord(true);
-        desc.setText(function.getFriendlyDescription());   
+        desc.setWrapStyleWord (true);
+        desc.setText(function.getFriendlyDescription());
+        desc.setFont(ResourceLoader.bodyFont);
         subpanel.add(desc,BorderLayout.SOUTH);
         
         panel.add(subpanel);        
@@ -54,6 +56,7 @@ public class FunctionEditor {
         editor.setLineWrap(true);
         editor.setWrapStyleWord(true);
         editor.setText(text);
+        editor.setFont(ResourceLoader.bodyFont);
         JScrollPane scrollPane = new JScrollPane(editor);
         panel.add(scrollPane);
     }

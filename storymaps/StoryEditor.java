@@ -65,6 +65,7 @@ public class StoryEditor {
         document_panel.setLayout(new BoxLayout(document_panel, BoxLayout.PAGE_AXIS));                        
 
         title.setVisible(false);
+        title.setFont(ResourceLoader.titleFont);
         top_panel.add(title,BorderLayout.NORTH);
         
         scrollPane = new JScrollPane(document_panel);        

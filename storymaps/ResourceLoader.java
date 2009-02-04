@@ -1,6 +1,7 @@
 package storymaps;
 
 import edu.umd.cs.piccolo.nodes.PImage;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,9 @@ import javax.swing.ImageIcon;
 public class ResourceLoader {
 
     private static ResourceLoader instance = new ResourceLoader();
+
+    public static Font bodyFont = new Font("SansSerif", Font.PLAIN, 16);        
+    public static Font titleFont = new Font("SansSerif", Font.PLAIN, 18);
     
     // Prevent instantiation from outside of the class.
     private ResourceLoader() {}
@@ -48,5 +52,4 @@ public class ResourceLoader {
         } catch (IOException e) { System.out.println(e); }        
         return new ImageIcon(image);        
     }    
-    
 }
