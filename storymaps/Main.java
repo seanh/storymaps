@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.TimerTask;
 import java.util.Timer;
 import javax.swing.*;
+import storymaps.ui.Bar;
 
 /**
  * This is the main class of the StoryMaps application. It constructs the GUI
@@ -67,6 +68,8 @@ public class Main implements Receiver, Originator {
 
     private File autosavedir;
     
+    private Bar bar;
+    
     /**
      * Construct and start the application.
      */
@@ -85,6 +88,11 @@ public class Main implements Receiver, Originator {
             public void run() {autosave();}};
         Timer timer = new Timer();
         timer.schedule(autoSave, 60000, 60000);
+        
+        createBar();
+        // restrict camera area so that canvas does not go behind the bar.
+        canvas.getCamera().setBounds(0,Bar.HEIGHT, canvas.getWidth(), canvas.getHeight()-Bar.HEIGHT);            
+        repositionCamera();
     }
 
     private void autosave() {
@@ -124,7 +132,7 @@ public class Main implements Receiver, Originator {
         contentPane = frame.getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        makeToolBar();
+        //makeToolBar();
 
         editor = new StoryEditor();
 
@@ -138,6 +146,9 @@ public class Main implements Receiver, Originator {
             // This method is called after the component's size changes
             public void componentResized(ComponentEvent evt) {
                 repositionCamera();
+                if (bar != null) {
+                    bar.resize();
+                }
             }
 
             public void componentMoved(ComponentEvent arg0) {
@@ -260,8 +271,7 @@ public class Main implements Receiver, Originator {
         // Remove the default event handler that enables panning with the mouse.    
         canvas.removeInputEventListener(canvas.getPanEventHandler());
 
-        target = home;
-        repositionCamera();
+        target = home;        
 
         canvas.getCamera().addInputEventListener(new PBasicInputEventHandler() {
 
@@ -452,7 +462,44 @@ public class Main implements Receiver, Originator {
             map.restoreFromMemento(m.storymap_memento);
         }
     }
+    
+    /**
+     * Centre the given PNode in the PCanvas.
+     * 
+     * @param p The PNode to be centred.
+     */
+    public void centre(PNode p) {
+        double halfWidth = canvas.getCamera().getWidth() / 2.0;
+        double halfHeight = canvas.getCamera().getHeight() / 2.0;
 
+        double scale = p.getScale();
+
+        double dx = scale * p.getWidth() / 2.0;
+        double dy = scale * p.getHeight() / 2.0;
+
+        p.translate((halfWidth-dx)/scale, (halfHeight-dy)/scale);
+    }
+    
+    public PCamera getCamera() {
+        return canvas.getCamera();
+    }
+    
+    public PCanvas getCanvas() {
+        return canvas;
+    }
+    
+    public void disableHotkeys() {
+        //TODO
+    }
+    public void enableHotkeys() {
+        //TODO
+    }
+    
+    private void createBar() {
+        bar = new Bar(this);
+        canvas.getCamera().addChild(bar);
+    }
+    
     /**
      * Start the application.
      */
