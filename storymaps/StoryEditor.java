@@ -20,10 +20,10 @@ import javax.swing.JTextField;
 public class StoryEditor {
 
     /**
-     * The top-level panel of the StoryEditor, to which the button and document
+     * The root panel of the StoryEditor, to which the button and document
      * panels are added.
      */
-    private JPanel top_panel;
+    private JPanel root_panel;
     
     /**
      * Button that collapses/uncollapses the story editor.
@@ -58,17 +58,17 @@ public class StoryEditor {
     private ArrayList<FunctionEditor> editors = new ArrayList<FunctionEditor>();
         
     public StoryEditor() {    
-        top_panel = new JPanel();
-        top_panel.setLayout(new BorderLayout());
+        root_panel = new JPanel();
+        root_panel.setLayout(new BorderLayout());
                 
         document_panel = new JPanel();
         document_panel.setLayout(new BoxLayout(document_panel, BoxLayout.PAGE_AXIS));                        
 
         title.setVisible(false);
-        top_panel.add(title,BorderLayout.NORTH);
+        root_panel.add(title,BorderLayout.NORTH);
         
         scrollPane = new JScrollPane(document_panel);        
-        top_panel.add(scrollPane,BorderLayout.CENTER);
+        root_panel.add(scrollPane,BorderLayout.CENTER);
         scrollPane.setVisible(false);// The document panel starts off collapsed.
         
         collapse_button = new JButton("Click here to write your story...");
@@ -77,28 +77,28 @@ public class StoryEditor {
                 collapse();
             }
         });
-        top_panel.add(collapse_button,BorderLayout.SOUTH);        
-        top_panel.setPreferredSize(new Dimension(1024,25));
+        root_panel.add(collapse_button,BorderLayout.SOUTH);        
+        root_panel.setPreferredSize(new Dimension(1024,25));
     }
     
     private void collapse() {
         if (collapsed) {
             collapsed = false;
-            top_panel.setPreferredSize(new Dimension(1024,384));
+            root_panel.setPreferredSize(new Dimension(1024,384));
             title.setVisible(true);
             scrollPane.setVisible(true);            
             collapse_button.setText("Hide story");
-            top_panel.getParent().validate();
-            top_panel.getParent().repaint();
+            root_panel.getParent().validate();
+            root_panel.getParent().repaint();
             Messager.getMessager().send("Editor uncollapsed", this);
         } else {
             collapsed = true;
-            top_panel.setPreferredSize(new Dimension(1024,25));
+            root_panel.setPreferredSize(new Dimension(1024,25));
             title.setVisible(false);
             scrollPane.setVisible(false);
             collapse_button.setText("Click here to write your story...");
-            top_panel.getParent().validate();
-            top_panel.getParent().repaint();
+            root_panel.getParent().validate();
+            root_panel.getParent().repaint();
             Messager.getMessager().send("Editor collapsed", this);
         }
     }
@@ -136,7 +136,7 @@ public class StoryEditor {
      * should be added to a contentPane to add this StoryEditor to a JFrame.
      */
     public JComponent getComponent() {
-        return top_panel;
+        return root_panel;
     }
     
     /**
