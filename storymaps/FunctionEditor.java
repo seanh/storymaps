@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import storymaps.ui.Fonts;
 
 /**
  *
@@ -38,7 +39,7 @@ public class FunctionEditor {
         subpanel.setBackground(Color.WHITE);
 
         title = new JLabel(function.getFriendlyName());
-        title.setFont(ResourceLoader.titleFont);
+        title.setFont(Fonts.LARGE);
         subpanel.add(title,BorderLayout.NORTH);        
         ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustation for function.");
         icon = new JLabel(imageIcon);
@@ -46,9 +47,9 @@ public class FunctionEditor {
         desc = new JTextArea(6,20);
         desc.setEditable(false);
         desc.setLineWrap(true);
-        desc.setWrapStyleWord (true);
+        desc.setWrapStyleWord(true);
         desc.setText(function.getFriendlyDescription());
-        desc.setFont(ResourceLoader.bodyFont);
+        desc.setFont(Fonts.NORMAL);
         subpanel.add(desc,BorderLayout.SOUTH);
         
         panel.add(subpanel);        
@@ -56,7 +57,7 @@ public class FunctionEditor {
         editor.setLineWrap(true);
         editor.setWrapStyleWord(true);
         editor.setText(text);
-        editor.setFont(ResourceLoader.bodyFont);
+        editor.setFont(Fonts.LARGE);
         JScrollPane scrollPane = new JScrollPane(editor);
         panel.add(scrollPane);
     }

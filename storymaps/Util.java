@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
@@ -180,7 +179,6 @@ public class Util {
      */
     private static org.w3c.dom.Document readDocumentRelative(String filename) {                
         try {
-
             InputStream is = Util.class.getResourceAsStream(filename);
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
@@ -197,7 +195,7 @@ public class Util {
             System.out.println(e);
         }
         return null;        
-    }    
+    }
     
     /**
      * Return an object read in from an XML file created by method writeXML

@@ -230,6 +230,5 @@ public class StoryCard extends StoryCardBase implements Receiver,
     public boolean notify(DropEvent de) {
         dragging = false;
         return true;
-    }
-    
+    }    
 }
