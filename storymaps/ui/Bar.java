@@ -69,6 +69,6 @@ public class Bar extends PNode {
         g.setFont(Fonts.LARGE);
 
         // draw logo
-        g.drawString("ZoomDesk", 20, TEXT_HEIGHT);
+        g.drawString("Story Maps", 20, TEXT_HEIGHT);
     }
 }
