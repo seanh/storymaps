@@ -1,16 +1,28 @@
 package storymaps;
 import DragAndDrop.DragDropObserver;
 import DragAndDrop.Draggable;
+import DragAndDrop.DropEvent;
 import DragAndDrop.NodeAlreadyDraggableException;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PUtil;
 
-public class StoryCard extends StoryCardBase {
+public class StoryCard extends StoryCardBase implements Receiver,
+        DragDropObserver {
             
     private boolean highlighted = false;
     private FunctionEditor editor;
     private Draggable draggable;
-        
+    private boolean dragging = false;
+    
+    /**
+     * The activity used for both scaling up and scaling down the story card
+     * to highlight and unhighlight it.
+     */
+    private PInterpolatingActivity activity;
+    
     public StoryCard(Function function) {
         this(function,"");
     }
@@ -54,11 +66,13 @@ public class StoryCard extends StoryCardBase {
         editor = new FunctionEditor(function,text);
         
         try {
-            draggable = new Draggable(background);            
+            draggable = new Draggable(background);
+            draggable.attach(this);
         } catch (NodeAlreadyDraggableException e) {
             // ...
-        }              
+        }       
         
+        Messager.getMessager().accept("drag started", this, null);
     }
         
     public void attach(DragDropObserver o) {
@@ -68,22 +82,66 @@ public class StoryCard extends StoryCardBase {
     public Draggable getDraggable() {
         return draggable;
     }
-    
+                
+    /**
+     * Start an activity that smoothly scales the story card over time.
+     * 
+     * Starts a PInterpolatingActivity and stores it in this.activity. Scales
+     * the story card by scaling its background node.
+     * 
+     * @param dest The value to scale up or down to.
+     */
+    private void smoothlyScale(final float dest) {
+        // First make sure no other scale up or scale down activity is running.
+        if (activity != null) {
+            activity.terminate();
+        }
+        
+        int duration = 150;
+        int delay = 50;
+	activity = new PInterpolatingActivity(
+            duration,
+            PUtil.DEFAULT_ACTIVITY_STEP_RATE,
+            delay + System.currentTimeMillis(),
+            1, // Number of times the activity should loop before ending            
+            PInterpolatingActivity.SOURCE_TO_DESTINATION
+        ){
+            // Override some of PInterpolatingActivity's methods to make
+            // something actually happen as the activity runs.
+            private float source;
+
+            /**
+             * Called before the activity is scheduled to start running.
+             */ 
+            @Override
+            protected void activityStarted() {
+                source = (float)background.getScale();
+                super.activityStarted();
+            }
+            /**
+             * Called to set the target value at each step of the activity.
+             */
+            @Override
+            public void setRelativeTargetValue(float scale) {
+                float scaleTo = source + (scale * (dest - source));
+                background.setScale(scaleTo);
+            }
+        };
+        background.addActivity(activity);
+    }
+        
     public void highlight() {
-        if (!highlighted) {
-            double centerx = background.getX() + (background.getWidth()/2.0);
-            double centery = background.getY() + (background.getHeight()/2.0);
-            background.scaleAboutPoint(1.2, centerx, centery);
+        if (!highlighted && !dragging) {
+            getNode().reparent(getNode().getParent());
             highlighted = true;
+            smoothlyScale(1.2f);
         }
     }
     
     public void unhighlight() {
-        if (highlighted) {
-            double centerx = background.getX() + (background.getWidth()/2.0);
-            double centery = background.getY() + (background.getHeight()/2.0);
-            background.scaleAboutPoint(1.0/1.2, centerx, centery);
+        if (highlighted && !dragging) {
             highlighted = false;
+            smoothlyScale(1.0f);
         }
     }
                                  
@@ -150,5 +208,26 @@ public class StoryCard extends StoryCardBase {
             FunctionEditor e = FunctionEditor.newFromMemento(m.editor_memento);
             return new StoryCard(f,e.getText());
         }
-    }   
+    }
+
+    public void receive(String name, Object receiver_arg, Object sender_arg) {
+        if (name.equals("drag started")) {
+            if (sender_arg instanceof PNode) {
+                PNode node = (PNode) sender_arg;
+                if (node.equals(background)) {
+                    if (activity != null) {
+                        activity.terminate();
+                    }
+                    background.setScale(1.0);
+                    dragging = true;
+                }
+            }
+        }
+    }
+    
+    public boolean notify(DropEvent de) {
+        dragging = false;
+        return true;
+    }
+    
 }
