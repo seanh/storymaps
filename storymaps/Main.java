@@ -1,4 +1,5 @@
 package storymaps;
+import storymaps.ui.WriteStoryButton;
 
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
@@ -37,6 +38,10 @@ public class Main implements Receiver, Originator {
      */
     private VerticalLayoutNode home = new VerticalLayoutNode(50);
     /**
+     * Node to which the story map and Write Story button are attached.
+     */
+    private VerticalLayoutNode second_home = new VerticalLayoutNode(50);
+    /**
      * The collection of story cards that the user chooses from.
      */
     private StoryCards cards;
@@ -54,10 +59,12 @@ public class Main implements Receiver, Originator {
      * The Caretaker object that holds onto saved states of the application.
      */
     private Caretaker caretaker = new Caretaker();
+
     /**
      * The PNode that the PCamera is currently focused on.
      */
     private PNode target;
+
     /**
      * Swing file chooser dialog used for saving and restoring to and from file.
      */
@@ -66,6 +73,8 @@ public class Main implements Receiver, Originator {
     ImageIcon helpIcon;
 
     private File autosavedir;
+    
+    private WriteStoryButton writeStory;
     
     /**
      * Construct and start the application.
@@ -254,9 +263,14 @@ public class Main implements Receiver, Originator {
         cards = new StoryCards("Choose the Story Cards you want from here...");
         home.addChild(cards.getNode());
 
+        home.addChild(second_home);
+        
         map = new StoryMap("... and arrange them into your own Story Map here.", editor);
-        home.addChild(map.getNode());
+        second_home.addChild(map.getNode());
 
+        writeStory = new WriteStoryButton();
+        second_home.addChild(writeStory);
+                
         // Remove the default event handler that enables panning with the mouse.    
         canvas.removeInputEventListener(canvas.getPanEventHandler());
 
@@ -287,7 +301,7 @@ public class Main implements Receiver, Originator {
         if (map.getEditor().getCollapsed()) {
             target = home;
         } else {
-            target = map.getNode();
+            target = second_home;
         }
         repositionCamera(750);
     }
@@ -306,8 +320,22 @@ public class Main implements Receiver, Originator {
             target = node;
             repositionCamera(750);
         } else if (name.equals("Editor uncollapsed")) {
+            // Swap the positions of the story map and write story button.
+            writeStory.removeFromParent();
+            // Have to manually call layoutChildren because of a bug in my
+            // layout nodes.
+            second_home.layoutChildren();
+            second_home.addChild(0, writeStory);
+            
             zoomToHome();
         } else if (name.equals("Editor collapsed")) {
+            // Swap the positions of the story map and write story button.
+            writeStory.removeFromParent();
+            // Have to manually call layoutChildren because of a bug in my
+            // layout nodes.
+            second_home.layoutChildren();
+            second_home.addChild(1, writeStory);
+            
             zoomToHome();
         }
     }

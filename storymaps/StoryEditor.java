@@ -19,19 +19,13 @@ import javax.swing.JTextField;
  *
  * @author seanh
  */
-public class StoryEditor {
+public class StoryEditor implements Receiver {
 
     /**
-     * The root panel of the StoryEditor, to which the button and document
-     * panels are added.
+     * The root panel of the StoryEditor, to which the document panel is added.
      */
     private JPanel root_panel;
-    
-    /**
-     * Button that collapses/uncollapses the story editor.
-     */
-    private JButton collapse_button;
-    
+        
     /**
      * Whether or not the story editor is collapsed.
      */
@@ -81,14 +75,9 @@ public class StoryEditor {
         root_panel.add(scrollPane,BorderLayout.CENTER);
         scrollPane.setVisible(false);// The document panel starts off collapsed.
         
-        collapse_button = new JButton("Click here to write your story...");
-        collapse_button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                collapse();
-            }
-        });
-        root_panel.add(collapse_button,BorderLayout.SOUTH);        
-        root_panel.setPreferredSize(new Dimension(parent.getWidth(),25));
+        root_panel.setPreferredSize(new Dimension(parent.getWidth(),0));
+        
+        Messager.getMessager().accept("button clicked",this,null);
     }
     
     private void collapse() {
@@ -97,16 +86,14 @@ public class StoryEditor {
             root_panel.setPreferredSize(new Dimension(parent.getWidth(),parent.getHeight()/2));
             title.setVisible(true);
             scrollPane.setVisible(true);            
-            collapse_button.setText("Hide story");
             root_panel.getParent().validate();
             root_panel.getParent().repaint();
             Messager.getMessager().send("Editor uncollapsed", this);
         } else {
             collapsed = true;
-            root_panel.setPreferredSize(new Dimension(parent.getWidth(),25));
+            root_panel.setPreferredSize(new Dimension(parent.getWidth(),0));
             title.setVisible(false);
             scrollPane.setVisible(false);
-            collapse_button.setText("Click here to write your story...");
             root_panel.getParent().validate();
             root_panel.getParent().repaint();
             Messager.getMessager().send("Editor collapsed", this);
@@ -180,5 +167,13 @@ public class StoryEditor {
     
     public void setTitle(String title) {
         this.title.setText(title);
+    }
+
+    public void receive(String name, Object receiver_arg, Object sender_arg) {
+        if (name.equals("button clicked")) {
+            if ( ((String)sender_arg).equals("Write Story") ) {
+                collapse();
+            }
+        }
     }
 }
