@@ -84,7 +84,7 @@ public class Main implements Receiver, Originator {
         TimerTask autoSave = new TimerTask() {
             public void run() {autosave();}};
         Timer timer = new Timer();
-        timer.schedule(autoSave, 60000, 60000);
+        timer.schedule(autoSave, 60000, 60000);        
     }
 
     private void autosave() {
@@ -126,7 +126,7 @@ public class Main implements Receiver, Originator {
 
         makeToolBar();
 
-        editor = new StoryEditor();
+        editor = new StoryEditor(frame);
 
         canvas = new PCanvas();
         canvas.setPreferredSize(new Dimension(1024, 768));
@@ -157,7 +157,7 @@ public class Main implements Receiver, Originator {
 
         initializePCanvas();
     }
-
+        
     /**
      * Construct the application's toolbar, with buttons for controlling the
      * application.

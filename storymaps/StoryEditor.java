@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -57,8 +58,15 @@ public class StoryEditor {
      * The FunctionEditors currently on the document panel.
      */
     private ArrayList<FunctionEditor> editors = new ArrayList<FunctionEditor>();
+    
+    /**
+     * The JFrame in which this StoryEditor will be used.
+     */
+    private JFrame parent;
+    
+    public StoryEditor(JFrame parent) {
+        this.parent = parent;
         
-    public StoryEditor() {    
         root_panel = new JPanel();
         root_panel.setLayout(new BorderLayout());
                 
@@ -80,13 +88,13 @@ public class StoryEditor {
             }
         });
         root_panel.add(collapse_button,BorderLayout.SOUTH);        
-        root_panel.setPreferredSize(new Dimension(1024,25));
+        root_panel.setPreferredSize(new Dimension(parent.getWidth(),25));
     }
     
     private void collapse() {
         if (collapsed) {
             collapsed = false;
-            root_panel.setPreferredSize(new Dimension(1024,384));
+            root_panel.setPreferredSize(new Dimension(parent.getWidth(),parent.getHeight()/2));
             title.setVisible(true);
             scrollPane.setVisible(true);            
             collapse_button.setText("Hide story");
@@ -95,7 +103,7 @@ public class StoryEditor {
             Messager.getMessager().send("Editor uncollapsed", this);
         } else {
             collapsed = true;
-            root_panel.setPreferredSize(new Dimension(1024,25));
+            root_panel.setPreferredSize(new Dimension(parent.getWidth(),25));
             title.setVisible(false);
             scrollPane.setVisible(false);
             collapse_button.setText("Click here to write your story...");
@@ -104,7 +112,7 @@ public class StoryEditor {
             Messager.getMessager().send("Editor collapsed", this);
         }
     }
-
+    
     /**
      * Update the list of FunctionEditors in this StoryEditor.
      */
