@@ -221,7 +221,10 @@ public class StoryCard extends StoryCardBase implements Receiver,
                         activity.terminate();
                     }
                     background.setScale(1.0);
+                    highlighted = false;
+                    goToLowDetail();
                     dragging = true;
+                
                 }
             }
         }
