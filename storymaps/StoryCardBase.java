@@ -1,14 +1,11 @@
 package storymaps;
+import storymaps.ui.Fonts;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import java.awt.Color;
-import java.awt.Image;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
 
 /**
  * Absract base class for StoryCard and DisabledStoryCard.
@@ -36,7 +33,9 @@ public abstract class StoryCardBase {
         background.addChild(vnode);
         
         title_node = new PText(function.getFriendlyName());        
+        // The font size is really set by the scale of the node, not by font.
         title_node.setScale(2.3);
+        title_node.setFont(Fonts.SMALL);
         vnode.addChild(title_node);
 
         image_node = new PImage(function.getImage());
@@ -46,6 +45,7 @@ public abstract class StoryCardBase {
         description_node = new PText(function.getFriendlyDescription());
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
+        description_node.setFont(Fonts.NORMAL);
                 
         background.setChildrenPickable(false);        
     }

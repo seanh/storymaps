@@ -1,4 +1,5 @@
 package storymaps;
+import storymaps.ui.Fonts;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -65,6 +66,7 @@ public class StoryEditor {
         document_panel.setLayout(new BoxLayout(document_panel, BoxLayout.PAGE_AXIS));                        
 
         title.setVisible(false);
+        title.setFont(Fonts.HUGE);
         root_panel.add(title,BorderLayout.NORTH);
         
         scrollPane = new JScrollPane(document_panel);        
