@@ -319,23 +319,9 @@ public class Main implements Receiver, Originator {
             }
             target = node;
             repositionCamera(750);
-        } else if (name.equals("Editor uncollapsed")) {
-            // Swap the positions of the story map and write story button.
-            writeStory.removeFromParent();
-            // Have to manually call layoutChildren because of a bug in my
-            // layout nodes.
-            second_home.layoutChildren();
-            second_home.addChild(0, writeStory);
-            
+        } else if (name.equals("Editor uncollapsed")) {            
             zoomToHome();
-        } else if (name.equals("Editor collapsed")) {
-            // Swap the positions of the story map and write story button.
-            writeStory.removeFromParent();
-            // Have to manually call layoutChildren because of a bug in my
-            // layout nodes.
-            second_home.layoutChildren();
-            second_home.addChild(1, writeStory);
-            
+        } else if (name.equals("Editor collapsed")) {            
             zoomToHome();
         }
     }
