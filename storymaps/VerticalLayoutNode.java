@@ -41,14 +41,14 @@ public class VerticalLayoutNode extends PNode {
             prev_num_children = getChildrenCount();
         }
         
-        double xOffset = 0;
-        double yOffset = 0;
-                        
+        double yoffset = 0;                        
         Iterator i = getChildrenIterator();
         while (i.hasNext()) {
             PNode child = (PNode) i.next();
-            child.setOffset(xOffset - child.getX(), yOffset);
-            yOffset += child.getFullBoundsReference().getHeight() + margin;
+            double top = child.getFullBounds().getMinY();
+            double left = child.getFullBounds().getMinX();
+            child.setOffset(-left,yoffset-top);
+            yoffset += child.getFullBoundsReference().getHeight() + margin;
         }                            
     }    
 }
