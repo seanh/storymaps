@@ -12,24 +12,21 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class WriteStoryButton extends Button {
 
-    private PText text;
     private static final String COLLAPSED_TEXT = "Write Story";
     private static final String UNCOLLAPSED_TEXT = "Go Back";
     
     public WriteStoryButton() {
         super("Write Story");
-        text =  new PText("Write Story");
-        text.setScale(25);
-        this.addChild(text);
+        setScale(10);
     }
     
     @Override
     protected void clicked() {
         super.clicked();
-        if (text.getText().equals(COLLAPSED_TEXT)) {
-            text.setText(UNCOLLAPSED_TEXT);
+        if (getText().equals(COLLAPSED_TEXT)) {
+            setText(UNCOLLAPSED_TEXT);
         } else {
-            text.setText(COLLAPSED_TEXT);
+            setText(COLLAPSED_TEXT);
         }
     }    
 }
