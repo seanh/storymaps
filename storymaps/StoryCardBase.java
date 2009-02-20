@@ -39,7 +39,7 @@ public abstract class StoryCardBase {
         // Uncomment this line to clip the text if its height goes beyond the
         // bounds.
         //title_node.setConstrainHeightToTextHeight(false);
-        title_node.setBounds(0, 0, 100, 80);
+        title_node.setBounds(0, 0, 90, 80);
         title_node.setScale(2.3);
         vnode.addChild(title_node);
 

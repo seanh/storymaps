@@ -2,9 +2,12 @@ package storymaps;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,13 +25,13 @@ public class FunctionEditor {
     private JPanel subpanel = new JPanel();
     private JLabel title;
     private JLabel icon;
-    private JTextArea desc;
+    private JLabel desc;
     private JTextArea editor;
             
     public FunctionEditor(Function function) {
         this(function,"");
     }
-    
+      
     public FunctionEditor(Function function, String text) {
         this.function = function;
         FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
@@ -37,6 +40,7 @@ public class FunctionEditor {
         BorderLayout borderLayout = new BorderLayout();
         subpanel.setLayout(borderLayout);
         subpanel.setBackground(Color.WHITE);
+        subpanel.setBounds(0, 0, 10, 10);
         
         title = new JLabel(function.getFriendlyName());
         title.setFont(Fonts.LARGE);
@@ -44,11 +48,8 @@ public class FunctionEditor {
         ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustation for function.");
         icon = new JLabel(imageIcon);
         subpanel.add(icon,BorderLayout.CENTER);
-        desc = new JTextArea(6,20);
-        desc.setEditable(false);
-        desc.setLineWrap(true);
-        desc.setWrapStyleWord(true);
-        desc.setText(function.getFriendlyDescription());
+        desc = new JLabel("<html>"+function.getFriendlyDescription()+"</html>");
+        desc.setPreferredSize(new Dimension(350,200));
         desc.setFont(Fonts.NORMAL);
         subpanel.add(desc,BorderLayout.SOUTH);
         

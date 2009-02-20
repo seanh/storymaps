@@ -47,6 +47,7 @@ public class StoryCard extends StoryCardBase implements Receiver,
             
             @Override
             public void mouseClicked(PInputEvent event) {
+                /*
                 if (event.getButton() == 1 && event.getClickCount() == 2) {
                     // If the StoryCard is double-clicked with the left mouse
                     // button send the "StoryCard double-clicked" message.
@@ -59,7 +60,7 @@ public class StoryCard extends StoryCardBase implements Receiver,
                     // button send the "StoryCard single-clicked" message.
                     Messager.getMessager().send("StoryCard single-clicked", StoryCard.this);
                     event.setHandled(true);
-                }
+                }*/
             }
         });
         
@@ -134,7 +135,7 @@ public class StoryCard extends StoryCardBase implements Receiver,
         if (!highlighted && !dragging) {
             getNode().reparent(getNode().getParent());
             highlighted = true;
-            smoothlyScale(1.2f);
+            smoothlyScale(1.4f);
         }
     }
     

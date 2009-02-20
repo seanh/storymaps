@@ -211,9 +211,8 @@ public class Main implements Receiver, Originator {
                 save();
             }
         });
-
-        toolBar.addSeparator();
-
+        
+        /*
         ImageIcon printIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-print.png");
         JButton printButton = new JButton("Print", printIcon);
         printButton.setVerticalTextPosition(AbstractButton.BOTTOM);
@@ -249,7 +248,8 @@ public class Main implements Receiver, Originator {
                 about();
             }
         });
-
+        */
+        
         contentPane.add(toolBar, BorderLayout.NORTH);
     }
 
@@ -311,14 +311,14 @@ public class Main implements Receiver, Originator {
      */
     public void receive(String name, Object receiver_arg, Object sender_arg) {
         if (name.equals("StoryCard double-clicked")) {
-            StoryCardBase card = (StoryCardBase) sender_arg;
+            /*StoryCardBase card = (StoryCardBase) sender_arg;
             PNode node = card.getNode();
             StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
             if (prev != null) {
                 prev.goToLowDetail();
             }
             target = node;
-            repositionCamera(750);
+            repositionCamera(750);*/
         } else if (name.equals("Editor uncollapsed")) {            
             zoomToHome();
         } else if (name.equals("Editor collapsed")) {            
