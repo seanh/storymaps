@@ -1,6 +1,7 @@
 package storymaps;
 
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import java.util.Iterator;
 
 /**
@@ -45,10 +46,17 @@ public class VerticalLayoutNode extends PNode {
         Iterator i = getChildrenIterator();
         while (i.hasNext()) {
             PNode child = (PNode) i.next();
-            double top = child.getFullBounds().getMinY();
+            //child.setOffset(-child.getX(), yoffset);
+            //yoffset += child.getFullBoundsReference().getHeight() + margin;
+            double top = 0;
+            if (child instanceof PImage) {
+                top = child.getBounds().getMinY();
+            } else {
+                top = child.getFullBounds().getMinY();
+            }
             double left = child.getFullBounds().getMinX();
             child.setOffset(-left,yoffset-top);
-            yoffset += child.getFullBoundsReference().getHeight() + margin;
+            yoffset += child.getFullBounds().getHeight() + margin;
         }                            
     }    
 }
