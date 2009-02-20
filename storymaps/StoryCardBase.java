@@ -33,9 +33,14 @@ public abstract class StoryCardBase {
         background.addChild(vnode);
         
         title_node = new PText(function.getFriendlyName());        
-        // The font size is really set by the scale of the node, not by font.
-        title_node.setScale(2.3);
+        // The font size is really set by the scale of the node, not by font.        
         title_node.setFont(Fonts.SMALL);
+        title_node.setConstrainWidthToTextWidth(false);
+        // Uncomment this line to clip the text if its height goes beyond the
+        // bounds.
+        //title_node.setConstrainHeightToTextHeight(false);
+        title_node.setBounds(0, 0, 100, 80);
+        title_node.setScale(2.3);
         vnode.addChild(title_node);
 
         image_node = new PImage(function.getImage());
