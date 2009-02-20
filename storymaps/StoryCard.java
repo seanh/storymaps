@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PUtil;
 
 public class StoryCard extends StoryCardBase implements Receiver,
-        DragDropObserver {
+        DragDropObserver, Comparable {
             
     private boolean highlighted = false;
     private FunctionEditor editor;
@@ -228,6 +228,11 @@ public class StoryCard extends StoryCardBase implements Receiver,
     public boolean notify(DropEvent de) {
         dragging = false;
         return true;
+    }
+
+    public int compareTo(Object arg) {
+        StoryCard s = (StoryCard) arg;
+        return s.getFunction().compareTo(this.getFunction());
     }
     
 }

@@ -15,7 +15,7 @@
 </xsl:stylesheet>
 <list>
   <storymaps.Function_-Memento>
-    <symbol>0</symbol>
+    <number>1</number>
     <propp__name>Initial Situation</propp__name>
     <friendly__name>Home</friendly__name>
     <description>The initial situation</description>
@@ -23,7 +23,7 @@
     <image__path>/storymaps/data/0.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>1</symbol>
+    <number>2</number>
     <propp__name>Absence</propp__name>
     <friendly__name>Someone
 Leaves</friendly__name>
@@ -32,7 +32,7 @@ Leaves</friendly__name>
     <image__path>/storymaps/data/1.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>2</symbol>
+    <number>3</number>
     <propp__name>Interdiction</propp__name>
     <friendly__name>Warning or
 Request</friendly__name>
@@ -41,7 +41,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/2.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>3</symbol>
+    <number>4</number>
     <propp__name>Violation</propp__name>
     <friendly__name>Ignored</friendly__name>
     <description>An interdiction is violated or an injunction fulfilled</description>
@@ -49,7 +49,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/3.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>4</symbol>
+    <number>5</number>
     <propp__name>Reconnaissance</propp__name>
     <friendly__name>Spying</friendly__name>
     <description>An attempt to obtain information is made</description>
@@ -57,7 +57,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/4.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>5</symbol>
+    <number>6</number>
     <propp__name>Delivery</propp__name>
     <friendly__name>Information</friendly__name>
     <description>Information is delivered</description>
@@ -65,7 +65,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/5.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>6</symbol>
+    <number>7</number>
     <propp__name>Fraud</propp__name>
     <friendly__name>Trick</friendly__name>
     <description>The villain attempts to deceive or coerce the victim</description>
@@ -73,7 +73,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/6.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>7</symbol>
+    <number>8</number>
     <propp__name>Complicity</propp__name>
     <friendly__name>Fooled</friendly__name>
     <description>The victim submits to deception or coercion</description>
@@ -81,7 +81,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/7.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>8</symbol>
+    <number>9</number>
     <propp__name>Villainy</propp__name>
     <friendly__name>Villainy</friendly__name>
     <description>The villain creates a misfortune or crisis</description>
@@ -89,7 +89,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/8.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>8.5</symbol>
+    <number>10</number>
     <propp__name>Lack</propp__name>
     <friendly__name>Need or Want</friendly__name>
     <description>Something is lacking or desired</description>
@@ -97,7 +97,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/8.5.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>9</symbol>
+    <number>11</number>
     <propp__name>Mediation</propp__name>
     <friendly__name>Help</friendly__name>
     <description>The misfortune or shortage is made known to the hero</description>
@@ -105,7 +105,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/9.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>10</symbol>
+    <number>12</number>
     <propp__name>Deciding Counteraction</propp__name>
     <friendly__name>Deciding</friendly__name>
     <description>The seeker hero agrees to or decides upon counteraction</description>
@@ -113,7 +113,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/10.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>11</symbol>
+    <number>13</number>
     <propp__name>Departure</propp__name>
     <friendly__name>Leaving</friendly__name>
     <description>The hero leaves home</description>
@@ -121,7 +121,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/11.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>12</symbol>
+    <number>14</number>
     <propp__name>Test</propp__name>
     <friendly__name>Test</friendly__name>
     <description>The donor presents a test to the hero</description>
@@ -129,7 +129,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/12.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>13</symbol>
+    <number>15</number>
     <propp__name>Reaction</propp__name>
     <friendly__name>Answer</friendly__name>
     <description>The hero reacts to the donor</description>
@@ -137,7 +137,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/13.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>14</symbol>
+    <number>16</number>
     <propp__name>Receipt</propp__name>
     <friendly__name>Reward</friendly__name>
     <description>The hero receives the magical agent</description>
@@ -145,7 +145,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/14.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>15</symbol>
+    <number>17</number>
     <propp__name>Arrival</propp__name>
     <friendly__name>Arrival</friendly__name>
     <description>The hero arrives at the whereabouts of the object of search.</description>
@@ -153,7 +153,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/15.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>16</symbol>
+    <number>18</number>
     <propp__name>Struggle</propp__name>
     <friendly__name>Struggle</friendly__name>
     <description>A struggle begins between the hero and the villain</description>
@@ -161,7 +161,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/16.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>17</symbol>
+    <number>19</number>
     <propp__name>Branding</propp__name>
     <friendly__name>Wounded</friendly__name>
     <description>The hero is branded or marked</description>
@@ -169,7 +169,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/17.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>18</symbol>
+    <number>20</number>
     <propp__name>Victory</propp__name>
     <friendly__name>Defeated</friendly__name>
     <description>The villain is defeated</description>
@@ -177,7 +177,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/18.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>19</symbol>
+    <number>21</number>
     <propp__name>Liquidation</propp__name>
     <friendly__name>Victory</friendly__name>
     <description>The misfortune or lack is liquidated</description>
@@ -185,7 +185,7 @@ Request</friendly__name>
     <image__path>/storymaps/data/19.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>20</symbol>
+    <number>22</number>
     <propp__name>Return</propp__name>
     <friendly__name>Return or
 Escape</friendly__name>
@@ -194,7 +194,7 @@ Escape</friendly__name>
     <image__path>/storymaps/data/20.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>21</symbol>
+    <number>23</number>
     <propp__name>Pursuit</propp__name>
     <friendly__name>Chase</friendly__name>
     <description>A pursuit of the hero begins</description>
@@ -202,7 +202,7 @@ Escape</friendly__name>
     <image__path>/storymaps/data/21.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>22</symbol>
+    <number>24</number>
     <propp__name>Escape</propp__name>
     <friendly__name>Escape
 from Chase</friendly__name>
@@ -211,7 +211,7 @@ from Chase</friendly__name>
     <image__path>/storymaps/data/22.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>23</symbol>
+    <number>25</number>
     <propp__name>Unrecognised Arrival</propp__name>
     <friendly__name>Unappreciated</friendly__name>
     <description>The hero, unrecognised, arrives home or in another domain</description>
@@ -219,7 +219,7 @@ from Chase</friendly__name>
     <image__path>/storymaps/data/23.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>24</symbol>
+    <number>26</number>
     <propp__name>Difficult Task</propp__name>
     <friendly__name>Task or Test</friendly__name>
     <description>A difficult task is proposed to the hero</description>
@@ -227,7 +227,7 @@ from Chase</friendly__name>
     <image__path>/storymaps/data/24.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>25</symbol>
+    <number>27</number>
     <propp__name>Solution</propp__name>
     <friendly__name>Accomplished</friendly__name>
     <description>The hero accomplishes a difficult task</description>
@@ -235,7 +235,7 @@ from Chase</friendly__name>
     <image__path>/storymaps/data/25.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>26</symbol>
+    <number>28</number>
     <propp__name>Recognition</propp__name>
     <friendly__name>Recognised</friendly__name>
     <description>The hero is recognised</description>
@@ -243,7 +243,7 @@ from Chase</friendly__name>
     <image__path>/storymaps/data/26.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>27</symbol>
+    <number>29</number>
     <propp__name>Exposure</propp__name>
     <friendly__name>Found Out</friendly__name>
     <description>The false hero or villain is exposed</description>
@@ -251,7 +251,7 @@ from Chase</friendly__name>
     <image__path>/storymaps/data/27.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>28</symbol>
+    <number>30</number>
     <propp__name>Transfiguration</propp__name>
     <friendly__name>Promoted</friendly__name>
     <description>The hero is given a new appearance</description>
@@ -259,7 +259,7 @@ from Chase</friendly__name>
     <image__path>/storymaps/data/28.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>29</symbol>
+    <number>31</number>
     <propp__name>Punishment</propp__name>
     <friendly__name>Punishment</friendly__name>
     <description>The false hero or villain is punished</description>
@@ -267,7 +267,7 @@ from Chase</friendly__name>
     <image__path>/storymaps/data/29.svg-512.png</image__path>
   </storymaps.Function_-Memento>
   <storymaps.Function_-Memento>
-    <symbol>30</symbol>
+    <number>32</number>
     <propp__name>Reward</propp__name>
     <friendly__name>Reward</friendly__name>
     <description>The hero is rewarded</description>

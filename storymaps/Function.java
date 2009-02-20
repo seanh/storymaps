@@ -7,10 +7,10 @@ import java.awt.Image;
  * 
  * @author seanh
  */
-public class Function {
+public class Function implements Comparable {
 
     // Too dizzy to write accessor methods right now.
-    private String symbol;
+    private int number;
     private String propp_name;
     private String friendly_name;
     private String description;
@@ -18,10 +18,10 @@ public class Function {
     private String image_path;
     private Image image;
     
-    public Function(String symbol, String propp_name, String friendly_name,
+    public Function(int number, String propp_name, String friendly_name,
                     String description, String friendly_description,
                     String image_path) {
-        this.symbol = symbol;
+        this.number = number;
         this.propp_name = propp_name;
         this.friendly_name = friendly_name;
         this.description = description;
@@ -30,7 +30,7 @@ public class Function {
         this.image = ResourceLoader.loadImage(image_path);
     }
     
-    public String getSymbol() { return symbol; }
+    public int getNumber() { return number; }
     public String getProppName() { return propp_name; }
     public String getFriendlyName() { return friendly_name; }
     public String getDescription() { return description; }
@@ -45,6 +45,8 @@ public class Function {
     
     /**
      * Return true if obj is equivalent to this function, false otherwise.
+     * 
+     * (This is in place of overriding equals, which is a PITA.)
      */
     public boolean compare(Object obj) {
         if (!(obj instanceof Function)) {
@@ -53,13 +55,26 @@ public class Function {
             Function f = (Function) obj;
             // A function's symbol is supposed to uniquely identify that
             // function, so we just check if the symbol's are the same.
-            return f.symbol.equals(this.symbol);
+            return f.number == this.number;
         }        
+    }
+    
+    /**
+     * Implement Comparable.
+     */
+    public int compareTo(Object arg) {
+        Function other = (Function) arg;
+        if (other.number > this.number) {
+            return 1;
+        } else if (other.number == this.number) {
+            return 0;
+        }
+        return -1;
     }
 
     public static class Memento {
 
-        public String symbol;
+        public int number;
         public String propp_name;
         public String friendly_name;
         public String description;
@@ -67,7 +82,7 @@ public class Function {
         public String image_path;
 
         public Memento(Function f) {
-            this.symbol = f.getSymbol();
+            this.number = f.getNumber();
             this.propp_name = f.getProppName();
             this.friendly_name = f.getFriendlyName();
             this.description = f.getDescription();
@@ -78,7 +93,7 @@ public class Function {
         @Override
         public String toString() {
             String string = "<div class=\"function\">\n";
-            string += "<p>" + symbol + "\n" + friendly_name + "\n" + friendly_description + "</p>\n";
+            string += "<p>" + number + "\n" + friendly_name + "\n" + friendly_description + "</p>\n";
             string += "<img alt='"+friendly_name+"' src='"+image_path+"'/>\n";
             string += "</div><!--function-->\n";
             return string;
@@ -99,7 +114,7 @@ public class Function {
         }
         else {
             Memento m = (Memento) o;
-            Function f = new Function(m.symbol, m.propp_name, m.friendly_name,
+            Function f = new Function(m.number, m.propp_name, m.friendly_name,
                     m.description, m.friendly_description, m.image_path);
             return f;
         }

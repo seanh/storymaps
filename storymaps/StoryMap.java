@@ -2,8 +2,11 @@ package storymaps;
 
 import DragAndDrop.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import storymaps.ui.Button;
 
 public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         Originator {
@@ -26,6 +29,12 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         }
         
         Messager.getMessager().accept("StoryCard single-clicked", this, null);
+        
+        Button sort = new Button("Sort","Sort",new PImage(ResourceLoader.loadImage("/storymaps/data/gtk-sort-ascending.png")));
+        sort.setScale(5);
+        this.background.addChild(sort);
+        sort.setOffset(background.getWidth(),background.getHeight());
+        Messager.getMessager().accept("button clicked", this, null);        
     }
     
     public StoryEditor getEditor() {
@@ -117,7 +126,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
      * Placeholder in placeholders.
      */
     private void positionStoryCard(StoryCard s) {
-        // Detach s from any existing placeholder, if it's attached to one.
+        // Detach s from any existing placeholder, if it's attached to one.        
         Placeholder previous = (Placeholder)
                 s.getNode().getAttribute("Placeholder");
         if (previous != null) {
@@ -127,7 +136,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         s.unhighlight(); // Scale the SotyrCard down, to position it properly.
         addToOverlay(s.getNode());
         s.getNode().setOffset(nearest.getNode().getOffset());
-        nearest.setStoryCard(s);                
+        nearest.setStoryCard(s);
     }
     
     /**
@@ -149,7 +158,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         if (previous != null) {
             previous.clearStoryCard();
         }
-        s.unhighlight(); // Scale the SotyrCard down, to position it properly.
+        s.unhighlight(); // Scale the StoryCard down, to position it properly.
         addToOverlay(s.getNode());
         s.getNode().setOffset(p.getNode().getOffset());
         p.setStoryCard(s);                    
@@ -227,10 +236,14 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         // Otherwise, a story card was dragged from this story map and dropped
         // onto something else, so remove the story card from this story map. 
         StoryCard s = (StoryCard) draggee.getNode().getAttribute("StoryCard");
+        removeStoryCard(s);
+        return false;
+    }
+    
+    private void removeStoryCard(StoryCard s) {
         Placeholder p = (Placeholder) s.getNode().getAttribute("Placeholder");        
         p.clearStoryCard();
-        editor.update(getStoryCards());
-        return false;
+        editor.update(getStoryCards());        
     }
         
     /**
@@ -238,7 +251,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
      */
     public ArrayList<StoryCard> getStoryCards() {
         ArrayList<StoryCard> storycards = new ArrayList<StoryCard>();
-        for (Placeholder p: placeholders) {
+        for (Placeholder p : placeholders) {
             if (p.taken()) {
                 storycards.add(p.getStoryCard());
             }
@@ -251,6 +264,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
      * StoryCard in the StoryMap and the StoryEditor.
      */
     private void focus(StoryCard s) {
+        
         editor.focus(s);
     }
     
@@ -264,8 +278,35 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             if (getStoryCards().contains(s)) {
                 focus(s);
             }
+        } else if (name.equals("button clicked")) {
+            if (((String)sender_arg).equals("Sort")) {
+                sort();
+            }
         }
-    }    
+    }
+
+    /**
+     * Sort the story cards in this story map.
+     */
+    private void sort() {
+        // Get a list of all story cards currently in this story map.
+        ArrayList<StoryCard> storycards = getStoryCards();
+        
+        // Remove all story cards from the story map.
+        for (StoryCard c : storycards) {
+            removeStoryCard(c);            
+        }
+        
+        // Sort the story cards.
+        Collections.sort(storycards);
+                        
+        // Add all story cards back to the story map in sorted order.
+        for (int i = 0; i < storycards.size(); i++) {
+            addStoryCard(storycards.get(i),placeholders.get(i));     
+        }
+                
+        editor.update(getStoryCards());
+    }
 
     public static class Memento {
         public String title;

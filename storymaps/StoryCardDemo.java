@@ -13,7 +13,7 @@ public class StoryCardDemo extends PFrame implements Receiver {
     // Override PFrame's initialize method to run the demo.
     @Override
     public void initialize() {
-        Function f = new Function("Symbol","Propp name","Friendly name","Description","Friendly description","Image URL");
+        Function f = new Function(1,"Propp name","Friendly name","Description","Friendly description","Image URL");
         StoryCard card = new StoryCard(f, "A villainous act by a villain, committed in a villainous way and, generally, in the spirit of villainy.");
         getCanvas().getLayer().addChild(card.getNode());
         Messager m = Messager.getMessager();
