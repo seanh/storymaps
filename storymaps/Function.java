@@ -9,7 +9,6 @@ import java.awt.Image;
  */
 public class Function implements Comparable {
 
-    // Too dizzy to write accessor methods right now.
     private int number;
     private String propp_name;
     private String friendly_name;
