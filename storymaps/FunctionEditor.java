@@ -12,8 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import storymaps.ui.Fonts;
 
-/**
- *
+/** 
  * @author seanh
  */
 public class FunctionEditor {
@@ -91,40 +90,4 @@ public class FunctionEditor {
             return true;
         }        
     }    
-
-    public static class Memento {
-        public Object function_memento;
-        public String text;
-        public Memento(Object function_memento, String text) {
-            this.function_memento = function_memento;
-            this.text = text;
-        }
-        @Override
-        public String toString() {
-            String string = "<div class='FunctionEditor'>\n";
-            string += this.function_memento.toString();
-            string += "<div class='user_text'>" + this.text + "</div><!--user_text-->\n";
-            string += "</div><!--FunctionEditor-->\n";
-            return string;
-        }
-    }    
-    
-    public Object saveToMemento() {
-        return new Memento(this.function.saveToMemento(),
-                this.editor.getText());
-    }
-    
-    /** 
-     * Return a new FunctionEditor constructed from a memento object.
-     */
-    public static FunctionEditor newFromMemento(Object o) {
-        if (!(o instanceof Memento)) {
-            throw new IllegalArgumentException("Argument not instanceof Memento.");
-        }
-        else {
-            Memento m = (Memento) o;
-            Function f = Function.newFromMemento(m.function_memento);
-            return new FunctionEditor(f,m.text);
-        }
-    }        
 }

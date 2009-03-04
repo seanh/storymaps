@@ -15,50 +15,53 @@ import javax.swing.*;
 
 /**
  * This is the main class of the StoryMaps application. It constructs the GUI
- * and the other main parts of the application.
+ * and the other main parts of the application. It is a Singleton.
  * 
  * @author seanh
  */
-public class Main implements Receiver, Originator {
+public class Application implements Receiver {
 
     /**
      * The Swing frame that represents the application window.
      */
     private JFrame frame;
+    
     /**
-     * The Swing frame's conentPane.
+     * The Swing frame's contentPane.
      */
     private Container contentPane;
+    
     /**
      * The Piccolo canvas, where all the Piccolo action happens.
      */
     private PCanvas canvas;
+    
     /**
      * The home node, to which all other nodes are attached.
      */
     private VerticalLayoutNode home = new VerticalLayoutNode(50);
+    
     /**
-     * Node to which the story map and Write Story button are attached.
+     * A subnode of home to which the story map and Write Story button are
+     * attached.
      */
     private VerticalLayoutNode second_home = new VerticalLayoutNode(50);
+    
     /**
      * The collection of story cards that the user chooses from.
      */
     private StoryCards cards;
+    
     /**
      * The story map where the user places and arranges her chosen cards.
      */
     private StoryMap map;
+    
     /**
      * The story editor, where the user types in and edits the text of her
      * story.
      */
     private StoryEditor editor;
-
-    /**
-     * The Caretaker object that holds onto saved states of the application.
-     */
-    private Caretaker caretaker = new Caretaker();
 
     /**
      * The PNode that the PCamera is currently focused on.
@@ -69,18 +72,85 @@ public class Main implements Receiver, Originator {
      * Swing file chooser dialog used for saving and restoring to and from file.
      */
     final JFileChooser fc = new JFileChooser();
-    ImageIcon aboutIcon;
-    ImageIcon helpIcon;
+    
+    /**
+     * Icon for the toolbar.
+     */
+    private ImageIcon aboutIcon;
 
+    /**
+     * Icon for the toolbar.
+     */
+    private ImageIcon helpIcon;
+
+    /**
+     * The directory that autosave files will be saved to.
+     */
     private File autosavedir;
     
+    /**
+     * The 'Write Story' button that collapses and uncollapses the StoryEditor.
+     */
     private WriteStoryButton writeStory;
+    
+    /**
+     * The singleton instance of this class.
+     */
+    private static final Application INSTANCE = new Application();
+    
+    /**
+     * Get the singleton instance of this class.
+     */
+    public static Application getInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * Return this application's single StoryEditor instance.
+     */
+    StoryEditor getStoryEditor() {
+        return editor;
+    }
+
+    /**
+     * Return the Application to the state recorded in an ApplicationMemento.
+     */
+    void restoreFromMemento(Object o) {
+        ApplicationMemento memento = null;
+        try {
+            memento = (ApplicationMemento) o;
+        } catch (ClassCastException e) {
+            // FIXME: display an error message that the file could not be opened.
+        }
+        
+        // FIXME: is this enough to really dispose of cards?
+        cards.getNode().removeFromParent();
+        cards = memento.getStoryCards();
+        home.addChild(cards.getNode());
+        
+        // FIXME: is this enough to really dispose of map?
+        map.getNode().removeFromParent();
+        map = memento.getStoryMap();
+        second_home.addChild(map.getNode());
+        target = home;
+    }    
+    
+    /**
+     * Start the application.
+     */
+    public static void main(String[] args) {
+        // Nothing to do here, the single Application instance was already
+        // constructed when it was declared above.
+    }
     
     /**
      * Construct and start the application.
      */
-    public Main() {
+    private Application() {                
         makeFrame();
+                
+        // Subscribe to the messages sent by StoryEditor when it is collapsed
+        // and uncollapsed.
         Messager.getMessager().accept("Editor uncollapsed", this, null);
         Messager.getMessager().accept("Editor collapsed", this, null);
 
@@ -94,12 +164,6 @@ public class Main implements Receiver, Originator {
             public void run() {autosave();}};
         Timer timer = new Timer();
         timer.schedule(autoSave, 60000, 60000);        
-    }
-
-    private void autosave() {
-        String now = Util.nowStr();
-        File save = new File(autosavedir,now);
-        caretaker.writeMemento(saveToMemento(), save.getAbsolutePath());
     }
 
     /**
@@ -166,7 +230,7 @@ public class Main implements Receiver, Originator {
 
         initializePCanvas();
     }
-        
+           
     /**
      * Construct the application's toolbar, with buttons for controlling the
      * application.
@@ -175,7 +239,6 @@ public class Main implements Receiver, Originator {
         JToolBar toolBar = new JToolBar("StoryMaps");
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
-
 
         /*ImageIcon newIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-new.png");
         JButton newButton = new JButton("New",newIcon);
@@ -256,7 +319,7 @@ public class Main implements Receiver, Originator {
     /**
      * Initialise the Piccolo canvas.
      */
-    public void initializePCanvas() {
+    private void initializePCanvas() {
 
         canvas.getLayer().addChild(home);
 
@@ -372,19 +435,37 @@ public class Main implements Receiver, Originator {
     private void open() {
         int returnVal = fc.showOpenDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            restoreFromMemento(caretaker.readMemento(fc.getSelectedFile().getAbsolutePath()));
+            restoreFromMemento(XMLHandler.getInstance().readXMLAbsolute(fc.getSelectedFile().getAbsolutePath()));
         } else {
             // Open command cancelled by user.
         }
     }
 
     /**
+     * Return a new ApplicationMemento object recording a snapshot of the
+     * current state of the Application.
+     */
+    private ApplicationMemento createMemento() {
+        return new ApplicationMemento(map,cards);
+    }    
+    
+    /**
+     * Save the current state of the application in the autosave dir with a
+     * filename constructed from the current system time.
+     */
+    private void autosave() {
+        String now = Util.nowStr();
+        File save = new File(autosavedir,now);
+        XMLHandler.getInstance().writeXML(createMemento(),save.getAbsolutePath());
+    }    
+    
+    /**
      * This method is called when the Save button is pressed.
      */
     private void save() {
         int returnVal = fc.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            caretaker.writeMemento(saveToMemento(), fc.getSelectedFile().getAbsolutePath());
+            XMLHandler.getInstance().writeXML(createMemento(), fc.getSelectedFile().getAbsolutePath());
         } else {
             // Open command cancelled by user.
         }
@@ -420,57 +501,5 @@ public class Main implements Receiver, Originator {
                 "About StoryMaps",
                 JOptionPane.INFORMATION_MESSAGE,
                 aboutIcon);
-    }
-    // Implement the Originator interface.
-    /**
-     * A Memento object holds a saved state of the application.
-     */
-    public static class Memento {
-
-        public Object storycards_memento;
-        public Object storymap_memento;
-
-        public Memento(Object storycards_memento, Object storymap_memento) {
-            this.storycards_memento = storycards_memento;
-            this.storymap_memento = storymap_memento;
-        }
-
-        @Override
-        public String toString() {
-            String string = this.storymap_memento.toString();
-            string += this.storycards_memento.toString();
-            return string;
-        }
-    }
-
-    /** Return a memento object for the current state of the application. */
-    public Object saveToMemento() {
-        Object storycards_memento = cards.saveToMemento();
-        Object storymap_memento = map.saveToMemento();
-        return new Memento(storycards_memento, storymap_memento);
-    }
-
-    /** 
-     * Restore the state of the application from a memento object. 
-     * 
-     * @throws IllegalArgumentException if the argument cannot be cast to the
-     * Main.Memento type (i.e. the object m is not an object returned by the
-     * saveToMemento method of this class).
-     */
-    public void restoreFromMemento(Object o) {
-        if (!(o instanceof Memento)) {
-            throw new IllegalArgumentException("Argument not instanceof Memento.");
-        } else {
-            Memento m = (Memento) o;
-            cards.restoreFromMemento(m.storycards_memento);
-            map.restoreFromMemento(m.storymap_memento);
-        }
-    }
-
-    /**
-     * Start the application.
-     */
-    public static void main(String[] args) {
-        new Main();
     }
 }

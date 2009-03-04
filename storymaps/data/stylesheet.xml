@@ -20,10 +20,10 @@
       doctype-system="http://www.w3.org/TR/html4/strict.dtd"
       />
         
-  <xsl:template match="Main">    
+  <xsl:template match="Application">
     <html>
     <head>
-    <title><xsl:value-of select="storymap__memento/title"/></title>
+    <title><xsl:value-of select="StoryMap/title"/></title>
     <style type="text/css">
 body{
     background:#fff;
@@ -83,10 +83,10 @@ p{
     </html>
   </xsl:template>
   
-  <xsl:template match="storycards__memento">
+  <xsl:template match="StoryCards">
   </xsl:template>
   
-  <xsl:template match="storymap__memento">
+  <xsl:template match="StoryMap">
     <xsl:apply-templates />
   </xsl:template>
   
@@ -98,16 +98,12 @@ p{
       <xsl:apply-templates />
   </xsl:template>
   
-  <xsl:template match="function__memento">
+  <xsl:template match="Function">
       <xsl:apply-templates />
   </xsl:template>
   
-  <xsl:template match="storycard__memento">
+  <xsl:template match="StoryCard">
       <xsl:apply-templates />
   </xsl:template>
-  
-  <xsl:template match="editor__memento">
-    <p class="amp"><xsl:value-of select="text" /></p>
-  </xsl:template>
-  
+    
 </xsl:stylesheet>

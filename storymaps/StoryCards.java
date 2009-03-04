@@ -32,19 +32,22 @@ import java.util.ArrayList;
  */
 
 //FIXME: Need a different name for this class.
-public class StoryCards extends StoryBase implements DragDropObserver,
-        Originator {
+class StoryCards extends StoryBase implements DragDropObserver {
 
     private ArrayList<DisabledStoryCard> disabled_storycards =
             new ArrayList<DisabledStoryCard>();    
                         
+    /**
+     * Construct a new StoryCards instance and add to it a DisabledStoryCard and
+     * a StoryCard for each Propp function in Function.functions.
+     */
     public StoryCards(String title_text) {
         super(title_text);
         
         // For each Propp function, add a DisabledStoryCard to the grid node.
         // Keep references to all these DisabledStoryCards in
         // disabled_storycards.
-        for (Function f : Functions.getFunctions()) {
+        for (Function f : Function.functions) {
             DisabledStoryCard d = new DisabledStoryCard(f);
             addToGrid(d.getNode());
             disabled_storycards.add(d);
@@ -53,11 +56,24 @@ public class StoryCards extends StoryBase implements DragDropObserver,
         // Add a duplicate StoryCard on top of each DisabledStoryCard.
         for (DisabledStoryCard d : disabled_storycards) {            
             StoryCard s = new StoryCard(d.getFunction());
-            s.attach(this);
-            addToOverlay(s.getNode());
-            s.getNode().setOffset(d.getNode().getOffset());
-            d.setStoryCard(s);
+            addStoryCard(s);
         }
+    }
+    
+    /**
+     * Construct a new StoryCards instance using a given list of
+     * DisabledStoryCard objects.
+     */
+    public StoryCards(String title_text, ArrayList<DisabledStoryCard> disabled_storycards) {
+        super(title_text);
+        for (DisabledStoryCard dsc : disabled_storycards) {
+            addToGrid(dsc.getNode());
+            this.disabled_storycards.add(dsc);
+            StoryCard sc = dsc.getStoryCard();
+            if (sc != null) {
+                addStoryCard(sc);
+            }
+        }        
     }
 
     /**
@@ -100,6 +116,10 @@ public class StoryCards extends StoryBase implements DragDropObserver,
         return list;
     }
 
+    public ArrayList<DisabledStoryCard> getDisabledStoryCards() {
+        return disabled_storycards;
+    }
+    
     private void addStoryCard(StoryCard s) {
         // Subscribe to the Draggable of this story card.
         s.attach(this);
@@ -165,78 +185,5 @@ public class StoryCards extends StoryBase implements DragDropObserver,
         DisabledStoryCard d = (DisabledStoryCard) s.getNode().getAttribute("DisabledStoryCard");
         d.clearStoryCard();
         return false;
-    }
-    
-    // Implement the Originator interface.
-    
-    public static class Memento {
-        public ArrayList<Object> mementos;
-        public Memento(ArrayList<Object> mementos) {
-            this.mementos = mementos;
-        }
-        @Override
-        public String toString() {
-            String string = "<div class='CardStore'>\n";
-            for (Object m : this.mementos) {
-                string += m.toString();
-            }
-            string += "</div><!--CardStore-->\n";
-            return string;
-        }        
-    }    
-    
-    /** Return a memento object for the current state of this story map. */
-    public Object saveToMemento() {
-        // We just save a list of DisabledStoryCard mementos for each
-        // DisabledStoryCard in disabled_storycard.
-        ArrayList<Object> mementos = new ArrayList<Object>();
-        for (DisabledStoryCard d : disabled_storycards) {
-            mementos.add(d.saveToMemento());
-        }
-        return new Memento(mementos);
-    }                          
-
-    /** 
-     * Restore the state of this story map from a memento object. 
-     * 
-     * @throws IllegalArgumentException if the argument cannot be cast to the
-     * private StoryCards.Memento type (i.e. the argument is not an object
-     * returned by the saveToMemento method of this class).
-     */
-    public void restoreFromMemento(Object o) {
-        if (!(o instanceof Memento)) {
-            throw new IllegalArgumentException();
-        } else {            
-            Memento m = (Memento) o;
-            // First remove all existing DisabledStoryCards from the scene
-            // graph.
-            for (DisabledStoryCard d : disabled_storycards) {
-                if (d.taken()) {
-                    StoryCard s = d.getStoryCard();                    
-                    Draggable dr = s.getDraggable();
-                    dr.detach(this);
-                    s.getNode().removeFromParent();
-                    s.getNode().addAttribute("DisabledStoryCard",null);
-                }
-                d.getNode().removeFromParent();
-            }
-            // Now replace the list of placeholders.
-            disabled_storycards = new ArrayList<DisabledStoryCard>();            
-            for (Object pm : m.mementos) {
-                disabled_storycards.add(DisabledStoryCard.newFromMemento(pm));
-            }
-            // Add each new placeholder to the grid, in order.
-            for (DisabledStoryCard d: disabled_storycards) {
-                addToGrid(d.getNode());
-            }
-            // For each DisabledStoryCard, if it has a StoryCard, add the story
-            // card to the overlay.
-            for (DisabledStoryCard d: disabled_storycards) {
-                if (d.taken()) {
-                    StoryCard s = d.getStoryCard();                
-                    addStoryCard(s);
-                }
-            }
-        }
     }    
 }

@@ -1,23 +1,43 @@
 package storymaps;
 
 import java.awt.Image;
+import java.util.ArrayList;
 
 /**
- * Just a passive class that holds information about a Propp function.
+ * A Function is a simple immutable object that represents one of Propp's
+ * functions.
+ * 
+ * The Function class also has a public static member functions that is a list
+ * of all functions read in from the functions.xml file by XStream.
+ * 
+ * Function objects are also created when saved story XML files are read in,
+ * so it is possible to have more than one Function object with the same fields,
+ * or even with some fields the same but others different. Maybe this should be
+ * changed.
+ * 
+ * The Function class constructor is package-private so that FunctionConverter
+ * can use it, but it should not be used otherwise.
  * 
  * @author seanh
  */
-public class Function implements Comparable {
+final class Function implements Comparable {
 
-    private int number;
-    private String propp_name;
-    private String friendly_name;
-    private String description;
-    private String friendly_description;
-    private String image_path;
-    private Image image;
-    
-    public Function(int number, String propp_name, String friendly_name,
+    private final int number;
+    private final String propp_name;
+    private final String friendly_name;
+    private final String description;
+    private final String friendly_description;
+    private final String image_path;
+    private final Image image;
+
+    /**
+     * A singleton list containing a Function object for every function
+     * represented in the functions.xml file.
+     */
+    public static final ArrayList<Function> functions = (ArrayList<Function>)
+            XMLHandler.getInstance().readXMLRelative("/storymaps/data/functions.xml");    
+        
+    Function(int number, String propp_name, String friendly_name,
                     String description, String friendly_description,
                     String image_path) {
         this.number = number;
@@ -34,6 +54,7 @@ public class Function implements Comparable {
     public String getFriendlyName() { return friendly_name; }
     public String getDescription() { return description; }
     public String getFriendlyDescription() { return friendly_description; }
+    // FIXME: Should I make a defensive copy of image here?
     public Image getImage() { return image; }
     public String getImagePath() { return image_path; }
     
@@ -69,53 +90,5 @@ public class Function implements Comparable {
             return 0;
         }
         return -1;
-    }
-
-    public static class Memento {
-
-        public int number;
-        public String propp_name;
-        public String friendly_name;
-        public String description;
-        public String friendly_description;
-        public String image_path;
-
-        public Memento(Function f) {
-            this.number = f.getNumber();
-            this.propp_name = f.getProppName();
-            this.friendly_name = f.getFriendlyName();
-            this.description = f.getDescription();
-            this.friendly_description = f.getFriendlyDescription();
-            this.image_path = f.getImagePath();
-        }
-        
-        @Override
-        public String toString() {
-            String string = "<div class=\"function\">\n";
-            string += "<p>" + number + "\n" + friendly_name + "\n" + friendly_description + "</p>\n";
-            string += "<img alt='"+friendly_name+"' src='"+image_path+"'/>\n";
-            string += "</div><!--function-->\n";
-            return string;
-        }
-    }     
-  
-    /** Return a memento object for the current state of this originator. */
-    public Object saveToMemento() {
-        return new Memento(this);
-    }
-
-    /** 
-     * Return a new Function constructed from a memento object.
-     */
-    public static Function newFromMemento(Object o) {
-        if (!(o instanceof Memento)) {
-            throw new IllegalArgumentException("Argument not instanceof Memento.");
-        }
-        else {
-            Memento m = (Memento) o;
-            Function f = new Function(m.number, m.propp_name, m.friendly_name,
-                    m.description, m.friendly_description, m.image_path);
-            return f;
-        }
     }
 }

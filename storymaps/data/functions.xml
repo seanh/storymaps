@@ -13,12 +13,12 @@
 
 </xsl:stylesheet>
 <list>
-  <storymaps.Function_-Memento>
+  <Function>
     <number>1</number>
-    <propp__name>Initial Situation</propp__name>
-    <friendly__name>How the story starts.</friendly__name>
+    <proppName>Initial Situation</proppName>
+    <friendlyName>How the story starts.</friendlyName>
     <description>The initial situation</description>
-<friendly__description><![CDATA[
+<friendlyDescription><![CDATA[
 <i>You could:</i>
 <ul>
 <li>introduce the main characters, <i>and</i></li>
@@ -26,115 +26,115 @@
 <li>introduce the place, <i>and</i></li>
 <li>introduce the situation.</li>    
 </ul>]]>
-</friendly__description>
-    <image__path>/storymaps/data/0.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</friendlyDescription>
+    <pathToImage>/storymaps/data/0.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>2</number>
-    <propp__name>Absence</propp__name>
-    <friendly__name>Characters get split up.</friendly__name>
+    <proppName>Absence</proppName>
+    <friendlyName>Characters get split up.</friendlyName>
     <description>The absence of a character or characters (the absent guardian(s)) is created</description>
-<friendly__description><![CDATA[<i>For example:</i>
+<friendlyDescription><![CDATA[<i>For example:</i>
 <ul>
 <li>grown-ups leave children alone, <i>or</i></li>
 <li>children go away on their own.</li>
 </ul>]]>
-</friendly__description>
-    <image__path>/storymaps/data/1.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</friendlyDescription>
+    <pathToImage>/storymaps/data/1.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>3</number>
-    <propp__name>Interdiction</propp__name>
-    <friendly__name>Warning</friendly__name>
+    <proppName>Interdiction</proppName>
+    <friendlyName>Warning</friendlyName>
     <description>An interdiction or injunction is given</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p>Someone is given a warning.</p>
 <ul>
 <li>They are told they <em>must</em> do something, <em>or</em></li>
 <li>they are told they must <em>not</em> do something.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/2.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/2.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>4</number>
-    <propp__name>Someone ignores a warning.</propp__name>
-    <friendly__name>Ignored</friendly__name>
+    <proppName>Someone ignores a warning.</proppName>
+    <friendlyName>Ignored</friendlyName>
     <description>An interdiction is violated or an injunction fulfilled</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p>Someone ignores a warning.</p>
 <ul>
 <li>They do not do what they were told, <em>or</em></li>
 <li>they do what they were told not to.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/3.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/3.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>5</number>
-    <propp__name>Reconnaissance</propp__name>
-    <friendly__name>Spying</friendly__name>
+    <proppName>Reconnaissance</proppName>
+    <friendlyName>Spying</friendlyName>
     <description>An attempt to obtain information is made</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p>Someone tries to get information.</p>
 <ul>
 <em>For example:</em>
 <li>The <strong>VILLAIN</strong> spies on a person he wants to get, <em>or</em></li>
 <li>the <strong>VILLAIN</strong> asks questions about something he wants to steal, <em>or</em></li>
 <li>the <strong>HERO</strong> asks questions about the <strong>VILLAIN</strong>.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/4.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/4.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>6</number>
-    <propp__name>Delivery</propp__name>
-    <friendly__name>Information</friendly__name>
+    <proppName>Delivery</proppName>
+    <friendlyName>Information</friendlyName>
     <description>Information is delivered</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p>Someone gets some information.</p>
 <ul>
 <em>For example:</em>
 <li>The <strong>VILLAIN</strong> learns something about a person he wants to get, <em>or</em></li>
 <li>the <strong>VILLAIN</strong> learns something about something he wants to steal, <em>or</em></li>
 <li>the <strong>HERO</strong> learns something about the <strong>VILLAIN</strong>.</li>
-]]></friendly__description>
-    <image__path>/storymaps/data/5.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+]]></friendlyDescription>
+    <pathToImage>/storymaps/data/5.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>7</number>
-    <propp__name>Fraud</propp__name>
-    <friendly__name>Trick</friendly__name>
+    <proppName>Fraud</proppName>
+    <friendlyName>Trick</friendlyName>
     <description>The villain attempts to deceive or coerce the victim</description>
-    <friendly__description><![CDATA[<p>The <strong>VILLAIN</strong> tries to trick someone into doing something they shouldn't.</p>]]></friendly__description>
-    <image__path>/storymaps/data/6.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+    <friendlyDescription><![CDATA[<p>The <strong>VILLAIN</strong> tries to trick someone into doing something they shouldn't.</p>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/6.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>8</number>
-    <propp__name>Complicity</propp__name>
-    <friendly__name>Fooled</friendly__name>
+    <proppName>Complicity</proppName>
+    <friendlyName>Fooled</friendlyName>
     <description>The victim submits to deception or coercion</description>
-    <friendly__description><![CDATA[<p>Someone falls for the <strong>VILLAIN</strong>'s trick and does something they shouldn't.</p>]]></friendly__description>
-    <image__path>/storymaps/data/7.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+    <friendlyDescription><![CDATA[<p>Someone falls for the <strong>VILLAIN</strong>'s trick and does something they shouldn't.</p>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/7.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>9</number>
-    <propp__name>Villainy</propp__name>
-    <friendly__name>Villainy!</friendly__name>
+    <proppName>Villainy</proppName>
+    <friendlyName>Villainy!</friendlyName>
     <description>The villain creates a misfortune or crisis</description>
-    <friendly__description><![CDATA[<p>The villain does something bad.</p>
+    <friendlyDescription><![CDATA[<p>The villain does something bad.</p>
 <ul>
 <li>the villain steals something, <em>or</em></li>
 <li>the villain kidnaps someone, <em>or</em></li>
 <li>the villain damages something, <em>or</em></li>
 <li>the villain hurts someone, <em>or</em></li>
 <li>the villain makes someone leave home.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/8.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/8.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>10</number>
-    <propp__name>Lack</propp__name>
-    <friendly__name>Want</friendly__name>
+    <proppName>Lack</proppName>
+    <friendlyName>Want</friendlyName>
     <description>Something is lacking or desired</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p>Someone wants something they don't have.</p>
 <ul>
 <li>a friend, <em>or</em></li>
@@ -143,15 +143,15 @@
 <li>money, <em>or</em></li>
 <li>food, <em>or</em></li>
 <li>something else.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/8.5.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/8.5.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>11</number>
-    <propp__name>Mediation</propp__name>
-    <friendly__name>Help</friendly__name>
+    <proppName>Mediation</proppName>
+    <friendlyName>Help</friendlyName>
     <description>The misfortune or shortage is made known to the hero</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p>The hero learns about the villainy.</p>
 <p><em>For example:</em></p>
 <ul>
@@ -159,33 +159,33 @@
 <li>someone tells the hero about it, <em>or</em>    </li>
 <li>someone <em>asks</em> the hero to help, <em>or</em></li>
 <li>some other way.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/9.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/9.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>12</number>
-    <propp__name>Deciding Counteraction</propp__name>
-    <friendly__name>Deciding</friendly__name>
+    <proppName>Deciding Counteraction</proppName>
+    <friendlyName>Deciding</friendlyName>
     <description>The seeker hero agrees to or decides upon counteraction</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p>The <strong>HERO</strong> decides to go on a journey to put right the villainy.</p>
-]]></friendly__description>
-    <image__path>/storymaps/data/10.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+]]></friendlyDescription>
+    <pathToImage>/storymaps/data/10.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>13</number>
-    <propp__name>Departure</propp__name>
-    <friendly__name>Leaving</friendly__name>
+    <proppName>Departure</proppName>
+    <friendlyName>Leaving</friendlyName>
     <description>The hero leaves home</description>
-    <friendly__description><![CDATA[<p>The <strong>HERO</strong> leaves on a journey to put right the villainy.</p>]]></friendly__description>
-    <image__path>/storymaps/data/11.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+    <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> leaves on a journey to put right the villainy.</p>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/11.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>14</number>
-    <propp__name>Test</propp__name>
-    <friendly__name>Test</friendly__name>
+    <proppName>Test</proppName>
+    <friendlyName>Test</friendlyName>
     <description>The donor presents a test to the hero</description>
-    <friendly__description><![CDATA[<p>The <strong>HERO</strong> meets a magical <strong>HELPER</strong> (person or animal) who gives the hero a test.</p>
+    <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> meets a magical <strong>HELPER</strong> (person or animal) who gives the hero a test.</p>
     
 <ul>
 <li>They ask the hero a question, <em>or</em></li>
@@ -193,45 +193,45 @@
 <li>they fight the hero, <em>or</em></li>
 <li>they make the hero an offer, <em>or</em></li>
 <li>something else.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/12.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/12.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>15</number>
-    <propp__name>Reaction</propp__name>
-    <friendly__name>Answer</friendly__name>
+    <proppName>Reaction</proppName>
+    <friendlyName>Answer</friendlyName>
     <description>The hero reacts to the donor</description>
-    <friendly__description><![CDATA[<p>The <strong>HERO</strong> answers the test.</p>
+    <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> answers the test.</p>
 <ul>
 <li>They answer the question correctly or incorrectly, <em>or</em></li>
 <li>they help or do not help, <em>or</em></li>
 <li>they win or lose the fight, <em>or</em></li>
 <li>they accept or refuse the offer, <em>or</em></li>
 <li>something else.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/13.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/13.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>16</number>
-    <propp__name>Receipt</propp__name>
-    <friendly__name>Reward</friendly__name>
+    <proppName>Receipt</proppName>
+    <friendlyName>Reward</friendlyName>
     <description>The hero receives the magical agent</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p>The <strong>HERO</strong> gets something special.</p>
 <p><em>For example:</em></p>
 <ul>
 <li>The helper gives the hero something magic, <em>or</em></li>
 <li>the helper tells the hero where to get something useful, <em>or</em></li>
 <li>the hero steals something special from the helper.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/14.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/14.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>17</number>
-    <propp__name>Arrival</propp__name>
-    <friendly__name>Arrival</friendly__name>
+    <proppName>Arrival</proppName>
+    <friendlyName>Arrival</friendlyName>
     <description>The hero arrives at the whereabouts of the object of search.</description>
-    <friendly__description><![CDATA[<p>The <strong>HERO</strong> gets to the destination of their journey.</p>
+    <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> gets to the destination of their journey.</p>
 <p><em>They might get there by:</em></p>
 <ul>
 <li>travelling on an animal, <em>or</em></li>
@@ -239,101 +239,101 @@
 <li>following someone, <em>or</em></li>
 <li>finding a special doorway.</li>
 </ul>
-]]></friendly__description>
-    <image__path>/storymaps/data/15.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+]]></friendlyDescription>
+    <pathToImage>/storymaps/data/15.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>18</number>
-    <propp__name>Struggle</propp__name>
-    <friendly__name>Struggle</friendly__name>
+    <proppName>Struggle</proppName>
+    <friendlyName>Struggle</friendlyName>
     <description>A struggle begins between the hero and the villain</description>
-    <friendly__description><![CDATA[<p>The <strong>HERO</strong> and the <strong>VILLAIN</strong> begin a competition...</p>
+    <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> and the <strong>VILLAIN</strong> begin a competition...</p>
 
 <ul>
 <li>they start to fight each other, <em>or</em></li>
 <li>they start a game against each other.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/16.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/16.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>19</number>
-    <propp__name>The VILLAIN is defeated.</propp__name>
-    <friendly__name>The VILLAIN is defeated.</friendly__name>
+    <proppName>The VILLAIN is defeated.</proppName>
+    <friendlyName>The VILLAIN is defeated.</friendlyName>
     <description><![CDATA[<ul>
 <li>they lose the fight, <em>or</em></li>
 <li>they lose the game, <em>or</em></li>
 <li>they get scared off, <em>or</em></li>
 <li>they get killed.</li>
 </ul>]]></description>
-    <friendly__description><![CDATA[<ul>
+    <friendlyDescription><![CDATA[<ul>
 <li>They lose the fight, <em>or</em></li>
 <li>they lose the game, <em>or</em></li>
 <li>they get scared off, <em>or</em></li>
 <li>they get killed.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/18.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/18.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>21</number>
-    <propp__name>Liquidation</propp__name>
-    <friendly__name>The villainy is put right.</friendly__name>
+    <proppName>Liquidation</proppName>
+    <friendlyName>The villainy is put right.</friendlyName>
     <description>The misfortune or lack is liquidated</description>
-    <friendly__description><![CDATA[
+    <friendlyDescription><![CDATA[
 <p><em>For example:</em></p>
 <ul>
 <li>The thing that was stolen returns, <em>or</em></li>
 <li>the person that was kidnapped returns, <em>or</em></li>
 <li>someone gets the thing that they want.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/19.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/19.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>22</number>
-    <propp__name>Return</propp__name>
-    <friendly__name>Return</friendly__name>
+    <proppName>Return</proppName>
+    <friendlyName>Return</friendlyName>
     <description>The hero sets out to return</description>
-    <friendly__description><![CDATA[<p>The <strong>HERO</strong> starts to go back home.</p>]]></friendly__description>
-    <image__path>/storymaps/data/20.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+    <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> starts to go back home.</p>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/20.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>23</number>
-    <propp__name>Pursuit</propp__name>
-    <friendly__name>Chase</friendly__name>
+    <proppName>Pursuit</proppName>
+    <friendlyName>Chase</friendlyName>
     <description>A pursuit of the hero begins</description>
-    <friendly__description><![CDATA[<p>The <strong>VILLAIN</strong> chases the HERO.</p>]]></friendly__description>
-    <image__path>/storymaps/data/21.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+    <friendlyDescription><![CDATA[<p>The <strong>VILLAIN</strong> chases the HERO.</p>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/21.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>24</number>
-    <propp__name>Escape</propp__name>
-    <friendly__name>Escape</friendly__name>
+    <proppName>Escape</proppName>
+    <friendlyName>Escape</friendlyName>
     <description>The hero is rescued from or escapes pursuit</description>
-    <friendly__description><![CDATA[<p>The <strong>HERO</strong> escapes from the <strong>VILLAIN</strong></p>]]></friendly__description>
-    <image__path>/storymaps/data/22.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+    <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> escapes from the <strong>VILLAIN</strong></p>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/22.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>31</number>
-    <propp__name>Punishment</propp__name>
-    <friendly__name>Punishment</friendly__name>
+    <proppName>Punishment</proppName>
+    <friendlyName>Punishment</friendlyName>
     <description>The false hero or villain is punished</description>
-    <friendly__description><![CDATA[<p>The <strong>VILLAIN</strong> is punished, <em>or</em> <br />
-the <strong>VILLAIN</strong> is forgiven.</p>]]></friendly__description>
-    <image__path>/storymaps/data/29.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
-  <storymaps.Function_-Memento>
+    <friendlyDescription><![CDATA[<p>The <strong>VILLAIN</strong> is punished, <em>or</em> <br />
+the <strong>VILLAIN</strong> is forgiven.</p>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/29.svg-512.png</pathToImage>
+  </Function>
+  <Function>
     <number>32</number>
-    <propp__name>Reward</propp__name>
-    <friendly__name>Reward</friendly__name>
+    <proppName>Reward</proppName>
+    <friendlyName>Reward</friendlyName>
     <description>The hero is rewarded</description>
-    <friendly__description><![CDATA[<p>The <strong>HERO</strong> gets a reward...</p>
+    <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> gets a reward...</p>
 
 <ul>
 <li>they get married, <em>or</em></li>
 <li>they get a new home, <em>or</em></li>
 <li>they get money or nice things, <em>or</em></li>
 <li>something else.</li>
-</ul>]]></friendly__description>
-    <image__path>/storymaps/data/30.svg-512.png</image__path>
-  </storymaps.Function_-Memento>
+</ul>]]></friendlyDescription>
+    <pathToImage>/storymaps/data/30.svg-512.png</pathToImage>
+  </Function>
 </list>
 </doc>

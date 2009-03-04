@@ -4,10 +4,20 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- *
+ * A DisabledStoryCard is like a story card but it is faded out and not
+ * interactive.
+ * 
+ * FIXME: this class needs to be refactored, there should be a Box class for a
+ * node that can "hold" another node and this class should be a subclass of Box
+ * that adds some visible geometry to make the box look like a faded out
+ * StoryCard for a particular function. There also needs to be some code sharing
+ * between this class and StoryCard, both have a function and create some
+ * storycard-shaped visual geometry for it.
+ * 
+ * 
  * @author seanh
  */
-public class DisabledStoryCard extends StoryCardBase {
+class DisabledStoryCard extends StoryCardBase {
         
     private StoryCard storycard = null;
     private boolean taken = false;
@@ -53,47 +63,5 @@ public class DisabledStoryCard extends StoryCardBase {
     public void clearStoryCard() {
         storycard = null;
         taken = false;
-    }
-    
-    public static class Memento {
-        public Object function_memento;
-        public Object storycard_memento;
-        public Memento(Object function_memento, Object storycard_memento) {
-            this.function_memento = function_memento;
-            this.storycard_memento = storycard_memento;
-        }
-        @Override
-        public String toString() {
-            String string = "<div class='DisabledStoryCard'>\n";
-            string += function_memento.toString();
-            if (storycard_memento != null) {
-                string += storycard_memento.toString();
-            }
-            string += "</div><!--DisabledStoryCard-->\n";
-            return string;
-        }
-    }
-    
-    public Object saveToMemento() {
-        Object function_memento = function.saveToMemento();
-        Object storycard_memento = null;
-        if (storycard != null) {
-            storycard_memento = storycard.saveToMemento();
-        }
-        return new Memento(function_memento,storycard_memento);
-    }
-    
-    public static DisabledStoryCard newFromMemento(Object o) {
-        if (!(o instanceof Memento)) {
-            throw new IllegalArgumentException("Argument not instanceof Memento");
-        }
-        Memento m = (Memento) o;
-        Function f = Function.newFromMemento(m.function_memento);
-        DisabledStoryCard d = new DisabledStoryCard(f);
-        if (m.storycard_memento != null) {
-            StoryCard s = StoryCard.newFromMemento(m.storycard_memento);
-            d.setStoryCard(s);
-        }
-        return d;
     }
 }

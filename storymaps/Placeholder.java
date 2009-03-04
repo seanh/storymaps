@@ -45,43 +45,4 @@ public class Placeholder {
         storycard = null;
         taken = false;
     }
-
-    public static class Memento {
-        public Object storycard_memento;
-        public Memento(Object storycard_memento) {
-            this.storycard_memento = storycard_memento;
-        }
-        @Override
-        public String toString() {
-            String string = "<div class='placeholder'>\n";
-            if (storycard_memento != null) {
-                string += storycard_memento.toString();
-            }
-            string += "</div><!--placeholder-->\n";
-            return string;
-        }        
-    }      
-    
-    public Object saveToMemento() {
-        if (storycard == null) {
-            return new Memento(null);
-        } else {
-            return new Memento(storycard.saveToMemento());
-        }
-    }
-    
-    public static Placeholder newFromMemento(Object o) {
-        if (!(o instanceof Memento)) {
-            throw new IllegalArgumentException("Argument not instanceof Memento.");
-        }
-        else {
-            Memento m = (Memento) o;
-            Placeholder p = new Placeholder();
-            if (m.storycard_memento != null) {
-                StoryCard s = StoryCard.newFromMemento(m.storycard_memento);
-                p.setStoryCard(s);
-            }                        
-            return p;
-        }
-    }
 }

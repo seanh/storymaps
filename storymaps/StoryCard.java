@@ -170,47 +170,6 @@ public class StoryCard extends StoryCardBase implements Receiver,
         }
     }
     
-    // Implement the Originator interface.
-
-    public static class Memento {
-        public Object function_memento;
-        public Object editor_memento;
-        public Memento(Object function_memento, Object editor_memento) {
-            this.function_memento = function_memento;
-            this.editor_memento = editor_memento;
-        }
-        @Override
-        public String toString() {
-            String string = "<div class='StoryCard'>\n";
-            string += this.function_memento.toString();
-            string += this.editor_memento.toString();
-            string += "</div><!--StoryCard-->\n";
-            return string;
-        }        
-    }    
-    
-    /** Return a memento object for the current state of this StoryCard. */
-    public Object saveToMemento() {
-        Object function_memento = function.saveToMemento();
-        Object editor_memento = editor.saveToMemento();
-        return new Memento(function_memento,editor_memento);
-    }
-
-    /** 
-     * Return a new StoryCard constructed from a memento object.
-     */
-    public static StoryCard newFromMemento(Object o) {
-        if (!(o instanceof Memento)) {
-            throw new IllegalArgumentException("Argument not instanceof Memento.");
-        }
-        else {
-            Memento m = (Memento) o;
-            Function f = Function.newFromMemento(m.function_memento);
-            FunctionEditor e = FunctionEditor.newFromMemento(m.editor_memento);
-            return new StoryCard(f,e.getText());
-        }
-    }
-
     public void receive(String name, Object receiver_arg, Object sender_arg) {
         if (name.equals("drag started")) {
             if (sender_arg instanceof PNode) {

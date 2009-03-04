@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import storymaps.ui.Button;
 
-public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
-        Originator {
+public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
         
     private ArrayList<Placeholder> placeholders = 
             new ArrayList<Placeholder>();    
@@ -27,14 +26,34 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             addToGrid(p.getNode());
             placeholders.add(p);
         }
-        
+        init();
+    }
+    
+    public StoryMap(String title_text, StoryEditor editor, ArrayList<Placeholder> placeholders) {
+        super(title_text);
+        this.editor = editor;
+        for (Placeholder p : placeholders) {
+            addToGrid(p.getNode());
+            this.placeholders.add(p);
+            StoryCard sc = p.getStoryCard();
+            if (sc != null) {
+                addStoryCard(sc,p);
+            }
+        }
+        init();
+    }
+    
+    /**
+     * An init method that is called by all constructor methods and does some
+     * common initialisation stuff.
+     */
+    private void init() {
         Messager.getMessager().accept("StoryCard single-clicked", this, null);
-        
         Button sort = new Button("Sort","Sort",new PImage(ResourceLoader.loadImage("/storymaps/data/gtk-sort-ascending.png")));
         sort.setScale(5);
         this.background.addChild(sort);
         sort.setOffset(background.getWidth(),background.getHeight());
-        Messager.getMessager().accept("button clicked", this, null);        
+        Messager.getMessager().accept("button clicked", this, null);                
     }
     
     public StoryEditor getEditor() {
@@ -259,6 +278,10 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         return storycards;
     }
     
+    public ArrayList<Placeholder> getPlaceholders() {
+        return placeholders;
+    }
+    
     /**
      * Called when a StoryCard in this StoryMap is single-clicked, focus the
      * StoryCard in the StoryMap and the StoryEditor.
@@ -306,80 +329,5 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         }
                 
         editor.update(getStoryCards());
-    }
-
-    public static class Memento {
-        public String title;
-        public ArrayList<Object> placeholder_mementos;
-        public Memento(String title, ArrayList<Object> placeholder_mementos) {
-            this.title = title;
-            this.placeholder_mementos = placeholder_mementos;
-        }
-        @Override
-        public String toString() {
-            String string = "<div class='StoryMap'>\n";
-            for (Object m : this.placeholder_mementos) {
-                string += m.toString();
-            }
-            string += "</div><!--StoryMap-->\n";
-            return string;
-        }           
-    }    
-    
-    /** Return a memento object for the current state of this StoryMap. */
-    public Object saveToMemento() {
-        // We just save a list of placeholder mementos for each placeholder in
-        // the story map.
-        ArrayList<Object> placeholder_mementos = new ArrayList<Object>();
-        for (Placeholder p : placeholders) {
-            placeholder_mementos.add(p.saveToMemento());
-        }
-        return new Memento(editor.getTitle(),placeholder_mementos);
-    }                          
-
-    /** 
-     * Restore the state of this StoryMap from a memento object. 
-     * 
-     * @throws IllegalArgumentException if the argument cannot be cast to the
-     * private StoryMap.Memento type (i.e. the argument is not an object
-     * returned by the saveToMemento method of this class).
-     */
-    public void restoreFromMemento(Object o) {
-        if (!(o instanceof Memento)) {
-            throw new IllegalArgumentException();
-        } else {            
-            Memento m = (Memento) o;
-            // First remove all existing placeholders from the scene graph.
-            for (Placeholder p : placeholders) {
-                StoryCard s = p.getStoryCard();
-                if (s != null) {
-                    Draggable d = s.getDraggable();
-                    d.detach(this);
-                    s.getNode().removeFromParent();
-                    s.getNode().addAttribute("Placeholder",null);
-                }
-                p.getNode().removeFromParent();
-            }
-            // Now replace the list of placeholders.
-            placeholders = new ArrayList<Placeholder>();            
-            for (Object pm : m.placeholder_mementos) {
-                placeholders.add(Placeholder.newFromMemento(pm));
-            }
-            // Add each new placeholder to the grid, in order.
-            for (Placeholder p: placeholders) {
-                addToGrid(p.getNode());
-            }
-            // For each placeholder, if it has a StoryCard, add the story card
-            // to the overlay.
-            for (Placeholder p: placeholders) {
-                StoryCard s = p.getStoryCard();
-                if (s != null) {
-                    addStoryCard(s,p);
-                }
-            }
-            // Update the StoryEditor.
-            editor.update(getStoryCards());
-            editor.setTitle(m.title);
-        }
     }
 }
