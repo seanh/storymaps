@@ -25,7 +25,7 @@ class StoryCardConverter implements Converter {
             writer.startNode("Function");
             context.convertAnother(s.getFunction());
             writer.endNode();            
-            writer.startNode("text");            
+            writer.startNode("text");                                    
             writer.setValue(s.getEditor().getText());
             writer.endNode();
         }

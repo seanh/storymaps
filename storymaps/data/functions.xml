@@ -1,17 +1,3 @@
-<?xml version="1.0"?>
-<?xml-stylesheet type="text/xml" href="#stylesheet"?>
-<!DOCTYPE doc [
-<!ATTLIST xsl:stylesheet
-  id	ID	#REQUIRED>
-]>
-<doc>
-<xsl:stylesheet id="stylesheet"
-                version="1.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <!-- any xsl:import elements -->
-  <xsl:template match="xsl:stylesheet" />
-
-</xsl:stylesheet>
 <list>
   <Function>
     <number>1</number>
@@ -336,4 +322,3 @@ the <strong>VILLAIN</strong> is forgiven.</p>]]></friendlyDescription>
     <pathToImage>/storymaps/data/30.svg-512.png</pathToImage>
   </Function>
 </list>
-</doc>
