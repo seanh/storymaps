@@ -1,6 +1,7 @@
 package storymaps;
 
 import com.thoughtworks.xstream.XStream;
+import java.io.IOException;
 
 /**
  * Singleton that handles reading and writing XML to file using XStream.
@@ -61,7 +62,7 @@ class XMLHandler {
      * @param filename The filename of the XML file to write. Should be a
      * relative filename, e.g. "/storymaps/data/functions.xml". 
      */
-    void writeXML(Object o, String filename) {                
+    void writeXML(Object o, String filename) throws IOException {                
         String xml = xstream.toXML(o);                                
         Util.writeFileAbsolute(xml, filename);
     }
@@ -74,7 +75,7 @@ class XMLHandler {
      * occurs while reading and parsing the XML file this method may return
      * null.
      */
-    Object readXMLAbsolute(String absolutePath) {
+    Object readXMLAbsolute(String absolutePath) throws IOException {
         return xstream.fromXML(Util.readFileAbsolute(absolutePath));                
     }
 
@@ -87,7 +88,7 @@ class XMLHandler {
      * occurs while reading and parsing the XML file this method may return
      * null.
      */
-    Object readXMLRelative(String relativePath) {
+    Object readXMLRelative(String relativePath) throws IOException {
         return xstream.fromXML(Util.readFileRelative(relativePath));                
     }            
 }

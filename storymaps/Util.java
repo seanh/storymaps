@@ -29,7 +29,7 @@ class Util {
      * /storymaps/data/functions.xml) read in a file and return the contents as
      * a string.
      */
-    public static String readFileRelative(String relativePath) {
+    public static String readFileRelative(String relativePath) throws IOException {
         String absolutePath = Util.class.getResource(relativePath).getPath();
         return readFileAbsolute(absolutePath);
     }
@@ -38,7 +38,7 @@ class Util {
      * Given an absolute path read in a file and return the contents as a
      * string.
      */
-    public static String readFileAbsolute(String absolutePath) {
+    public static String readFileAbsolute(String absolutePath) throws IOException {
         String contents = "";
         try {
             BufferedReader in = new BufferedReader(new FileReader(absolutePath));
@@ -48,7 +48,7 @@ class Util {
             }
             in.close();
         } catch (IOException e) {
-            System.out.println("IOException when reading "+absolutePath+" "+e);
+            throw new IOException("IOException when reading-in text file from path: "+absolutePath,e);
         }
         return contents;
     }
@@ -59,13 +59,13 @@ class Util {
      * @param s The string to be written.
      * @param absolutePath The absolute path to the file to write to.
      */
-    public static void writeFileAbsolute(String s, String absolutePath) {        
+    public static void writeFileAbsolute(String s, String absolutePath) throws IOException {        
         try {
             PrintWriter out = new PrintWriter(new FileWriter(absolutePath));
             out.print(s);
             out.close();
         } catch (IOException e) {
-            System.out.println("IOException when writing "+absolutePath+" "+e);
+            throw new IOException("IOException when writing text file to path: "+absolutePath,e);
         }        
     }    
 }

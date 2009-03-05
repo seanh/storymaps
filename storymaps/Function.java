@@ -1,6 +1,7 @@
 package storymaps;
 
 import java.awt.Image;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -34,9 +35,23 @@ final class Function implements Comparable {
      * A singleton list containing a Function object for every function
      * represented in the functions.xml file.
      */
-    public static final ArrayList<Function> functions = (ArrayList<Function>)
-            XMLHandler.getInstance().readXMLRelative("/storymaps/data/functions.xml");    
-        
+    private static ArrayList<Function> functions;
+    
+    private static void initialiseFunctionsIfNecessary() {
+        try {
+            functions = (ArrayList<Function>) XMLHandler.getInstance().readXMLRelative("/storymaps/data/functions.xml");
+        } catch (IOException e) {
+            // If we can't read the functions.xml file then the application
+            // can't work.
+            throw new RuntimeException("Could not read functions.xml file.",e);
+        }
+    }
+    
+    static ArrayList<Function> getFunctions() {
+        initialiseFunctionsIfNecessary();
+        return functions;
+    }
+    
     Function(int number, String propp_name, String friendly_name,
                     String description, String friendly_description,
                     String image_path) {

@@ -1,0 +1,1 @@
+We use the [FreeMarker](http://www.freemarker.org/) templating engine to output data via templates, e.g. to save a user's story as HTML. This directory contains the FreeMarker templates.

@@ -9,6 +9,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
 import javax.swing.*;
@@ -274,6 +275,18 @@ public class Application implements Receiver {
                 save();
             }
         });
+
+        ImageIcon saveAsHtmlIcon = ResourceLoader.loadImageIcon("/storymaps/icons/save_as_html.png");
+        JButton saveAsHtmlButton = new JButton("Save as HTML", saveAsHtmlIcon);
+        saveAsHtmlButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        saveAsHtmlButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        toolBar.add(saveAsHtmlButton);
+        saveAsHtmlButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                saveAsHTML();
+            }
+        });        
         
         /*
         ImageIcon printIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-print.png");
@@ -435,7 +448,18 @@ public class Application implements Receiver {
     private void open() {
         int returnVal = fc.showOpenDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            restoreFromMemento(XMLHandler.getInstance().readXMLAbsolute(fc.getSelectedFile().getAbsolutePath()));
+            String filename = fc.getSelectedFile().getAbsolutePath();
+            try {                
+                Object m = XMLHandler.getInstance().readXMLAbsolute(filename);                
+                restoreFromMemento(m);
+            } catch (IOException e) {
+                // FIXME: display a friendly message to the user via the GUI,
+                // print the exception itself to stderr and log it to an errors
+                // log file.
+                String message = "Application.open(): IOException when trying to open story file at path: "+filename;
+                System.out.println(message);
+                System.out.println(e);                
+            }            
         } else {
             // Open command cancelled by user.
         }
@@ -456,7 +480,17 @@ public class Application implements Receiver {
     private void autosave() {
         String now = Util.nowStr();
         File save = new File(autosavedir,now);
-        XMLHandler.getInstance().writeXML(createMemento(),save.getAbsolutePath());
+        String filename = save.getAbsolutePath();
+        ApplicationMemento memento = createMemento();
+        try {
+            XMLHandler.getInstance().writeXML(memento,filename);
+        } catch (IOException e) {
+            // FIXME: display a friendly message to the user via the GUI, print
+            // the exception itself to stderr and append it to an errors log
+            // file.
+            System.out.println("Application.autosave(): IOError when writing to path: "+filename);
+            System.out.println(e);
+        }
     }    
     
     /**
@@ -465,14 +499,47 @@ public class Application implements Receiver {
     private void save() {
         int returnVal = fc.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            XMLHandler.getInstance().writeXML(createMemento(), fc.getSelectedFile().getAbsolutePath());
+            try {
+                XMLHandler.getInstance().writeXML(createMemento(), fc.getSelectedFile().getAbsolutePath());
+            } catch (IOException e) {
+                // FIXME: display a more friendly message to the user via the
+                // GUI, print the exception itself to stderr and append it to an
+                // errors log file.
+                System.out.println("IOException when saving story.");
+                System.out.println(e);
+            }
         } else {
             // Open command cancelled by user.
         }
-
-
     }
-
+    
+    /**
+     * This method is called when the "Save as HTML" button is pressed.
+     */
+    private void saveAsHTML() {
+        int returnVal = fc.showSaveDialog(frame);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                String html = TemplateHandler.getInstance().renderStoryMap(map);
+                Util.writeFileAbsolute(html, fc.getSelectedFile().getAbsolutePath());
+            } catch (IOException e) {
+                // FIXME: display a more friendly message to the user via the
+                // GUI, print the exception itself to stderr and append it to an
+                // errors log file.
+                System.out.println("IOException when saving story as HTML");
+                System.out.println(e);
+            } catch (TemplateHandlerException e) {
+                // FIXME: display a more friendly message to the user via the
+                // GUI, print the exception itself to stderr and append it to an
+                // errors log file.
+                System.out.println("TemplateHandlerException when saving story as HTML");
+                System.out.println(e);
+            }
+        } else {
+            // Open command cancelled by user.
+        }
+    }
+    
     /**
      * This method is called when the Print button is pressed.
      */

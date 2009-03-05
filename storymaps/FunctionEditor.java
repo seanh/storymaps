@@ -15,7 +15,7 @@ import storymaps.ui.Fonts;
 /** 
  * @author seanh
  */
-public class FunctionEditor {
+class FunctionEditor {
 
     private Function function;
     private JPanel panel = new JPanel();
@@ -70,6 +70,33 @@ public class FunctionEditor {
     
     public String getText() {
         return editor.getText();
+    }
+    
+    /**
+     * Return the user's text from the JTextArea decorated with HTML <br/> and
+     * <p> </p> tags, so that line-breaks and paragraphs are preserved when the
+     * text is written out to HTML.
+     * 
+     */
+    public String getTextAsHTML() {
+        // FIXME: this closes a paragraph at points where it should just put a
+        // <br/> (when the user has manually gone onto the next line, but has
+        // not left an empty line).
+        String plainText = editor.getText();
+        String html = "";
+        int mode = 0;
+        for (String part : plainText.split("\n")) {
+            if (mode == 0) {
+                html = html + "<p>";
+                mode = 1;
+            } else if (mode == 1) {
+                html = html + "</p> <p>";
+                mode = 0;
+            }
+            html = html + part;
+        }
+        html = html + "</p>";
+        return html;
     }
     
     public void focus() {
