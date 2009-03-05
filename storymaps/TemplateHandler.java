@@ -31,25 +31,30 @@ final class TemplateHandler {
     /**
      * The Singleton instance of this class.
      */
-    private static final TemplateHandler INSTANCE = new TemplateHandler();
+    private static TemplateHandler INSTANCE = null;
     
     /**
      * Return the singleton instance of this class.
      */
-    static TemplateHandler getInstance() {
+    static TemplateHandler getInstance() throws IOException {
+        if (INSTANCE == null) {
+             INSTANCE = new TemplateHandler();
+        }
         return INSTANCE;
     }
 
     /**
      * Private constructor prevents instantiation from outside this class.
      */
-    private TemplateHandler() {
+    private TemplateHandler() throws IOException {
         try {
             String templates_path = getClass().getResource("/storymaps/templates").getPath();
             cfg.setDirectoryForTemplateLoading(new File(templates_path));
             cfg.setObjectWrapper(new DefaultObjectWrapper());            
         } catch (IOException e) {
-            System.out.println("IOException when configuring template engine "+e);
+            String detail = "IOException when configuring template engine.";
+            Util.reportException(detail, e);
+            throw new IOException(detail,e);
         }               
     }
     

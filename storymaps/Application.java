@@ -231,6 +231,28 @@ public class Application implements Receiver {
 
         initializePCanvas();
     }
+    
+    /**
+     * Report an exception to the user.
+     */
+    private void reportException(String message) {
+        // TODO.
+    }
+    
+    private JButton createButton(String path, String text) {
+        JButton button;
+        try {
+            ImageIcon icon = Util.readImageIconFromFile(path);
+            button = new JButton(text, icon);
+        } catch (IOException e) {
+            // If we can't read an icon file we don't report it to the user,
+            // just create a button with text and no icon.
+            button = new JButton(text);
+        }        
+        button.setVerticalTextPosition(AbstractButton.BOTTOM);
+        button.setHorizontalTextPosition(AbstractButton.CENTER);
+        return button;
+    }
            
     /**
      * Construct the application's toolbar, with buttons for controlling the
@@ -240,92 +262,31 @@ public class Application implements Receiver {
         JToolBar toolBar = new JToolBar("StoryMaps");
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
-
-        /*ImageIcon newIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-new.png");
-        JButton newButton = new JButton("New",newIcon);
-        newButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        newButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        toolBar.add(newButton);
-        newButton.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-        newStory();
-        }
-        });*/
-
-        ImageIcon openIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-open.png");
-        JButton openButton = new JButton("Open", openIcon);
-        openButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        openButton.setHorizontalTextPosition(AbstractButton.CENTER);
+                
+        JButton openButton = createButton("/storymaps/icons/open.png","Open");
         toolBar.add(openButton);
         openButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 open();
             }
         });
 
-        ImageIcon saveIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-save.png");
-        JButton saveButton = new JButton("Save", saveIcon);
-        saveButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        saveButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        JButton saveButton = createButton("/storymaps/icons/save.png","Save");        
         toolBar.add(saveButton);
         saveButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 save();
             }
         });
 
-        ImageIcon saveAsHtmlIcon = ResourceLoader.loadImageIcon("/storymaps/icons/save_as_html.png");
-        JButton saveAsHtmlButton = new JButton("Save as HTML", saveAsHtmlIcon);
-        saveAsHtmlButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        saveAsHtmlButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        JButton saveAsHtmlButton = createButton("/storymaps/icons/save_as_html.png","Save as HTML");        
         toolBar.add(saveAsHtmlButton);
         saveAsHtmlButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 saveAsHTML();
             }
         });        
-        
-        /*
-        ImageIcon printIcon = ResourceLoader.loadImageIcon("/storymaps/data/document-print.png");
-        JButton printButton = new JButton("Print", printIcon);
-        printButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        printButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        toolBar.add(printButton);
-        printButton.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                print();
-            }
-        });
-
-        helpIcon = ResourceLoader.loadImageIcon("/storymaps/data/help-browser.png");
-        JButton helpButton = new JButton("Help", helpIcon);
-        helpButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        helpButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        toolBar.add(helpButton);
-        helpButton.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                help();
-            }
-        });
-
-        aboutIcon = ResourceLoader.loadImageIcon("/storymaps/data/emblem-favorite.png");
-        JButton aboutButton = new JButton("About", aboutIcon);
-        aboutButton.setVerticalTextPosition(AbstractButton.BOTTOM);
-        aboutButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        toolBar.add(aboutButton);
-        aboutButton.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                about();
-            }
-        });
-        */
-        
+                
         contentPane.add(toolBar, BorderLayout.NORTH);
     }
 
@@ -521,7 +482,7 @@ public class Application implements Receiver {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String html = TemplateHandler.getInstance().renderStoryMap(map);
-                Util.writeFileAbsolute(html, fc.getSelectedFile().getAbsolutePath());
+                Util.writeTextToFile(html, fc.getSelectedFile().getAbsolutePath());
             } catch (IOException e) {
                 // FIXME: display a more friendly message to the user via the
                 // GUI, print the exception itself to stderr and append it to an
@@ -551,11 +512,12 @@ public class Application implements Receiver {
      * dialog.
      */
     private void help() {
-        JOptionPane.showMessageDialog(frame,
-                ResourceLoader.loadString("/HELP"),
+        /*JOptionPane.showMessageDialog(frame,
+                Util.readTextFromFileRelative("/HELP"),
                 "Help",
                 JOptionPane.INFORMATION_MESSAGE,
                 helpIcon);
+        */
     }
 
     /**
@@ -563,10 +525,10 @@ public class Application implements Receiver {
      * dialog.
      */
     private void about() {
-        JOptionPane.showMessageDialog(frame,
-                ResourceLoader.loadString("/README"),
+        /*JOptionPane.showMessageDialog(frame,
+                Util.readTextFromFileRelative("/README"),
                 "About StoryMaps",
                 JOptionPane.INFORMATION_MESSAGE,
-                aboutIcon);
+                aboutIcon);*/
     }
 }

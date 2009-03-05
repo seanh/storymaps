@@ -7,6 +7,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import java.io.IOException;
+import storymaps.Util;
 
 /**
  * A button (clickable PNode) in Piccolo.
@@ -33,8 +35,33 @@ public class Button extends PNode {
     private PNode text_and_icon = new PNode();    
     private PPath outer_rect;
     private PPath inner_rect;
-        
-    public Button(String name, String text, PImage icon) {
+
+    /**
+     * The path to the image that is displayed  on buttons initially, until
+     * setImage is called.
+     */
+    private static final String DEFAULT_ICON_PATH = "/storymaps/icons/button_default.png";    
+    
+    /**
+     * The image that is displayed  on buttons initially, until setImage is
+     * called.
+     */
+    private static PImage DEFAULT_ICON = null;
+
+    static PImage initialiseImageIfNecessary(String path, PImage image) {
+        if (image == null) {
+            try {
+                image = new PImage(Util.readImageFromFile(path));
+            } catch (IOException e) {
+                // FIXME: shouldn't need to crash here, just create a button
+                // with text only.
+                throw new RuntimeException("Couldn't load image " + path, e);
+            }
+        }
+        return image;
+    }    
+    
+    public Button(String name, String text) {                
         this.name = name;
         
         addInputEventListener(new PBasicInputEventHandler() {
@@ -46,7 +73,9 @@ public class Button extends PNode {
         
         this.text = new PText(text);
         text_and_icon.addChild(this.text);
-        setIcon(icon);        
+        
+        DEFAULT_ICON = initialiseImageIfNecessary(DEFAULT_ICON_PATH, DEFAULT_ICON);
+        setIcon(DEFAULT_ICON);
                 
         // Draw two rectangles around the text so it looks like a button.
         float w = (float)text_and_icon.getFullBoundsReference().getWidth() + 7.5f;

@@ -13,7 +13,7 @@
 <li>introduce the situation.</li>    
 </ul>]]>
 </friendlyDescription>
-    <pathToImage>/storymaps/data/0.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/0.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>2</number>
@@ -26,7 +26,7 @@
 <li>children go away on their own.</li>
 </ul>]]>
 </friendlyDescription>
-    <pathToImage>/storymaps/data/1.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/1.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>3</number>
@@ -39,7 +39,7 @@
 <li>They are told they <em>must</em> do something, <em>or</em></li>
 <li>they are told they must <em>not</em> do something.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/2.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/2.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>4</number>
@@ -52,7 +52,7 @@
 <li>They do not do what they were told, <em>or</em></li>
 <li>they do what they were told not to.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/3.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/3.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>5</number>
@@ -67,7 +67,7 @@
 <li>the <strong>VILLAIN</strong> asks questions about something he wants to steal, <em>or</em></li>
 <li>the <strong>HERO</strong> asks questions about the <strong>VILLAIN</strong>.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/4.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/4.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>6</number>
@@ -82,7 +82,7 @@
 <li>the <strong>VILLAIN</strong> learns something about something he wants to steal, <em>or</em></li>
 <li>the <strong>HERO</strong> learns something about the <strong>VILLAIN</strong>.</li>
 ]]></friendlyDescription>
-    <pathToImage>/storymaps/data/5.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/5.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>7</number>
@@ -90,7 +90,7 @@
     <friendlyName>Trick</friendlyName>
     <description>The villain attempts to deceive or coerce the victim</description>
     <friendlyDescription><![CDATA[<p>The <strong>VILLAIN</strong> tries to trick someone into doing something they shouldn't.</p>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/6.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/6.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>8</number>
@@ -98,7 +98,7 @@
     <friendlyName>Fooled</friendlyName>
     <description>The victim submits to deception or coercion</description>
     <friendlyDescription><![CDATA[<p>Someone falls for the <strong>VILLAIN</strong>'s trick and does something they shouldn't.</p>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/7.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/7.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>9</number>
@@ -113,7 +113,7 @@
 <li>the villain hurts someone, <em>or</em></li>
 <li>the villain makes someone leave home.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/8.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/8.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>10</number>
@@ -130,7 +130,7 @@
 <li>food, <em>or</em></li>
 <li>something else.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/8.5.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/8.5.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>11</number>
@@ -146,7 +146,7 @@
 <li>someone <em>asks</em> the hero to help, <em>or</em></li>
 <li>some other way.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/9.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/9.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>12</number>
@@ -156,7 +156,7 @@
     <friendlyDescription><![CDATA[
 <p>The <strong>HERO</strong> decides to go on a journey to put right the villainy.</p>
 ]]></friendlyDescription>
-    <pathToImage>/storymaps/data/10.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/10.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>13</number>
@@ -164,7 +164,7 @@
     <friendlyName>Leaving</friendlyName>
     <description>The hero leaves home</description>
     <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> leaves on a journey to put right the villainy.</p>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/11.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/11.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>14</number>
@@ -180,7 +180,7 @@
 <li>they make the hero an offer, <em>or</em></li>
 <li>something else.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/12.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/12.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>15</number>
@@ -195,7 +195,7 @@
 <li>they accept or refuse the offer, <em>or</em></li>
 <li>something else.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/13.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/13.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>16</number>
@@ -210,7 +210,7 @@
 <li>the helper tells the hero where to get something useful, <em>or</em></li>
 <li>the hero steals something special from the helper.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/14.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/14.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>17</number>
@@ -226,7 +226,7 @@
 <li>finding a special doorway.</li>
 </ul>
 ]]></friendlyDescription>
-    <pathToImage>/storymaps/data/15.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/15.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>18</number>
@@ -239,7 +239,7 @@
 <li>they start to fight each other, <em>or</em></li>
 <li>they start a game against each other.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/16.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/16.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>19</number>
@@ -257,7 +257,7 @@
 <li>they get scared off, <em>or</em></li>
 <li>they get killed.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/18.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/18.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>21</number>
@@ -271,7 +271,7 @@
 <li>the person that was kidnapped returns, <em>or</em></li>
 <li>someone gets the thing that they want.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/19.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/19.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>22</number>
@@ -279,7 +279,7 @@
     <friendlyName>Return</friendlyName>
     <description>The hero sets out to return</description>
     <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> starts to go back home.</p>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/20.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/20.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>23</number>
@@ -287,7 +287,7 @@
     <friendlyName>Chase</friendlyName>
     <description>A pursuit of the hero begins</description>
     <friendlyDescription><![CDATA[<p>The <strong>VILLAIN</strong> chases the HERO.</p>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/21.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/21.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>24</number>
@@ -295,7 +295,7 @@
     <friendlyName>Escape</friendlyName>
     <description>The hero is rescued from or escapes pursuit</description>
     <friendlyDescription><![CDATA[<p>The <strong>HERO</strong> escapes from the <strong>VILLAIN</strong></p>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/22.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/22.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>31</number>
@@ -304,7 +304,7 @@
     <description>The false hero or villain is punished</description>
     <friendlyDescription><![CDATA[<p>The <strong>VILLAIN</strong> is punished, <em>or</em> <br />
 the <strong>VILLAIN</strong> is forgiven.</p>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/29.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/29.svg-512.png</pathToImage>
   </Function>
   <Function>
     <number>32</number>
@@ -319,6 +319,6 @@ the <strong>VILLAIN</strong> is forgiven.</p>]]></friendlyDescription>
 <li>they get money or nice things, <em>or</em></li>
 <li>something else.</li>
 </ul>]]></friendlyDescription>
-    <pathToImage>/storymaps/data/30.svg-512.png</pathToImage>
+    <pathToImage>/storymaps/functions/30.svg-512.png</pathToImage>
   </Function>
 </list>

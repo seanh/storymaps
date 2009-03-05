@@ -35,15 +35,17 @@ final class Function implements Comparable {
      * A singleton list containing a Function object for every function
      * represented in the functions.xml file.
      */
-    private static ArrayList<Function> functions;
+    private static ArrayList<Function> functions = null;
     
     private static void initialiseFunctionsIfNecessary() {
-        try {
-            functions = (ArrayList<Function>) XMLHandler.getInstance().readXMLRelative("/storymaps/data/functions.xml");
-        } catch (IOException e) {
-            // If we can't read the functions.xml file then the application
-            // can't work.
-            throw new RuntimeException("Could not read functions.xml file.",e);
+        if (functions == null) {
+            try {
+                functions = (ArrayList<Function>) XMLHandler.getInstance().readXMLRelative("/storymaps/functions/functions.xml");
+            } catch (IOException e) {
+                // If we can't read the functions.xml file then the application
+                // can't work.
+                throw new RuntimeException("Could not read functions.xml file.",e);
+            }
         }
     }
     
@@ -61,7 +63,12 @@ final class Function implements Comparable {
         this.description = description;
         this.friendly_description = friendly_description;
         this.image_path = image_path;
-        this.image = ResourceLoader.loadImage(image_path);
+        try {
+            this.image = Util.readImageFromFile(image_path);
+        } catch (IOException e) {
+            // FIXME: shouldn't need to crash here.
+            throw new RuntimeException("Couldn't load image for function "+image_path,e);
+        }
     }
     
     public int getNumber() { return number; }

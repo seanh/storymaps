@@ -4,6 +4,7 @@ import DragAndDrop.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import storymaps.ui.Button;
@@ -49,7 +50,16 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
      */
     private void init() {
         Messager.getMessager().accept("StoryCard single-clicked", this, null);
-        Button sort = new Button("Sort","Sort",new PImage(ResourceLoader.loadImage("/storymaps/data/gtk-sort-ascending.png")));
+        PImage image;
+        try {
+            image = new PImage(Util.readImageFromFile("/storymaps/icons/sort.png"));
+        } catch (IOException e) {
+            // FIXME: shouldn't need to crash here, create a text-only button
+            // instead.
+            throw new RuntimeException("Could not load sort.png icon.",e);
+        }
+        Button sort = new Button("Sort","Sort");
+        sort.setIcon(image);
         sort.setScale(5);
         this.background.addChild(sort);
         sort.setOffset(background.getWidth(),background.getHeight());

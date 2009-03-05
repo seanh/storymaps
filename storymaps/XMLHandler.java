@@ -64,7 +64,7 @@ class XMLHandler {
      */
     void writeXML(Object o, String filename) throws IOException {                
         String xml = xstream.toXML(o);                                
-        Util.writeFileAbsolute(xml, filename);
+        Util.writeTextToFile(xml, filename);
     }
 
     /**
@@ -76,7 +76,7 @@ class XMLHandler {
      * null.
      */
     Object readXMLAbsolute(String absolutePath) throws IOException {
-        return xstream.fromXML(Util.readFileAbsolute(absolutePath));                
+        return xstream.fromXML(Util.readTextFromFileAbsolute(absolutePath));                
     }
 
     /**
@@ -89,6 +89,6 @@ class XMLHandler {
      * null.
      */
     Object readXMLRelative(String relativePath) throws IOException {
-        return xstream.fromXML(Util.readFileRelative(relativePath));                
+        return xstream.fromXML(Util.readTextFromFileRelative(relativePath));                
     }            
 }

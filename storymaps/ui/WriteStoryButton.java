@@ -1,7 +1,8 @@
 package storymaps.ui;
 
 import edu.umd.cs.piccolo.nodes.PImage;
-import storymaps.ResourceLoader;
+import java.io.IOException;
+import storymaps.Util;
 
 /**
  * A button named "Write Story" that displays some text and changes between two
@@ -15,11 +16,20 @@ public class WriteStoryButton extends Button {
 
     private static final String COLLAPSED_TEXT = "Write Story";
     private static final String UNCOLLAPSED_TEXT = "Go Back";
-    private static final PImage COLLAPSED_ICON = new PImage(ResourceLoader.loadImage("/storymaps/data/gtk-go-down.png"));
-    private static final PImage UNCOLLAPSED_ICON = new PImage(ResourceLoader.loadImage("/storymaps/data/gtk-go-up.png"));
-    
+    private static final String COLLAPSED_ICON_PATH = "/storymaps/icons/arrow_down.png";
+    private static final String UNCOLLAPSED_ICON_PATH = "/storymaps/icons/arrow_up.png";    
+    private static PImage COLLAPSED_ICON = null;
+    private static PImage UNCOLLAPSED_ICON = null;
+        
+    private static void initialiseImagesIfNecessary() {
+        COLLAPSED_ICON = Button.initialiseImageIfNecessary(COLLAPSED_ICON_PATH, COLLAPSED_ICON);
+        UNCOLLAPSED_ICON = Button.initialiseImageIfNecessary(UNCOLLAPSED_ICON_PATH, UNCOLLAPSED_ICON);
+    }
+        
     public WriteStoryButton() {
-        super("Write Story","Write Story",COLLAPSED_ICON);        
+        super("Write Story","Write Story");
+        initialiseImagesIfNecessary();
+        setIcon(COLLAPSED_ICON);
         setScale(10);        
     }
     
