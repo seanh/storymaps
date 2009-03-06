@@ -39,18 +39,6 @@ class XMLHandler {
     private XMLHandler(){
         xstream.registerConverter(new FunctionConverter());
         xstream.alias("Function", Function.class);
-        xstream.registerConverter(new DisabledStoryCardConverter());
-        xstream.alias("DisabledStoryCard", DisabledStoryCard.class);
-        xstream.registerConverter(new PlaceholderConverter());
-        xstream.alias("Placeholder", Placeholder.class);
-        xstream.registerConverter(new StoryCardConverter());
-        xstream.alias("StoryCard", StoryCard.class);
-        xstream.registerConverter(new StoryCardsConverter());
-        xstream.alias("StoryCards", StoryCards.class);
-        xstream.registerConverter(new StoryMapConverter());
-        xstream.alias("StoryMap", StoryMap.class);
-        xstream.registerConverter(new ApplicationMementoConverter());
-        xstream.alias("ApplicationMemento", ApplicationMemento.class);
     }    
 
     /**

@@ -41,8 +41,8 @@ class FunctionEditor {
         
         title = new JLabel(function.getFriendlyName());
         title.setFont(Fonts.LARGE);
-        subpanel.add(title,BorderLayout.NORTH);        
-        ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustation for function.");
+        subpanel.add(title,BorderLayout.NORTH);
+        ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustration for function.");
         icon = new JLabel(imageIcon);
         subpanel.add(icon,BorderLayout.CENTER);
         desc = new JLabel("<html>"+function.getFriendlyDescription()+"</html>");

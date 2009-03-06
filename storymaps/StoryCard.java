@@ -9,8 +9,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PUtil;
 
-public class StoryCard extends StoryCardBase implements Receiver,
-        DragDropObserver, Comparable {
+class StoryCard extends StoryCardBase implements Receiver,
+        DragDropObserver, Comparable, Originator {
             
     private boolean highlighted = false;
     private FunctionEditor editor;
@@ -194,5 +194,42 @@ public class StoryCard extends StoryCardBase implements Receiver,
         StoryCard s = (StoryCard) arg;
         return s.getFunction().compareTo(this.getFunction());
     }
+
+    // Implement Originator
+    // --------------------
     
+    private static final class StoryCardMemento implements Memento {
+        // No need to defensively copy anything as strings are immutable and
+        // FunctionMemento should be immutable.
+        private final Memento functionMemento;
+        private final String userText;
+        StoryCardMemento (StoryCard sc) {
+            this.functionMemento = sc.getFunction().createMemento();
+            this.userText = sc.getEditor().getText();
+        }
+        Memento getFunctionMemento() { return functionMemento; }
+        String getUserText() { return userText; }
+    }
+    
+    public Memento createMemento() {
+        return new StoryCardMemento(this);
+    }
+    
+    public static StoryCard newInstanceFromMemento(Memento m) throws MementoException {
+        if (m == null) {
+            String detail = "Null memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        if (!(m instanceof StoryCardMemento)) {
+            String detail = "Wrong type of memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        StoryCardMemento scm = (StoryCardMemento) m;
+        Function f = Function.newInstanceFromMemento(scm.getFunctionMemento());
+        return new StoryCard(f,scm.getUserText());
+    }
 }

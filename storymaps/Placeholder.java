@@ -4,7 +4,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import java.awt.Color;
 
-public class Placeholder {
+class Placeholder implements Originator {
             
     private PNode background;
     private boolean taken = false;
@@ -45,4 +45,48 @@ public class Placeholder {
         storycard = null;
         taken = false;
     }
-}
+
+    // Implement Originator
+    // --------------------
+    
+    private static final class PlaceholderMemento implements Memento {
+        // No need to defensively copy anything as StoryCardMemento should be
+        // immutable.
+        private final Memento storyCardMemento;
+        PlaceholderMemento (Placeholder p) {
+            StoryCard sc = p.getStoryCard();
+            if (sc == null) {
+                this.storyCardMemento = null;
+            } else {
+                this.storyCardMemento = sc.createMemento();
+            }
+        }
+        Memento getStoryCardMemento() { return storyCardMemento; }
+    }
+    
+    public Memento createMemento() {
+        return new PlaceholderMemento(this);
+    }
+    
+    public static Placeholder newInstanceFromMemento(Memento m) throws MementoException {
+        if (m == null) {
+            String detail = "Null memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        if (!(m instanceof PlaceholderMemento)) {
+            String detail = "Wrong type of memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        PlaceholderMemento pm = (PlaceholderMemento) m;
+        Placeholder p = new Placeholder();                
+        Memento scm = pm.getStoryCardMemento();
+        if (scm != null) {
+            p.setStoryCard(StoryCard.newInstanceFromMemento(scm));
+        }        
+        return p;
+    }
+}    

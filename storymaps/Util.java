@@ -130,6 +130,42 @@ public class Util {
             String detail = "IOException when reading image from file at path: "+path;
             reportException(detail, e);
             throw new IOException(detail, e);
-        }        
-    }        
+        }
+    }
+    
+    public static void serializeObjectToFile(String path, Object o) throws IOException {
+        File f = new File(path);
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
+            oos.writeObject(o);
+            oos.close();
+        } catch (IOException e) {
+            String detail = "IOException when serializing object to file.\n";
+            detail = detail +"Path: "+path+"\n";
+            detail = detail +"Object: "+o;
+            reportException(detail, e);
+            throw new IOException(detail, e);            
+        }
+    }
+
+    public static Object deserializeObjectFromFile(String path) throws IOException, ClassNotFoundException {
+        File f = new File(path);
+        Object o;
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+            o = ois.readObject();
+            ois.close();
+        } catch (IOException e) {
+            String detail = "IOException when deserializing object from file.\n";
+            detail = detail +"Path: "+path;
+            reportException(detail, e);
+            throw new IOException(detail, e);
+        } catch (ClassNotFoundException e) {
+            String detail = "ClassNotFoundException when deserializing object from file.\n";
+            detail = detail +"Path: "+path;
+            reportException(detail, e);
+            throw new ClassNotFoundException(detail, e);            
+        }
+        return o;
+    }
 }

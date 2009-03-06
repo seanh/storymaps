@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * 
  * @author seanh
  */
-class DisabledStoryCard extends StoryCardBase {
+class DisabledStoryCard extends StoryCardBase implements Originator {
         
     private StoryCard storycard = null;
     private boolean taken = false;
@@ -63,5 +63,54 @@ class DisabledStoryCard extends StoryCardBase {
     public void clearStoryCard() {
         storycard = null;
         taken = false;
+    }
+    
+    // Implement Originator
+    // --------------------
+    
+    private static final class DisabledStoryCardMemento implements Memento {
+        // No need to defensively copy anything as FunctionMemento and
+        // StoryCardMemento should be immutable.
+        private final Memento functionMemento;
+        private final Memento storyCardMemento;
+        DisabledStoryCardMemento (DisabledStoryCard dsc) {                        
+            this.functionMemento = dsc.getFunction().createMemento();
+            StoryCard sc = dsc.getStoryCard();
+            if (sc == null) {
+                this.storyCardMemento = null;
+            } else {
+                this.storyCardMemento = sc.createMemento();
+            }
+        }
+        Memento getFunctionMemento() { return functionMemento; }
+        Memento getStoryCardMemento() { return storyCardMemento; }
+    }
+    
+    public Memento createMemento() {
+        return new DisabledStoryCardMemento(this);
+    }
+    
+    public static DisabledStoryCard newInstanceFromMemento(Memento m)
+            throws MementoException {
+        if (m == null) {
+            String detail = "Null memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        if (!(m instanceof DisabledStoryCardMemento)) {
+            String detail = "Wrong type of memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        DisabledStoryCardMemento dscm = (DisabledStoryCardMemento) m;        
+        Function f = Function.newInstanceFromMemento(dscm.getFunctionMemento());
+        DisabledStoryCard dsc = new DisabledStoryCard(f);
+        Memento scm = dscm.getStoryCardMemento();
+        if (scm != null) {
+            dsc.setStoryCard(StoryCard.newInstanceFromMemento(scm));
+        }
+        return dsc;
     }
 }

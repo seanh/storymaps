@@ -20,7 +20,7 @@ import javax.swing.*;
  * 
  * @author seanh
  */
-public class Application implements Receiver {
+public class Application implements Receiver, Originator {
 
     /**
      * The Swing frame that represents the application window.
@@ -112,29 +112,6 @@ public class Application implements Receiver {
     StoryEditor getStoryEditor() {
         return editor;
     }
-
-    /**
-     * Return the Application to the state recorded in an ApplicationMemento.
-     */
-    void restoreFromMemento(Object o) {
-        ApplicationMemento memento = null;
-        try {
-            memento = (ApplicationMemento) o;
-        } catch (ClassCastException e) {
-            // FIXME: display an error message that the file could not be opened.
-        }
-        
-        // FIXME: is this enough to really dispose of cards?
-        cards.getNode().removeFromParent();
-        cards = memento.getStoryCards();
-        home.addChild(cards.getNode());
-        
-        // FIXME: is this enough to really dispose of map?
-        map.getNode().removeFromParent();
-        map = memento.getStoryMap();
-        second_home.addChild(map.getNode());
-        target = home;
-    }    
     
     /**
      * Start the application.
@@ -411,13 +388,27 @@ public class Application implements Receiver {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String filename = fc.getSelectedFile().getAbsolutePath();
             try {                
-                Object m = XMLHandler.getInstance().readXMLAbsolute(filename);                
+                Object m = Util.deserializeObjectFromFile(filename);
                 restoreFromMemento(m);
             } catch (IOException e) {
                 // FIXME: display a friendly message to the user via the GUI,
                 // print the exception itself to stderr and log it to an errors
                 // log file.
-                String message = "Application.open(): IOException when trying to open story file at path: "+filename;
+                String message = "IOException when trying to open story file at path: "+filename;
+                System.out.println(message);
+                System.out.println(e);                
+            } catch (ClassNotFoundException e) {
+                // FIXME: display a friendly message to the user via the GUI,
+                // print the exception itself to stderr and log it to an errors
+                // log file.
+                String message = "ClassNotFoundException when trying to open story file at path: "+filename;
+                System.out.println(message);
+                System.out.println(e);                
+            } catch (MementoException e) {
+                // FIXME: display a friendly message to the user via the GUI,
+                // print the exception itself to stderr and log it to an errors
+                // log file.
+                String message = "MementoException when trying to open story file at path: "+filename;
                 System.out.println(message);
                 System.out.println(e);                
             }            
@@ -425,14 +416,6 @@ public class Application implements Receiver {
             // Open command cancelled by user.
         }
     }
-
-    /**
-     * Return a new ApplicationMemento object recording a snapshot of the
-     * current state of the Application.
-     */
-    private ApplicationMemento createMemento() {
-        return new ApplicationMemento(map,cards);
-    }    
     
     /**
      * Save the current state of the application in the autosave dir with a
@@ -442,9 +425,9 @@ public class Application implements Receiver {
         String now = Util.nowStr();
         File save = new File(autosavedir,now);
         String filename = save.getAbsolutePath();
-        ApplicationMemento memento = createMemento();
+        Memento memento = createMemento();
         try {
-            XMLHandler.getInstance().writeXML(memento,filename);
+            Util.serializeObjectToFile(filename,memento);
         } catch (IOException e) {
             // FIXME: display a friendly message to the user via the GUI, print
             // the exception itself to stderr and append it to an errors log
@@ -461,7 +444,7 @@ public class Application implements Receiver {
         int returnVal = fc.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
-                XMLHandler.getInstance().writeXML(createMemento(), fc.getSelectedFile().getAbsolutePath());
+                Util.serializeObjectToFile(fc.getSelectedFile().getAbsolutePath(),createMemento());
             } catch (IOException e) {
                 // FIXME: display a more friendly message to the user via the
                 // GUI, print the exception itself to stderr and append it to an
@@ -530,5 +513,66 @@ public class Application implements Receiver {
                 "About StoryMaps",
                 JOptionPane.INFORMATION_MESSAGE,
                 aboutIcon);*/
+    }
+    
+    // Implement Originator
+    // --------------------
+    
+    private static final class ApplicationMemento implements Memento {
+        // Don't need to defensively copy anything because StoryMapMemento and
+        // StoryCardsMemento should both be immutable.
+        private final Memento storyCardsMemento;
+        private final Memento storyMapMemento;
+        ApplicationMemento (Application a) {
+            this.storyCardsMemento = a.cards.createMemento();
+            this.storyMapMemento = a.map.createMemento();
+        }
+        Memento getStoryCardsMemento() { return storyCardsMemento; }
+        Memento getStoryMapMemento() { return storyMapMemento; }
+    }
+    
+    public Memento createMemento() {
+        return new ApplicationMemento(this);
+    }
+    
+    /*
+     * Application is different from other classes involved in the memento
+     * pattern because instead of a static factory newInstanceFromMemento method
+     * it has this non-static restoreFromMemento method that restores the state
+     * of the existing, singleton Application instance to the state stored in
+     * the given memento object.
+
+     * @param m The memento holding the stored state to restore to.
+     * @throws storymaps.MementoException if there's something wrong with the
+     * given memento.
+     */
+    void restoreFromMemento(Object m)
+            throws MementoException {
+        if (m == null) {
+            String detail = "Null memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        if (!(m instanceof ApplicationMemento)) {
+            String detail = "Wrong type of memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        ApplicationMemento am = (ApplicationMemento) m;
+        
+        // FIXME: is this enough to really dispose of cards? Might be a memory
+        // leak here.
+        cards.getNode().removeFromParent();
+        cards = StoryCards.newInstanceFromMemento(am.getStoryCardsMemento());
+        home.addChild(cards.getNode());
+        
+        // FIXME: is this enough to really dispose of map? Might be a memory
+        // leak here.
+        map.getNode().removeFromParent();
+        map = StoryMap.newInstanceFromMemento(am.getStoryMapMemento());
+        second_home.addChild(map.getNode());
+        target = home;        
     }
 }

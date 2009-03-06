@@ -48,7 +48,6 @@ class FunctionConverter implements Converter {
         String friendly_name = null;
         String description = null;
         String friendly_description = null;
-        String path_to_image = null;
 
         while (reader.hasMoreChildren()) {
             reader.moveDown();
@@ -62,8 +61,6 @@ class FunctionConverter implements Converter {
                 description = reader.getValue();
             } else if (reader.getNodeName().equals("friendlyDescription")) {
                 friendly_description = reader.getValue();
-            } else if (reader.getNodeName().equals("pathToImage")) {
-                path_to_image = reader.getValue();
             }
             reader.moveUp();
         }
@@ -83,11 +80,6 @@ class FunctionConverter implements Converter {
         if (friendly_description == null) {
             throw new ConversionException("<Function> tag contains no <friendlyDescription> tag.");
         }
-        if (path_to_image == null) {
-            throw new ConversionException("<Function> tag contains no <pathToImage> tag.");
-        }
-
-        return new Function(number, propp_name, friendly_name, description,
-                friendly_description, path_to_image);
+        return new Function(number, propp_name, friendly_name, description,friendly_description);
     }
 }

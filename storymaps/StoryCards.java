@@ -2,6 +2,7 @@ package storymaps;
 
 import DragAndDrop.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The collection of story cards that the user can drag from.
@@ -32,7 +33,7 @@ import java.util.ArrayList;
  */
 
 //FIXME: Need a different name for this class.
-class StoryCards extends StoryBase implements DragDropObserver {
+class StoryCards extends StoryBase implements DragDropObserver, Originator {
 
     private ArrayList<DisabledStoryCard> disabled_storycards =
             new ArrayList<DisabledStoryCard>();    
@@ -54,7 +55,7 @@ class StoryCards extends StoryBase implements DragDropObserver {
         }
         
         // Add a duplicate StoryCard on top of each DisabledStoryCard.
-        for (DisabledStoryCard d : disabled_storycards) {            
+        for (DisabledStoryCard d : disabled_storycards) {
             StoryCard s = new StoryCard(d.getFunction());
             addStoryCard(s);
         }
@@ -64,7 +65,7 @@ class StoryCards extends StoryBase implements DragDropObserver {
      * Construct a new StoryCards instance using a given list of
      * DisabledStoryCard objects.
      */
-    public StoryCards(String title_text, ArrayList<DisabledStoryCard> disabled_storycards) {
+    public StoryCards(String title_text, List<DisabledStoryCard> disabled_storycards) {
         super(title_text);
         for (DisabledStoryCard dsc : disabled_storycards) {
             addToGrid(dsc.getNode());
@@ -185,5 +186,65 @@ class StoryCards extends StoryBase implements DragDropObserver {
         DisabledStoryCard d = (DisabledStoryCard) s.getNode().getAttribute("DisabledStoryCard");
         d.clearStoryCard();
         return false;
-    }    
+    }
+
+    // Implement Originator
+    // --------------------
+    
+    private static final class StoryCardsMemento implements Memento {
+        // Don't need to defensively copy title as strings are immutable.
+        private final String title;
+        // DisabledStoryCardMementos are immutable but lists aren't, so this
+        //field needs to be defensively copied to keep this class immutable.
+        private final List<Memento> disabledStoryCardMementos = new ArrayList<Memento>();
+        StoryCardsMemento (StoryCards c) {
+            this.title = c.getTitle();
+            for (DisabledStoryCard dsc : c.getDisabledStoryCards()) {
+                Memento dscm = dsc.createMemento();
+                disabledStoryCardMementos.add(dscm);
+            }
+        }
+        String getTitle() { return title; }
+        List<Memento> getDisabledStoryCardMementos() {
+            // Make a defensive copy and return it.
+            List<Memento> copy = new ArrayList<Memento>();
+            for (Memento m : disabledStoryCardMementos) {
+                // We just add the same memento instances to the copy list,
+                // there would be no point in copying the mementos as they are
+                // immutable, it's the list object itself we're defensively
+                // copying.
+                copy.add(m);
+            }
+            return copy;
+        }
+    }
+    
+    public Memento createMemento() {
+        return new StoryCardsMemento(this);
+    }
+    
+    public static StoryCards newInstanceFromMemento(Memento m)
+            throws MementoException {
+        if (m == null) {
+            String detail = "Null memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        if (!(m instanceof StoryCardsMemento)) {
+            String detail = "Wrong type of memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        StoryCardsMemento memento = (StoryCardsMemento) m;
+        String title = memento.getTitle();
+        List<Memento> disabledStoryCardMementos = memento.getDisabledStoryCardMementos();
+        List<DisabledStoryCard> disabledStoryCards = new ArrayList<DisabledStoryCard>();
+        for (Memento dscm : disabledStoryCardMementos) {
+            disabledStoryCards.add(DisabledStoryCard.newInstanceFromMemento(dscm));
+        }
+        StoryCards storyCards = new StoryCards(title,disabledStoryCards);
+        return storyCards;
+    }
 }

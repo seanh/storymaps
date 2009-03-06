@@ -7,9 +7,11 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import storymaps.ui.Button;
 
-public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
+class StoryMap extends StoryBase implements DragDropObserver, Receiver,
+        Originator {
         
     private ArrayList<Placeholder> placeholders = 
             new ArrayList<Placeholder>();    
@@ -30,7 +32,7 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
         init();
     }
     
-    public StoryMap(String title_text, StoryEditor editor, ArrayList<Placeholder> placeholders) {
+    public StoryMap(String title_text, StoryEditor editor, List<Placeholder> placeholders) {
         super(title_text);
         this.editor = editor;
         for (Placeholder p : placeholders) {
@@ -339,5 +341,68 @@ public class StoryMap extends StoryBase implements DragDropObserver, Receiver {
         }
                 
         editor.update(getStoryCards());
+    }
+    
+    // Implement Originator
+    // --------------------
+    
+    private static final class StoryMapMemento implements Memento {
+        // Don't need to defensively copy title as strings are immutable.
+        private final String title;
+        // Placeholder mementos are immutable but lists aren't, so this field
+        // needs to be defensively copied to keep this class immutable.
+        private final List<Memento> placeholderMementos = new ArrayList<Memento>();
+        StoryMapMemento (StoryMap m) {
+            this.title = m.getEditor().getTitle();
+            for (Placeholder p : m.getPlaceholders()) {
+                Memento pm = p.createMemento();
+                placeholderMementos.add(pm);
+            }
+        }
+        String getTitle() { return title; }
+        List<Memento> getPlaceholderMementos() {
+            // Make a defensive copy and return it.
+            List<Memento> copy = new ArrayList<Memento>();
+            for (Memento p : placeholderMementos) {
+                // We just add the same memento instances to the copy list,
+                // there would be no point in copying the mementos as they are
+                // immutable, it's the list object itself we're defensively
+                // copying.
+                copy.add(p);
+            }
+            return copy;
+        }
+    }
+    
+    public Memento createMemento() {
+        return new StoryMapMemento(this);
+    }
+    
+    public static StoryMap newInstanceFromMemento(Memento m)
+            throws MementoException {
+        if (m == null) {
+            String detail = "Null memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        if (!(m instanceof StoryMapMemento)) {
+            String detail = "Wrong type of memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        StoryMapMemento smm = (StoryMapMemento) m;
+        StoryEditor editor = Application.getInstance().getStoryEditor();
+        String title = smm.getTitle();
+        List<Memento> placeholderMementos = smm.getPlaceholderMementos();
+        List<Placeholder> placeholders = new ArrayList<Placeholder>();
+        for (Memento pm : placeholderMementos) {
+            placeholders.add(Placeholder.newInstanceFromMemento(pm));
+        }
+        StoryMap storyMap = new StoryMap(title,editor,placeholders);
+        editor.update(storyMap.getStoryCards());
+        editor.setTitle(storyMap.getTitle());
+        return storyMap;
     }
 }

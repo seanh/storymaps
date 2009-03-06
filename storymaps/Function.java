@@ -8,27 +8,26 @@ import java.util.ArrayList;
  * A Function is a simple immutable object that represents one of Propp's
  * functions.
  * 
- * The Function class also has a public static member functions that is a list
- * of all functions read in from the functions.xml file by XStream.
+ * The Function class has a public static member functions that is a list of all
+ * functions read in from the functions.xml file by XStream.
  * 
- * Function objects are also created when saved story XML files are read in,
+ * Function objects are also created when saved stories are read in from file,
  * so it is possible to have more than one Function object with the same fields,
- * or even with some fields the same but others different. Maybe this should be
- * changed.
+ * or even with some fields the same but others different.
  * 
  * The Function class constructor is package-private so that FunctionConverter
  * can use it, but it should not be used otherwise.
  * 
  * @author seanh
  */
-final class Function implements Comparable {
+final class Function implements Comparable, Originator {
 
     private final int number;
-    private final String propp_name;
-    private final String friendly_name;
+    private final String proppName;
+    private final String friendlyName;
     private final String description;
-    private final String friendly_description;
-    private final String image_path;
+    private final String friendlyDescription;
+    private final String imagePath;
     private final Image image;
 
     /**
@@ -54,35 +53,36 @@ final class Function implements Comparable {
         return functions;
     }
     
-    Function(int number, String propp_name, String friendly_name,
-                    String description, String friendly_description,
-                    String image_path) {
+    Function(int number, String proppName, String friendlyName,
+                    String description, String friendlyDescription) {
         this.number = number;
-        this.propp_name = propp_name;
-        this.friendly_name = friendly_name;
+        this.proppName = proppName;
+        this.friendlyName = friendlyName;
         this.description = description;
-        this.friendly_description = friendly_description;
-        this.image_path = image_path;
+        this.friendlyDescription = friendlyDescription;
+        this.imagePath = "/storymaps/functions/"+number+".svg-512.png";
+        System.out.println(this.imagePath);
         try {
-            this.image = Util.readImageFromFile(image_path);
+            this.image = Util.readImageFromFile(imagePath);
         } catch (IOException e) {
+            System.out.println("Couldn't load image for function "+imagePath);
             // FIXME: shouldn't need to crash here.
-            throw new RuntimeException("Couldn't load image for function "+image_path,e);
+            throw new RuntimeException("Couldn't load image for function "+imagePath,e);
         }
     }
-    
+        
     public int getNumber() { return number; }
-    public String getProppName() { return propp_name; }
-    public String getFriendlyName() { return friendly_name; }
+    public String getProppName() { return proppName; }
+    public String getFriendlyName() { return friendlyName; }
     public String getDescription() { return description; }
-    public String getFriendlyDescription() { return friendly_description; }
+    public String getFriendlyDescription() { return friendlyDescription; }
     // FIXME: Should I make a defensive copy of image here?
     public Image getImage() { return image; }
-    public String getImagePath() { return image_path; }
+    public String getImagePath() { return imagePath; }
     
     @Override
     public String toString() {
-        return friendly_name + " (" + friendly_description + " )";
+        return friendlyName + " (" + friendlyDescription + " )";
     }
     
     /**
@@ -112,5 +112,52 @@ final class Function implements Comparable {
             return 0;
         }
         return -1;
+    }
+    
+    // Implement Originator
+    // --------------------
+    
+    private static final class FunctionMemento implements Memento {
+        // No need to defensively copy anything as int is a primitive type
+        // and strings are immutable.
+        private final int number;
+        private final String proppName;
+        private final String friendlyName;
+        private final String description;
+        private final String friendlyDescription;
+        FunctionMemento (Function f) {
+            this.number = f.getNumber();
+            this.proppName = f.getProppName();
+            this.friendlyName = f.getFriendlyName();
+            this.description = f.getDescription();
+            this.friendlyDescription = f.getFriendlyDescription();
+        }
+        int getNumber() { return number; }
+        String getProppName() { return proppName; }
+        String getFriendlyName() { return friendlyName; }
+        String getDescription() { return description; }
+        String getFriendlyDescription() { return friendlyDescription; }
+    }
+    
+    public Memento createMemento() {
+        return new FunctionMemento(this);
+    }
+    
+    public static Function newInstanceFromMemento(Memento m) throws MementoException {
+        if (m == null) {
+            String detail = "Null memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        if (!(m instanceof FunctionMemento)) {
+            String detail = "Wrong type of memento object.";
+            MementoException e = new MementoException(detail);
+            Util.reportException(detail, e);
+            throw e;
+        }
+        FunctionMemento f = (FunctionMemento) m;
+        return new Function(f.getNumber(),f.getProppName(),f.getFriendlyName(),
+                f.getDescription(),f.getFriendlyDescription());
     }
 }
