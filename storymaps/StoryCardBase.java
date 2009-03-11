@@ -11,7 +11,7 @@ import java.awt.Color;
  * Absract base class for StoryCard and DisabledStoryCard.
  * @author seanh
  */
-public abstract class StoryCardBase {
+abstract class StoryCardBase {
             
     protected Function function;
     protected PNode background;
@@ -20,7 +20,7 @@ public abstract class StoryCardBase {
     protected PImage image_node;
     protected PText description_node;
         
-    public StoryCardBase(Function function) {
+    StoryCardBase(Function function) {
 
         this.function = function;
         
@@ -32,7 +32,7 @@ public abstract class StoryCardBase {
         vnode.setOffset(-98,-118);
         background.addChild(vnode);
         
-        title_node = new PText(function.getFriendlyName());        
+        title_node = new PText(function.getName());        
         // The font size is really set by the scale of the node, not by font.        
         title_node.setFont(Fonts.SMALL);
         title_node.setConstrainWidthToTextWidth(false);
@@ -47,7 +47,7 @@ public abstract class StoryCardBase {
         image_node.setScale(1.6);
         vnode.addChild(image_node);
         
-        description_node = new PText(function.getFriendlyDescription());
+        description_node = new PText(function.getDescription());
         description_node.setConstrainWidthToTextWidth(false);
         description_node.setBounds(0,0,196,100);
         description_node.setFont(Fonts.NORMAL);
@@ -61,25 +61,25 @@ public abstract class StoryCardBase {
         vnode.addChild(description_node);          
     }
     
-    public void goToLowDetail() {
+    void goToLowDetail() {
         title_node.setScale(2.3);
         image_node.setScale(1.6);
         description_node.removeFromParent();
     }    
     
-    public PNode getNode() {
+    PNode getNode() {
         return background;
     }
     
-    public String getTitle() {
+    String getTitle() {
         return title_node.getText();
     }
     
-    public String getDescription() {
+    String getDescription() {
         return description_node.getText();
     }
     
-    public Function getFunction() {
+    Function getFunction() {
             return function;
     }               
 }

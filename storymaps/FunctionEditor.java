@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,9 +21,9 @@ class FunctionEditor {
     private Function function;
     private JPanel panel = new JPanel();
     private JPanel subpanel = new JPanel();
-    private JLabel title;
-    private JLabel icon;
-    private JLabel desc;
+    private JLabel name;
+    private JLabel image;
+    private JEditorPane instructions;
     private JTextArea editor;
             
     public FunctionEditor(Function function) {
@@ -39,18 +40,22 @@ class FunctionEditor {
         subpanel.setBackground(Color.WHITE);
         subpanel.setBounds(0, 0, 10, 10);
         
-        title = new JLabel(function.getFriendlyName());
-        title.setFont(Fonts.LARGE);
-        subpanel.add(title,BorderLayout.NORTH);
-        ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustration for function.");
-        icon = new JLabel(imageIcon);
-        subpanel.add(icon,BorderLayout.CENTER);
-        desc = new JLabel("<html>"+function.getFriendlyDescription()+"</html>");
-        desc.setPreferredSize(new Dimension(350,200));
-        desc.setFont(Fonts.NORMAL);
-        subpanel.add(desc,BorderLayout.SOUTH);
+        name = new JLabel(function.getName());
+        name.setFont(Fonts.LARGE);
+        subpanel.add(name,BorderLayout.NORTH);
         
-        panel.add(subpanel);        
+        ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustration for function.");
+        image = new JLabel(imageIcon);
+        subpanel.add(image,BorderLayout.CENTER);
+        
+        instructions = new JEditorPane("text/html","<html>"+function.getDescription()+"<br/><br/>"+function.getInstructions()+"</html>");        
+        instructions.setEditable(false);
+        instructions.setPreferredSize(new Dimension(350,275));
+        instructions.setFont(Fonts.NORMAL);
+        subpanel.add(instructions,BorderLayout.SOUTH);
+
+        panel.add(subpanel);
+        
         editor = new JTextArea(6,45);
         editor.setLineWrap(true);
         editor.setWrapStyleWord(true);

@@ -1,8 +1,13 @@
 package storymaps;
 
+import org.json.JSONArray;
+
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A Function is a simple immutable object that represents one of Propp's
@@ -22,46 +27,75 @@ import java.util.ArrayList;
  */
 final class Function implements Comparable, Originator {
 
+    /**
+     * The number that defines the order of this function relative to other
+     * functions, and that uniquely identifies this function. Used to implement
+     * equals and comparable.
+     */
     private final int number;
-    private final String proppName;
-    private final String friendlyName;
+    
+    /**
+     * One or two word title for this function. Plain text.
+     */
+    private final String name;
+    
+    /**
+     * Short one sentence description of this function. HTML-formatted.
+     */
     private final String description;
-    private final String friendlyDescription;
+    
+    /**
+     * Longer (multi-paragraph) structured instructions for writing this
+     * function. Includes lists of options or examples where appropriate.
+     * HTML-formatted.
+     */
+    private final String instructions;
+    
     private final String imagePath;
     private final Image image;
-
+    
     /**
      * A singleton list containing a Function object for every function
      * represented in the functions.xml file.
      */
-    private static ArrayList<Function> functions = null;
+    private static List<Function> functions = null;
     
     private static void initialiseFunctionsIfNecessary() {
         if (functions == null) {
             try {
-                functions = (ArrayList<Function>) XMLHandler.getInstance().readXMLRelative("/storymaps/functions/functions.xml");
+                String jsonString = Util.readTextFromFileRelative("/storymaps/functions/functions.json");
+                JSONArray jsonArray = new JSONArray(jsonString);
+                functions = new ArrayList<Function>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    int number = jsonObject.getInt("number");
+                    String name = jsonObject.getString("name");
+                    String description = jsonObject.getString("description");
+                    String instructions = jsonObject.getString("instructions");
+                    Function function = new Function(number,name,description,instructions);
+                    functions.add(function);
+                }
             } catch (IOException e) {
                 // If we can't read the functions.xml file then the application
                 // can't work.
-                throw new RuntimeException("Could not read functions.xml file.",e);
+                throw new RuntimeException("Could not read functions.jsone file.",e);
+            } catch (JSONException e) {
+                throw new RuntimeException("Exception when reading functions.json file.",e);
             }
         }
     }
     
-    static ArrayList<Function> getFunctions() {
+    static List<Function> getFunctions() {
         initialiseFunctionsIfNecessary();
         return functions;
     }
     
-    Function(int number, String proppName, String friendlyName,
-                    String description, String friendlyDescription) {
+    Function(int number, String name, String description, String instructions) {
         this.number = number;
-        this.proppName = proppName;
-        this.friendlyName = friendlyName;
+        this.name = name;
         this.description = description;
-        this.friendlyDescription = friendlyDescription;
+        this.instructions = instructions;
         this.imagePath = "/storymaps/functions/"+number+".svg-512.png";
-        System.out.println(this.imagePath);
         try {
             this.image = Util.readImageFromFile(imagePath);
         } catch (IOException e) {
@@ -72,17 +106,15 @@ final class Function implements Comparable, Originator {
     }
         
     public int getNumber() { return number; }
-    public String getProppName() { return proppName; }
-    public String getFriendlyName() { return friendlyName; }
+    public String getName() { return name; }
     public String getDescription() { return description; }
-    public String getFriendlyDescription() { return friendlyDescription; }
-    // FIXME: Should I make a defensive copy of image here?
+    public String getInstructions() { return instructions; }
     public Image getImage() { return image; }
     public String getImagePath() { return imagePath; }
     
     @Override
     public String toString() {
-        return friendlyName + " (" + friendlyDescription + " )";
+        return "Function: "+number+", "+name;
     }
     
     /**
@@ -121,22 +153,19 @@ final class Function implements Comparable, Originator {
         // No need to defensively copy anything as int is a primitive type
         // and strings are immutable.
         private final int number;
-        private final String proppName;
-        private final String friendlyName;
+        private final String name;
         private final String description;
-        private final String friendlyDescription;
+        private final String instructions;
         FunctionMemento (Function f) {
             this.number = f.getNumber();
-            this.proppName = f.getProppName();
-            this.friendlyName = f.getFriendlyName();
+            this.name = f.getName();
             this.description = f.getDescription();
-            this.friendlyDescription = f.getFriendlyDescription();
+            this.instructions = f.getInstructions();
         }
         int getNumber() { return number; }
-        String getProppName() { return proppName; }
-        String getFriendlyName() { return friendlyName; }
+        String getName() { return name; }
         String getDescription() { return description; }
-        String getFriendlyDescription() { return friendlyDescription; }
+        String getInstructions() { return instructions; }
     }
     
     public Memento createMemento() {
@@ -157,7 +186,7 @@ final class Function implements Comparable, Originator {
             throw e;
         }
         FunctionMemento f = (FunctionMemento) m;
-        return new Function(f.getNumber(),f.getProppName(),f.getFriendlyName(),
-                f.getDescription(),f.getFriendlyDescription());
+        return new Function(f.getNumber(),f.getName(),f.getDescription(),
+                f.getInstructions());
     }
 }
