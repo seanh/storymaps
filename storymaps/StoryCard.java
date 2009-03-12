@@ -135,7 +135,8 @@ class StoryCard extends StoryCardBase implements Receiver,
         if (!highlighted && !dragging) {
             getNode().reparent(getNode().getParent());
             highlighted = true;
-            smoothlyScale(1.4f);
+            smoothlyScale(1.8f);
+            goToHighDetail();
         }
     }
     
@@ -143,6 +144,7 @@ class StoryCard extends StoryCardBase implements Receiver,
         if (highlighted && !dragging) {
             highlighted = false;
             smoothlyScale(1.0f);
+            goToLowDetail();
         }
     }
                                  

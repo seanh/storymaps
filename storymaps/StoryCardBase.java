@@ -18,7 +18,7 @@ abstract class StoryCardBase {
     protected VerticalLayoutNode vnode;    
     protected PText title_node;
     protected PImage image_node;
-    protected PText description_node;
+    protected HTMLNode description_node;
         
     StoryCardBase(Function function) {
 
@@ -47,17 +47,16 @@ abstract class StoryCardBase {
         image_node.setScale(1.6);
         vnode.addChild(image_node);
         
-        description_node = new PText(function.getDescription());
-        description_node.setConstrainWidthToTextWidth(false);
+        description_node = new HTMLNode(function.getDescription());
         description_node.setBounds(0,0,196,100);
-        description_node.setFont(Fonts.NORMAL);
+        description_node.setFont(Fonts.LARGE);
                 
         background.setChildrenPickable(false);       
     }
 
     protected void goToHighDetail() {
         title_node.setScale(2);
-        image_node.setScale(1);
+        image_node.setScale(1);        
         vnode.addChild(description_node);          
     }
     
@@ -76,7 +75,7 @@ abstract class StoryCardBase {
     }
     
     String getDescription() {
-        return description_node.getText();
+        return description_node.getHTML();
     }
     
     Function getFunction() {
