@@ -48,9 +48,9 @@ class FunctionEditor {
         image = new JLabel(imageIcon);
         subpanel.add(image,BorderLayout.CENTER);
         
-        instructions = new JEditorPane("text/html","<html>"+function.getDescription()+"<br/><br/>"+function.getInstructions()+"</html>");        
+        instructions = new JEditorPane("text/html","<html>"+function.getDescription()+"<br/>"+function.getInstructions()+"</html>");        
         instructions.setEditable(false);
-        instructions.setPreferredSize(new Dimension(350,275));
+        instructions.setPreferredSize(new Dimension(350,350));
         instructions.setFont(Fonts.NORMAL);
         subpanel.add(instructions,BorderLayout.SOUTH);
 
