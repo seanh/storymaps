@@ -49,23 +49,30 @@
         "description": "Someone ignores a warning.",
         "instructions":
             "<ul> \
-<li>They do not do what they were told to do, or</li> \
-<li>they do what they were told not to do.</li> \
-</ul>
-"
+            <li>They do not do what they were told to do, or</li> \
+            <li>they do what they were told not to do.</li> \
+            </ul>"
     },
     
     {
         "number": 5,
         "name": "Spying",
-        "description": "Someone spies.",
+        "description": "Someone tries to get some information.",
         "instructions":
             "<p>For example:</p> \
-<ul> \
-<li>The <b>VILLAIN</b> spies on a person he wants to get, or</li> \
-<li>the <b>VILLAIN</b> asks questions about something he wants to steal, or</li> \
-<li>the <b>HERO</b> asks questions about the <b>VILLAIN</b>.</li> \
-</ul>"
+            <ul> \
+            <li>The <b>VILLAIN</b> tries to get information about the thing he wants to steal, or</li> \
+            <li>the <b>VILLAIN</b> tries to get information about the <b>VICTIM</b> he wants to kidnap, or</li> \
+            <li>the <b>VILLAIN</b> tries to get information about the thing he wants to break, or</li> \
+            <li>the <b>HERO</b> tries to get information that will help him defeat the <b>VILLAIN</b>, or</li> \
+            <li>your own idea.</li> \
+            </ul> \
+            <p>They might try to get the information by:</p> \
+            <ul> \
+            <li>Spying, or</li> \
+            <li>asking questions, or</li> \
+            <li>your own idea.</li> \
+            </ul>"
     },
 
     {
@@ -74,11 +81,13 @@
         "description": "Someone gets some information.",
         "instructions":
             "<p>For example:</p> \
-<ul> \
-<li>The <b>VILLAIN</b> finds out something about the <b>VICTIM</b>, or</li> \
-<li>the <b>VILLAIN</b> finds out something about something he wants to steal, or</li> \
-<li>the <b>HERO</b> finds out something about the <b>VILLAIN</b></li> \
-</ul>"
+            <ul> \
+            <li>The <b>VILLAIN</b> gets some information about the thing he wants to steal, or</li> \
+            <li>the <b>VILLAIN</b> gets some information about the <b>VICTIM</b> he wants to kidnap, or</li> \
+            <li>the <b>VILLAIN</b> gets some information about the thing he wants to break, or</li> \
+            <li>the <b>HERO</b> gets information that will help him defeat the <b>VILLAIN</b>, or</li> \
+            <li>your own idea.</li> \
+            </ul>"
     },
     
     {
@@ -86,15 +95,16 @@
         "name": "Trick",
         "description": "The <b>VILLAIN</b> tries to get the <b>VICTIM</b> to do something they should not.",
         "instructions":
-            "<ul> \
-<li>The <b>VILLAIN</b> tries to <i>make</i> the <b>VICTIM</b> do something they should not, or</li> \
-<li>the villain tries to <i>trick</i> the <b>VICTIM</b> into doing something they should not.</li> \
-</ul> \
-<p>For example:</p> \
-<ul> \
-<li>The villain tries to persuade the <b>VICTIM</b> to do something they should not, or</li> \
-<li>the villain tries to use magic to get the <b>VICTIM</b> to do something they should not.</li> \
-</ul>"
+            "<p>For example:</p> \
+            <ul> \
+            <li>the <b>VILLAIN</b> tries to trick the <b>VICTIM</b> into doing
+                something they should not, or</li> \
+            <li>the <b>VILLAIN</b> tries to persuade the <b>VICTIM</b> to do
+                something they should not, or</li> \
+            <li>the <b>VILLAIN</b> tries to use magic to get the <b>VICTIM</b>
+                to do something they should not, or</li> \
+            <li>your own idea.</li>
+            </ul>"
     },  
     
     {
@@ -103,10 +113,14 @@
         "description": "The <b>VICTIM</b> does what the <b>VILLAIN</b> wants.",
         "instructions":
             "<p>For example:</p> \
-<ul> \
-<li>the <b>VICTIM</b> agrees to the <b>VILLAIN</b>'s persuasions, or</li> \
-<li>the <b>VICTIM</b> falls under the <b>VILLAIN</b>'s magic spell.</li> \
-</ul>"
+            <ul> \
+            <li>the <b>VICTIM</b> falls for the <b>VILLAIN</b>'s trick and does                
+                something they should not, or</li> \
+            <li>the <b>VICTIM</b> agrees to the <b>VILLAIN</b>'s persuasions and
+                does something they should not, or</li> \
+            <li>the <b>VICTIM</b> falls under the <b>VILLAIN</b>'s magic spell
+                and does something they should not.</li> \
+            </ul>"
     },
         
     {   
@@ -119,7 +133,7 @@
             <li>The <b>VILLAIN</b> steals something, or</li> \
             <li>the <b>VILLAIN</b> kidnaps the <b>VICTIM</b>, or</li> \
             <li>the <b>VILLAIN</b> breaks something, or</li> \
-            <li>something else.</li> \
+            <li>your own idea.</li> \
             </ul>"
     },
 
@@ -128,15 +142,15 @@
             "name": "Want",
             "description": "Someone wants something they don't have.",
             "instructions":
-                "<p><i>For example:</i></p> \
-<ul> \
-<li>they want a friend, <i>or</i></li> \
-<li>they want something magical, <i>or</i></li> \
-<li>they want something nice, <i>or</i></li> \
-<li>they want money, <i>or</i></li> \
-<li>they want food, <i>or</i></li> \
-<li>they want something else.</li> \
-</ul>"
+                "<p>For example:</p> \
+                <ul> \
+                <li>they want a friend, or</li> \
+                <li>they want something magical, or</li> \
+                <li>they want something nice, or</li> \
+                <li>they want money, or</li> \
+                <li>they want food, or</li> \
+                <li>they want something else.</li> \
+                </ul>"
         },
 
     {
@@ -144,9 +158,10 @@
         "name": "Finds Out",
         "description": "The <b>HERO</b> finds out about the villainy.",
         "instructions":
-            "<p>The hero finds out about the villainy because...</p> \
+            "<p>For example, the <b>HERO</b> could find out about the villainy
+                because:</p> \
             <ul> \
-            <li>someone calls for help, or></li> \
+            <li>someone calls for help, or</li> \
             <li>someone tells the hero about it, or</li> \
             <li>someone asks the hero to help, or</li> \
             <li>some other way.</li> \
@@ -180,7 +195,8 @@
             <li>The <b>DONOR</b> asks the <b>HERO</b> a question, or</li> \
             <li>the <b>DONOR</b> asks the <b>HERO</b> for help, or</li> \
             <li>the <b>DONOR</b> attacks the <b>HERO</b>, or</li> \
-            <li>the <b>DONOR</b> makes the <b>HERO</b> an offer.</li> \
+            <li>the <b>DONOR</b> makes the <b>HERO</b> an offer, or</li> \
+            <li>your own idea.</li> \
             </ul>"
     },
 
@@ -191,24 +207,30 @@
         "instructions":        
            "<p>For example:</p> \
            <ul> \
-            <li>The <b>HERO</b> answers the <b>DONOR</b>'s question correctly or incorrectly, or</li> \
+            <li>The <b>HERO</b> answers the <b>DONOR</b>'s question correctly or
+                incorrectly, or</li> \
             <li>the <b>HERO</b> helps or does not help the <b>DONOR</b>, or</li> \
             <li>the <b>HERO</b> wins or loses the fight with the <b>DONOR</b>, or</li> \
-            <li>the <b>HERO</b> accepts or refuses the <b>DONOR</b>'s offer.</li> \
+            <li>the <b>HERO</b> accepts or refuses the <b>DONOR</b>'s offer, or</li> \
+            <li>your own idea.</li> \
             </ul>"
     },
 
         {
             "number": 16,
-            "name": "Reward",
-            "description": "The <b>HERO</b> gets something special.",
+            "name": "Magic Helper",
+            "description": "The <b>HERO</b> gets a <b>MAGIC HELPER</b>.",
             "instructions":
-                "<p><i>For example:</i></p> \
-<ul> \
-<li>The helper gives the hero something magic, <i>or</i></li> \
-<li>the helper tells the hero where to get something useful, <i>or</i></li> \
-<li>the hero steals something special from the helper.</li> \
-</ul>"
+                "<p>For example:</p> \
+                <ul> \
+                <li>The <b>DONOR</b> gives the <b>HERO</b> the <b>MAGIC \
+                    HELPER</b>, or</li> \
+                <li>the <b>DONOR</b> tells the <b>HERO</b> where to get the \
+                    <b>MAGIC HELPER</b>, or</li> \
+                <li>the <b>HERO</b> steals the <b>MAGIC HELPER</b> from the \
+                    <b>DONOR</b>, or</li> \
+                <li>your own idea.</li> \
+                </ul>"
         },
 
     {
@@ -222,7 +244,7 @@
             <li>travelling on something magic, or</li> \
             <li>following someone, or</li> \
             <li>finding a special doorway, or</li> \
-            <li>another way.</li> \
+            <li>your own idea.</li> \
             </ul>"
     },
 
@@ -235,7 +257,7 @@
             <ul> \
             <li>the <b>HERO</b> and the <b>VILLAIN</b> start to fight each other, or</li> \
             <li>the <b>HERO</b> and the <b>VILLAIN</b> start a game against each other, or</li> \
-            <li>the <b>HERO</b> and the <b>VILLAIN</b> start another kind of competition with each other.</li> \
+            <li>your own idea.</li> \
             </ul>"
     },
 
@@ -263,7 +285,7 @@
             <li>The thing that the <b>VILLAIN</b> stole is returned, or</li> \
             <li>the person that the <b>VILLAIN</b> kidnapped is returned, or</li> \
             <li>the thing that the <b>VILLAIN</b> broke is fixed, or</li> \
-            <li>something else.</li> \
+            <li>your own idea.</li> \
             </ul>"
     },
 
@@ -310,10 +332,10 @@
         "instructions":
             "<p>For example:</p> \
             <ul> \
-            <li>they get married, or</li> \
-            <li>they get a new home, or</li> \
-            <li>they get money or nice things, or</li> \
-            <li>something else.</li> \
+            <li>the <b>HERO</b> gets married, or</li> \
+            <li>the <b>HERO</b> gets a new home, or</li> \
+            <li>the <b>HERO</b> gets money or nice things, or</li> \
+            <li>your own idea.</li> \
             </ul>"
     },
 ]
