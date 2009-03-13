@@ -1,8 +1,6 @@
 package storymaps.ui;
 
 import edu.umd.cs.piccolo.nodes.PImage;
-import java.io.IOException;
-import storymaps.Util;
 
 /**
  * A button named "Write Story" that displays some text and changes between two
