@@ -12,14 +12,19 @@ import java.awt.Color;
  * @author seanh
  */
 abstract class StoryCardBase {
+    
+    // This story card's Propp function.
+    private Function function;
+    
+    // The card-shaped background geometry of the story card, always visible.       
+    private PNode background;
+    
+    // A story card has two levels of detail, high and low. When in high detail
+    // highDetailNode is attached to the background node, when in low detail
+    // lowDetailNode is attached.    
+    private VerticalLayoutNode highDetailNode;
+    private VerticalLayoutNode lowDetailNode;
             
-    protected Function function;
-    protected PNode background;
-    protected VerticalLayoutNode vnode;    
-    protected PText title_node;
-    protected PImage image_node;
-    protected HTMLNode description_node;
-        
     StoryCardBase(Function function) {
 
         this.function = function;
@@ -27,43 +32,61 @@ abstract class StoryCardBase {
         background = PPath.createRoundRectangle(-100, -120, 200, 240,20,20);
         background.setPaint(Color.WHITE);
         background.addAttribute("StoryCardBase",this);
+                       
+        highDetailNode = new VerticalLayoutNode(10);
+        highDetailNode.setOffset(-98,-118);
+        lowDetailNode = new VerticalLayoutNode(10);
+        lowDetailNode.setOffset(-98,-118);        
         
-        vnode = new VerticalLayoutNode(10);
-        vnode.setOffset(-98,-118);
-        background.addChild(vnode);
-        
-        title_node = new PText(function.getName());        
-        // The font size is really set by the scale of the node, not by font.        
-        title_node.setFont(Fonts.SMALL);
-        title_node.setConstrainWidthToTextWidth(false);
-        // Uncomment this line to clip the text if its height goes beyond the
-        // bounds.
-        //title_node.setConstrainHeightToTextHeight(false);
-        title_node.setBounds(0, 0, 90, 80);
-        title_node.setScale(2.3);
-        vnode.addChild(title_node);
+        PText lowDetailTitle = makeTitleNode();
+        lowDetailTitle.setScale(2.3);        
+        lowDetailNode.addChild(lowDetailTitle);
 
-        image_node = new PImage(function.getImage());
-        image_node.setScale(1.6);
-        vnode.addChild(image_node);
+        PText highDetailTitle = makeTitleNode();
+        highDetailTitle.setScale(2);
+        highDetailNode.addChild(highDetailTitle);
         
-        description_node = new HTMLNode(function.getDescription());
-        description_node.setBounds(0,0,196,100);
-        description_node.setFont(Fonts.LARGE);
-                
-        background.setChildrenPickable(false);       
+        PImage lowDetailImage = new PImage(function.getImage());
+        lowDetailImage.setScale(1.6);
+        lowDetailNode.addChild(lowDetailImage);
+
+        PImage highDetailImage = new PImage(function.getImage());
+        highDetailImage.setScale(1);
+        highDetailNode.addChild(highDetailImage);
+        
+        HTMLNode descriptionNode = new HTMLNode(function.getDescription());
+        descriptionNode.setBounds(0,0,196,100);
+        descriptionNode.setFont(Fonts.LARGE);
+        highDetailNode.addChild(descriptionNode);
+
+        goToLowDetail();                
     }
 
+    private PText makeTitleNode() {
+        PText titleNode = new PText(function.getName());        
+        // The font size is really set by the scale of the node, not by font.        
+        titleNode.setFont(Fonts.SMALL);
+        titleNode.setConstrainWidthToTextWidth(false);
+        // Uncomment this line to clip the text if its height goes beyond the
+        // bounds.
+        //titleNode.setConstrainHeightToTextHeight(false);
+        titleNode.setBounds(0, 0, 90, 80);
+        return titleNode;
+    }
+    
+    protected PNode getBackground() {return background;}
+        
+    // FIXME: should use a state-machine for these state changes.
     protected void goToHighDetail() {
-        title_node.setScale(2);
-        image_node.setScale(1);        
-        vnode.addChild(description_node);          
+        lowDetailNode.removeFromParent();
+        background.addChild(highDetailNode);
+        background.setChildrenPickable(false); // Just to make sure.
     }
     
     void goToLowDetail() {
-        title_node.setScale(2.3);
-        image_node.setScale(1.6);
-        description_node.removeFromParent();
+        highDetailNode.removeFromParent();
+        background.addChild(lowDetailNode);
+        background.setChildrenPickable(false); // Just to make sure.
     }    
     
     PNode getNode() {
@@ -71,11 +94,11 @@ abstract class StoryCardBase {
     }
     
     String getTitle() {
-        return title_node.getText();
+        return function.getName();
     }
     
     String getDescription() {
-        return description_node.getHTML();
+        return function.getDescription();
     }
     
     Function getFunction() {

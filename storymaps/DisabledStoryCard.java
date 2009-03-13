@@ -1,5 +1,6 @@
 package storymaps;
 
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -25,9 +26,12 @@ class DisabledStoryCard extends StoryCardBase implements Originator {
     public DisabledStoryCard(Function f) {
         super(f);
         getNode().addAttribute("DisabledStoryCard",this);
-        background.setTransparency(.3f);
-        image_node.setTransparency(.3f);
-        background.addInputEventListener(new PBasicInputEventHandler() { 		        
+        getBackground().setTransparency(.3f);
+        for (int i = 0; i < getNode().getChildrenCount(); i++) {
+            PNode child = getNode().getChild(i);
+            child.setTransparency(.3f);
+        }
+        getBackground().addInputEventListener(new PBasicInputEventHandler() { 		        
             @Override
             public void mouseClicked(PInputEvent event) {
                 if (event.getButton() == 1 && event.getClickCount() == 2) {

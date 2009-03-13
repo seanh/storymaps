@@ -31,9 +31,9 @@ class StoryCard extends StoryCardBase implements Receiver,
 
         super(function);
         
-        background.addAttribute("StoryCard",this);
+        getBackground().addAttribute("StoryCard",this);
                                        
-        background.addInputEventListener(new PBasicInputEventHandler() { 		        
+        getBackground().addInputEventListener(new PBasicInputEventHandler() { 		        
             // Make the story card scale up when the mouse enters it, and down
             // again when the mouse leaves it.
             @Override
@@ -47,6 +47,7 @@ class StoryCard extends StoryCardBase implements Receiver,
             
             @Override
             public void mouseClicked(PInputEvent event) {
+                // Disable mouse clicking on story cards.
                 /*
                 if (event.getButton() == 1 && event.getClickCount() == 2) {
                     // If the StoryCard is double-clicked with the left mouse
@@ -67,7 +68,7 @@ class StoryCard extends StoryCardBase implements Receiver,
         editor = new FunctionEditor(function,text);
         
         try {
-            draggable = new Draggable(background);
+            draggable = new Draggable(getBackground());
             draggable.attach(this);
         } catch (NodeAlreadyDraggableException e) {
             // ...
@@ -116,7 +117,7 @@ class StoryCard extends StoryCardBase implements Receiver,
              */ 
             @Override
             protected void activityStarted() {
-                source = (float)background.getScale();
+                source = (float)getBackground().getScale();
                 super.activityStarted();
             }
             /**
@@ -125,10 +126,10 @@ class StoryCard extends StoryCardBase implements Receiver,
             @Override
             public void setRelativeTargetValue(float scale) {
                 float scaleTo = source + (scale * (dest - source));
-                background.setScale(scaleTo);
+                getBackground().setScale(scaleTo);
             }
         };
-        background.addActivity(activity);
+        getBackground().addActivity(activity);
     }
         
     public void highlight() {
@@ -154,7 +155,7 @@ class StoryCard extends StoryCardBase implements Receiver,
     
     @Override
     public String toString() {
-        return function.toString() + "\n" + editor.getText();
+        return getFunction().toString() + "\n" + editor.getText();
     }
     
     public boolean compare(Object o) {
@@ -176,11 +177,12 @@ class StoryCard extends StoryCardBase implements Receiver,
         if (name.equals("drag started")) {
             if (sender_arg instanceof PNode) {
                 PNode node = (PNode) sender_arg;
-                if (node.equals(background)) {
+                if (node.equals(getBackground())) {
                     if (activity != null) {
                         activity.terminate();
                     }
-                    background.setScale(1.0);
+                    getBackground().setScale(1.0);
+                    goToLowDetail();
                     dragging = true;
                 }
             }
