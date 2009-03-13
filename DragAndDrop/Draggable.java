@@ -27,6 +27,11 @@ public class Draggable extends DragDropSubject {
     private PNode node;
     
     /**
+     * Records whether this draggable is currently being dragged or not.
+     */
+    private boolean isDragging = false;
+    
+    /**
      * Construct a new Draggable instance.
      * 
      * @param node The PNode to be wrapped by this draggable.
@@ -42,6 +47,12 @@ public class Draggable extends DragDropSubject {
             node.addInputEventListener(createEventHandler());            
         }
     }
+    
+    /**
+     * Return true if this draggable is currently being dragged, false
+     * otherwise.
+     */
+    public boolean isDragging() { return isDragging; }
         
     /**
      * Return a new drag & drop event handler, that can then be added to a node.
@@ -50,7 +61,7 @@ public class Draggable extends DragDropSubject {
      * 
      * @return A new drag & drop event handler.
      */
-    private static PDragEventHandler createEventHandler() {       
+    private PDragEventHandler createEventHandler() {       
         PDragEventHandler dragEventHandler = new PDragEventHandler() {
             private Point2D startPos;
             private PNode previousParent;
@@ -75,7 +86,8 @@ public class Draggable extends DragDropSubject {
                     }
                     node = node.getParent();
                 }
-                Messager.getMessager().send("drag started", getDraggedNode());                                
+                Messager.getMessager().send("drag started", getDraggedNode());
+                isDragging = true;
             }
             @Override
             protected void endDrag(PInputEvent e) {
@@ -132,6 +144,7 @@ public class Draggable extends DragDropSubject {
                     }
                 }
                 super.endDrag(e);
+                isDragging = false;
             }
         };
         return dragEventHandler;

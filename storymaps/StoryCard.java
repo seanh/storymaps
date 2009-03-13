@@ -15,7 +15,6 @@ class StoryCard extends StoryCardBase implements Receiver,
     private boolean highlighted = false;
     private FunctionEditor editor;
     private Draggable draggable;
-    private boolean dragging = false;
     
     /**
      * The activity used for both scaling up and scaling down the story card
@@ -133,7 +132,7 @@ class StoryCard extends StoryCardBase implements Receiver,
     }
         
     public void highlight() {
-        if (!highlighted && !dragging) {
+        if (!highlighted && !draggable.isDragging()) {
             getNode().reparent(getNode().getParent());
             highlighted = true;
             smoothlyScale(1.8f);
@@ -142,7 +141,7 @@ class StoryCard extends StoryCardBase implements Receiver,
     }
     
     public void unhighlight() {
-        if (highlighted && !dragging) {
+        if (highlighted && !draggable.isDragging()) {
             highlighted = false;
             smoothlyScale(1.0f);
             goToLowDetail();
@@ -183,14 +182,12 @@ class StoryCard extends StoryCardBase implements Receiver,
                     }
                     getBackground().setScale(1.0);
                     goToLowDetail();
-                    dragging = true;
                 }
             }
         }
     }
     
     public boolean notify(DropEvent de) {
-        dragging = false;
         return true;
     }
 
