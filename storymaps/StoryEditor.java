@@ -4,6 +4,8 @@ import storymaps.ui.Fonts;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.AbstractButton;
@@ -15,8 +17,10 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.text.DefaultEditorKit;
 
 /**
@@ -67,8 +71,11 @@ public class StoryEditor implements Receiver {
      */
     private JFrame parent;
     
-    public StoryEditor(JFrame parent) {
+    private final Application app;
+    
+    public StoryEditor(JFrame parent, final Application app) {
         this.parent = parent;
+        this.app = app;
         
         root_panel = new JPanel();
         root_panel.setLayout(new BorderLayout());
@@ -92,14 +99,28 @@ public class StoryEditor implements Receiver {
         addButton("Cut","/storymaps/icons/cut.png",new DefaultEditorKit.CutAction());
         addButton("Copy","/storymaps/icons/copy.png",new DefaultEditorKit.CopyAction());
         addButton("Paste","/storymaps/icons/paste.png",new DefaultEditorKit.PasteAction());
-                       
-        root_panel.setPreferredSize(new Dimension(parent.getWidth(),0));
         
+        toolBar.add(new JSeparator(SwingConstants.VERTICAL));
+
+        JButton exportButton = addButton("Export Story as HTML", "/storymaps/icons/save_as_html.png");
+        exportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                app.saveAsHTML();
+            }
+        });        
+        
+        JButton saveButton = addButton("Save Story","/storymaps/icons/save.png");
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                app.save();
+            }
+        });
+                
+        root_panel.setPreferredSize(new Dimension(parent.getWidth(),0));        
         Messager.getMessager().accept("button clicked",this,null);
     }
-    
-    private void addButton(String text, String imagePath, Action action) {
-        JButton button = new JButton(action);
+        
+    private void configureButton(String text, String imagePath, JButton button) {
         button.setText(text);
         try {
             ImageIcon icon = Util.readImageIconFromFile(imagePath);
@@ -110,7 +131,20 @@ public class StoryEditor implements Receiver {
         }        
         button.setVerticalTextPosition(AbstractButton.BOTTOM);
         button.setHorizontalTextPosition(AbstractButton.CENTER);        
-        toolBar.add(button);        
+    }
+    
+    private JButton addButton(String text, String imagePath) {
+        JButton button = new JButton();
+        configureButton(text, imagePath, button);
+        toolBar.add(button);
+        return button;
+    }
+    
+    private JButton addButton(String text, String imagePath, Action action) {
+        JButton button = new JButton(action);
+        configureButton(text, imagePath, button);
+        toolBar.add(button);
+        return button;
     }
             
     private void collapse() {

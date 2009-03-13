@@ -175,9 +175,9 @@ public class Application implements Receiver, Originator {
         contentPane = frame.getContentPane();
         contentPane.setLayout(new BorderLayout());
 
-        makeToolBar();
+        makeMenuBar();
 
-        editor = new StoryEditor(frame);
+        editor = new StoryEditor(frame,this);
 
         canvas = new PCanvas();
         canvas.setPreferredSize(new Dimension(640, 480));
@@ -232,39 +232,35 @@ public class Application implements Receiver, Originator {
     }
            
     /**
-     * Construct the application's toolbar, with buttons for controlling the
-     * application.
+     * Construct the application's menubar.
      */
-    private void makeToolBar() {
-        JToolBar toolBar = new JToolBar("StoryMaps");
-        toolBar.setFloatable(false);
-        toolBar.setRollover(true);
-                
-        JButton openButton = createButton("/storymaps/icons/open.png","Open");
-        toolBar.add(openButton);
-        openButton.addActionListener(new ActionListener() {
+    private void makeMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        frame.setJMenuBar(menuBar);
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+        JMenuItem openItem = new JMenuItem("Open a Saved Story");
+        fileMenu.add(openItem);
+        openItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 open();
             }
         });
-
-        JButton saveButton = createButton("/storymaps/icons/save.png","Save");        
-        toolBar.add(saveButton);
-        saveButton.addActionListener(new ActionListener() {
+        fileMenu.addSeparator();
+        JMenuItem saveItem = new JMenuItem("Save Your Story");
+        fileMenu.add(saveItem);
+        saveItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 save();
             }
         });
-
-        JButton saveAsHtmlButton = createButton("/storymaps/icons/save_as_html.png","Save as HTML");        
-        toolBar.add(saveAsHtmlButton);
-        saveAsHtmlButton.addActionListener(new ActionListener() {
+        JMenuItem exportItem = new JMenuItem("Export Your Story as HTML");
+        fileMenu.add(exportItem);
+        exportItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveAsHTML();
             }
         });        
-                
-        contentPane.add(toolBar, BorderLayout.NORTH);
     }
 
     /**
@@ -273,7 +269,7 @@ public class Application implements Receiver, Originator {
     private void initializePCanvas() {
 
         canvas.getLayer().addChild(home);
-
+        
         cards = new StoryCards("Choose the Story Cards you want from here...");
         home.addChild(cards.getNode());
 
@@ -375,12 +371,6 @@ public class Application implements Receiver, Originator {
     }
 
     /**
-     * This method is called when the New button is pressed.
-     */
-    private void newStory() {
-    }
-
-    /**
      * This method is called when the Open button is pressed.
      */
     private void open() {
@@ -440,7 +430,7 @@ public class Application implements Receiver, Originator {
     /**
      * This method is called when the Save button is pressed.
      */
-    private void save() {
+    void save() {
         int returnVal = fc.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
@@ -460,7 +450,7 @@ public class Application implements Receiver, Originator {
     /**
      * This method is called when the "Save as HTML" button is pressed.
      */
-    private void saveAsHTML() {
+    void saveAsHTML() {
         int returnVal = fc.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
