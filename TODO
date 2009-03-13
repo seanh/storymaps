@@ -6,7 +6,6 @@
     *   **Give it a new colour scheme.**
     *   Add an icon on low-detail story cards that indicates when they have 
     user text associated.
-    *   Move 'Save Story' button to bottom of StoryEditor.
     *   The card store should have an optional behaviour that allows the same 
     story card to be taken twice.
     *   Implement logging of user actions and saving that log in the XML with 
