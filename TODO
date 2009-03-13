@@ -1,4 +1,3 @@
-    *   **Add Cut, Copy and Paste buttons.**
     *   **Implement two-way communication between StoryMap and StoryEditor.**
     *   **Make the autosave create a directory instead of putting files 
     directly in the user's homedir.**
