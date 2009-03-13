@@ -4,13 +4,20 @@ import storymaps.ui.Fonts;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.text.DefaultEditorKit;
 
 /**
  *
@@ -39,6 +46,11 @@ public class StoryEditor implements Receiver {
      * ScrollPane that contains the document panel.
      */
     private JScrollPane scrollPane;
+    
+    /**
+     * The toolbar that contains the Cut, Copy, Paste, Save etc. buttons.
+     */
+    private JToolBar toolBar;
     
     /**
      * The title of the story.
@@ -72,11 +84,35 @@ public class StoryEditor implements Receiver {
         root_panel.add(scrollPane,BorderLayout.CENTER);
         scrollPane.setVisible(false);// The document panel starts off collapsed.
         
+        toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+        toolBar.setRollover(true);        
+        root_panel.add(toolBar,BorderLayout.SOUTH);
+
+        addButton("Cut","/storymaps/icons/cut.png",new DefaultEditorKit.CutAction());
+        addButton("Copy","/storymaps/icons/copy.png",new DefaultEditorKit.CopyAction());
+        addButton("Paste","/storymaps/icons/paste.png",new DefaultEditorKit.PasteAction());
+                       
         root_panel.setPreferredSize(new Dimension(parent.getWidth(),0));
         
         Messager.getMessager().accept("button clicked",this,null);
     }
     
+    private void addButton(String text, String imagePath, Action action) {
+        JButton button = new JButton(action);
+        button.setText(text);
+        try {
+            ImageIcon icon = Util.readImageIconFromFile(imagePath);
+            button.setIcon(icon);
+        } catch (IOException e) {
+            // If we can't read an icon file we don't report it to the user,
+            // just create a button with text and no icon.
+        }        
+        button.setVerticalTextPosition(AbstractButton.BOTTOM);
+        button.setHorizontalTextPosition(AbstractButton.CENTER);        
+        toolBar.add(button);        
+    }
+            
     private void collapse() {
         if (collapsed) {
             collapsed = false;
