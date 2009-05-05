@@ -78,7 +78,7 @@ final class Function implements Comparable, Originator {
             } catch (IOException e) {
                 // If we can't read the functions.xml file then the application
                 // can't work.
-                throw new RuntimeException("Could not read functions.jsone file.",e);
+                throw new RuntimeException("Could not read functions.json file.",e);
             } catch (JSONException e) {
                 throw new RuntimeException("Exception when reading functions.json file.",e);
             }
