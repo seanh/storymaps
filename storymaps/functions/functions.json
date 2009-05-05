@@ -78,7 +78,7 @@
     {
         "number": 6,
         "name": "Information",
-        "description": "Someone gets some information.",
+        "description": "Someone gets the information they want.",
         "instructions":
             "<p>For example:</p> \
             <ul> \
@@ -187,7 +187,7 @@
     {
         "number": 14,
         "name": "Test",
-        "description": "The <b>HERO</b> is tested by the <b>DONOR</b>.",
+        "description": "The <b>DONOR</b> gives the <b>HERO</b> a test.",
         "instructions":
             "<p>The <b>HERO</b> meets a magical <b>DONOR</b> who gives the hero a test.</p> \
             <p>For example:</p> \
@@ -236,7 +236,7 @@
     {
         "number": 17,
         "name": "Arrives",
-        "description": "The <b>HERO</b> gets to the destination of their journey.",
+        "description": "The <b>HERO</b> gets to the destination of the journey.",
         "instructions":
             "<p>They might get there by:</p> \
             <ul> \
@@ -308,7 +308,7 @@
     {
         "number": 24,
         "name": "Escape",
-        "description": "The <b>HERO</b> escapes from the chase.",
+        "description": "The <b>HERO</b> escapes from the <b>VILLAIN</b>.",
         "instructions":
             ""
     },
