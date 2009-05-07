@@ -5,10 +5,7 @@ Story Maps is a story planning and writing tool for children. The idea is based 
 
 Click on the screenshot to launch the application with Java Web Start (requires Java version 1.5 or later).
 
-<a href="http://homepages.inf.ed.ac.uk/s0094060/webstart/launch.jnlp">
-  <img src="http://homepages.inf.ed.ac.uk/s0094060/webstart/screenshot.png" alt="StoryMaps prototype screenshot" 
-       title="Go on, click!" style="border:None;" />
-</a>
+<a href="http://homepages.inf.ed.ac.uk/s0094060/webstart/launch.jnlp"><img src="http://homepages.inf.ed.ac.uk/s0094060/webstart/screenshot.png"  alt="StoryMaps prototype screenshot" title="Go on, click!" style="border:None;" /></a>
 
 For more info see the publications on [my university website](http://homepages.inf.ed.ac.uk/s0094060).
 
