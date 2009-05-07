@@ -10,7 +10,7 @@ import java.io.StringWriter;
  * It is just a casual test tool.
  */
 public class Test {
-
+	
     /**
      * Entry point.
      * @param args
@@ -69,6 +69,7 @@ public class Test {
             }
         }      
         
+
     	Obj obj = new Obj("A beany object", 42, true);
         
         try {     

@@ -40,7 +40,7 @@ public class Button extends PNode {
      * The path to the image that is displayed  on buttons initially, until
      * setImage is called.
      */
-    private static final String DEFAULT_ICON_PATH = "/storymaps/icons/button_default.png";    
+    private static final String DEFAULT_ICON_PATH = "/data/icons/button_default.png";
     
     /**
      * The image that is displayed  on buttons initially, until setImage is
@@ -51,7 +51,7 @@ public class Button extends PNode {
     static PImage initialiseImageIfNecessary(String path, PImage image) {
         if (image == null) {
             try {
-                image = new PImage(Util.readImageFromFile(path));
+                image = new PImage(Util.readImageFromClassPath(path));
             } catch (IOException e) {
                 // FIXME: shouldn't need to crash here, just create a button
                 // with text only.

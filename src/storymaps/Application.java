@@ -219,7 +219,7 @@ public class Application implements Receiver, Originator {
     private JButton createButton(String path, String text) {
         JButton button;
         try {
-            ImageIcon icon = Util.readImageIconFromFile(path);
+            ImageIcon icon = Util.readImageIconFromClassPath(path);
             button = new JButton(text, icon);
         } catch (IOException e) {
             // If we can't read an icon file we don't report it to the user,

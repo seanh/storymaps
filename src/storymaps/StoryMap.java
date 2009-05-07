@@ -54,7 +54,7 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         Messager.getMessager().accept("StoryCard single-clicked", this, null);
         PImage image;
         try {
-            image = new PImage(Util.readImageFromFile("/storymaps/icons/sort.png"));
+            image = new PImage(Util.readImageFromClassPath("/data/icons/sort.png"));
         } catch (IOException e) {
             // FIXME: shouldn't need to crash here, create a text-only button
             // instead.

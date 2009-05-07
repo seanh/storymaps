@@ -96,20 +96,20 @@ public class StoryEditor implements Receiver {
         toolBar.setRollover(true);        
         root_panel.add(toolBar,BorderLayout.SOUTH);
 
-        addButton("Cut","/storymaps/icons/cut.png",new DefaultEditorKit.CutAction());
-        addButton("Copy","/storymaps/icons/copy.png",new DefaultEditorKit.CopyAction());
-        addButton("Paste","/storymaps/icons/paste.png",new DefaultEditorKit.PasteAction());
+        addButton("Cut","/data/icons/cut.png",new DefaultEditorKit.CutAction());
+        addButton("Copy","/data/icons/copy.png",new DefaultEditorKit.CopyAction());
+        addButton("Paste","/data/icons/paste.png",new DefaultEditorKit.PasteAction());
         
         toolBar.add(new JSeparator(SwingConstants.VERTICAL));
 
-        JButton exportButton = addButton("Export Story as HTML", "/storymaps/icons/save_as_html.png");
+        JButton exportButton = addButton("Export Story as HTML", "/data/icons/save_as_html.png");
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 app.saveAsHTML();
             }
         });        
         
-        JButton saveButton = addButton("Save Story","/storymaps/icons/save.png");
+        JButton saveButton = addButton("Save Story","/data/icons/save.png");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 app.save();
@@ -123,7 +123,7 @@ public class StoryEditor implements Receiver {
     private void configureButton(String text, String imagePath, JButton button) {
         button.setText(text);
         try {
-            ImageIcon icon = Util.readImageIconFromFile(imagePath);
+            ImageIcon icon = Util.readImageIconFromClassPath(imagePath);
             button.setIcon(icon);
         } catch (IOException e) {
             // If we can't read an icon file we don't report it to the user,

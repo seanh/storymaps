@@ -63,7 +63,7 @@ final class Function implements Comparable, Originator {
     private static void initialiseFunctionsIfNecessary() {
         if (functions == null) {
             try {
-                String jsonString = Util.readTextFromFileRelative("/storymaps/functions/functions.json");
+                String jsonString = Util.readTextFileFromClassPath("/data/functions/functions.json");
                 JSONArray jsonArray = new JSONArray(jsonString);
                 functions = new ArrayList<Function>();
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -76,11 +76,11 @@ final class Function implements Comparable, Originator {
                     functions.add(function);
                 }
             } catch (IOException e) {
-                // If we can't read the functions.xml file then the application
+                // If we can't read the functions file then the application
                 // can't work.
                 throw new RuntimeException("Could not read functions.json file.",e);
             } catch (JSONException e) {
-                throw new RuntimeException("Exception when reading functions.json file.",e);
+                throw new RuntimeException("Exception when reading functions file.",e);
             }
         }
     }
@@ -95,9 +95,9 @@ final class Function implements Comparable, Originator {
         this.name = name;
         this.description = description;
         this.instructions = instructions;
-        this.imagePath = "/storymaps/functions/"+number+".svg-512.png";
+        this.imagePath = "/data/functions/"+number+".svg-512.png";
         try {
-            this.image = Util.readImageFromFile(imagePath);
+            this.image = Util.readImageFromClassPath(imagePath);
         } catch (IOException e) {
             System.out.println("Couldn't load image for function "+imagePath);
             // FIXME: shouldn't need to crash here.

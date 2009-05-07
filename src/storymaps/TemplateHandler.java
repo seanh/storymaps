@@ -48,7 +48,7 @@ final class TemplateHandler {
      */
     private TemplateHandler() throws IOException {
         try {
-            String templates_path = getClass().getResource("/storymaps/templates").getPath();
+            String templates_path = getClass().getResource("/data/templates").getPath();
             cfg.setDirectoryForTemplateLoading(new File(templates_path));
             cfg.setObjectWrapper(new DefaultObjectWrapper());            
         } catch (IOException e) {

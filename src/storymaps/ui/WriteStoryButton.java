@@ -14,8 +14,8 @@ public class WriteStoryButton extends Button {
 
     private static final String COLLAPSED_TEXT = "Write Story";
     private static final String UNCOLLAPSED_TEXT = "Go Back";
-    private static final String COLLAPSED_ICON_PATH = "/storymaps/icons/arrow_down.png";
-    private static final String UNCOLLAPSED_ICON_PATH = "/storymaps/icons/arrow_up.png";    
+    private static final String COLLAPSED_ICON_PATH = "/data/icons/arrow_down.png";
+    private static final String UNCOLLAPSED_ICON_PATH = "/data/icons/arrow_up.png";
     private static PImage COLLAPSED_ICON = null;
     private static PImage UNCOLLAPSED_ICON = null;
         

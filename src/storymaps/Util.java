@@ -38,36 +38,52 @@ public class Util {
     }
     
     /**
-     * Given a relative path (relative to the classpath, e.g.
-     * /storymaps/data/functions.xml) read in a file and return the contents as
-     * a string.
+     * Use the Java ClassLoader to read the text file at the given resource path
+     * and return the contents as a String.
+     * @param path The resource path to the text file to read.
+     * @return The contents of the text file as a String.
+     * @throws java.io.IOException
      */
-    public static String readTextFromFileRelative(String relativePath) throws IOException {
-        String absolutePath = Util.class.getResource(relativePath).getPath();
-        if (absolutePath == null) {
-            String detail = "IOException when trying to read text from file at path: "+absolutePath;
-            IOException e = new IOException(detail);
-            reportException(detail, e);
-            throw e;
+    public static String readTextFileFromClassPath(String path) throws IOException {
+        InputStream is = Util.class.getResourceAsStream(path);
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr);
+        String text = "";
+        String line;
+        try {
+            while ((line = br.readLine()) != null)
+            {
+                text = text + line;
+            }
+            br.close();
+            isr.close();
+            is.close();
+        } catch (IOException e) {
+            String detail = "IOException when reading-in text file from path: "+path;
+            reportException(detail,e);
+            throw new IOException(detail,e);
         }
-        return readTextFromFileAbsolute(absolutePath);
+        return text;
     }
 
     /**
-     * Given an absolute path read in a file and return the contents as a
-     * string.
+     * Read in a text file from a canonical and absolute sytem path and return
+     * the contents as a string.
+     * @param path The canonical and absolute path to the text file to read.
+     * @return The contents of the text file as a String.
+     * @throws java.io.IOException
      */
-    public static String readTextFromFileAbsolute(String absolutePath) throws IOException {
+    public static String readTextFileFromSystem(String path) throws IOException {
         String contents = "";
         try {
-            BufferedReader in = new BufferedReader(new FileReader(absolutePath));
+            BufferedReader in = new BufferedReader(new FileReader(path));
             String line;            
             while ((line = in.readLine()) != null) {
                 contents = contents + line;
             }
             in.close();
         } catch (IOException e) {
-            String detail = "IOException when reading-in text file from path: "+absolutePath;
+            String detail = "IOException when reading-in text file from path: "+path;
             reportException(detail,e);
             throw new IOException(detail,e);
         }
@@ -75,10 +91,11 @@ public class Util {
     }
 
     /**
-     * Write a string out to a text file.
+     * Write a string out to a text file at a canonical and absolute system
+     * path.
      * 
      * @param s The string to be written.
-     * @param absolutePath The absolute path to the file to write to.
+     * @param path The canonical and absolute system path to the file to write.
      */
     public static void writeTextToFile(String s, String absolutePath) throws IOException {        
         try {
@@ -93,29 +110,29 @@ public class Util {
     }
     
     /**
-     * Read in an image file and return the image as a Piccolo PImage object.
-     * @param path Relative path to the image file to load,
-     * e.g. /storymaps/functions/0.png
+     * Use the Java ClassLoader to read in an image file from a resource path
+     * and return the image as a Piccolo PImage object.
+     * @param path The resource path to the image file to read.
      */
-    public static PImage readPImageFromFile(String path) throws IOException {
-        return new PImage(readImageFromFile(path));
+    public static PImage readPImageFromClassPath(String path) throws IOException {
+        return new PImage(readImageFromClassPath(path));
     }
 
     /**
-     * Read in an image file and return the image as an Image object.
-     * @param path Relative path to the image file to load,
-     * e.g. /storymaps/functions/0.png
+     * Use the Java ClassLoader to read in an image from a resource path and
+     * return the image as an Image object.
+     * @param path The resource path to the image file to read.
      */    
-    public static Image readImageFromFile(String path) throws IOException {
-        return readImageIconFromFile(path).getImage();
+    public static Image readImageFromClassPath(String path) throws IOException {
+        return readImageIconFromClassPath(path).getImage();
     }
 
     /**
-     * Read in an image file and return the image as an ImageIcon object.
-     * @param path Relative path to the image file to load,
-     * e.g. /storymaps/functions/0.png
+     * Use the Java ClassLoader to read in an image from a resoure path and
+     * return the image as an ImageIcon object.
+     * @param path The resource path to the image file to read.
      */    
-    public static ImageIcon readImageIconFromFile(String path) throws IOException {
+    public static ImageIcon readImageIconFromClassPath(String path) throws IOException {
         InputStream imagefile = Util.class.getResourceAsStream(path);
         if (imagefile == null) {
             String detail = "IOException when trying to read image from file at path: "+path;
