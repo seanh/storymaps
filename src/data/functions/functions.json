@@ -92,17 +92,17 @@
     
     {
         "number": 7,
-        "name": "Trick",
-        "description": "The <b>VILLAIN</b> tries to get the <b>VICTIM</b> to do something they should not.",
+        "name": "Trickery",
+        "description": "The <b>VILLAIN</b> tries to get the <b>VICTIM</b> to do what the <b>VILLAIN</b> wants.",
         "instructions":
             "<p>For example:</p> \
             <ul> \
             <li>the <b>VILLAIN</b> tries to trick the <b>VICTIM</b> into doing
-                something they should not, or</li> \
+                what the <b>VILLAIN</b> wants, or</li> \
             <li>the <b>VILLAIN</b> tries to persuade the <b>VICTIM</b> to do
-                something they should not, or</li> \
+                what the <b>VILLAIN</b> wants, or</li> \
             <li>the <b>VILLAIN</b> tries to use magic to get the <b>VICTIM</b>
-                to do something they should not, or</li> \
+                to do what the <b>VILLAIN</b> wants, or</li> \
             <li>your own idea.</li>
             </ul>"
     },  
@@ -114,12 +114,11 @@
         "instructions":
             "<p>For example:</p> \
             <ul> \
-            <li>the <b>VICTIM</b> falls for the <b>VILLAIN</b>'s trick and does                
-                something they should not, or</li> \
+            <li>the <b>VICTIM</b> falls for the <b>VILLAIN</b>'s trick and does what the <b>VILLAIN</b> wants, or</li> \
             <li>the <b>VICTIM</b> agrees to the <b>VILLAIN</b>'s persuasions and
-                does something they should not, or</li> \
+                does what the <b>VILLAIN</b> wants, or</li> \
             <li>the <b>VICTIM</b> falls under the <b>VILLAIN</b>'s magic spell
-                and does something they should not.</li> \
+                and does what the <b>VILLAIN</b> wants.</li> \
             </ul>"
     },
         
