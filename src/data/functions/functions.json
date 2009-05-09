@@ -1,6 +1,6 @@
 [
     {
-        "number" : 1,
+        "number" : 0,
         "name": "Home",
         "description": "How the story starts.",
         "instructions":
@@ -14,7 +14,7 @@
     },
 
     {
-        "number": 2,
+        "number": 1,
         "name": "Split Up",
         "description": "Characters get split up.",
         "instructions":
@@ -26,7 +26,7 @@
     },
 
     {
-        "number": 3,
+        "number": 2,
         "name": "Warning",
         "description": "Someone is given a warning.",
         "instructions":
@@ -44,7 +44,7 @@
     },
     
     {
-        "number": 4,
+        "number": 3,
         "name": "Ignored",
         "description": "Someone ignores a warning.",
         "instructions":
@@ -55,7 +55,7 @@
     },
     
     {
-        "number": 5,
+        "number": 4,
         "name": "Spying",
         "description": "Someone tries to get some information.",
         "instructions":
@@ -76,7 +76,7 @@
     },
 
     {
-        "number": 6,
+        "number": 5,
         "name": "Information",
         "description": "Someone gets the information they want.",
         "instructions":
@@ -91,7 +91,7 @@
     },
     
     {
-        "number": 7,
+        "number": 6,
         "name": "Trickery",
         "description": "The <b>VILLAIN</b> tries to get the <b>VICTIM</b> to do what the <b>VILLAIN</b> wants.",
         "instructions":
@@ -108,9 +108,9 @@
     },  
     
     {
-        "number": 8,
-        "name": "Fooled",
-        "description": "The <b>VICTIM</b> does what the <b>VILLAIN</b> wants.",
+        "number": 7,
+        "name": "Tricked",
+        "description": "The <b>VICTIM</b> falls for the trick and does what the <b>VILLAIN</b> wants.",
         "instructions":
             "<p>For example:</p> \
             <ul> \
@@ -123,7 +123,7 @@
     },
         
     {   
-        "number": 9,
+        "number": 8,
         "name": "Villainy!",
         "description": "The villain does something bad.",
         "instructions":
@@ -136,24 +136,8 @@
             </ul>"
     },
 
-        {
-            "number": 10,
-            "name": "Want",
-            "description": "Someone wants something they don't have.",
-            "instructions":
-                "<p>For example:</p> \
-                <ul> \
-                <li>they want a friend, or</li> \
-                <li>they want something magical, or</li> \
-                <li>they want something nice, or</li> \
-                <li>they want money, or</li> \
-                <li>they want food, or</li> \
-                <li>they want something else.</li> \
-                </ul>"
-        },
-
     {
-        "number": 11,
+        "number": 9,
         "name": "Finds Out",
         "description": "The <b>HERO</b> finds out about the villainy.",
         "instructions":
@@ -168,7 +152,7 @@
     },
     
     {
-        "number": 12,
+        "number": 10,
         "name": "Decides",
         "description": "The <b>HERO</b> decides to go on a journey to put right the villainy.",
         "instructions":
@@ -176,7 +160,7 @@
     },
 
     {
-        "number": 13,
+        "number": 11,
         "name": "Leaves",
         "description": "The <b>HERO</b> leaves on a journey to put right the villainy.",
         "instructions":
@@ -184,7 +168,7 @@
     },
 
     {
-        "number": 14,
+        "number": 12,
         "name": "Test",
         "description": "The <b>DONOR</b> gives the <b>HERO</b> a test.",
         "instructions":
@@ -200,7 +184,7 @@
     },
 
     {
-        "number": 15,
+        "number": 13,
         "name": "Answer",
         "description": "The <b>HERO</b> answers the <b>DONOR</b>'s test.",
         "instructions":        
@@ -216,24 +200,26 @@
     },
 
         {
-            "number": 16,
-            "name": "Magic Helper",
-            "description": "The <b>HERO</b> gets a <b>MAGIC HELPER</b>.",
+            "number": 14,
+            "name": "The Magic Thing",
+            "description": "The <b>HERO</b> gets a <b>MAGIC THING</b>.",
             "instructions":
-                "<p>For example:</p> \
+                "<p>The <b>MAGIC THING</b> could be: </p> \
                 <ul> \
-                <li>The <b>DONOR</b> gives the <b>HERO</b> the <b>MAGIC \
-                    HELPER</b>, or</li> \
-                <li>the <b>DONOR</b> tells the <b>HERO</b> where to get the \
-                    <b>MAGIC HELPER</b>, or</li> \
-                <li>the <b>HERO</b> steals the <b>MAGIC HELPER</b> from the \
-                    <b>DONOR</b>, or</li> \
+                <li>a magic <b>animal</b> that helps the hero, or </li> \
+                <li>a magic <b>object</b> that the hero gets, or </li> \
+                <li>a magic <b>power</b> that the hero gets. </li> \
+                </ul> \
+                <p>The <b>HERO</b> could get the <b>MAGIC THING</b> because: </p> \
+                <ul> \
+                <li>the <b>DONOR</b> gives it to the <b>HERO</b> or </li> \
+                <li>the <b>HERO</b> steals it from the <b>DONOR</b>, or</li> \
                 <li>your own idea.</li> \
                 </ul>"
         },
 
     {
-        "number": 17,
+        "number": 15,
         "name": "Arrives",
         "description": "The <b>HERO</b> gets to the destination of the journey.",
         "instructions":
@@ -248,7 +234,7 @@
     },
 
     {
-        "number": 18,
+        "number": 16,
         "name": "Struggle",
         "description": "The <b>HERO</b> and the <b>VILLAIN</b> begin a competition.",
         "instructions":
@@ -261,7 +247,7 @@
     },
 
     {
-        "number": 19,
+        "number": 18,
         "name": "Defeat",
         "description": "The <b>VILLAIN</b> is defeated.",
         "instructions":
@@ -275,7 +261,7 @@
     },
 
     {
-        "number": 21,
+        "number": 19,
         "name": "Victory",
         "description": "The villainy is put right.",
         "instructions":
@@ -289,15 +275,15 @@
     },
 
     {
-        "number": 22,
-        "name": "Return",
-        "description": "The <b>HERO</b> sets out to return home.",
+        "number": 20,
+        "name": "Return or Escape",
+        "description": "The <b>HERO</b> sets out to return home or escapes from the <b>VILLAIN</b>.",
         "instructions":
             ""
     },
 
     {
-        "number": 23,
+        "number": 21,
         "name": "Chase",
         "description": "The <b>VILLAIN</b> chases the <b>HERO</b>.",
         "instructions":
@@ -305,15 +291,15 @@
     },
 
     {
-        "number": 24,
-        "name": "Escape",
-        "description": "The <b>HERO</b> escapes from the <b>VILLAIN</b>.",
+        "number": 22,
+        "name": "Rescue",
+        "description": "The <b>HERO</b> is rescued from the <b>VILLAIN</b>'s chase.",
         "instructions":
             ""
     },
 
     {
-        "number": 31,
+        "number": 30,
         "name": "Punishment",
         "description": "The <b>VILLAIN</b> is punished.",
         "instructions":
@@ -325,7 +311,7 @@
     },
 
     {
-        "number": 32,
+        "number": 31,
         "name": "Reward",
         "description": "The <b>HERO</b> gets a reward.",
         "instructions":
