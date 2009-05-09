@@ -117,10 +117,32 @@ public class Application implements Receiver, Originator {
      * Start the application.
      */
     public static void main(String[] args) {
-        // Nothing to do here, the single Application instance was already
-        // constructed when it was declared above.
+        if (args.length > 0 && args[0].equals("print_functions")) {
+            // If the print_functions command-line arg is given output the list
+            // of functions as an HTML file instead of running the application.
+            // FIXME: the application still gets loaded, need to move
+            // initialisation code from above into this method.
+            export_functions_as_html("functions.html");
+            System.exit(0);
+
+        }
     }
-    
+
+    /**
+     * Output the Propp functions (read from functions.json) to an HTML file.
+     * @param path The absolute canonical system path to the HTML file to write.
+     */
+    private static void export_functions_as_html(String path) {
+        try {
+            String html = TemplateHandler.getInstance().renderFunctions();
+            Util.writeTextToFile(html, path);
+        } catch (IOException e) {
+            System.out.println(e);
+        } catch (TemplateHandlerException e) {
+            System.out.println(e);
+        }
+    }
+
     /**
      * Construct and start the application.
      */

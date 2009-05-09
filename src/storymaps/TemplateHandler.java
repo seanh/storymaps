@@ -47,15 +47,8 @@ final class TemplateHandler {
      * Private constructor prevents instantiation from outside this class.
      */
     private TemplateHandler() throws IOException {
-        try {
-            String templates_path = getClass().getResource("/data/templates").getPath();
-            cfg.setDirectoryForTemplateLoading(new File(templates_path));
-            cfg.setObjectWrapper(new DefaultObjectWrapper());            
-        } catch (IOException e) {
-            String detail = "IOException when configuring template engine.";
-            Util.reportException(detail, e);
-            throw new IOException(detail,e);
-        }               
+        cfg.setClassForTemplateLoading(Util.class, "/data/templates");
+        cfg.setObjectWrapper(new DefaultObjectWrapper());            
     }
     
     /**
@@ -99,7 +92,45 @@ final class TemplateHandler {
         }
         out.flush();
         return out.toString();
-    }        
+    }
+
+    /**
+     * Render the list of functions using the functions.ftl template and return
+     * the result.
+     *
+     * @return The rendered functions
+     */
+    String renderFunctions() throws IOException, TemplateHandlerException {
+        Template temp = null;
+        String template_filename = "functions.ftl";
+        Map root = new HashMap();
+        List functions = new ArrayList();
+        for (Function f : Function.getFunctions()) {
+            Map fmap = new HashMap();
+            fmap.put("number",f.getNumber());
+            fmap.put("name",f.getName());
+            fmap.put("description",f.getDescription());
+            fmap.put("instructions",f.getInstructions());
+            functions.add(fmap);
+        }
+        root.put("functions", functions);
+        try {
+            temp = cfg.getTemplate(template_filename);
+        } catch (IOException e) {
+            throw new IOException("IOException when configuring template "+template_filename,e);
+        }
+        StringWriter out = new StringWriter();
+        try {
+            temp.process(root,out);
+        } catch (TemplateException e) {
+            String detail = "FreeMarker TemplateException when rendering template "+template_filename+" with contents "+root;
+            throw new TemplateHandlerException(detail, e);
+        } catch (IOException e) {
+            throw new IOException("IOException when rendering template "+template_filename+" with contents "+root,e);
+        }
+        out.flush();
+        return out.toString();
+    }
     
     /**
      * Runs a simple test of FreeMarker templater rendering, renders
