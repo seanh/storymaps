@@ -3,6 +3,7 @@ package storymaps;
 import DragAndDrop.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Color;
 
 /**
  * The collection of story cards that the user can drag from.
@@ -37,14 +38,19 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
 
     private ArrayList<DisabledStoryCard> disabled_storycards =
             new ArrayList<DisabledStoryCard>();    
-                        
+
+    private double margin;
+
     /**
      * Construct a new StoryCards instance and add to it a DisabledStoryCard and
      * a StoryCard for each Propp function in Function.functions.
      */
-    public StoryCards(String title_text) {
-        super(title_text);
-        
+    public StoryCards(double width, double height, double xoffset,
+            double yoffset, Color color, double margin) {
+        super(width, height, xoffset, yoffset, color, margin);
+
+        this.margin = margin;
+
         // For each Propp function, add a DisabledStoryCard to the grid node.
         // Keep references to all these DisabledStoryCards in
         // disabled_storycards.
@@ -65,16 +71,25 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
      * Construct a new StoryCards instance using a given list of
      * DisabledStoryCard objects.
      */
-    public StoryCards(String title_text, List<DisabledStoryCard> disabled_storycards) {
-        super(title_text);
+    public StoryCards(double width, double height, double xoffset,
+            double yoffset, Color color, double margin,
+            List<DisabledStoryCard> disabled_storycards) {
+
+        super(width, height, xoffset, yoffset, color, margin);
+
+        this.margin = margin;
+
         for (DisabledStoryCard dsc : disabled_storycards) {
             addToGrid(dsc.getNode());
             this.disabled_storycards.add(dsc);
+        }
+
+        for (DisabledStoryCard dsc : disabled_storycards) {
             StoryCard sc = dsc.getStoryCard();
             if (sc != null) {
                 addStoryCard(sc);
             }
-        }        
+        }
     }
 
     /**
@@ -192,19 +207,35 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
     // --------------------
     
     private static final class StoryCardsMemento implements Memento {
-        // Don't need to defensively copy title as strings are immutable.
-        private final String title;
+
         // DisabledStoryCardMementos are immutable but lists aren't, so this
         //field needs to be defensively copied to keep this class immutable.
         private final List<Memento> disabledStoryCardMementos = new ArrayList<Memento>();
+
+        // Don't need to defensively copy these primitive types.
+        private double xoffset;
+        private double yoffset;
+        private double width;
+        private double height;
+        private double margin;
+
+        // Better defensively copy this, just in case.
+        private Color color;
+
         StoryCardsMemento (StoryCards c) {
-            this.title = c.getTitle();
             for (DisabledStoryCard dsc : c.getDisabledStoryCards()) {
                 Memento dscm = dsc.createMemento();
                 disabledStoryCardMementos.add(dscm);
             }
+            this.xoffset = c.getNode().getXOffset();
+            this.yoffset = c.getNode().getYOffset();
+            this.width = c.getNode().getWidth();
+            this.height = c.getNode().getHeight();
+            this.margin = c.margin;
+            // Color is defensively copied for us by getColor.
+            this.color = c.getColor();
         }
-        String getTitle() { return title; }
+
         List<Memento> getDisabledStoryCardMementos() {
             // Make a defensive copy and return it.
             List<Memento> copy = new ArrayList<Memento>();
@@ -217,6 +248,13 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
             }
             return copy;
         }
+
+        double getXOffset() { return xoffset; }
+        double getYOffset() { return yoffset; }
+        double getWidth() { return width; }
+        double getHeight() { return height; }
+        double getMargin() { return margin; }
+        Color getColor() { return new Color(color.getRed(),color.getGreen(),color.getBlue()); }
     }
     
     public Memento createMemento() {
@@ -238,13 +276,14 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
             throw e;
         }
         StoryCardsMemento memento = (StoryCardsMemento) m;
-        String title = memento.getTitle();
         List<Memento> disabledStoryCardMementos = memento.getDisabledStoryCardMementos();
         List<DisabledStoryCard> disabledStoryCards = new ArrayList<DisabledStoryCard>();
         for (Memento dscm : disabledStoryCardMementos) {
             disabledStoryCards.add(DisabledStoryCard.newInstanceFromMemento(dscm));
         }
-        StoryCards storyCards = new StoryCards(title,disabledStoryCards);
+        StoryCards storyCards = new StoryCards(memento.getWidth(),
+                memento.getHeight(), memento.getXOffset(), memento.getYOffset(),
+                memento.getColor(), memento.getMargin(), disabledStoryCards);
         return storyCards;
     }
 }

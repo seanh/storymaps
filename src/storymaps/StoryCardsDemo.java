@@ -6,6 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.PFrame;
+import java.awt.Color;
 
 /**
  * A demo class for the StoryCards class.
@@ -28,7 +29,7 @@ public class StoryCardsDemo extends PFrame implements Receiver {
         DroppableRectangle rect = new DroppableRectangle(2000,400);
         home.addChild(rect.getNode());
                 
-        cards = new StoryCards("Story Cards");
+        cards = new StoryCards(400, 300, 0, 0, Color.GREEN, 10);
         final PNode node = cards.getNode();        
         home.addChild(cards.getNode());
                 

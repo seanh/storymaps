@@ -1,8 +1,8 @@
 package storymaps;
 
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * A DisabledStoryCard is like a story card but it is faded out and not
@@ -26,12 +26,15 @@ class DisabledStoryCard extends StoryCardBase implements Originator {
     public DisabledStoryCard(Function f) {
         super(f);
         getNode().addAttribute("DisabledStoryCard",this);
-        getBackground().setTransparency(.3f);
+        float t = .4f;
+        getNode().setTransparency(t);
+        shadow.setVisible(false);
+        //getNode().setVisible(false);
         for (int i = 0; i < getNode().getChildrenCount(); i++) {
             PNode child = getNode().getChild(i);
-            child.setTransparency(.3f);
+            child.setTransparency(t);
         }
-        getBackground().addInputEventListener(new PBasicInputEventHandler() { 		        
+        getNode().addInputEventListener(new PBasicInputEventHandler() {
             @Override
             public void mouseClicked(PInputEvent event) {
                 if (event.getButton() == 1 && event.getClickCount() == 2) {

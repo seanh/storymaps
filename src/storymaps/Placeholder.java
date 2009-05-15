@@ -1,8 +1,6 @@
 package storymaps;
 
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import java.awt.Color;
 
 class Placeholder implements Originator {
             
@@ -11,11 +9,10 @@ class Placeholder implements Originator {
     private StoryCard storycard = null;
     
     public Placeholder() {                
-        background = PPath.createRoundRectangle(-100, -120, 200, 240,20,20);
-        background.setPaint(Color.CYAN);
-        background.setTransparency(0);              
-        background.addAttribute("Placeholder",this);                
-        background.setPickable(false);        
+        background = StoryCard.newRectangle();
+        background.addAttribute("Placeholder",this);
+        background.setPickable(false);
+        background.setVisible(false);
     }
                                  
     public PNode getNode() {

@@ -33,4 +33,3 @@ public class StoryCardDemo extends PFrame implements Receiver {
          }
      }
 }
-

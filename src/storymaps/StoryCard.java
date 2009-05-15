@@ -30,9 +30,9 @@ class StoryCard extends StoryCardBase implements Receiver,
 
         super(function);
         
-        getBackground().addAttribute("StoryCard",this);
+        getNode().addAttribute("StoryCard",this);
                                        
-        getBackground().addInputEventListener(new PBasicInputEventHandler() { 		        
+        getNode().addInputEventListener(new PBasicInputEventHandler() {
             // Make the story card scale up when the mouse enters it, and down
             // again when the mouse leaves it.
             @Override
@@ -67,7 +67,7 @@ class StoryCard extends StoryCardBase implements Receiver,
         editor = new FunctionEditor(function,text);
         
         try {
-            draggable = new Draggable(getBackground());
+            draggable = new Draggable(getNode());
             draggable.attach(this);
         } catch (NodeAlreadyDraggableException e) {
             // ...
@@ -100,7 +100,7 @@ class StoryCard extends StoryCardBase implements Receiver,
         
         int duration = 150;
         int delay = 50;
-	activity = new PInterpolatingActivity(
+        activity = new PInterpolatingActivity(
             duration,
             PUtil.DEFAULT_ACTIVITY_STEP_RATE,
             delay + System.currentTimeMillis(),
@@ -116,7 +116,7 @@ class StoryCard extends StoryCardBase implements Receiver,
              */ 
             @Override
             protected void activityStarted() {
-                source = (float)getBackground().getScale();
+                source = (float)getNode().getScale();
                 super.activityStarted();
             }
             /**
@@ -125,15 +125,16 @@ class StoryCard extends StoryCardBase implements Receiver,
             @Override
             public void setRelativeTargetValue(float scale) {
                 float scaleTo = source + (scale * (dest - source));
-                getBackground().setScale(scaleTo);
+                getNode().setScale(scaleTo);
             }
         };
-        getBackground().addActivity(activity);
+        getNode().addActivity(activity);
     }
         
     public void highlight() {
         if (!highlighted && !draggable.isDragging()) {
-            getNode().reparent(getNode().getParent());
+            getNode().moveToFront();
+            getNode().getParent().moveToFront();
             highlighted = true;
             smoothlyScale(1.8f);
             goToHighDetail();
@@ -176,11 +177,11 @@ class StoryCard extends StoryCardBase implements Receiver,
         if (name.equals("drag started")) {
             if (sender_arg instanceof PNode) {
                 PNode node = (PNode) sender_arg;
-                if (node.equals(getBackground())) {
+                if (node.equals(getNode())) {
                     if (activity != null) {
                         activity.terminate();
                     }
-                    getBackground().setScale(1.0);
+                    getNode().setScale(1.0);
                     goToLowDetail();
                 }
             }

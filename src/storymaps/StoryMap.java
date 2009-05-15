@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import storymaps.ui.Button;
+import java.awt.Color;
 
 class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         Originator {
@@ -17,27 +17,41 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             new ArrayList<Placeholder>();    
     
     private StoryEditor editor;
+
+    private double margin;
     
-    public StoryMap(String title_text, StoryEditor editor) {
-        super(title_text);
+    public StoryMap(StoryEditor editor, double width, double height,
+            double xoffset, double yoffset, Color color, double margin) {
+        super(width, height, xoffset, yoffset, color, margin);
         this.editor = editor;
-        
-        // For each Propp function add a PlaceHolder to the grid node. Keep
-        // references to all these placeholders in placeholders.
-        for (int i=0; i<33; i++) {
+        this.margin = margin;
+
+        // Warning! Hardcoded the number 30, the number of story cards needed
+        // to completely fill the area of the story map given the current
+        // relative proportions of story card and story map.
+        //
+        // Add 30 placeholders to the grid node. Keep references to all these
+        // placeholders in `placeholders`.
+        for (int i = 0; i < 30; i++) {
             Placeholder p = new Placeholder();
             addToGrid(p.getNode());
             placeholders.add(p);
         }
+
         init();
     }
     
-    public StoryMap(String title_text, StoryEditor editor, List<Placeholder> placeholders) {
-        super(title_text);
+    public StoryMap(StoryEditor editor, List<Placeholder> placeholders,
+            double width, double height, double xoffset, double yoffset,
+            Color color, double margin) {
+        super(width, height, xoffset, yoffset, color, margin);
         this.editor = editor;
+        this.margin = margin;
         for (Placeholder p : placeholders) {
             addToGrid(p.getNode());
             this.placeholders.add(p);
+        }
+        for (Placeholder p : placeholders) {
             StoryCard sc = p.getStoryCard();
             if (sc != null) {
                 addStoryCard(sc,p);
@@ -60,11 +74,11 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             // instead.
             throw new RuntimeException("Could not load sort.png icon.",e);
         }
-        Button sort = new Button("Sort","Sort");
-        sort.setIcon(image);
-        sort.setScale(5);
-        this.background.addChild(sort);
-        sort.setOffset(background.getWidth(),background.getHeight());
+        //Button sort = new Button("Sort","Sort");
+        //sort.setIcon(image);
+        //sort.setScale(5);
+        //this.background.addChild(sort);
+        //sort.setOffset(background.getWidth(),background.getHeight());
         Messager.getMessager().accept("button clicked", this, null);                
     }
     
@@ -323,7 +337,7 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
     /**
      * Sort the story cards in this story map.
      */
-    private void sort() {
+    void sort() {
         // Get a list of all story cards currently in this story map.
         ArrayList<StoryCard> storycards = getStoryCards();
         
@@ -347,19 +361,41 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
     // --------------------
     
     private static final class StoryMapMemento implements Memento {
+
         // Don't need to defensively copy title as strings are immutable.
         private final String title;
+
         // Placeholder mementos are immutable but lists aren't, so this field
         // needs to be defensively copied to keep this class immutable.
         private final List<Memento> placeholderMementos = new ArrayList<Memento>();
+
+        // Don't need to defensively copy these primitive types.
+        private double xoffset;
+        private double yoffset;
+        private double width;
+        private double height;
+        private double margin;
+
+        // Better defensively copy this, just in case.
+        private Color color;
+
         StoryMapMemento (StoryMap m) {
             this.title = m.getEditor().getTitle();
             for (Placeholder p : m.getPlaceholders()) {
                 Memento pm = p.createMemento();
                 placeholderMementos.add(pm);
             }
+            this.xoffset = m.getNode().getXOffset();
+            this.yoffset = m.getNode().getYOffset();
+            this.width = m.getNode().getWidth();
+            this.height = m.getNode().getHeight();
+            this.margin = m.margin;
+            // Color is defensively copied for us by getColor.
+            this.color = m.getColor();
         }
+
         String getTitle() { return title; }
+
         List<Memento> getPlaceholderMementos() {
             // Make a defensive copy and return it.
             List<Memento> copy = new ArrayList<Memento>();
@@ -372,6 +408,13 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             }
             return copy;
         }
+
+        double getXOffset() { return xoffset; }
+        double getYOffset() { return yoffset; }
+        double getWidth() { return width; }
+        double getHeight() { return height; }
+        double getMargin() { return margin; }
+        Color getColor() { return new Color(color.getRed(),color.getGreen(),color.getBlue()); }
     }
     
     public Memento createMemento() {
@@ -400,9 +443,11 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         for (Memento pm : placeholderMementos) {
             placeholders.add(Placeholder.newInstanceFromMemento(pm));
         }
-        StoryMap storyMap = new StoryMap(title,editor,placeholders);
+        StoryMap storyMap = new StoryMap(editor,placeholders,smm.getWidth(),
+                smm.getHeight(),smm.getXOffset(),smm.getYOffset(),
+                smm.getColor(),smm.getMargin());
         editor.update(storyMap.getStoryCards());
-        editor.setTitle(storyMap.getTitle());
+        editor.setTitle(title);
         return storyMap;
     }
 }

@@ -1,5 +1,4 @@
 package storymaps;
-import storymaps.ui.WriteStoryButton;
 
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
@@ -40,14 +39,8 @@ public class Application implements Receiver, Originator {
     /**
      * The home node, to which all other nodes are attached.
      */
-    private VerticalLayoutNode home = new VerticalLayoutNode(50);
-    
-    /**
-     * A subnode of home to which the story map and Write Story button are
-     * attached.
-     */
-    private VerticalLayoutNode second_home = new VerticalLayoutNode(50);
-    
+    private PNode home = new PNode();
+        
     /**
      * The collection of story cards that the user chooses from.
      */
@@ -88,12 +81,7 @@ public class Application implements Receiver, Originator {
      * The directory that autosave files will be saved to.
      */
     private File autosavedir;
-    
-    /**
-     * The 'Write Story' button that collapses and uncollapses the StoryEditor.
-     */
-    private WriteStoryButton writeStory;
-    
+        
     /**
      * The singleton instance of this class.
      */
@@ -150,9 +138,10 @@ public class Application implements Receiver, Originator {
         makeFrame();
                 
         // Subscribe to the messages sent by StoryEditor when it is collapsed
-        // and uncollapsed.
+        // and uncollapsed and when the sort button is collapsed.
         Messager.getMessager().accept("Editor uncollapsed", this, null);
         Messager.getMessager().accept("Editor collapsed", this, null);
+        Messager.getMessager().accept("sort", this, null);
 
         // Create the autosave directory for this session.
         String now = Util.nowStr();
@@ -203,7 +192,7 @@ public class Application implements Receiver, Originator {
 
         canvas = new PCanvas();
         canvas.setPreferredSize(new Dimension(640, 480));
-        canvas.setBackground(Color.DARK_GRAY);
+        canvas.setBackground(Color.BLACK);
         canvas.setFocusable(false); // Never get the keyboard focus.                        
         contentPane.add(canvas, BorderLayout.CENTER);
 
@@ -291,17 +280,21 @@ public class Application implements Receiver, Originator {
     private void initializePCanvas() {
 
         canvas.getLayer().addChild(home);
-        
-        cards = new StoryCards("Choose the Story Cards you want from here...");
+
+        double width = canvas.getBounds().getWidth();
+        double height =  canvas.getBounds().getHeight();
+        double height_top_rectangle = height * 0.5;
+
+        Color green = new Color(0.75f,0.84f,0.24f);
+        cards = new StoryCards(width, height_top_rectangle, 0, 0, green, 9);
         home.addChild(cards.getNode());
 
-        home.addChild(second_home);
-        
-        map = new StoryMap("... and arrange them into your own Story Map here.", editor);
-        second_home.addChild(map.getNode());
+        Color grey = new Color(0.66f,0.66f,0.68f);
+        map = new StoryMap(editor, width, height-cards.getNode().getHeight(), 0, cards.getNode().getHeight(), grey, 9);
+        home.addChild(map.getNode());
 
-        writeStory = new WriteStoryButton();
-        second_home.addChild(writeStory);
+        //writeStory = new WriteStoryButton();
+        //second_home.addChild(writeStory);
                 
         // Remove the default event handler that enables panning with the mouse.    
         canvas.removeInputEventListener(canvas.getPanEventHandler());
@@ -333,7 +326,7 @@ public class Application implements Receiver, Originator {
         if (map.getEditor().getCollapsed()) {
             target = home;
         } else {
-            target = second_home;
+            target = map.getNode();
         }
         repositionCamera(750);
     }
@@ -352,9 +345,29 @@ public class Application implements Receiver, Originator {
             target = node;
             repositionCamera(750);*/
         } else if (name.equals("Editor uncollapsed")) {            
-            zoomToHome();
+            // Add cards back and reposition camera.
+            cards.getNode().removeFromParent();
+            target = home; // Just to make sure.
+            // Since swing is about to resize the PCanvas we don't want
+            // to reposition the camera immediately. Instead schedule it to
+            // happen one tenth of a second from now.
+            TimerTask zoom = new TimerTask() {
+                public void run() { repositionCamera(750); }};
+            Timer timer = new Timer();
+            timer.schedule(zoom, 100);                    
         } else if (name.equals("Editor collapsed")) {            
-            zoomToHome();
+            // Remove cards from scene graph and reposition camera
+            home.addChild(cards.getNode());
+            target = home; // Just to make sure.
+            // Since swing is about to resize the PCanvas we don't want
+            // to reposition the camera immediately. Instead schedule it to
+            // happen one tenth of a second from now.
+            TimerTask zoom = new TimerTask() {
+                public void run() { repositionCamera(750); }};
+            Timer timer = new Timer();
+            timer.schedule(zoom, 100);
+        } else if (name.equals("sort")) {
+            map.sort();
         }
     }
 
@@ -584,7 +597,7 @@ public class Application implements Receiver, Originator {
         // leak here.
         map.getNode().removeFromParent();
         map = StoryMap.newInstanceFromMemento(am.getStoryMapMemento());
-        second_home.addChild(map.getNode());
+        home.addChild(map.getNode());
         target = home;        
     }
 }
