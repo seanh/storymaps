@@ -675,7 +675,6 @@ public class Application implements Receiver, Originator {
         Duration d = datatypeFactory.newDuration(milliseconds);
         duration_app_open = duration_app_open.add(d);
         logInfo("This story has been open for: "+printDuration(duration_app_open));
-
     }
     private void updateEditorOpenedDate() {
         date_editor_opened = new Date();
