@@ -134,7 +134,7 @@ public class Application implements Receiver, Originator {
     /**
      * Construct and start the application.
      */
-    private Application() {                
+    private Application() {
         makeFrame();
                 
         // Subscribe to the messages sent by StoryEditor when it is collapsed
@@ -143,10 +143,22 @@ public class Application implements Receiver, Originator {
         Messager.getMessager().accept("Editor collapsed", this, null);
         Messager.getMessager().accept("sort", this, null);
 
-        // Create the autosave directory for this session.
-        String now = Util.nowStr();
-        autosavedir = new File(now);
-        autosavedir.mkdir();
+        // Create the autosave directory for this session if it does not already
+        // exist.
+        File userhome = new JFileChooser().getFileSystemView().getDefaultDirectory();
+        File storymapsdir = new File(userhome, "StoryMaps");
+        File autosave_parentdir = new File(storymapsdir,"autosaved_storymaps");
+        autosavedir = new File(autosave_parentdir,Util.nowStr());
+        try {
+            if (!autosavedir.mkdirs()) {
+                String detail = "Could not create autosave dir, mkdirs returned false.";
+                System.err.println(detail);
+                System.exit(1);
+            }
+        } catch (SecurityException e) {
+            Util.reportException("SecurityException when attempting to create autosave dir.", e);
+            System.exit(1);
+        }
         
         // Start a task that autosaves every 60 seconds.
         TimerTask autoSave = new TimerTask() {
@@ -448,7 +460,7 @@ public class Application implements Receiver, Originator {
      */
     private void autosave() {
         String now = Util.nowStr();
-        File save = new File(autosavedir,now);
+        File save = new File(autosavedir,now+".storymap");
         String filename = save.getAbsolutePath();
         Memento memento = createMemento();
         try {

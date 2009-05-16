@@ -5,7 +5,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import java.io.*;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -32,9 +32,8 @@ public class Util {
      * Return a string representing the current time.
      */
     public static String nowStr() {
-        DateFormat longTimeStamp =
-                DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.FULL);
-        return longTimeStamp.format(new Date());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        return format.format(new Date());
     }
     
     /**
