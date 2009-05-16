@@ -16,17 +16,6 @@ import java.util.Date;
  * @author seanh
  */
 public class Util {
-
-    /**
-     * Report an exception: print it to stderr and append it to errors.log.
-     * @param detail
-     * @param e
-     */
-    public static void reportException(String detail, Exception e) {
-        System.err.println(detail);
-        System.err.println(e);
-        // TODO: append detail and e to an errors.log file.
-    }
     
     /**
      * Return a string representing the current time.
@@ -59,8 +48,9 @@ public class Util {
             is.close();
         } catch (IOException e) {
             String detail = "IOException when reading-in text file from path: "+path;
-            reportException(detail,e);
-            throw new IOException(detail,e);
+            IOException ee = new IOException(detail,e);
+            Application.getInstance().logThrowing("Util", "readTextFileFromClassPath", ee);
+            throw ee;
         }
         return text;
     }
@@ -83,8 +73,9 @@ public class Util {
             in.close();
         } catch (IOException e) {
             String detail = "IOException when reading-in text file from path: "+path;
-            reportException(detail,e);
-            throw new IOException(detail,e);
+            IOException ee = new IOException(detail,e);
+            Application.getInstance().logThrowing("Util", "readTextFileFromSystem", ee);
+            throw ee;
         }
         return contents;
     }
@@ -103,8 +94,9 @@ public class Util {
             out.close();
         } catch (IOException e) {
             String detail = "IOException when writing text file to path: "+absolutePath;
-            reportException(detail, e);
-            throw new IOException(detail,e);
+            IOException ee = new IOException(detail,e);
+            Application.getInstance().logThrowing("Util", "writeTextToFile", ee);
+            throw ee;
         }        
     }
     
@@ -136,7 +128,7 @@ public class Util {
         if (imagefile == null) {
             String detail = "IOException when trying to read image from file at path: "+path;
             IOException e = new IOException(detail);
-            reportException(detail, e);
+            Application.getInstance().logThrowing("Util", "readImageIconFromClassPath", e);
             throw e;
         }
         try {
@@ -144,7 +136,7 @@ public class Util {
             return new ImageIcon(image);
         } catch (IOException e) {
             String detail = "IOException when reading image from file at path: "+path;
-            reportException(detail, e);
+            Application.getInstance().logThrowing("Util", "readImageIconFromClassPath", e);
             throw new IOException(detail, e);
         }
     }
@@ -159,8 +151,9 @@ public class Util {
             String detail = "IOException when serializing object to file.\n";
             detail = detail +"Path: "+path+"\n";
             detail = detail +"Object: "+o;
-            reportException(detail, e);
-            throw new IOException(detail, e);            
+            IOException ee = new IOException(detail,e);
+            Application.getInstance().logThrowing("Util", "serializeObjectToFile", ee);
+            throw ee;
         }
     }
 
@@ -174,13 +167,15 @@ public class Util {
         } catch (IOException e) {
             String detail = "IOException when deserializing object from file.\n";
             detail = detail +"Path: "+path;
-            reportException(detail, e);
-            throw new IOException(detail, e);
+            IOException ee = new IOException(detail, e);
+            Application.getInstance().logThrowing("Util", "deserializeObjectFromFile", ee);
+            throw ee;
         } catch (ClassNotFoundException e) {
             String detail = "ClassNotFoundException when deserializing object from file.\n";
             detail = detail +"Path: "+path;
-            reportException(detail, e);
-            throw new ClassNotFoundException(detail, e);            
+            IOException ee = new IOException(detail, e);
+            Application.getInstance().logThrowing("Util", "deserializeObjectFromFile", ee);
+            throw ee;
         }
         return o;
     }

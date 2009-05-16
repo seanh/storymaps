@@ -102,13 +102,13 @@ class DisabledStoryCard extends StoryCardBase implements Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("DisabledStoryCard", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof DisabledStoryCardMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("DisabledStoryCard", "newInstanceFromMemento", e);
             throw e;
         }
         DisabledStoryCardMemento dscm = (DisabledStoryCardMemento) m;        

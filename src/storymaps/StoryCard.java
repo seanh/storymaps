@@ -221,13 +221,13 @@ class StoryCard extends StoryCardBase implements Receiver,
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("StoryCard", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof StoryCardMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("StoryCard", "newInstanceFromMemento", e);
             throw e;
         }
         StoryCardMemento scm = (StoryCardMemento) m;

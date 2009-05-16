@@ -176,13 +176,13 @@ final class Function implements Comparable, Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("Function", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof FunctionMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("Function", "newInstanceFromMemento", e);
             throw e;
         }
         FunctionMemento f = (FunctionMemento) m;

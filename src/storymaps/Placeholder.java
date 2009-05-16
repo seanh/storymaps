@@ -69,13 +69,13 @@ class Placeholder implements Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("Placeholder", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof PlaceholderMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("Placeholder", "newInstanceFromMemento", e);
             throw e;
         }
         PlaceholderMemento pm = (PlaceholderMemento) m;

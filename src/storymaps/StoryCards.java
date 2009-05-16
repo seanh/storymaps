@@ -266,13 +266,13 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("StoryCards", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof StoryCardsMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("StoryCards", "newInstanceFromMemento", e);
             throw e;
         }
         StoryCardsMemento memento = (StoryCardsMemento) m;

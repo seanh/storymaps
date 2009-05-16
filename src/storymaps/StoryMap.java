@@ -426,13 +426,13 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("StoryMap", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof StoryMapMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Util.reportException(detail, e);
+            Application.getInstance().logThrowing("StoryMap", "newInstanceFromMemento", e);
             throw e;
         }
         StoryMapMemento smm = (StoryMapMemento) m;

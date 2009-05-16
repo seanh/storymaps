@@ -111,7 +111,7 @@ class StoryEditor implements Receiver {
             writeIcon = Util.readImageIconFromClassPath("/data/icons/write.png");
             planIcon = Util.readImageIconFromClassPath("/data/icons/arrow_up.png");
         } catch (IOException e) {
-            Util.reportException("IOException when reading in icons.", e);
+            Application.getInstance().logWarning("StoryEditor: IOException when reading in icons." + e.toString());
         }
         writeButton.setText(writeText);
         writeButton.setIcon(writeIcon);
@@ -227,7 +227,7 @@ class StoryEditor implements Receiver {
             Messager.getMessager().send("Editor collapsed", this);
         }
     }
-
+    
     /**
      * Update the list of FunctionEditors in this StoryEditor.
      */
@@ -285,11 +285,10 @@ class StoryEditor implements Receiver {
         documentPanel.scrollRectToVisible(r);
         f.focus();        
     }
-
+    
     public boolean isCollapsed() {
         return collapsed;
     }
-
     
     public String getTitle() {
         return title.getText();
