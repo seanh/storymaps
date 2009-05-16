@@ -17,6 +17,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.Duration;
 import java.util.Date;
 import javax.xml.datatype.DatatypeFactory;
+import java.util.logging.*;
 
 /**
  * This is the main class of the StoryMaps application. It constructs the GUI
@@ -92,7 +93,6 @@ public class Application implements Receiver, Originator {
      */
     private File autosavedir;
 
-
     // Fields used for logging the duration of time that the editor is opened
     // for.
     private DatatypeFactory datatypeFactory;
@@ -102,6 +102,9 @@ public class Application implements Receiver, Originator {
     private Date date_app_closed;
     private Date date_editor_opened;
     private Date date_editor_closed;
+
+    // Logger instance that Application uses for logging.
+    private Logger logger = Logger.getLogger("storymaps.Application");
 
     /**
      * The singleton instance of this class.
@@ -156,8 +159,6 @@ public class Application implements Receiver, Originator {
      * Construct and start the application.
      */
     private Application() {
-        makeFrame();
-                
         // Subscribe to the messages sent by StoryEditor when it is collapsed
         // and uncollapsed and when the sort button is collapsed.
         Messager.getMessager().accept("Editor uncollapsed", this, null);
@@ -181,6 +182,19 @@ public class Application implements Receiver, Originator {
             System.exit(1);
         }
 
+        // Attach a FileHandler to the logger that appends log messages to a
+        // file in the autosave dir.
+        try {
+            // Create a file handler that write log record to a file called log.
+            File logFile = new File(autosavedir,"log");
+            FileHandler handler = new FileHandler(logFile.getCanonicalPath(),true);
+            logger.addHandler(handler);
+        } catch (IOException e) {
+            String detail = "IOException when attaching file handler to logger.";
+            Util.reportException(detail, e);
+            // Just continue without the file handler...
+        }
+        
         // Initialise the file choosers for saving, opening and exporting
         // stories.
         fc_saveopen = new JFileChooser(storymapsdir);
@@ -217,6 +231,8 @@ public class Application implements Receiver, Originator {
         }
         duration_app_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
         duration_editor_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
+
+        makeFrame();
     }
 
     /**
@@ -619,28 +635,28 @@ public class Application implements Receiver, Originator {
     // Methods for updating the application-open and editor-open durations.
     private void updateApplicationOpenedDate() {
         date_app_opened = new Date();
-        System.out.println("Application opened at: "+date_app_opened);
+        logger.info("Application opened at: "+date_app_opened);
     }
     private void updateApplicationClosedDate() {
         date_app_closed = new Date();
-        System.out.println("Application closed at: "+date_app_closed);
+        logger.info("Application closed or story saved at: "+date_app_closed);
         long milliseconds = date_app_closed.getTime() - date_app_opened.getTime();
         Duration d = datatypeFactory.newDuration(milliseconds);
         duration_app_open = duration_app_open.add(d);
-        System.out.println("Application was open for: "+printDuration(duration_app_open));
+        logger.info("This story has been open for: "+printDuration(duration_app_open));
 
     }
     private void updateEditorOpenedDate() {
         date_editor_opened = new Date();
-        System.out.println("Editor opened at: "+date_editor_opened);
+        logger.info("Editor opened at: "+date_editor_opened);
     }
     private void updateEditorClosedDate() {
         date_editor_closed = new Date();
-        System.out.println("Editor closed at: "+date_editor_closed);
+        logger.info("Editor closed or story saved at: "+date_editor_closed);
         long milliseconds = date_editor_closed.getTime() - date_editor_opened.getTime();
         Duration d = datatypeFactory.newDuration(milliseconds);
         duration_editor_open = duration_editor_open.add(d);
-        System.out.println("Editor was open for: "+printDuration(duration_editor_open));
+        logger.info("Editor has been open for: "+printDuration(duration_editor_open));
     }
     /**
      * Return a human readable string formatted duration.
