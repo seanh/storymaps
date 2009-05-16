@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+
 
 /**
  * This is the main class of the StoryMaps application. It constructs the GUI
@@ -63,9 +65,14 @@ public class Application implements Receiver, Originator {
     private PNode target;
 
     /**
-     * Swing file chooser dialog used for saving and restoring to and from file.
+     * The file chooser used for saving and opening stories.
      */
-    final JFileChooser fc = new JFileChooser();
+    final JFileChooser fc_saveopen;
+
+    /**
+     * The file chooser used for exporting stories.
+     */
+    final JFileChooser fc_export;
     
     /**
      * Icon for the toolbar.
@@ -159,7 +166,23 @@ public class Application implements Receiver, Originator {
             Util.reportException("SecurityException when attempting to create autosave dir.", e);
             System.exit(1);
         }
-        
+
+        // Initialise the file choosers for saving, opening and exporting
+        // stories.
+        fc_saveopen = new JFileChooser(storymapsdir);
+        fc_saveopen.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return f.getAbsolutePath().endsWith(".storymap");
+            }
+
+            @Override
+            public String getDescription() {
+                return "Storymap files";
+            }
+        });
+        fc_export = new JFileChooser();
+
         // Start a task that autosaves every 60 seconds.
         TimerTask autoSave = new TimerTask() {
             public void run() {autosave();}};
@@ -421,9 +444,9 @@ public class Application implements Receiver, Originator {
      * This method is called when the Open button is pressed.
      */
     private void open() {
-        int returnVal = fc.showOpenDialog(frame);
+        int returnVal = fc_saveopen.showOpenDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            String filename = fc.getSelectedFile().getAbsolutePath();
+            String filename = fc_saveopen.getSelectedFile().getAbsolutePath();
             try {                
                 Object m = Util.deserializeObjectFromFile(filename);
                 restoreFromMemento(m);
@@ -478,10 +501,14 @@ public class Application implements Receiver, Originator {
      * This method is called when the Save button is pressed.
      */
     void save() {
-        int returnVal = fc.showSaveDialog(frame);
+        int returnVal = fc_saveopen.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
-                Util.serializeObjectToFile(fc.getSelectedFile().getAbsolutePath(),createMemento());
+                String path = fc_saveopen.getSelectedFile().getAbsolutePath();
+                if (!path.endsWith(".storymap")) {
+                    path = path + ".storymap";
+                }
+                Util.serializeObjectToFile(path,createMemento());
             } catch (IOException e) {
                 // FIXME: display a more friendly message to the user via the
                 // GUI, print the exception itself to stderr and append it to an
@@ -498,11 +525,15 @@ public class Application implements Receiver, Originator {
      * This method is called when the "Save as HTML" button is pressed.
      */
     void saveAsHTML() {
-        int returnVal = fc.showSaveDialog(frame);
+        int returnVal = fc_export.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String html = TemplateHandler.getInstance().renderStoryMap(map);
-                Util.writeTextToFile(html, fc.getSelectedFile().getAbsolutePath());
+                String path = fc_export.getSelectedFile().getAbsolutePath();
+                if (!path.endsWith(".html")) {
+                    path = path + ".html";
+                }
+                Util.writeTextToFile(html,path);
             } catch (IOException e) {
                 // FIXME: display a more friendly message to the user via the
                 // GUI, print the exception itself to stderr and append it to an
