@@ -13,7 +13,10 @@ import java.util.TimerTask;
 import java.util.Timer;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.Duration;
+import java.util.Date;
+import javax.xml.datatype.DatatypeFactory;
 
 /**
  * This is the main class of the StoryMaps application. It constructs the GUI
@@ -88,7 +91,18 @@ public class Application implements Receiver, Originator {
      * The directory that autosave files will be saved to.
      */
     private File autosavedir;
-        
+
+
+    // Fields used for logging the duration of time that the editor is opened
+    // for.
+    private DatatypeFactory datatypeFactory;
+    private Duration duration_app_open;
+    private Duration duration_editor_open;
+    private Date date_app_opened;
+    private Date date_app_closed;
+    private Date date_editor_opened;
+    private Date date_editor_closed;
+
     /**
      * The singleton instance of this class.
      */
@@ -187,7 +201,22 @@ public class Application implements Receiver, Originator {
         TimerTask autoSave = new TimerTask() {
             public void run() {autosave();}};
         Timer timer = new Timer();
-        timer.schedule(autoSave, 60000, 60000);        
+        timer.schedule(autoSave, 60000, 60000);
+
+        // Record the time that the application was opened.
+        updateApplicationOpenedDate();
+        
+        // Instantiate the DatatypeFactory used to instantiate Duration objects,
+        // and instantiate the Duration objects that track how long the app and
+        // how long the editor has been open for.
+        try {
+            datatypeFactory = DatatypeFactory.newInstance();
+        } catch (DatatypeConfigurationException e) {
+            Util.reportException("DatatypeConfigurationException when trying to instantiate a DatatypeFactory in order to be able to instantiate Duration objects.", e);
+            System.exit(1);
+        }
+        duration_app_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
+        duration_editor_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
     }
 
     /**
@@ -358,7 +387,7 @@ public class Application implements Receiver, Originator {
         if (prev != null) {
             prev.goToLowDetail();
         }
-        if (map.getEditor().getCollapsed()) {
+        if (map.getEditor().isCollapsed()) {
             target = home;
         } else {
             target = map.getNode();
@@ -389,7 +418,9 @@ public class Application implements Receiver, Originator {
             TimerTask zoom = new TimerTask() {
                 public void run() { repositionCamera(750); }};
             Timer timer = new Timer();
-            timer.schedule(zoom, 100);                    
+            timer.schedule(zoom, 100);            
+            // Record what time the editor was opened.
+            updateEditorOpenedDate();
         } else if (name.equals("Editor collapsed")) {            
             // Remove cards from scene graph and reposition camera
             home.addChild(cards.getNode());
@@ -400,7 +431,9 @@ public class Application implements Receiver, Originator {
             TimerTask zoom = new TimerTask() {
                 public void run() { repositionCamera(750); }};
             Timer timer = new Timer();
-            timer.schedule(zoom, 100);
+            timer.schedule(zoom, 100);            
+            // Record the duration of time that the editor was open for.
+            updateEditorClosedDate();
         } else if (name.equals("sort")) {
             map.sort();
         }
@@ -582,7 +615,41 @@ public class Application implements Receiver, Originator {
                 JOptionPane.INFORMATION_MESSAGE,
                 aboutIcon);*/
     }
-    
+
+    // Methods for updating the application-open and editor-open durations.
+    private void updateApplicationOpenedDate() {
+        date_app_opened = new Date();
+        System.out.println("Application opened at: "+date_app_opened);
+    }
+    private void updateApplicationClosedDate() {
+        date_app_closed = new Date();
+        System.out.println("Application closed at: "+date_app_closed);
+        long milliseconds = date_app_closed.getTime() - date_app_opened.getTime();
+        Duration d = datatypeFactory.newDuration(milliseconds);
+        duration_app_open = duration_app_open.add(d);
+        System.out.println("Application was open for: "+printDuration(duration_app_open));
+
+    }
+    private void updateEditorOpenedDate() {
+        date_editor_opened = new Date();
+        System.out.println("Editor opened at: "+date_editor_opened);
+    }
+    private void updateEditorClosedDate() {
+        date_editor_closed = new Date();
+        System.out.println("Editor closed at: "+date_editor_closed);
+        long milliseconds = date_editor_closed.getTime() - date_editor_opened.getTime();
+        Duration d = datatypeFactory.newDuration(milliseconds);
+        duration_editor_open = duration_editor_open.add(d);
+        System.out.println("Editor was open for: "+printDuration(duration_editor_open));
+    }
+    /**
+     * Return a human readable string formatted duration.
+     */
+    private String printDuration(Duration d) {
+        return ""+d.getYears()+" years, "+d.getMonths()+" months, "+d.getDays()+" days, "+d.getHours()+" hours, "+d.getMinutes()+" minutes, "+d.getSeconds()+" seconds.";
+
+    }
+
     // Implement Originator
     // --------------------
     
@@ -591,12 +658,26 @@ public class Application implements Receiver, Originator {
         // StoryCardsMemento should both be immutable.
         private final Memento storyCardsMemento;
         private final Memento storyMapMemento;
+        private Duration duration_app_open;
+        private Duration duration_editor_open;
         ApplicationMemento (Application a) {
             this.storyCardsMemento = a.cards.createMemento();
             this.storyMapMemento = a.map.createMemento();
+            // Log the application open duration and reset the opened date.
+            a.updateApplicationClosedDate();
+            a.updateApplicationOpenedDate();
+            this.duration_app_open = a.duration_app_open;
+            // If the editor is uncollapsed log the editor open duration.
+            if (!a.editor.isCollapsed()) {
+                a.updateEditorClosedDate();
+                a.updateEditorOpenedDate();
+            }
+            this.duration_editor_open = a.duration_editor_open;
         }
         Memento getStoryCardsMemento() { return storyCardsMemento; }
         Memento getStoryMapMemento() { return storyMapMemento; }
+        Duration getDurationAppOpen() { return duration_app_open; }
+        Duration getDurationEditorOpen() { return duration_editor_open; }
     }
     
     public Memento createMemento() {
@@ -641,6 +722,14 @@ public class Application implements Receiver, Originator {
         map.getNode().removeFromParent();
         map = StoryMap.newInstanceFromMemento(am.getStoryMapMemento());
         home.addChild(map.getNode());
-        target = home;        
+        target = home;
+
+        // Restore the durations and reset the app opened date.
+        duration_app_open = am.getDurationAppOpen();
+        updateApplicationOpenedDate();
+        duration_editor_open = am.getDurationEditorOpen();
+        if (!editor.isCollapsed()) {
+            updateEditorOpenedDate();
+        }
     }
 }

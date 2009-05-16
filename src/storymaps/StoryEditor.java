@@ -116,7 +116,7 @@ class StoryEditor implements Receiver {
         writeButton.setText(writeText);
         writeButton.setIcon(writeIcon);
         writeButton.setVerticalTextPosition(AbstractButton.CENTER);
-        writeButton.setHorizontalTextPosition(AbstractButton.LEFT);
+        writeButton.setHorizontalTextPosition(AbstractButton.LEADING);
         topToolBar.add(writeButton);
 
         topToolBar.add(new JSeparator(SwingConstants.VERTICAL));
@@ -129,7 +129,7 @@ class StoryEditor implements Receiver {
         });
         configureButton("Sort", "/data/icons/sort.png", sortButton);
         sortButton.setVerticalTextPosition(AbstractButton.CENTER);
-        sortButton.setHorizontalTextPosition(AbstractButton.LEFT);
+        sortButton.setHorizontalTextPosition(AbstractButton.LEADING);
         topToolBar.add(sortButton);
 
         collapsiblePanel = new JPanel();
@@ -227,7 +227,7 @@ class StoryEditor implements Receiver {
             Messager.getMessager().send("Editor collapsed", this);
         }
     }
-    
+
     /**
      * Update the list of FunctionEditors in this StoryEditor.
      */
@@ -285,10 +285,11 @@ class StoryEditor implements Receiver {
         documentPanel.scrollRectToVisible(r);
         f.focus();        
     }
-    
-    public boolean getCollapsed() {
+
+    public boolean isCollapsed() {
         return collapsed;
     }
+
     
     public String getTitle() {
         return title.getText();
