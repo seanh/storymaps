@@ -39,7 +39,7 @@ abstract class StoryCardBase {
      * @return A rounded rectangle story card shape.
      */
     public static PPath newRectangle() {
-        PPath rectangle = PPath.createRoundRectangle(-24.5f,-33.5f,49,67,6,6);
+        PPath rectangle = PPath.createRoundRectangle(-45,-57.5f,90,115,10,10);
         Color color = new Color(1.0f,0.9f,0.6f);
         rectangle.setPaint(color);
         rectangle.setStrokePaint(color);
@@ -54,7 +54,7 @@ abstract class StoryCardBase {
         root.addChild(shadow);
         shadow.setPaint(Color.BLACK);
         shadow.setStrokePaint(Color.BLACK);
-        shadow.setOffset(1,1);
+        shadow.setOffset(2,2);
         shadow.setTransparency(0.5f);
         shadow.setPickable(false); // The shadow node is what the user actually picks with the mouse.
 
@@ -73,11 +73,11 @@ abstract class StoryCardBase {
 
         highDetailNode = new VerticalLayoutNode(5);
         lowDetailNode = new VerticalLayoutNode(5);
-        lowDetailNode.setScale(.5);
+        lowDetailNode.setScale(.8);
         lowDetailNode.setOffset(
                 -0.5*card.getWidth()+0.05*card.getWidth(),
                 -0.5*card.getHeight()+0.05*card.getHeight());
-        highDetailNode.setScale(.5);
+        highDetailNode.setScale(.8);
         highDetailNode.setOffset(
                 -0.5*card.getWidth()+0.05*card.getWidth(),
                 -0.5*card.getHeight()+0.05*card.getHeight());
@@ -87,17 +87,17 @@ abstract class StoryCardBase {
         lowDetailNode.addChild(lowDetailImage);
 
         PImage highDetailImage = new PImage(function.getImage());        
-        highDetailImage.setScale(.6);
+        highDetailImage.setScale(1);
         highDetailNode.addChild(highDetailImage);
 
         HTMLNode descriptionNode = new HTMLNode(function.getDescription());
-        descriptionNode.setBounds(0,0,card.getWidth()*4,card.getHeight());
+        descriptionNode.setBounds(0,0,2*card.getWidth(),card.getHeight());
         descriptionNode.setFont(Fonts.NORMAL);
         descriptionNode.scale(.5);
         highDetailNode.addChild(descriptionNode);
 
         PText lowDetailTitle = makeTitleNode();
-        lowDetailTitle.setOffset(0.5*(card.getWidth()-lowDetailTitle.getWidth()),0);
+        lowDetailTitle.setOffset(0,0);
         lowDetailNode.addChild(lowDetailTitle);
 
         //PText highDetailTitle = makeTitleNode();

@@ -1,16 +1,7 @@
 package storymaps;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import java.awt.*;
+import javax.swing.*;
 import storymaps.ui.Fonts;
 
 /** 
@@ -19,54 +10,92 @@ import storymaps.ui.Fonts;
 class FunctionEditor {
 
     private Function function;
-    private JPanel panel = new JPanel();
-    private JPanel subpanel = new JPanel();
+
+    /**
+     * The root JPanel of this function editor.
+     */
+    private JPanel root = new JPanel();
+
+    /**
+     * The name of the Propp function.
+     */
     private JLabel name;
+
+    /**
+     * The image of the Propp function.
+     */
     private JLabel image;
-    private JEditorPane instructions;
+
+    /**
+     * The description of the Propp function.
+     */
+    private JEditorPane description;
+
+    /**
+     * The textarea where the user enters her text for this function.
+     */
     private JTextArea editor;
-            
+
+    private JEditorPane instructions;
+
+
     public FunctionEditor(Function function) {
         this(function,"");
     }
       
     public FunctionEditor(Function function, String text) {
         this.function = function;
-        FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
-        panel.setLayout(flowLayout);
-        //panel.setBackground(Color.WHITE);
-        BorderLayout borderLayout = new BorderLayout();
-        subpanel.setLayout(borderLayout);
-        subpanel.setBackground(Color.WHITE);
-        subpanel.setBounds(0, 0, 10, 10);
-        
-        name = new JLabel(function.getName());
-        name.setFont(Fonts.LARGE);
-        subpanel.add(name,BorderLayout.NORTH);
-        
+
+        root.setLayout(new BorderLayout());
+
+        JPanel cardAndEditor = new JPanel();
+        cardAndEditor.setLayout(new BoxLayout(cardAndEditor,BoxLayout.Y_AXIS));
+
+        instructions = new JEditorPane("text/html","<html>"+function.getInstructions()+"</html>");
+        instructions.setEditable(false);
+        instructions.setBackground(root.getBackground());
+        instructions.setFont(Fonts.NORMAL);
+        instructions.setPreferredSize(new Dimension(400,150));
+        JScrollPane scrollPane = new JScrollPane(instructions);
+        root.add(scrollPane,BorderLayout.WEST);
+
+        JPanel card = new JPanel();        
+        card.setLayout(new BoxLayout(card,BoxLayout.X_AXIS));
+        card.setBackground(root.getBackground());
         ImageIcon imageIcon = new ImageIcon(function.getImage(), "Illustration for function.");
         image = new JLabel(imageIcon);
-        subpanel.add(image,BorderLayout.CENTER);
+        image.setAlignmentY(Component.TOP_ALIGNMENT);
+        card.add(image);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+        name = new JLabel(function.getName());
+        name.setFont(Fonts.LARGE);
+        name.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(name);
+        description = new JEditorPane("text/html","<html>"+function.getDescription()+"</html>");
+        description.setEditable(false);
+        description.setBackground(root.getBackground());
+        description.setPreferredSize(new Dimension(100,100));
+        description.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.add(description);
+        card.add(panel);
         
-        instructions = new JEditorPane("text/html","<html>"+function.getDescription()+"<br/>"+function.getInstructions()+"</html>");        
-        instructions.setEditable(false);
-        instructions.setPreferredSize(new Dimension(350,350));
-        instructions.setFont(Fonts.NORMAL);
-        subpanel.add(instructions,BorderLayout.SOUTH);
+        cardAndEditor.add(card);
 
-        panel.add(subpanel);
-        
-        editor = new JTextArea(6,45);
+        editor = new JTextArea(6,30);
         editor.setLineWrap(true);
         editor.setWrapStyleWord(true);
         editor.setText(text);
         editor.setFont(Fonts.LARGE);
-        JScrollPane scrollPane = new JScrollPane(editor);
-        panel.add(scrollPane);
+        editor.setBorder(BorderFactory.createLineBorder(Color.black));
+        JScrollPane editorScrollPane = new JScrollPane(editor);
+        cardAndEditor.add(editorScrollPane);
+
+        root.add(cardAndEditor,BorderLayout.CENTER);
     }
         
     public JComponent getComponent() {
-        return panel;
+        return root;
     }
     
     public Function getFunction() {
@@ -121,5 +150,5 @@ class FunctionEditor {
             if (!(f.getText().equals(getText()))) { return false; }
             return true;
         }        
-    }    
+    }
 }

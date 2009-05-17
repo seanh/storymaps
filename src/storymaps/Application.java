@@ -302,7 +302,8 @@ public class Application implements Receiver, Originator {
         editor = new StoryEditor(frame,this);
 
         canvas = new PCanvas();
-        canvas.setPreferredSize(new Dimension(640, 480));
+
+        canvas.setPreferredSize(new Dimension(1024,768));
         canvas.setBackground(Color.BLACK);
         canvas.setFocusable(false); // Never get the keyboard focus.                        
         contentPane.add(canvas, BorderLayout.CENTER);

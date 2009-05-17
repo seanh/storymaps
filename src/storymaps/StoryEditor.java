@@ -1,37 +1,18 @@
 package storymaps;
-import storymaps.ui.Fonts;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.text.DefaultEditorKit;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.AbstractButton;
-import javax.swing.Action;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
-import javax.swing.text.DefaultEditorKit;
 
 /**
  *
  * @author seanh
  */
-class StoryEditor implements Receiver {
-
-    /**
-     * The root panel of the StoryEditor, to which everything else is added.
-     */
+class StoryEditor implements Receiver {    
+    // The root panel of the StoryEditor, to which everything else is added.
     private JPanel rootPanel;
 
     /**
@@ -56,27 +37,21 @@ class StoryEditor implements Receiver {
      */
     private JPanel collapsiblePanel;
 
-    /**
-     * ScrollPane that contains the documentPanel.
-     */
-    private JScrollPane scrollPane;
-
-    /**
-     * The document panel contains the FunctionEditors for each function in the
-     * story. FunctionEditors are dynamically added and removed as the story map
-     * is changed.
-     */
-    private JPanel documentPanel;
+    // The panel that contains the FunctionEditors for each function in the
+    // story. FunctionEditors are dynamically added and removed as the story map
+    // is changed.
+    private JPanel cardPanel = new JPanel();
+    private CardLayout cardLayout = new CardLayout();
 
     /**
      * The title of the story. Goes at the top of the documentPanel.
      */
     private JTextField title = new JTextField("Enter your story's title here.");
-
-    /**
-     * The FunctionEditors currently on the document panel.
-     */
-    private ArrayList<FunctionEditor> editors = new ArrayList<FunctionEditor>();
+    
+    // The panel containing the next and previous buttons.
+    private JPanel buttons = new JPanel();
+    private JButton next = new JButton("Next");
+    private JButton prev = new JButton("Previous");
 
     /**
      * The toolbar that contains the Cut, Copy, Paste, Save etc. buttons.
@@ -136,16 +111,32 @@ class StoryEditor implements Receiver {
         collapsiblePanel.setLayout(new BorderLayout());
         rootPanel.add(collapsiblePanel,BorderLayout.CENTER);
 
-        documentPanel = new JPanel();
-        documentPanel.setLayout(new BoxLayout(documentPanel, BoxLayout.PAGE_AXIS));
-       
-        title.setVisible(false);
-        title.setFont(Fonts.HUGE);
-        title.setHorizontalAlignment(JTextField.CENTER);
-        documentPanel.add(title);
-        
-        scrollPane = new JScrollPane(documentPanel);
-        collapsiblePanel.add(scrollPane,BorderLayout.CENTER);
+        cardPanel.setLayout(cardLayout);
+        collapsiblePanel.add(cardPanel,BorderLayout.CENTER);
+
+        buttons.setLayout(new BoxLayout(buttons,BoxLayout.Y_AXIS));
+        prev.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.previous(cardPanel);
+            }
+        });
+        prev.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        buttons.add(prev);
+        buttons.add(Box.createVerticalGlue());
+        next.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.next(cardPanel);
+            }
+        });
+        next.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        buttons.add(next);
+        collapsiblePanel.add(buttons,BorderLayout.EAST);
+
+        //title.setVisible(false);
+        //title.setFont(Fonts.HUGE);
+        //title.setHorizontalAlignment(JTextField.CENTER);
+        //documentPanel.add(title);
+        //scrollPane = new JScrollPane(documentPanel);        
         collapsiblePanel.setVisible(false); // Starts off collapsed.
         
         bottomToolBar = new JToolBar();
@@ -232,29 +223,13 @@ class StoryEditor implements Receiver {
      * Update the list of FunctionEditors in this StoryEditor.
      */
     public void update(ArrayList<StoryCard> new_cards) {
-        // Remove all the FunctionEditors from the panel, then add the new ones.
-        ArrayList<FunctionEditor> new_editors = new ArrayList<FunctionEditor>();        
-        documentPanel.removeAll();
-        documentPanel.add(title);
+        cardPanel.removeAll();
         for (StoryCard s : new_cards) {
             FunctionEditor e = s.getEditor();
-            new_editors.add(e);
-            documentPanel.add(e.getComponent());
+            // FIXME: this might cause a problem if we can have two story cards
+            // with the same name.
+            cardPanel.add(e.getComponent(),e.getFunction().getName());
         }
-        documentPanel.validate();
-        documentPanel.doLayout();
-        
-        // Find the first new FunctionEditor that has just been added, and focus
-        // it.
-        for (FunctionEditor e : new_editors) {
-            if (!editors.contains(e)) {
-                focus(e);
-                break;
-            }
-        }
-        
-        // Update the list of FunctionEditors.
-        editors = new_editors;        
     }
         
     /**
@@ -264,28 +239,7 @@ class StoryEditor implements Receiver {
     public JComponent getComponent() {
         return rootPanel;
     }
-    
-    /**
-     * Scroll so that the FunctionEditor belonging to StoryCard s is in view,
-     * and give it the keyboard focus.
-     */
-    public void focus(StoryCard s) {
-        FunctionEditor f = s.getEditor();
-        assert editors.contains(f) : "The FunctionEditor must be one that the StoryEditor contains";
-        focus(f);
-    }
-    
-    /**
-     * Scroll so that FunctionEditor f is in view, and give f the keyboard
-     * focus.
-     */
-    private void focus(FunctionEditor f) {
-        JComponent jc = f.getComponent();
-        Rectangle r = jc.getBounds();
-        documentPanel.scrollRectToVisible(r);
-        f.focus();        
-    }
-    
+            
     public boolean isCollapsed() {
         return collapsed;
     }

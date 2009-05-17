@@ -314,7 +314,7 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
      */
     private void focus(StoryCard s) {
         
-        editor.focus(s);
+        //editor.focus(s);
     }
     
     /**
