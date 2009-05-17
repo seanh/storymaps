@@ -39,7 +39,9 @@ abstract class StoryCardBase {
      * @return A rounded rectangle story card shape.
      */
     public static PPath newRectangle() {
-        PPath rectangle = PPath.createRoundRectangle(-45,-57.5f,90,115,10,10);
+        float width = 82.5f;
+        float height = width * 1.377f;
+        PPath rectangle = PPath.createRoundRectangle(-width/2.0f,-height/2.0f,width,height,width*0.1f,height*0.1f);
         Color color = new Color(1.0f,0.9f,0.6f);
         rectangle.setPaint(color);
         rectangle.setStrokePaint(color);
@@ -83,11 +85,11 @@ abstract class StoryCardBase {
                 -0.5*card.getHeight()+0.05*card.getHeight());
 
         PImage lowDetailImage = new PImage(function.getImage());
-        lowDetailImage.setScale(.92);
+        lowDetailImage.setScale(.98);
         lowDetailNode.addChild(lowDetailImage);
 
         PImage highDetailImage = new PImage(function.getImage());        
-        highDetailImage.setScale(1);
+        highDetailImage.setScale(.98);
         highDetailNode.addChild(highDetailImage);
 
         HTMLNode descriptionNode = new HTMLNode(function.getDescription());
