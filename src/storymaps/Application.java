@@ -96,10 +96,10 @@ public class Application implements Receiver, Originator {
     // Fields used for logging the duration of time that the editor is opened
     // for.
     private DatatypeFactory datatypeFactory;
-    private Duration duration_app_open;
+    private Duration duration_story_open;
     private Duration duration_editor_open;
-    private Date date_app_opened;
-    private Date date_app_closed;
+    private Date date_story_opened;
+    private Date date_story_closed;
     private Date date_editor_opened;
     private Date date_editor_closed;
 
@@ -249,7 +249,7 @@ public class Application implements Receiver, Originator {
         timer.schedule(autoSave, 60000, 60000);
 
         // Record the time that the application was opened.
-        updateApplicationOpenedDate();
+        updateStoryOpenedDate();
         
         // Instantiate the DatatypeFactory used to instantiate Duration objects,
         // and instantiate the Duration objects that track how long the app and
@@ -260,7 +260,7 @@ public class Application implements Receiver, Originator {
             logWarning("DatatypeConfigurationException when trying to instantiate a DatatypeFactory in order to be able to instantiate Duration objects. Quitting." + e.toString());
             System.exit(1);
         }
-        duration_app_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
+        duration_story_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
         duration_editor_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
 
         makeFrame();
@@ -664,29 +664,29 @@ public class Application implements Receiver, Originator {
     }
 
     // Methods for updating the application-open and editor-open durations.
-    private void updateApplicationOpenedDate() {
-        date_app_opened = new Date();
-        logInfo("Application opened at: "+date_app_opened);
+    private void updateStoryOpenedDate() {
+        date_story_opened = new Date();
+        logInfo("Reset story opened date to: "+date_story_opened);
     }
-    private void updateApplicationClosedDate() {
-        date_app_closed = new Date();
-        logInfo("Application closed or story saved at: "+date_app_closed);
-        long milliseconds = date_app_closed.getTime() - date_app_opened.getTime();
+    private void updateStoryClosedDate() {
+        date_story_closed = new Date();
+        logInfo("Updating story open duration at "+date_story_closed);
+        long milliseconds = date_story_closed.getTime() - date_story_opened.getTime();
         Duration d = datatypeFactory.newDuration(milliseconds);
-        duration_app_open = duration_app_open.add(d);
-        logInfo("This story has been open for: "+printDuration(duration_app_open));
+        duration_story_open = duration_story_open.add(d);
+        logInfo("This story has now been open for: "+printDuration(duration_story_open));
     }
     private void updateEditorOpenedDate() {
         date_editor_opened = new Date();
-        logInfo("Editor opened at: "+date_editor_opened);
+        logInfo("Reset editor opened date to "+date_editor_opened);
     }
     private void updateEditorClosedDate() {
         date_editor_closed = new Date();
-        logInfo("Editor closed or story saved at: "+date_editor_closed);
+        logInfo("Updating editor open duration at "+date_editor_closed);
         long milliseconds = date_editor_closed.getTime() - date_editor_opened.getTime();
         Duration d = datatypeFactory.newDuration(milliseconds);
         duration_editor_open = duration_editor_open.add(d);
-        logInfo("Editor has been open for: "+printDuration(duration_editor_open));
+        logInfo("For this story the editor has now been open for: "+printDuration(duration_editor_open));
     }
     /**
      * Return a human readable string formatted duration.
@@ -709,10 +709,10 @@ public class Application implements Receiver, Originator {
         ApplicationMemento (Application a) {
             this.storyCardsMemento = a.cards.createMemento();
             this.storyMapMemento = a.map.createMemento();
-            // Log the application open duration and reset the opened date.
-            a.updateApplicationClosedDate();
-            a.updateApplicationOpenedDate();
-            this.duration_app_open = a.duration_app_open;
+            // Log the story open duration and reset the opened date.
+            a.updateStoryClosedDate();
+            a.updateStoryOpenedDate();
+            this.duration_app_open = a.duration_story_open;
             // If the editor is uncollapsed log the editor open duration.
             if (!a.editor.isCollapsed()) {
                 a.updateEditorClosedDate();
@@ -771,8 +771,8 @@ public class Application implements Receiver, Originator {
         target = home;        
 
         // Restore the durations and reset the app opened date.
-        duration_app_open = am.getDurationAppOpen();
-        updateApplicationOpenedDate();
+        duration_story_open = am.getDurationAppOpen();
+        updateStoryOpenedDate();
         duration_editor_open = am.getDurationEditorOpen();
         if (!editor.isCollapsed()) {
             updateEditorOpenedDate();
