@@ -3,7 +3,6 @@
     directly in the user's homedir.**
     *   **Test that autosave works on Windows.**
     *   **On exit ask the user if they want to save their story.**
-    *   **Give it a new colour scheme.**
     *   Add an icon on low-detail story cards that indicates when they have 
     user text associated.
     *   The card store should have an optional behaviour that allows the same 
