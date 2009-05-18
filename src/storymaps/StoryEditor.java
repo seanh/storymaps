@@ -6,76 +6,88 @@ import javax.swing.*;
 import javax.swing.text.DefaultEditorKit;
 import java.io.IOException;
 import java.util.ArrayList;
+import storymaps.ui.Fonts;
 
 /**
  *
  * @author seanh
  */
 class StoryEditor implements Receiver {    
+    
     // The root panel of the StoryEditor, to which everything else is added.
     private JPanel rootPanel;
 
-    /**
-     * The toolbar that contains the 'Write your Story!' and 'Sort' buttons.
-     */
-    private JToolBar topToolBar;
-
+    // The 'Write your Story!' button. It toggles between showing writeText and
+    // planText when the editor is collapsed and uncollapsed.
     private JButton writeButton = new JButton();
     private String writeText = "Write your Story!";
     private ImageIcon writeIcon;
     private String planText = "Go back to planning";
     private ImageIcon planIcon;
 
-    /**
-     * Whether or not the story editor is collapsed.
-     */
+    // Whether or not the story editor is collapsed.
     private boolean collapsed = true;
     
-    /**
-     * The panel that collapses/uncollapses when the 'Write your Story!' button
-     * is pressed. Contains the documentPanel and bottomToolBar.
-     */
+    // The panel that collapses/uncollapses.
     private JPanel collapsiblePanel;
-
+        
     // The panel that contains the FunctionEditors for each function in the
-    // story. FunctionEditors are dynamically added and removed as the story map
-    // is changed.
-    private JPanel cardPanel = new JPanel();
-    private CardLayout cardLayout = new CardLayout();
+    // story. It contains a FunctionEditor panel for each Propp function in the
+    // story, in a CardLayout. FunctionEditors are dynamically added and removed
+    // as the story map is changed.    
+    private CardLayout editorsLayout = new CardLayout();    
+    private JPanel editorsPanel = new JPanel(editorsLayout);    
 
-    /**
-     * The title of the story. Goes at the top of the documentPanel.
-     */
+    // The title of the story. TODO: put this in topToolBar.
     private JTextField title = new JTextField("Enter your story's title here.");
     
-    // The panel containing the next and previous buttons.
-    private JPanel buttons = new JPanel();
-    private JButton next = new JButton("Next");
-    private JButton prev = new JButton("Previous");
+    // The JFrame in which this StoryEditor will be used.
+    private JFrame frame;
+        
+    // The help dialog. Contains help panels for each Propp function in the
+    // story in a CardLayout and is syncehd with the editorsPanel CardLayout.
+    private JDialog helpDialog;
+    private CardLayout helpLayout = new CardLayout();
+    private JPanel helpPanel = new JPanel(helpLayout);
+    
+    private JToolBar bottomToolBar;    
 
-    /**
-     * The toolbar that contains the Cut, Copy, Paste, Save etc. buttons.
-     */
-    private JToolBar bottomToolBar;
-        
-    /**
-     * The JFrame in which this StoryEditor will be used.
-     */
-    private JFrame parent;
+    StoryEditor (JFrame frame) {
+        this.frame = frame;
+        helpDialog = new JDialog(frame,"Help");
+        makeRootPanel();
+    }
     
-    private final Application app;
-    
-    public StoryEditor(JFrame parent, final Application app) {
-        this.parent = parent;
-        this.app = app;
-        
+    /**
+     * Make the root panel and call methods to make all the other parts.
+     */
+    private void makeRootPanel() {
         rootPanel = new JPanel();
         rootPanel.setLayout(new BorderLayout());
-
-        topToolBar = new JToolBar();
-        topToolBar.setFloatable(false);
-        topToolBar.setRollover(true);
+        
+        JToolBar topToolBar = makeTopToolBar();
         rootPanel.add(topToolBar,BorderLayout.NORTH);
+        
+        collapsiblePanel = new JPanel();
+        collapsiblePanel.setVisible(false); // Starts off collapsed.
+        collapsiblePanel.setLayout(new BorderLayout());
+        rootPanel.add(collapsiblePanel,BorderLayout.CENTER);
+
+        JPanel centralPanel = makeCentralPanel();
+        collapsiblePanel.add(centralPanel,BorderLayout.CENTER);
+                                        
+        makeBottomToolBar();
+        collapsiblePanel.add(bottomToolBar,BorderLayout.SOUTH);
+        
+        Messager.getMessager().accept("button clicked",this,null);
+        
+        makeHelpDialog();
+    }
+    
+    private JToolBar makeTopToolBar() {
+        JToolBar topToolBar = new JToolBar();
+        topToolBar.setFloatable(false);
+        topToolBar.setRollover(true);        
 
         writeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -95,7 +107,11 @@ class StoryEditor implements Receiver {
         topToolBar.add(writeButton);
 
         topToolBar.add(new JSeparator(SwingConstants.VERTICAL));
-
+        
+        title.setFont(Fonts.HUGE);
+        title.setHorizontalAlignment(JTextField.CENTER);
+        topToolBar.add(title);
+                
         JButton sortButton = new JButton();
         sortButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -105,67 +121,97 @@ class StoryEditor implements Receiver {
         configureButton("Sort", "/data/icons/sort.png", sortButton);
         sortButton.setVerticalTextPosition(AbstractButton.CENTER);
         sortButton.setHorizontalTextPosition(AbstractButton.LEADING);
-        topToolBar.add(sortButton);
-
-        collapsiblePanel = new JPanel();
-        collapsiblePanel.setLayout(new BorderLayout());
-        rootPanel.add(collapsiblePanel,BorderLayout.CENTER);
-
-        cardPanel.setLayout(cardLayout);
-        collapsiblePanel.add(cardPanel,BorderLayout.CENTER);
-
-        buttons.setLayout(new BoxLayout(buttons,BoxLayout.Y_AXIS));
+        topToolBar.add(sortButton);                
+        
+        return topToolBar;
+    }
+    
+    private JButton makePrevButton() {
+        JButton prev = new JButton("Prev");
+        try {
+            ImageIcon icon = Util.readImageIconFromClassPath("/data/icons/arrow_left.png");
+            prev.setIcon(icon);
+            prev.setVerticalTextPosition(AbstractButton.BOTTOM);
+            prev.setHorizontalTextPosition(AbstractButton.CENTER);             
+        } catch (IOException e) {
+            Application.getInstance().logWarning("IOException when reading icon "+e.toString());
+        }
         prev.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.previous(cardPanel);
+                editorsLayout.previous(editorsPanel);
+                helpLayout.previous(helpPanel);
             }
         });
-        prev.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        buttons.add(prev);
-        buttons.add(Box.createVerticalGlue());
+        return prev;
+    }
+    
+    private JButton makeNextButton() {
+        JButton next = new JButton("Next");
+        try {
+            ImageIcon icon = Util.readImageIconFromClassPath("/data/icons/arrow_right.png");
+            next.setIcon(icon);
+            next.setVerticalTextPosition(AbstractButton.BOTTOM);
+            next.setHorizontalTextPosition(AbstractButton.CENTER);             
+        } catch (IOException e) {
+            Application.getInstance().logWarning("IOException when reading icon "+e.toString());
+        }
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.next(cardPanel);
+                editorsLayout.next(editorsPanel);
+                helpLayout.next(helpPanel);
             }
         });
-        next.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        buttons.add(next);
-        collapsiblePanel.add(buttons,BorderLayout.EAST);
+        return next;
+    }
+    
+    private JPanel makePrevPanel() {
+        JPanel prevPanel = new JPanel();
+        prevPanel.setLayout(new BoxLayout(prevPanel,BoxLayout.Y_AXIS));
+        JButton prevButton = makePrevButton();
+        prevPanel.add(prevButton);
+        return prevPanel;
+    }
+    
+    private JPanel makeNextPanel() {
+        JPanel nextPanel = new JPanel();
+        nextPanel.setLayout(new BoxLayout(nextPanel,BoxLayout.Y_AXIS));
 
-        //title.setVisible(false);
-        //title.setFont(Fonts.HUGE);
-        //title.setHorizontalAlignment(JTextField.CENTER);
-        //documentPanel.add(title);
-        //scrollPane = new JScrollPane(documentPanel);        
-        collapsiblePanel.setVisible(false); // Starts off collapsed.
+        nextPanel.add(Box.createVerticalGlue());
         
-        bottomToolBar = new JToolBar();
-        bottomToolBar.setFloatable(false);
-        bottomToolBar.setRollover(true);
-        collapsiblePanel.add(bottomToolBar,BorderLayout.SOUTH);
-
-        addButton("Cut","/data/icons/cut.png",new DefaultEditorKit.CutAction(),bottomToolBar);
-        addButton("Copy","/data/icons/copy.png",new DefaultEditorKit.CopyAction(),bottomToolBar);
-        addButton("Paste","/data/icons/paste.png",new DefaultEditorKit.PasteAction(),bottomToolBar);
+        JButton nextButton = makeNextButton();
+        nextButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        nextPanel.add(nextButton);      
         
-        bottomToolBar.add(new JSeparator(SwingConstants.VERTICAL));
-
-        JButton exportButton = addButton("Export Story as HTML", "/data/icons/save_as_html.png",bottomToolBar);
-        exportButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                app.saveAsHTML();
-            }
-        });        
+        nextPanel.add(Box.createVerticalGlue());
         
-        JButton saveButton = addButton("Save Story","/data/icons/save.png",bottomToolBar);
-        saveButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                app.save();
+        JButton helpButton = new JButton("Help");
+        helpButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                // Show the help dialog.
+                helpDialog.setSize(new Dimension(400, 550));
+                helpDialog.setLocationRelativeTo(frame);
+                helpDialog.setVisible(true);
             }
         });
+        helpButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        nextPanel.add(helpButton);
                 
-        //root_panel.setPreferredSize(new Dimension(parent.getWidth(),24));
-        Messager.getMessager().accept("button clicked",this,null);
+        return nextPanel;
+    }
+    
+    private JPanel makeCentralPanel() {
+        JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel,BoxLayout.X_AXIS));
+        JPanel prevPanel = makePrevPanel();
+        prevPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        centralPanel.add(prevPanel);
+        editorsPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        editorsPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        centralPanel.add(editorsPanel);
+        JPanel nextPanel = makeNextPanel();
+        nextPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        centralPanel.add(nextPanel);
+        return centralPanel;
     }
         
     private void configureButton(String text, String imagePath, JButton button) {
@@ -194,12 +240,64 @@ class StoryEditor implements Receiver {
         toolBar.add(button);
         return button;
     }
+    
+    private void makeBottomToolBar() {        
+        bottomToolBar = new JToolBar();
+        bottomToolBar.setFloatable(false);
+        bottomToolBar.setRollover(true);
+
+        addButton("Cut","/data/icons/cut.png",new DefaultEditorKit.CutAction(),bottomToolBar);
+        addButton("Copy","/data/icons/copy.png",new DefaultEditorKit.CopyAction(),bottomToolBar);
+        addButton("Paste","/data/icons/paste.png",new DefaultEditorKit.PasteAction(),bottomToolBar);
+        
+        bottomToolBar.add(new JSeparator(SwingConstants.VERTICAL));
+
+        JButton exportButton = addButton("Export Story as HTML", "/data/icons/save_as_html.png",bottomToolBar);
+        exportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Application.getInstance().saveAsHTML();
+            }
+        });        
+        
+        JButton saveButton = addButton("Save Story","/data/icons/save.png",bottomToolBar);
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Application.getInstance().save();
+            }
+        });
+    }
+    
+    private void makeHelpDialog() {                        
+        Container dialogContentPane = helpDialog.getContentPane();
+        dialogContentPane.setLayout(new BorderLayout());
+        dialogContentPane.add(helpPanel,BorderLayout.CENTER);
+        
+        JPanel closePanel = new JPanel();
+        closePanel.setLayout(new BoxLayout(closePanel,BoxLayout.X_AXIS));
+        JButton prev = makePrevButton();
+        prev.setAlignmentX(Component.LEFT_ALIGNMENT);
+        closePanel.add(prev);
+        JButton next = makeNextButton();
+        next.setAlignmentX(Component.LEFT_ALIGNMENT);
+        closePanel.add(next);
+        closePanel.add(Box.createHorizontalGlue());
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                helpDialog.setVisible(false);
+                helpDialog.dispose();
+            }
+        });
+        closeButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        closePanel.add(closeButton);
+        closePanel.setBorder(BorderFactory.createEmptyBorder(0,0,5,5));
+        dialogContentPane.add(closePanel,BorderLayout.SOUTH);
+    }    
             
     private void collapse() {
         if (collapsed) {
             collapsed = false;
-            collapsiblePanel.setPreferredSize(new Dimension(parent.getWidth(),parent.getHeight()/2));
-            title.setVisible(true);
+            collapsiblePanel.setPreferredSize(new Dimension(frame.getWidth(),275 + bottomToolBar.getHeight()));
             collapsiblePanel.setVisible(true);
             collapsiblePanel.getParent().validate();
             collapsiblePanel.getParent().repaint();
@@ -208,8 +306,7 @@ class StoryEditor implements Receiver {
             Messager.getMessager().send("Editor uncollapsed", this);
         } else {
             collapsed = true;
-            collapsiblePanel.setPreferredSize(new Dimension(parent.getWidth(),0));
-            title.setVisible(false);
+            collapsiblePanel.setPreferredSize(new Dimension(frame.getWidth(),0));
             collapsiblePanel.setVisible(false);
             collapsiblePanel.getParent().validate();
             collapsiblePanel.getParent().repaint();
@@ -223,12 +320,14 @@ class StoryEditor implements Receiver {
      * Update the list of FunctionEditors in this StoryEditor.
      */
     public void update(ArrayList<StoryCard> new_cards) {
-        cardPanel.removeAll();
+        editorsPanel.removeAll();
+        helpPanel.removeAll();
         for (StoryCard s : new_cards) {
             FunctionEditor e = s.getEditor();
             // FIXME: this might cause a problem if we can have two story cards
             // with the same name.
-            cardPanel.add(e.getComponent(),e.getFunction().getName());
+            editorsPanel.add(e.getComponent(),e.getFunction().getName());
+            helpPanel.add(e.makeHelpPanel(),e.getFunction().getName());
         }
     }
         

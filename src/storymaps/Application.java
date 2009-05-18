@@ -299,7 +299,7 @@ public class Application implements Receiver, Originator {
 
         makeMenuBar();
 
-        editor = new StoryEditor(frame,this);
+        editor = new StoryEditor(frame);
 
         canvas = new PCanvas();
 
