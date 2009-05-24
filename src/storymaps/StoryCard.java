@@ -134,9 +134,11 @@ class StoryCard extends StoryCardBase implements Receiver,
     public void highlight() {
         if (!highlighted && !draggable.isDragging()) {
             getNode().moveToFront();
-            getNode().getParent().moveToFront();
+            // FIXME: this depends on the exact structure of the scene graph.
+            // Instead StoryBase should tag its StoryCards with itself.
+            getNode().getParent().getParent().moveToFront();
             highlighted = true;
-            smoothlyScale(1.8f);
+            smoothlyScale(1.5f);
             goToHighDetail();
         }
     }

@@ -39,7 +39,7 @@ abstract class StoryCardBase {
      * @return A rounded rectangle story card shape.
      */
     public static PPath newRectangle() {
-        float width = 82.5f;
+        float width = 90f;
         float height = width * 1.377f;
         PPath rectangle = PPath.createRoundRectangle(-width/2.0f,-height/2.0f,width,height,width*0.1f,height*0.1f);
         Color color = new Color(1.0f,0.9f,0.6f);
