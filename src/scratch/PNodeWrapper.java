@@ -8,6 +8,11 @@ import java.util.ArrayList;
 
 /**
  * A wrapper class for Piccolo's PNode class.
+ *
+ * FIXME: unfortunately PNode is designed for inheritance, it contains protected
+ * methods intended to be overridden, e.g. layoutChildren, so it should be
+ * extended not composed.
+ *
  * @author seanh
  */
 public class PNodeWrapper {
