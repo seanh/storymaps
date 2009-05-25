@@ -81,6 +81,7 @@ class StoryEditor implements Receiver {
         collapsiblePanel.add(bottomToolBar,BorderLayout.SOUTH);
         
         Messager.getMessager().accept("button clicked",this,null);
+        Messager.getMessager().accept(FunctionEditor.HELP_MESSAGE,this,null);
         
         makeHelpDialog();
     }
@@ -184,24 +185,7 @@ class StoryEditor implements Receiver {
         nextPanel.add(nextButton);      
         
         nextPanel.add(Box.createVerticalGlue());
-        
-        JButton helpButton = new JButton("Help");
-        try {
-            helpButton.setIcon(Util.readImageIconFromClassPath("/data/icons/help.png"));
-        } catch (IOException e) {
-            Logger.getLogger(getClass().getName()).warning("Couldn't read icon for help button. "+e.toString());
-        }
-        helpButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                // Show the help dialog.
-                helpDialog.setSize(new Dimension(400, 550));
-                helpDialog.setLocationRelativeTo(frame);
-                helpDialog.setVisible(true);
-            }
-        });
-        helpButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        nextPanel.add(helpButton);
-                
+                        
         return nextPanel;
     }
     
@@ -367,6 +351,10 @@ class StoryEditor implements Receiver {
             if ( ((String)sender_arg).equals("Write Story") ) {
                 collapse();
             }
+        } else if (name.equals(FunctionEditor.HELP_MESSAGE)) {
+            helpDialog.setSize(new Dimension(400, 550));
+            helpDialog.setLocationRelativeTo(frame);
+            helpDialog.setVisible(true);
         }
     }
 }

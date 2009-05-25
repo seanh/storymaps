@@ -1,16 +1,24 @@
 package storymaps;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
 import storymaps.ui.Fonts;
+
+import java.io.IOException;
+import java.util.logging.Logger;
 
 /** 
  * 
  * @author seanh
  */
 class FunctionEditor {
+
+    /**
+     * Message that FunctionEditor sends via Messager when helpButton is
+     * pressed.
+     */
+    static final String HELP_MESSAGE = "FunctionEditor.HELP_MESSAGE";
 
     /**
      * The Propp function that this FunctionEditor represents.
@@ -91,10 +99,34 @@ class FunctionEditor {
         panel.setBackground(editorPanel.getBackground());
         JLabel image = makeImage();
         image.setAlignmentY(Component.TOP_ALIGNMENT);
-        panel.add(image);        
+        panel.add(image);
+
+        JPanel anotherPanel = new JPanel();
+        anotherPanel.setLayout(new BoxLayout(anotherPanel,BoxLayout.Y_AXIS));
+        anotherPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        
         JEditorPane description = makeDescription(editorPanel.getBackground());
-        description.setAlignmentY(Component.TOP_ALIGNMENT);
-        panel.add(description);                
+        description.setAlignmentX(Component.LEFT_ALIGNMENT);
+        anotherPanel.add(description);
+        
+        JButton helpButton = new JButton("Help");
+        helpButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        try {
+            helpButton.setIcon(Util.readImageIconFromClassPath("/data/icons/help.png"));
+        } catch (IOException e) {
+            Logger.getLogger(getClass().getName()).warning("Couldn't read icon for help button. "+e.toString());
+        }
+        helpButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                // Show the help dialog.
+                Messager.getMessager().send(HELP_MESSAGE,this);
+            }
+        });
+        helpButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        anotherPanel.add(helpButton);
+
+        
+        panel.add(anotherPanel);
         editorPanel.add(panel);
 
         editor = makeEditor(text);
