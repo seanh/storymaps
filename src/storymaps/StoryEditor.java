@@ -39,7 +39,7 @@ class StoryEditor implements Receiver {
     private JPanel editorsPanel = new JPanel(editorsLayout);    
 
     // The title of the story. TODO: put this in topToolBar.
-    private JTextField title = new JTextField("Enter your story's title here.");
+    private AutoSelectingTextField title = new AutoSelectingTextField("Enter your story's title here.");
     
     // The JFrame in which this StoryEditor will be used.
     private JFrame frame;
