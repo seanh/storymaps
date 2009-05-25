@@ -7,6 +7,7 @@ import javax.swing.text.DefaultEditorKit;
 import java.io.IOException;
 import java.util.ArrayList;
 import storymaps.ui.Fonts;
+import java.util.logging.Logger;
 
 /**
  *
@@ -98,7 +99,7 @@ class StoryEditor implements Receiver {
             writeIcon = Util.readImageIconFromClassPath("/data/icons/write.png");
             planIcon = Util.readImageIconFromClassPath("/data/icons/arrow_up.png");
         } catch (IOException e) {
-            Application.getInstance().logWarning("StoryEditor: IOException when reading in icons." + e.toString());
+            Logger.getLogger(getClass().getName()).warning("StoryEditor: IOException when reading in icons." + e.toString());
         }
         writeButton.setText(writeText);
         writeButton.setIcon(writeIcon);
@@ -134,7 +135,7 @@ class StoryEditor implements Receiver {
             prev.setVerticalTextPosition(AbstractButton.BOTTOM);
             prev.setHorizontalTextPosition(AbstractButton.CENTER);             
         } catch (IOException e) {
-            Application.getInstance().logWarning("IOException when reading icon "+e.toString());
+            Logger.getLogger(getClass().getName()).warning("IOException when reading icon "+e.toString());
         }
         prev.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -153,7 +154,7 @@ class StoryEditor implements Receiver {
             next.setVerticalTextPosition(AbstractButton.BOTTOM);
             next.setHorizontalTextPosition(AbstractButton.CENTER);             
         } catch (IOException e) {
-            Application.getInstance().logWarning("IOException when reading icon "+e.toString());
+            Logger.getLogger(getClass().getName()).warning("IOException when reading icon "+e.toString());
         }
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -188,7 +189,7 @@ class StoryEditor implements Receiver {
         try {
             helpButton.setIcon(Util.readImageIconFromClassPath("/data/icons/help.png"));
         } catch (IOException e) {
-            Application.getInstance().logWarning("Couldn't read icon for help button. "+e.toString());
+            Logger.getLogger(getClass().getName()).warning("Couldn't read icon for help button. "+e.toString());
         }
         helpButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -290,7 +291,7 @@ class StoryEditor implements Receiver {
         try {
             closeButton.setIcon(Util.readImageIconFromClassPath("/data/icons/close.png"));
         } catch (IOException e) {
-            Application.getInstance().logWarning("Couldn't read icon for close button. "+e.toString());
+            Logger.getLogger(getClass().getName()).warning("Couldn't read icon for close button. "+e.toString());
         }
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -3,6 +3,7 @@ package storymaps;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.PNode;
+import java.util.logging.Logger;
 
 /**
  * A DisabledStoryCard is like a story card but it is faded out and not
@@ -102,13 +103,13 @@ class DisabledStoryCard extends StoryCardBase implements Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("DisabledStoryCard", "newInstanceFromMemento", e);
+            Logger.getLogger(DisabledStoryCard.class.getName()).throwing("DisabledStoryCard", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof DisabledStoryCardMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("DisabledStoryCard", "newInstanceFromMemento", e);
+            Logger.getLogger(DisabledStoryCard.class.getName()).throwing("DisabledStoryCard", "newInstanceFromMemento", e);
             throw e;
         }
         DisabledStoryCardMemento dscm = (DisabledStoryCardMemento) m;        

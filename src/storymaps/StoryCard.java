@@ -8,6 +8,7 @@ import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PUtil;
+import java.util.logging.Logger;
 
 class StoryCard extends StoryCardBase implements Receiver,
         DragDropObserver, Comparable, Originator {
@@ -221,13 +222,13 @@ class StoryCard extends StoryCardBase implements Receiver,
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("StoryCard", "newInstanceFromMemento", e);
+            Logger.getLogger(StoryCard.class.getName()).throwing("StoryCard", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof StoryCardMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("StoryCard", "newInstanceFromMemento", e);
+            Logger.getLogger(StoryCard.class.getName()).throwing("StoryCard", "newInstanceFromMemento", e);
             throw e;
         }
         StoryCardMemento scm = (StoryCardMemento) m;

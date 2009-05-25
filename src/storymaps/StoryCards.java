@@ -4,6 +4,7 @@ import DragAndDrop.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
+import java.util.logging.Logger;
 
 /**
  * The collection of story cards that the user can drag from.
@@ -266,13 +267,13 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("StoryCards", "newInstanceFromMemento", e);
+            Logger.getLogger(StoryCards.class.getName()).throwing("StoryCards", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof StoryCardsMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("StoryCards", "newInstanceFromMemento", e);
+            Logger.getLogger(StoryCards.class.getName()).throwing("StoryCards", "newInstanceFromMemento", e);
             throw e;
         }
         StoryCardsMemento memento = (StoryCardsMemento) m;

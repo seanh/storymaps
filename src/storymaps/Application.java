@@ -31,63 +31,51 @@ public class Application implements Receiver, Originator {
      * The Swing frame that represents the application window.
      */
     private JFrame frame;
-    
     /**
      * The Swing frame's contentPane.
      */
     private Container contentPane;
-    
     /**
      * The Piccolo canvas, where all the Piccolo action happens.
      */
     private PCanvas canvas;
-    
     /**
      * The home node, to which all other nodes are attached.
      */
     private PNode home = new PNode();
-        
     /**
      * The collection of story cards that the user chooses from.
      */
     private StoryCards cards;
-    
     /**
      * The story map where the user places and arranges her chosen cards.
      */
     private StoryMap map;
-    
     /**
      * The story editor, where the user types in and edits the text of her
      * story.
      */
     private StoryEditor editor;
-
     /**
      * The PNode that the PCamera is currently focused on.
      */
     private PNode target;
-
     /**
      * The file chooser used for saving and opening stories.
      */
     final JFileChooser fc_saveopen;
-
     /**
      * The file chooser used for exporting stories.
      */
     final JFileChooser fc_export;
-    
     /**
      * Icon for the toolbar.
      */
     private ImageIcon aboutIcon;
-
     /**
      * Icon for the toolbar.
      */
     private ImageIcon helpIcon;
-
     /**
      * The directory that autosave files will be saved to.
      */
@@ -102,15 +90,11 @@ public class Application implements Receiver, Originator {
     private Date date_story_closed;
     private Date date_editor_opened;
     private Date date_editor_closed;
-
-    // Logger instance that Application uses for logging.
-    private Logger logger = Logger.getLogger("storymaps.Application");
-
     /**
      * The singleton instance of this class.
      */
     private static final Application INSTANCE = new Application();
-    
+
     /**
      * Get the singleton instance of this class.
      */
@@ -119,45 +103,12 @@ public class Application implements Receiver, Originator {
     }
 
     /**
-     * Log an info message with the application's logger.
-     * @param message
-     */
-    void logInfo(String msg) {
-        logger.info(msg);
-    }
-
-    /**
-     * Log the throwing of an exception with the application's logger.
-     * @param sourceClass
-     * @param sourceMethod
-     * @param thrown
-     */
-    void logThrowing(String sourceClass, String sourceMethod, Throwable thrown) {
-        logger.throwing(sourceClass, sourceMethod, thrown);
-    }
-    
-    /**
-     * Log a warning message with the application's logger.
-     */
-    void logWarning(String msg) {
-        logger.warning(msg);
-    }
-
-    /**
-     * Log a severe warning message with the application's logger.
-     * @param msg
-     */
-    void logSevere(String msg) {
-        logger.severe(msg);
-    }
-
-    /**
      * Return this application's single StoryEditor instance.
      */
     StoryEditor getStoryEditor() {
         return editor;
     }
-    
+
     /**
      * Start the application.
      */
@@ -192,18 +143,12 @@ public class Application implements Receiver, Originator {
      * Construct and start the application.
      */
     private Application() {
-        // Subscribe to the messages sent by StoryEditor when it is collapsed
-        // and uncollapsed and when the sort button is collapsed.
-        Messager.getMessager().accept("Editor uncollapsed", this, null);
-        Messager.getMessager().accept("Editor collapsed", this, null);
-        Messager.getMessager().accept("sort", this, null);
-
         // Create the autosave directory for this session if it does not already
         // exist.
         File userhome = new JFileChooser().getFileSystemView().getDefaultDirectory();
         File storymapsdir = new File(userhome, "StoryMaps");
-        File autosave_parentdir = new File(storymapsdir,"autosaved_storymaps");
-        autosavedir = new File(autosave_parentdir,Util.nowStr());
+        File autosave_parentdir = new File(storymapsdir, "autosaved_storymaps");
+        autosavedir = new File(autosave_parentdir, Util.nowStr());
         try {
             if (!autosavedir.mkdirs()) {
                 String detail = "Could not create autosave dir, mkdirs returned false.";
@@ -211,25 +156,26 @@ public class Application implements Receiver, Originator {
                 System.exit(1);
             }
         } catch (SecurityException e) {
-            logSevere("SecurityException when attempting to create autosave dir, quitting." + e.toString());
+            Logger.getLogger(getClass().getName()).severe("SecurityException when attempting to create autosave dir, quitting." + e.toString());
             System.exit(1);
         }
 
-        // Attach a FileHandler to the logger that appends log messages to a
-        // file in the autosave dir.
+        // Attach a FileHandler to the root logger that appends all log messages
+        // to a file in the autosave dir.
         try {
-            File logFile = new File(autosavedir,"log.xml");
-            FileHandler handler = new FileHandler(logFile.getCanonicalPath(),true);
-            logger.addHandler(handler);
+            File logFile = new File(autosavedir, "log.xml");
+            FileHandler handler = new FileHandler(logFile.getCanonicalPath(), true);
+            Logger.getLogger("").addHandler(handler);
         } catch (IOException e) {
-            String msg = "IOException when attaching file handler to logger, continuing without appending log messages to file." + e.toString();
-            logWarning(msg);
+            String msg = "IOException when attaching file handler to logger. Log messages will not be saved to file.\n" + e.toString();
+            Logger.getLogger(getClass().getName()).warning(msg);
         }
-        
+
         // Initialise the file choosers for saving, opening and exporting
         // stories.
         fc_saveopen = new JFileChooser(storymapsdir);
         fc_saveopen.setFileFilter(new FileFilter() {
+
             @Override
             public boolean accept(File f) {
                 return f.getAbsolutePath().endsWith(".storymap");
@@ -244,24 +190,34 @@ public class Application implements Receiver, Originator {
 
         // Start a task that autosaves every 60 seconds.
         TimerTask autoSave = new TimerTask() {
-            public void run() {autosave();}};
+
+            public void run() {
+                autosave();
+            }
+        };
         Timer timer = new Timer();
         timer.schedule(autoSave, 60000, 60000);
 
+        // Subscribe to the messages sent by StoryEditor when it is collapsed
+        // and uncollapsed and when the sort button is collapsed.
+        Messager.getMessager().accept("Editor uncollapsed", this, null);
+        Messager.getMessager().accept("Editor collapsed", this, null);
+        Messager.getMessager().accept("sort", this, null);
+
         // Record the time that the application was opened.
         updateStoryOpenedDate();
-        
+
         // Instantiate the DatatypeFactory used to instantiate Duration objects,
         // and instantiate the Duration objects that track how long the app and
         // how long the editor has been open for.
         try {
             datatypeFactory = DatatypeFactory.newInstance();
         } catch (DatatypeConfigurationException e) {
-            logWarning("DatatypeConfigurationException when trying to instantiate a DatatypeFactory in order to be able to instantiate Duration objects. Quitting." + e.toString());
+            Logger.getLogger(getClass().getName()).warning("DatatypeConfigurationException when trying to instantiate a DatatypeFactory in order to be able to instantiate Duration objects. Quitting." + e.toString());
             System.exit(1);
         }
-        duration_story_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
-        duration_editor_open = datatypeFactory.newDuration(true,0,0,0,0,0,0);
+        duration_story_open = datatypeFactory.newDuration(true, 0, 0, 0, 0, 0, 0);
+        duration_editor_open = datatypeFactory.newDuration(true, 0, 0, 0, 0, 0, 0);
 
         makeFrame();
     }
@@ -272,24 +228,31 @@ public class Application implements Receiver, Originator {
      */
     private void makeFrame() {
         frame = new JFrame("StoryMaps");
-        
+
         // Add a window listener to the frame that autosaves when the window is
         // closed.
         frame.addWindowListener(new WindowListener() {
+
             public void windowClosing(WindowEvent arg0) {
                 autosave();
                 System.exit(0);
             }
+
             public void windowOpened(WindowEvent arg0) {
             }
+
             public void windowClosed(WindowEvent arg0) {
             }
+
             public void windowIconified(WindowEvent arg0) {
             }
+
             public void windowDeiconified(WindowEvent arg0) {
             }
+
             public void windowActivated(WindowEvent arg0) {
             }
+
             public void windowDeactivated(WindowEvent arg0) {
             }
         });
@@ -303,13 +266,14 @@ public class Application implements Receiver, Originator {
 
         canvas = new PCanvas();
 
-        canvas.setPreferredSize(new Dimension(1024,768));
+        canvas.setPreferredSize(new Dimension(1024, 768));
         canvas.setBackground(Color.BLACK);
         canvas.setFocusable(false); // Never get the keyboard focus.                        
         contentPane.add(canvas, BorderLayout.CENTER);
 
         canvas.addComponentListener(new ComponentListener() {
             // This method is called after the component's size changes
+
             public void componentResized(ComponentEvent evt) {
                 repositionCamera();
             }
@@ -331,14 +295,14 @@ public class Application implements Receiver, Originator {
 
         initializePCanvas();
     }
-    
+
     /**
      * Report an exception to the user.
      */
     private void reportException(String message) {
         // TODO.
     }
-    
+
     private JButton createButton(String path, String text) {
         JButton button;
         try {
@@ -348,12 +312,12 @@ public class Application implements Receiver, Originator {
             // If we can't read an icon file we don't report it to the user,
             // just create a button with text and no icon.
             button = new JButton(text);
-        }        
+        }
         button.setVerticalTextPosition(AbstractButton.BOTTOM);
         button.setHorizontalTextPosition(AbstractButton.CENTER);
         return button;
     }
-           
+
     /**
      * Construct the application's menubar.
      */
@@ -365,6 +329,7 @@ public class Application implements Receiver, Originator {
         JMenuItem openItem = new JMenuItem("Open a Saved Story");
         fileMenu.add(openItem);
         openItem.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 open();
             }
@@ -373,6 +338,7 @@ public class Application implements Receiver, Originator {
         JMenuItem saveItem = new JMenuItem("Save Your Story");
         fileMenu.add(saveItem);
         saveItem.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 save();
             }
@@ -380,10 +346,11 @@ public class Application implements Receiver, Originator {
         JMenuItem exportItem = new JMenuItem("Export Your Story as HTML");
         fileMenu.add(exportItem);
         exportItem.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 saveAsHTML();
             }
-        });        
+        });
     }
 
     /**
@@ -394,20 +361,20 @@ public class Application implements Receiver, Originator {
         canvas.getLayer().addChild(home);
 
         double width = canvas.getBounds().getWidth();
-        double height =  canvas.getBounds().getHeight();
+        double height = canvas.getBounds().getHeight();
         double height_top_rectangle = height * 0.5;
 
-        Color green = new Color(0.75f,0.84f,0.24f);
+        Color green = new Color(0.75f, 0.84f, 0.24f);
         cards = new StoryCards(width, height_top_rectangle, 0, 0, green, 9);
         home.addChild(cards.getNode());
 
-        Color grey = new Color(0.66f,0.66f,0.68f);
-        map = new StoryMap(editor, width, height-cards.getNode().getHeight(), 0, cards.getNode().getHeight(), grey, 9);
+        Color grey = new Color(0.66f, 0.66f, 0.68f);
+        map = new StoryMap(editor, width, height - cards.getNode().getHeight(), 0, cards.getNode().getHeight(), grey, 9);
         home.addChild(map.getNode());
 
         //writeStory = new WriteStoryButton();
         //second_home.addChild(writeStory);
-                
+
         // Remove the default event handler that enables panning with the mouse.    
         canvas.removeInputEventListener(canvas.getPanEventHandler());
 
@@ -452,11 +419,11 @@ public class Application implements Receiver, Originator {
             PNode node = card.getNode();
             StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
             if (prev != null) {
-                prev.goToLowDetail();
+            prev.goToLowDetail();
             }
             target = node;
             repositionCamera(750);*/
-        } else if (name.equals("Editor uncollapsed")) {            
+        } else if (name.equals("Editor uncollapsed")) {
             // Add cards back and reposition camera.
             cards.getNode().removeFromParent();
             target = home; // Just to make sure.
@@ -464,12 +431,16 @@ public class Application implements Receiver, Originator {
             // to reposition the camera immediately. Instead schedule it to
             // happen one tenth of a second from now.
             TimerTask zoom = new TimerTask() {
-                public void run() { repositionCamera(750); }};
+
+                public void run() {
+                    repositionCamera(750);
+                }
+            };
             Timer timer = new Timer();
             timer.schedule(zoom, 100);
             // Record what time the editor was opened.
             updateEditorOpenedDate();
-        } else if (name.equals("Editor collapsed")) {            
+        } else if (name.equals("Editor collapsed")) {
             // Remove cards from scene graph and reposition camera
             home.addChild(cards.getNode());
             target = home; // Just to make sure.
@@ -477,7 +448,11 @@ public class Application implements Receiver, Originator {
             // to reposition the camera immediately. Instead schedule it to
             // happen one tenth of a second from now.
             TimerTask zoom = new TimerTask() {
-                public void run() { repositionCamera(750); }};
+
+                public void run() {
+                    repositionCamera(750);
+                }
+            };
             Timer timer = new Timer();
             timer.schedule(zoom, 100);
             // Record the duration of time that the editor was open for.
@@ -528,56 +503,56 @@ public class Application implements Receiver, Originator {
         int returnVal = fc_saveopen.showOpenDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String filename = fc_saveopen.getSelectedFile().getAbsolutePath();
-            try {                
+            try {
                 Object m = Util.deserializeObjectFromFile(filename);
                 restoreFromMemento(m);
             } catch (IOException e) {
                 // FIXME: display a friendly message to the user via the GUI,
                 // print the exception itself to stderr and log it to an errors
                 // log file.
-                String message = "IOException when trying to open story file at path: "+filename;
+                String message = "IOException when trying to open story file at path: " + filename;
                 System.out.println(message);
-                System.out.println(e);                
+                System.out.println(e);
             } catch (ClassNotFoundException e) {
                 // FIXME: display a friendly message to the user via the GUI,
                 // print the exception itself to stderr and log it to an errors
                 // log file.
-                String message = "ClassNotFoundException when trying to open story file at path: "+filename;
+                String message = "ClassNotFoundException when trying to open story file at path: " + filename;
                 System.out.println(message);
-                System.out.println(e);                
+                System.out.println(e);
             } catch (MementoException e) {
                 // FIXME: display a friendly message to the user via the GUI,
                 // print the exception itself to stderr and log it to an errors
                 // log file.
-                String message = "MementoException when trying to open story file at path: "+filename;
+                String message = "MementoException when trying to open story file at path: " + filename;
                 System.out.println(message);
-                System.out.println(e);                
-            }            
+                System.out.println(e);
+            }
         } else {
             // Open command cancelled by user.
         }
     }
-    
+
     /**
      * Save the current state of the application in the autosave dir with a
      * filename constructed from the current system time.
      */
     private void autosave() {
         String now = Util.nowStr();
-        File save = new File(autosavedir,now+".storymap");
+        File save = new File(autosavedir, now + ".storymap");
         String filename = save.getAbsolutePath();
         Memento memento = createMemento();
         try {
-            Util.serializeObjectToFile(filename,memento);
+            Util.serializeObjectToFile(filename, memento);
         } catch (IOException e) {
             // FIXME: display a friendly message to the user via the GUI, print
             // the exception itself to stderr and append it to an errors log
             // file.
-            System.out.println("Application.autosave(): IOError when writing to path: "+filename);
+            System.out.println("Application.autosave(): IOError when writing to path: " + filename);
             System.out.println(e);
         }
-    }    
-    
+    }
+
     /**
      * This method is called when the Save button is pressed.
      */
@@ -589,7 +564,7 @@ public class Application implements Receiver, Originator {
                 if (!path.endsWith(".storymap")) {
                     path = path + ".storymap";
                 }
-                Util.serializeObjectToFile(path,createMemento());
+                Util.serializeObjectToFile(path, createMemento());
             } catch (IOException e) {
                 // FIXME: display a more friendly message to the user via the
                 // GUI, print the exception itself to stderr and append it to an
@@ -601,7 +576,7 @@ public class Application implements Receiver, Originator {
             // Open command cancelled by user.
         }
     }
-    
+
     /**
      * This method is called when the "Save as HTML" button is pressed.
      */
@@ -614,7 +589,7 @@ public class Application implements Receiver, Originator {
                 if (!path.endsWith(".html")) {
                     path = path + ".html";
                 }
-                Util.writeTextToFile(html,path);
+                Util.writeTextToFile(html, path);
             } catch (IOException e) {
                 // FIXME: display a more friendly message to the user via the
                 // GUI, print the exception itself to stderr and append it to an
@@ -632,7 +607,7 @@ public class Application implements Receiver, Originator {
             // Open command cancelled by user.
         }
     }
-    
+
     /**
      * This method is called when the Print button is pressed.
      */
@@ -645,11 +620,11 @@ public class Application implements Receiver, Originator {
      */
     private void help() {
         /*JOptionPane.showMessageDialog(frame,
-                Util.readTextFromFileRelative("/HELP"),
-                "Help",
-                JOptionPane.INFORMATION_MESSAGE,
-                helpIcon);
-        */
+        Util.readTextFromFileRelative("/HELP"),
+        "Help",
+        JOptionPane.INFORMATION_MESSAGE,
+        helpIcon);
+         */
     }
 
     /**
@@ -658,56 +633,61 @@ public class Application implements Receiver, Originator {
      */
     private void about() {
         /*JOptionPane.showMessageDialog(frame,
-                Util.readTextFromFileRelative("/README"),
-                "About StoryMaps",
-                JOptionPane.INFORMATION_MESSAGE,
-                aboutIcon);*/
+        Util.readTextFromFileRelative("/README"),
+        "About StoryMaps",
+        JOptionPane.INFORMATION_MESSAGE,
+        aboutIcon);*/
     }
 
     // Methods for updating the application-open and editor-open durations.
     private void updateStoryOpenedDate() {
         date_story_opened = new Date();
-        logInfo("Reset story opened date to: "+date_story_opened);
+        Logger.getLogger(getClass().getName()).info("Reset story opened date to: " + date_story_opened);
     }
+
     private void updateStoryClosedDate() {
         date_story_closed = new Date();
-        logInfo("Updating story open duration at "+date_story_closed);
+        Logger.getLogger(getClass().getName()).info("Updating story open duration at " + date_story_closed);
         long milliseconds = date_story_closed.getTime() - date_story_opened.getTime();
         Duration d = datatypeFactory.newDuration(milliseconds);
         duration_story_open = duration_story_open.add(d);
-        logInfo("This story has now been open for: "+printDuration(duration_story_open));
+        Logger.getLogger(getClass().getName()).info("This story has now been open for: " + printDuration(duration_story_open));
     }
+
     private void updateEditorOpenedDate() {
         date_editor_opened = new Date();
-        logInfo("Reset editor opened date to "+date_editor_opened);
+        Logger.getLogger(getClass().getName()).info("Reset editor opened date to " + date_editor_opened);
     }
+
     private void updateEditorClosedDate() {
         date_editor_closed = new Date();
-        logInfo("Updating editor open duration at "+date_editor_closed);
+        Logger.getLogger(getClass().getName()).info("Updating editor open duration at " + date_editor_closed);
         long milliseconds = date_editor_closed.getTime() - date_editor_opened.getTime();
         Duration d = datatypeFactory.newDuration(milliseconds);
         duration_editor_open = duration_editor_open.add(d);
-        logInfo("For this story the editor has now been open for: "+printDuration(duration_editor_open));
+        Logger.getLogger(getClass().getName()).info("For this story the editor has now been open for: " + printDuration(duration_editor_open));
     }
+
     /**
      * Return a human readable string formatted duration.
      */
     private String printDuration(Duration d) {
-        return ""+d.getYears()+" years, "+d.getMonths()+" months, "+d.getDays()+" days, "+d.getHours()+" hours, "+d.getMinutes()+" minutes, "+d.getSeconds()+" seconds.";
+        return "" + d.getYears() + " years, " + d.getMonths() + " months, " + d.getDays() + " days, " + d.getHours() + " hours, " + d.getMinutes() + " minutes, " + d.getSeconds() + " seconds.";
 
     }
 
     // Implement Originator
     // --------------------
-    
     private static final class ApplicationMemento implements Memento {
         // Don't need to defensively copy anything because StoryMapMemento and
         // StoryCardsMemento should both be immutable.
+
         private final Memento storyCardsMemento;
         private final Memento storyMapMemento;
         private Duration duration_app_open;
         private Duration duration_editor_open;
-        ApplicationMemento (Application a) {
+
+        ApplicationMemento(Application a) {
             this.storyCardsMemento = a.cards.createMemento();
             this.storyMapMemento = a.map.createMemento();
             // Log the story open duration and reset the opened date.
@@ -721,16 +701,28 @@ public class Application implements Receiver, Originator {
             }
             this.duration_editor_open = a.duration_editor_open;
         }
-        Memento getStoryCardsMemento() { return storyCardsMemento; }
-        Memento getStoryMapMemento() { return storyMapMemento; }
-        Duration getDurationAppOpen() { return duration_app_open; }
-        Duration getDurationEditorOpen() { return duration_editor_open; }
+
+        Memento getStoryCardsMemento() {
+            return storyCardsMemento;
+        }
+
+        Memento getStoryMapMemento() {
+            return storyMapMemento;
+        }
+
+        Duration getDurationAppOpen() {
+            return duration_app_open;
+        }
+
+        Duration getDurationEditorOpen() {
+            return duration_editor_open;
+        }
     }
-    
+
     public Memento createMemento() {
         return new ApplicationMemento(this);
     }
-    
+
     /*
      * Application is different from other classes involved in the memento
      * pattern because instead of a static factory newInstanceFromMemento method
@@ -747,29 +739,29 @@ public class Application implements Receiver, Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            logThrowing("Application","restoreFromMemento",e);
+            Logger.getLogger(getClass().getName()).throwing("Application", "restoreFromMemento", e);
             throw e;
         }
         if (!(m instanceof ApplicationMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            logThrowing("Application","restoreFromMemento",e);
+            Logger.getLogger(getClass().getName()).throwing("Application", "restoreFromMemento", e);
             throw e;
         }
         ApplicationMemento am = (ApplicationMemento) m;
-        
+
         // FIXME: is this enough to really dispose of cards? Might be a memory
         // leak here.
         cards.getNode().removeFromParent();
         cards = StoryCards.newInstanceFromMemento(am.getStoryCardsMemento());
         home.addChild(cards.getNode());
-        
+
         // FIXME: is this enough to really dispose of map? Might be a memory
         // leak here.
         map.getNode().removeFromParent();
         map = StoryMap.newInstanceFromMemento(am.getStoryMapMemento());
         home.addChild(map.getNode());
-        target = home;        
+        target = home;
 
         // Restore the durations and reset the app opened date.
         duration_story_open = am.getDurationAppOpen();

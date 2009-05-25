@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.logging.Logger;
 
 /**
  * A Function is a simple immutable object that represents one of Propp's
@@ -176,13 +177,13 @@ final class Function implements Comparable, Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("Function", "newInstanceFromMemento", e);
+            Logger.getLogger(Function.class.getName()).throwing("Function", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof FunctionMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("Function", "newInstanceFromMemento", e);
+            Logger.getLogger(Function.class.getName()).throwing("Function", "newInstanceFromMemento", e);
             throw e;
         }
         FunctionMemento f = (FunctionMemento) m;

@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
 
 /**
  * Miscellaneous static utility methods.
@@ -49,7 +50,7 @@ public class Util {
         } catch (IOException e) {
             String detail = "IOException when reading-in text file from path: "+path;
             IOException ee = new IOException(detail,e);
-            Application.getInstance().logThrowing("Util", "readTextFileFromClassPath", ee);
+            Logger.getLogger(Util.class.getName()).throwing("Util", "readTextFileFromClassPath", ee);
             throw ee;
         }
         return text;
@@ -74,7 +75,7 @@ public class Util {
         } catch (IOException e) {
             String detail = "IOException when reading-in text file from path: "+path;
             IOException ee = new IOException(detail,e);
-            Application.getInstance().logThrowing("Util", "readTextFileFromSystem", ee);
+            Logger.getLogger(Util.class.getName()).throwing("Util", "readTextFileFromSystem", ee);
             throw ee;
         }
         return contents;
@@ -95,7 +96,7 @@ public class Util {
         } catch (IOException e) {
             String detail = "IOException when writing text file to path: "+absolutePath;
             IOException ee = new IOException(detail,e);
-            Application.getInstance().logThrowing("Util", "writeTextToFile", ee);
+            Logger.getLogger(Util.class.getName()).throwing("Util", "writeTextToFile", ee);
             throw ee;
         }        
     }
@@ -128,7 +129,7 @@ public class Util {
         if (imagefile == null) {
             String detail = "IOException when trying to read image from file at path: "+path;
             IOException e = new IOException(detail);
-            Application.getInstance().logThrowing("Util", "readImageIconFromClassPath", e);
+            Logger.getLogger(Util.class.getName()).throwing("Util", "readImageIconFromClassPath", e);
             throw e;
         }
         try {
@@ -136,7 +137,7 @@ public class Util {
             return new ImageIcon(image);
         } catch (IOException e) {
             String detail = "IOException when reading image from file at path: "+path;
-            Application.getInstance().logThrowing("Util", "readImageIconFromClassPath", e);
+            Logger.getLogger(Util.class.getName()).throwing("Util", "readImageIconFromClassPath", e);
             throw new IOException(detail, e);
         }
     }
@@ -152,7 +153,7 @@ public class Util {
             detail = detail +"Path: "+path+"\n";
             detail = detail +"Object: "+o;
             IOException ee = new IOException(detail,e);
-            Application.getInstance().logThrowing("Util", "serializeObjectToFile", ee);
+            Logger.getLogger(Util.class.getName()).throwing("Util", "serializeObjectToFile", ee);
             throw ee;
         }
     }
@@ -168,13 +169,13 @@ public class Util {
             String detail = "IOException when deserializing object from file.\n";
             detail = detail +"Path: "+path;
             IOException ee = new IOException(detail, e);
-            Application.getInstance().logThrowing("Util", "deserializeObjectFromFile", ee);
+            Logger.getLogger(Util.class.getName()).throwing("Util", "deserializeObjectFromFile", ee);
             throw ee;
         } catch (ClassNotFoundException e) {
             String detail = "ClassNotFoundException when deserializing object from file.\n";
             detail = detail +"Path: "+path;
             IOException ee = new IOException(detail, e);
-            Application.getInstance().logThrowing("Util", "deserializeObjectFromFile", ee);
+            Logger.getLogger(Util.class.getName()).throwing("Util", "deserializeObjectFromFile", ee);
             throw ee;
         }
         return o;

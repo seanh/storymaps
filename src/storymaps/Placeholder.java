@@ -1,6 +1,7 @@
 package storymaps;
 
 import edu.umd.cs.piccolo.PNode;
+import java.util.logging.Logger;
 
 class Placeholder implements Originator {
             
@@ -69,13 +70,13 @@ class Placeholder implements Originator {
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("Placeholder", "newInstanceFromMemento", e);
+            Logger.getLogger(Placeholder.class.getName()).throwing("Placeholder", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof PlaceholderMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("Placeholder", "newInstanceFromMemento", e);
+            Logger.getLogger(Placeholder.class.getName()).throwing("Placeholder", "newInstanceFromMemento", e);
             throw e;
         }
         PlaceholderMemento pm = (PlaceholderMemento) m;

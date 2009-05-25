@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.awt.Color;
+import java.util.logging.Logger;
 
 class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         Originator {
@@ -426,13 +427,13 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         if (m == null) {
             String detail = "Null memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("StoryMap", "newInstanceFromMemento", e);
+            Logger.getLogger(StoryMap.class.getName()).throwing("StoryMap", "newInstanceFromMemento", e);
             throw e;
         }
         if (!(m instanceof StoryMapMemento)) {
             String detail = "Wrong type of memento object.";
             MementoException e = new MementoException(detail);
-            Application.getInstance().logThrowing("StoryMap", "newInstanceFromMemento", e);
+            Logger.getLogger(StoryMap.class.getName()).throwing("StoryMap", "newInstanceFromMemento", e);
             throw e;
         }
         StoryMapMemento smm = (StoryMapMemento) m;
