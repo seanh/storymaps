@@ -185,6 +185,11 @@ class StoryEditor implements Receiver {
         nextPanel.add(Box.createVerticalGlue());
         
         JButton helpButton = new JButton("Help");
+        try {
+            helpButton.setIcon(Util.readImageIconFromClassPath("/data/icons/help.png"));
+        } catch (IOException e) {
+            Application.getInstance().logWarning("Couldn't read icon for help button. "+e.toString());
+        }
         helpButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 // Show the help dialog.
@@ -282,6 +287,11 @@ class StoryEditor implements Receiver {
         closePanel.add(next);
         closePanel.add(Box.createHorizontalGlue());
         JButton closeButton = new JButton("Close");
+        try {
+            closeButton.setIcon(Util.readImageIconFromClassPath("/data/icons/close.png"));
+        } catch (IOException e) {
+            Application.getInstance().logWarning("Couldn't read icon for close button. "+e.toString());
+        }
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 helpDialog.setVisible(false);
