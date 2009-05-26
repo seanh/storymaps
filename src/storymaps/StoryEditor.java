@@ -20,7 +20,7 @@ class StoryEditor implements Receiver {
 
     // The 'Write your Story!' button. It toggles between showing writeText and
     // planText when the editor is collapsed and uncollapsed.
-    private JButton writeButton = new JButton();
+    private JButton writeButton;
     private String writeText = "Write your Story!";
     private ImageIcon writeIcon;
     private String planText = "Go back to planning";
@@ -37,7 +37,7 @@ class StoryEditor implements Receiver {
     // story, in a CardLayout. FunctionEditors are dynamically added and removed
     // as the story map is changed.    
     private CardLayout editorsLayout = new CardLayout();    
-    private JPanel editorsPanel = new JPanel(editorsLayout);    
+    private JPanel editorsPanel = new JPanel(editorsLayout);
 
     // The title of the story. TODO: put this in topToolBar.
     private AutoSelectingTextField title = new AutoSelectingTextField("Enter your story's title here.");
@@ -91,6 +91,8 @@ class StoryEditor implements Receiver {
         topToolBar.setFloatable(false);
         topToolBar.setRollover(true);        
 
+        writeButton = new JButton();
+        writeButton.setToolTipText("Click here to start writing your story.");
         writeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 collapse();
@@ -115,6 +117,7 @@ class StoryEditor implements Receiver {
         topToolBar.add(title);
                 
         JButton sortButton = new JButton();
+        sortButton.setToolTipText("Sort your story cards into the right order.");
         sortButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Messager.getMessager().send("sort", null);
@@ -130,6 +133,7 @@ class StoryEditor implements Receiver {
     
     private JButton makePrevButton() {
         JButton prev = new JButton("Prev");
+        prev.setToolTipText("Go to the previous story card.");
         try {
             ImageIcon icon = Util.readImageIconFromClassPath("/data/icons/arrow_left.png");
             prev.setIcon(icon);
@@ -149,6 +153,7 @@ class StoryEditor implements Receiver {
     
     private JButton makeNextButton() {
         JButton next = new JButton("Next");
+        next.setToolTipText("Go to the next story card.");
         try {
             ImageIcon icon = Util.readImageIconFromClassPath("/data/icons/arrow_right.png");
             next.setIcon(icon);
