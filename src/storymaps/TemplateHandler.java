@@ -67,9 +67,11 @@ final class TemplateHandler {
         for (StoryCard c : m.getStoryCards()) {
             Map function = new HashMap();
             function.put("name", c.getFunction().getName());
+            function.put("description", c.getFunction().getDescription());
+            function.put("instructions", c.getFunction().getInstructions());
             Map storyCard = new HashMap();
             storyCard.put("Function",function);            
-            storyCard.put("text",c.getEditor().getTextAsHTML());
+            storyCard.put("text",c.getEditor().getText());
             storyCards.add(storyCard);
         }
         storyMap.put("storyCards", storyCards);
