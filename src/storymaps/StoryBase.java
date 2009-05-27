@@ -18,10 +18,13 @@ public class StoryBase implements DroppableOwner {
 
     private CentreAlignedRowsLayoutNode layout;
 
+    private PNode overlay;
+
     private Color color;
 
     public StoryBase(double width, double height, double xoffset,
-            double yoffset, Color color, double margin) {
+            double yoffset, Color color, double margin_left,
+            double margin_top, double spacing) {
 
         this.color = color;
 
@@ -32,9 +35,16 @@ public class StoryBase implements DroppableOwner {
         background.setPaint(color);
         background.setStrokePaint(color);
 
-        layout  = new CentreAlignedRowsLayoutNode(margin);
-        layout.setBounds(background.getBounds());
+        layout  = new CentreAlignedRowsLayoutNode(spacing);
+        double _width = background.getBounds().getWidth() - 2*margin_left;
+        double _height = background.getBounds().getHeight() - 2*margin_top;
+        layout.setBounds(0,0,_width,_height);
+        layout.setOffset(margin_left,margin_top);
         background.addChild(layout);
+
+        overlay = new PNode();
+        overlay.setOffset(layout.getOffset());
+        background.addChild(overlay);
 
         try {
             droppable = new Droppable(background,this);            
@@ -75,6 +85,6 @@ public class StoryBase implements DroppableOwner {
      * Add a node to the overlay.
      */
     public void addToOverlay(PNode node) {
-        background.addChild(node);
+        overlay.addChild(node);
     }
 }

@@ -19,21 +19,23 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
     
     private StoryEditor editor;
 
-    private double margin;
-    
-    public StoryMap(StoryEditor editor, double width, double height,
-            double xoffset, double yoffset, Color color, double margin) {
-        super(width, height, xoffset, yoffset, color, margin);
-        this.editor = editor;
-        this.margin = margin;
+    private static final double left_margin = 25;
+    private static final double top_margin = 23;
+    private static final double spacing = 9;
 
-        // Warning! Hardcoded the number 30, the number of story cards needed
-        // to completely fill the area of the story map given the current
-        // relative proportions of story card and story map.
+    public StoryMap(StoryEditor editor, double width, double height,
+            double xoffset, double yoffset, Color color) {
+        super(width, height, xoffset, yoffset, color, left_margin, top_margin, spacing);
+        this.editor = editor;
+
+        // Warning! Hardcoded the number of placeholders needed to completely
+        // fill the area of the story map given the current relative proportions
+        // of story card and story map.
         //
-        // Add 30 placeholders to the grid node. Keep references to all these
+        // Add n placeholders to the grid node. Keep references to all these
         // placeholders in `placeholders`.
-        for (int i = 0; i < 30; i++) {
+        int n = 18;
+        for (int i = 0; i < n; i++) {
             Placeholder p = new Placeholder();
             addToGrid(p.getNode());
             placeholders.add(p);
@@ -44,10 +46,9 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
     
     public StoryMap(StoryEditor editor, List<Placeholder> placeholders,
             double width, double height, double xoffset, double yoffset,
-            Color color, double margin) {
-        super(width, height, xoffset, yoffset, color, margin);
+            Color color) {
+        super(width, height, xoffset, yoffset, color, left_margin, top_margin, spacing);
         this.editor = editor;
-        this.margin = margin;
         for (Placeholder p : placeholders) {
             addToGrid(p.getNode());
             this.placeholders.add(p);
@@ -375,7 +376,6 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         private double yoffset;
         private double width;
         private double height;
-        private double margin;
 
         // Better defensively copy this, just in case.
         private Color color;
@@ -390,7 +390,6 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
             this.yoffset = m.getNode().getYOffset();
             this.width = m.getNode().getWidth();
             this.height = m.getNode().getHeight();
-            this.margin = m.margin;
             // Color is defensively copied for us by getColor.
             this.color = m.getColor();
         }
@@ -414,7 +413,6 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         double getYOffset() { return yoffset; }
         double getWidth() { return width; }
         double getHeight() { return height; }
-        double getMargin() { return margin; }
         Color getColor() { return new Color(color.getRed(),color.getGreen(),color.getBlue()); }
     }
     
@@ -446,7 +444,7 @@ class StoryMap extends StoryBase implements DragDropObserver, Receiver,
         }
         StoryMap storyMap = new StoryMap(editor,placeholders,smm.getWidth(),
                 smm.getHeight(),smm.getXOffset(),smm.getYOffset(),
-                smm.getColor(),smm.getMargin());
+                smm.getColor());
         editor.update(storyMap.getStoryCards());
         editor.setTitle(title);
         return storyMap;

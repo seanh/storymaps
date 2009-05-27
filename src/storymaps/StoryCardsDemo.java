@@ -29,7 +29,7 @@ public class StoryCardsDemo extends PFrame implements Receiver {
         DroppableRectangle rect = new DroppableRectangle(2000,400);
         home.addChild(rect.getNode());
                 
-        cards = new StoryCards(400, 300, 0, 0, Color.GREEN, 10);
+        cards = new StoryCards(400, 300, 0, 0, Color.GREEN);
         final PNode node = cards.getNode();        
         home.addChild(cards.getNode());
                 

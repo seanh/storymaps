@@ -361,15 +361,15 @@ public class Application implements Receiver, Originator {
         canvas.getLayer().addChild(home);
 
         double width = canvas.getBounds().getWidth();
-        double height = canvas.getBounds().getHeight();
-        double height_top_rectangle = height * 0.5;
+        double height =  canvas.getBounds().getHeight();
+        double height_top_rectangle = height * 0.58;
 
-        Color green = new Color(0.75f, 0.84f, 0.24f);
-        cards = new StoryCards(width, height_top_rectangle, 0, 0, green, 9);
+        Color green = new Color(0.75f,0.84f,0.24f);
+        cards = new StoryCards(width, height_top_rectangle, 0, 0, green);
         home.addChild(cards.getNode());
 
-        Color grey = new Color(0.66f, 0.66f, 0.68f);
-        map = new StoryMap(editor, width, height - cards.getNode().getHeight(), 0, cards.getNode().getHeight(), grey, 9);
+        Color grey = new Color(0.66f,0.66f,0.68f);
+        map = new StoryMap(editor, width, height-cards.getNode().getHeight(), 0, cards.getNode().getHeight(), grey);
         home.addChild(map.getNode());
 
         //writeStory = new WriteStoryButton();

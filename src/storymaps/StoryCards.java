@@ -38,19 +38,19 @@ import java.util.logging.Logger;
 class StoryCards extends StoryBase implements DragDropObserver, Originator {
 
     private ArrayList<DisabledStoryCard> disabled_storycards =
-            new ArrayList<DisabledStoryCard>();    
+            new ArrayList<DisabledStoryCard>();
 
-    private double margin;
+    private static final double left_margin = 25;
+    private static final double top_margin = 23;
+    private static final double spacing = 9;
 
     /**
      * Construct a new StoryCards instance and add to it a DisabledStoryCard and
      * a StoryCard for each Propp function in Function.functions.
      */
     public StoryCards(double width, double height, double xoffset,
-            double yoffset, Color color, double margin) {
-        super(width, height, xoffset, yoffset, color, margin);
-
-        this.margin = margin;
+            double yoffset, Color color) {
+        super(width, height, xoffset, yoffset, color, left_margin, top_margin, spacing);
 
         // For each Propp function, add a DisabledStoryCard to the grid node.
         // Keep references to all these DisabledStoryCards in
@@ -73,12 +73,10 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
      * DisabledStoryCard objects.
      */
     public StoryCards(double width, double height, double xoffset,
-            double yoffset, Color color, double margin,
+            double yoffset, Color color,
             List<DisabledStoryCard> disabled_storycards) {
 
-        super(width, height, xoffset, yoffset, color, margin);
-
-        this.margin = margin;
+        super(width, height, xoffset, yoffset, color, left_margin, top_margin, spacing);
 
         for (DisabledStoryCard dsc : disabled_storycards) {
             addToGrid(dsc.getNode());
@@ -218,7 +216,6 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
         private double yoffset;
         private double width;
         private double height;
-        private double margin;
 
         // Better defensively copy this, just in case.
         private Color color;
@@ -232,7 +229,6 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
             this.yoffset = c.getNode().getYOffset();
             this.width = c.getNode().getWidth();
             this.height = c.getNode().getHeight();
-            this.margin = c.margin;
             // Color is defensively copied for us by getColor.
             this.color = c.getColor();
         }
@@ -254,7 +250,6 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
         double getYOffset() { return yoffset; }
         double getWidth() { return width; }
         double getHeight() { return height; }
-        double getMargin() { return margin; }
         Color getColor() { return new Color(color.getRed(),color.getGreen(),color.getBlue()); }
     }
     
@@ -284,7 +279,7 @@ class StoryCards extends StoryBase implements DragDropObserver, Originator {
         }
         StoryCards storyCards = new StoryCards(memento.getWidth(),
                 memento.getHeight(), memento.getXOffset(), memento.getYOffset(),
-                memento.getColor(), memento.getMargin(), disabledStoryCards);
+                memento.getColor(), disabledStoryCards);
         return storyCards;
     }
 }
