@@ -4,5 +4,5 @@
         <p>${storyCard.Function.description}</p>
         <p>${storyCard.Function.instructions}</p>
     </div>
-    <textarea style="width:90%; height:20em; border: thin dashed black; display:block; margin-left:auto; margin-right:auto;">${storyCard.text}</textarea>
+    <p style="width:90%; min-height:20em; border: thin dashed black; display:block; margin-left:auto; margin-right:auto;">${storyCard.text}</p>
 </div>
