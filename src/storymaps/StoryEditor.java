@@ -241,9 +241,10 @@ class StoryEditor implements Receiver {
         bottomToolBar.setFloatable(false);
         bottomToolBar.setRollover(true);
 
+        /* Cut, Copy, Paste buttons disabled.
         addButton("Cut","/data/icons/cut.png",new DefaultEditorKit.CutAction(),bottomToolBar);
         addButton("Copy","/data/icons/copy.png",new DefaultEditorKit.CopyAction(),bottomToolBar);
-        addButton("Paste","/data/icons/paste.png",new DefaultEditorKit.PasteAction(),bottomToolBar);
+        addButton("Paste","/data/icons/paste.png",new DefaultEditorKit.PasteAction(),bottomToolBar);*/
         
         bottomToolBar.add(new JSeparator(SwingConstants.VERTICAL));
 

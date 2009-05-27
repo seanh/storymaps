@@ -65,7 +65,7 @@ class StoryCard extends StoryCardBase implements Receiver,
             }
         });
         
-        editor = new FunctionEditor(function,text);
+        editor = new FunctionEditor(this,text);
         
         try {
             draggable = new Draggable(getNode());

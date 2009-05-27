@@ -3,10 +3,8 @@ package storymaps;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import storymaps.ui.Fonts;
-
-import java.io.IOException;
-import java.util.logging.Logger;
 
 /** 
  * 
@@ -28,20 +26,20 @@ class FunctionEditor {
     /**
      * The root JPanel of this function editor.
      */
-    private JPanel editorPanel;
+    private JComponent editorPanel;
     
     /**
      * The text editor where the user enters her text for this Propp function.
      */
     private JTextArea editor;
     
-    FunctionEditor(Function function) {
-        this(function,"");
+    FunctionEditor(StoryCard s) {
+        this(s,"");
     }
       
-    FunctionEditor(Function function, String text) {
-        this.function = function;
-        editorPanel = makeEditorPanel(text);
+    FunctionEditor(StoryCard s, String text) {
+        this.function = s.getFunction();
+        editorPanel = makeEditorPanel(s,text);
     }
 
     private JLabel makeName() {
@@ -85,56 +83,36 @@ class FunctionEditor {
         return instructions;
     }
         
-    private JPanel makeEditorPanel(String text) {
-        JPanel editorPanel = new JPanel(); // Hiding a field.
-        editorPanel.setLayout(new BoxLayout(editorPanel,BoxLayout.Y_AXIS));
-        
-        JLabel name = makeName();
-        name.setAlignmentX(Component.LEFT_ALIGNMENT);
-        editorPanel.add(name);                
-        
-        JPanel panel = new JPanel();        
-        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
-        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panel.setBackground(editorPanel.getBackground());
-        JLabel image = makeImage();
-        image.setAlignmentY(Component.TOP_ALIGNMENT);
-        panel.add(image);
-
-        JPanel anotherPanel = new JPanel();
-        anotherPanel.setLayout(new BoxLayout(anotherPanel,BoxLayout.Y_AXIS));
-        anotherPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-        
-        JEditorPane description = makeDescription(editorPanel.getBackground());
-        description.setAlignmentX(Component.LEFT_ALIGNMENT);
-        anotherPanel.add(description);
-        
-        JButton helpButton = new JButton("Help");
-        helpButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        try {
-            helpButton.setIcon(Util.readImageIconFromClassPath("/data/icons/help.png"));
-        } catch (IOException e) {
-            Logger.getLogger(getClass().getName()).warning("Couldn't read icon for help button. "+e.toString());
-        }
-        helpButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                // Show the help dialog.
-                Messager.getMessager().send(HELP_MESSAGE,this);
-            }
-        });
-        helpButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        anotherPanel.add(helpButton);
-
-        
-        panel.add(anotherPanel);
-        editorPanel.add(panel);
-
+    private JComponent makeEditorPanel(StoryCard s, String text) {
         editor = makeEditor(text);
-        JScrollPane editorScrollPane = new JScrollPane(editor);
-        editorScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-        editorPanel.add(editorScrollPane);
-        
-        return editorPanel;
+
+        JPanel editorPanel = new JPanel(); // Hiding a field.
+        editorPanel.setLayout(new BoxLayout(editorPanel,BoxLayout.X_AXIS));
+
+        JLabel storyCard = new JLabel(new ImageIcon(s.getNode().toImage()));
+        storyCard.setAlignmentY(Component.TOP_ALIGNMENT);
+        editorPanel.add(storyCard);
+
+        JPanel innerPanel = new JPanel();
+        innerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        innerPanel.setLayout(new BoxLayout(innerPanel,BoxLayout.Y_AXIS));
+                
+        JEditorPane description = makeDescription(innerPanel.getBackground());
+        description.setAlignmentX(Component.LEFT_ALIGNMENT);
+        innerPanel.add(description);
+
+        JEditorPane instructions = makeInstructions(innerPanel.getBackground());
+        instructions.setAlignmentX(Component.LEFT_ALIGNMENT);
+        innerPanel.add(instructions);
+
+        editorPanel.add(innerPanel);
+
+        JScrollPane scrollPane = new JScrollPane(editorPanel);
+        Border title = BorderFactory.createTitledBorder(function.getName());
+        Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
+        scrollPane.setBorder(BorderFactory.createCompoundBorder(title,empty));
+
+        return scrollPane;
     }
     
     JPanel makeHelpPanel() {                                        
