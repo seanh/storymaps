@@ -201,7 +201,7 @@
 
         {
             "number": 14,
-            "name": "The Magic Thing",
+            "name": "Magic",
             "description": "The <b>HERO</b> gets a <b>MAGIC THING</b>.",
             "instructions":
                 "<p>The <b>MAGIC THING</b> could be: </p> \
@@ -276,7 +276,7 @@
 
     {
         "number": 20,
-        "name": "Return or Escape",
+        "name": "Return",
         "description": "The <b>HERO</b> sets out to return home or escapes from the <b>VILLAIN</b>.",
         "instructions":
             ""

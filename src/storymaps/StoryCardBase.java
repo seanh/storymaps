@@ -73,55 +73,67 @@ abstract class StoryCardBase {
         root.setPickable(true);
         root.setBounds(card.getBounds());
 
-        highDetailNode = new VerticalLayoutNode(5);
+        makeLowDetailNode();
+        makeHighDetailNode();
+
+        goToLowDetail();
+    }
+
+    // Makes the PNode that is shown on the card when it's in low detail.
+    private PNode makeLowDetailNode() {
         lowDetailNode = new VerticalLayoutNode(5);
-        lowDetailNode.setScale(.8);
         lowDetailNode.setOffset(
-                -0.5*card.getWidth()+0.05*card.getWidth(),
-                -0.5*card.getHeight()+0.05*card.getHeight());
-        highDetailNode.setScale(.8);
-        highDetailNode.setOffset(
                 -0.5*card.getWidth()+0.05*card.getWidth(),
                 -0.5*card.getHeight()+0.05*card.getHeight());
 
         PImage lowDetailImage = new PImage(function.getImage());
-        lowDetailImage.setScale(.98);
+        lowDetailImage.setScale(.85);
         lowDetailNode.addChild(lowDetailImage);
-
-        PImage highDetailImage = new PImage(function.getImage());        
-        highDetailImage.setScale(.98);
-        highDetailNode.addChild(highDetailImage);
-
-        HTMLNode descriptionNode = new HTMLNode(function.getDescription());
-        descriptionNode.setBounds(0,0,2*card.getWidth(),card.getHeight());
-        descriptionNode.setFont(Fonts.NORMAL);
-        descriptionNode.scale(.5);
-        highDetailNode.addChild(descriptionNode);
 
         PText lowDetailTitle = makeTitleNode();
         lowDetailTitle.setOffset(0,0);
+        lowDetailTitle.setBounds(0,0,card.getWidth(),0);
+        lowDetailTitle.setScale(1);
         lowDetailNode.addChild(lowDetailTitle);
+        
+        lowDetailNode.setPickable(false);
+        lowDetailNode.setChildrenPickable(false);
+        return lowDetailNode;
+    }
+
+    private PNode makeHighDetailNode() {
+        highDetailNode = new VerticalLayoutNode(5);
+        highDetailNode.setOffset(
+                -0.5*card.getWidth()+0.05*card.getWidth(),
+                -0.5*card.getHeight()+0.05*card.getHeight());
+
+        PImage highDetailImage = new PImage(function.getImage());
+        highDetailImage.setScale(.6);
+        highDetailNode.addChild(highDetailImage);
+
+        HTMLNode descriptionNode = new HTMLNode(function.getDescription());
+        double scale = .6;
+        double width = (1/scale)*card.getWidth();
+        double margin = width * 0.04;
+        descriptionNode.setBounds(0,0,width-margin,(1/scale)*card.getHeight());
+        descriptionNode.setScale(scale);        
+        descriptionNode.setFont(Fonts.NORMAL);
+        highDetailNode.addChild(descriptionNode);
 
         //PText highDetailTitle = makeTitleNode();
         //highDetailNode.addChild(highDetailTitle);
-
-        lowDetailNode.setPickable(false);
-        lowDetailNode.setChildrenPickable(false);
         highDetailNode.setPickable(false);
         highDetailNode.setChildrenPickable(false);
-        
-        goToLowDetail();
+        return highDetailNode;
     }
 
     private PText makeTitleNode() {
-        PText titleNode = new PText(function.getName());        
-        // The font size is really set by the scale of the node, not by font.        
-        titleNode.setFont(Fonts.SMALL);
+        PText titleNode = new PText(function.getName());            
+        titleNode.setFont(Fonts.NORMAL);
         titleNode.setConstrainWidthToTextWidth(false);
         // Uncomment this line to clip the text if its height goes beyond the
         // bounds.
         //titleNode.setConstrainHeightToTextHeight(false);
-        titleNode.setBounds(0, 0, 70, 10);
         return titleNode;
     }
                
