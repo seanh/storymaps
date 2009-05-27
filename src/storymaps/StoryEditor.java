@@ -44,18 +44,11 @@ class StoryEditor implements Receiver {
     
     // The JFrame in which this StoryEditor will be used.
     private JFrame frame;
-        
-    // The help dialog. Contains help panels for each Propp function in the
-    // story in a CardLayout and is syncehd with the editorsPanel CardLayout.
-    private JDialog helpDialog;
-    private CardLayout helpLayout = new CardLayout();
-    private JPanel helpPanel = new JPanel(helpLayout);
-    
+            
     private JToolBar bottomToolBar;    
 
     StoryEditor (JFrame frame) {
         this.frame = frame;
-        helpDialog = new JDialog(frame,"Help");
         makeRootPanel();
     }
     
@@ -81,9 +74,6 @@ class StoryEditor implements Receiver {
         collapsiblePanel.add(bottomToolBar,BorderLayout.SOUTH);
         
         Messager.getMessager().accept("button clicked",this,null);
-        Messager.getMessager().accept(FunctionEditor.HELP_MESSAGE,this,null);
-        
-        makeHelpDialog();
     }
     
     private JToolBar makeTopToolBar() {
@@ -145,7 +135,6 @@ class StoryEditor implements Receiver {
         prev.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 editorsLayout.previous(editorsPanel);
-                helpLayout.previous(helpPanel);
             }
         });
         return prev;
@@ -165,7 +154,6 @@ class StoryEditor implements Receiver {
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 editorsLayout.next(editorsPanel);
-                helpLayout.next(helpPanel);
             }
         });
         return next;
@@ -241,10 +229,9 @@ class StoryEditor implements Receiver {
         bottomToolBar.setFloatable(false);
         bottomToolBar.setRollover(true);
 
-        /* Cut, Copy, Paste buttons disabled.
         addButton("Cut","/data/icons/cut.png",new DefaultEditorKit.CutAction(),bottomToolBar);
         addButton("Copy","/data/icons/copy.png",new DefaultEditorKit.CopyAction(),bottomToolBar);
-        addButton("Paste","/data/icons/paste.png",new DefaultEditorKit.PasteAction(),bottomToolBar);*/
+        addButton("Paste","/data/icons/paste.png",new DefaultEditorKit.PasteAction(),bottomToolBar);
         
         bottomToolBar.add(new JSeparator(SwingConstants.VERTICAL));
 
@@ -262,39 +249,7 @@ class StoryEditor implements Receiver {
             }
         });
     }
-    
-    private void makeHelpDialog() {                        
-        Container dialogContentPane = helpDialog.getContentPane();
-        dialogContentPane.setLayout(new BorderLayout());
-        dialogContentPane.add(helpPanel,BorderLayout.CENTER);
-        
-        JPanel closePanel = new JPanel();
-        closePanel.setLayout(new BoxLayout(closePanel,BoxLayout.X_AXIS));
-        JButton prev = makePrevButton();
-        prev.setAlignmentX(Component.LEFT_ALIGNMENT);
-        closePanel.add(prev);
-        JButton next = makeNextButton();
-        next.setAlignmentX(Component.LEFT_ALIGNMENT);
-        closePanel.add(next);
-        closePanel.add(Box.createHorizontalGlue());
-        JButton closeButton = new JButton("Close");
-        try {
-            closeButton.setIcon(Util.readImageIconFromClassPath("/data/icons/close.png"));
-        } catch (IOException e) {
-            Logger.getLogger(getClass().getName()).warning("Couldn't read icon for close button. "+e.toString());
-        }
-        closeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                helpDialog.setVisible(false);
-                helpDialog.dispose();
-            }
-        });
-        closeButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        closePanel.add(closeButton);
-        closePanel.setBorder(BorderFactory.createEmptyBorder(0,0,5,5));
-        dialogContentPane.add(closePanel,BorderLayout.SOUTH);
-    }    
-            
+                
     private void collapse() {
         if (collapsed) {
             collapsed = false;
@@ -322,13 +277,11 @@ class StoryEditor implements Receiver {
      */
     public void update(ArrayList<StoryCard> new_cards) {
         editorsPanel.removeAll();
-        helpPanel.removeAll();
         for (StoryCard s : new_cards) {
             FunctionEditor e = s.getEditor();
             // FIXME: this might cause a problem if we can have two story cards
             // with the same name.
             editorsPanel.add(e.getComponent(),e.getFunction().getName());
-            helpPanel.add(e.makeHelpPanel(),e.getFunction().getName());
         }
     }
         
@@ -357,10 +310,6 @@ class StoryEditor implements Receiver {
             if ( ((String)sender_arg).equals("Write Story") ) {
                 collapse();
             }
-        } else if (name.equals(FunctionEditor.HELP_MESSAGE)) {
-            helpDialog.setSize(new Dimension(400, 550));
-            helpDialog.setLocationRelativeTo(frame);
-            helpDialog.setVisible(true);
         }
     }
 }

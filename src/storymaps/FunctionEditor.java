@@ -13,12 +13,6 @@ import storymaps.ui.Fonts;
 class FunctionEditor {
 
     /**
-     * Message that FunctionEditor sends via Messager when helpButton is
-     * pressed.
-     */
-    static final String HELP_MESSAGE = "FunctionEditor.HELP_MESSAGE";
-
-    /**
      * The Propp function that this FunctionEditor represents.
      */
     private Function function;
@@ -64,7 +58,9 @@ class FunctionEditor {
     }
     
     private JTextArea makeEditor(String text) {
-        JTextArea editor = new JTextArea(6,30); // Hiding a field.
+        JTextArea editor = new JTextArea(); // Hiding a field.
+        editor.setRows(8);
+        editor.setMaximumSize(new Dimension(700,100));
         editor.setLineWrap(true);
         editor.setWrapStyleWord(true);
         editor.setText(text);
@@ -84,8 +80,6 @@ class FunctionEditor {
     }
         
     private JComponent makeEditorPanel(StoryCard s, String text) {
-        editor = makeEditor(text);
-
         JPanel editorPanel = new JPanel(); // Hiding a field.
         editorPanel.setLayout(new BoxLayout(editorPanel,BoxLayout.X_AXIS));
 
@@ -96,7 +90,8 @@ class FunctionEditor {
         JPanel innerPanel = new JPanel();
         innerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         innerPanel.setLayout(new BoxLayout(innerPanel,BoxLayout.Y_AXIS));
-                
+        innerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
         JEditorPane description = makeDescription(innerPanel.getBackground());
         description.setAlignmentX(Component.LEFT_ALIGNMENT);
         innerPanel.add(description);
@@ -104,6 +99,10 @@ class FunctionEditor {
         JEditorPane instructions = makeInstructions(innerPanel.getBackground());
         instructions.setAlignmentX(Component.LEFT_ALIGNMENT);
         innerPanel.add(instructions);
+
+        editor = makeEditor(text);
+        editor.setAlignmentX(Component.LEFT_ALIGNMENT);
+        innerPanel.add(editor);
 
         editorPanel.add(innerPanel);
 
@@ -114,22 +113,7 @@ class FunctionEditor {
 
         return scrollPane;
     }
-    
-    JPanel makeHelpPanel() {                                        
-        JPanel helpPanel = new JPanel(new BorderLayout());
-        helpPanel.add(makeName(),BorderLayout.PAGE_START);
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel,BoxLayout.Y_AXIS));
-        centerPanel.add(makeImage());
-        JEditorPane instructions = makeInstructions(centerPanel.getBackground());
-        JScrollPane scrollPane = new JScrollPane(instructions);
-        scrollPane.setBorder(null);
-        centerPanel.add(scrollPane);
-        helpPanel.add(centerPanel,BorderLayout.CENTER);
-        helpPanel.setOpaque(true);
-        return helpPanel;        
-    }
-                
+                    
     public JComponent getComponent() {
         return editorPanel;
     }
