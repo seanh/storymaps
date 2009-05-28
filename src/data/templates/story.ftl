@@ -147,8 +147,7 @@ div.footer-right {
                         <#include "storycard.ftl">
                 </#list>
 
-                <div id="readFooter">
-                </div>
+                <div id="readFooter">The End</div>
         
         </div><!--readInner-->
 </div><!--readOverlay-->
