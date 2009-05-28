@@ -32,15 +32,14 @@
 	color: blue;
 	text-decoration: underline;
 }
-#readInner * {
+#readInner p {
 	margin-bottom: 16px;
-	border: none;
-	background: none;
 }
 #readInner img {
 	float: left;
 	margin-right: 12px;
 	margin-bottom: 12px;
+	border: none;
 }
 #readInner h1 {
 	display: block;
@@ -128,6 +127,17 @@ div.footer-right {
 }
 
 /* ---------------- STORY MAP-SPECIFIC STYLES ------------------ */
+.storycard {
+        page-break-inside:avoid;
+}
+.usertext {
+        width:95%;
+        min-height:20em;
+        border: thin dashed black;
+        display:block;
+        margin-left:auto;
+        margin-right:auto;
+}
 
 </style>
 <style type="text/css" media=print>
