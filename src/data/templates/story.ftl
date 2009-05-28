@@ -129,14 +129,20 @@ div.footer-right {
 /* ---------------- STORY MAP-SPECIFIC STYLES ------------------ */
 .storycard {
         page-break-inside:avoid;
+        border: thin dashed black;
+        margin-bottom:3em;
+        padding:1em;
+        padding-top:0;
+}
+.function {
+        border-bottom: thin solid black;
+}
+.function_description, .function_instructions {
+        font-style:italic;
 }
 .usertext {
         width:95%;
         min-height:20em;
-        border: thin dashed black;
-        display:block;
-        margin-left:auto;
-        margin-right:auto;
 }
 
 </style>
