@@ -18,6 +18,8 @@ import javax.xml.datatype.Duration;
 import java.util.Date;
 import javax.xml.datatype.DatatypeFactory;
 import java.util.logging.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 /**
  * This is the main class of the StoryMaps application. It constructs the GUI
@@ -584,12 +586,28 @@ public class Application implements Receiver, Originator {
         int returnVal = fc_export.showSaveDialog(frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
-                String html = TemplateHandler.getInstance().renderStoryMap(map);
+                
                 String path = fc_export.getSelectedFile().getAbsolutePath();
                 if (!path.endsWith(".html")) {
                     path = path + ".html";
-                }
+                }                
+                File parentDir = fc_export.getSelectedFile().getParentFile();
+                String fileName = fc_export.getSelectedFile().getName();
+                String filesDir = fileName+"_files";
+                File filesPath = new File(parentDir,filesDir);
+                filesPath.mkdirs();
+                String html = TemplateHandler.getInstance().renderStoryMap(map,filesDir);
                 Util.writeTextToFile(html, path);
+                for (int i=0; i < map.getStoryCards().size(); i++) {
+                    StoryCard s = map.getStoryCards().get(i);
+                    try {
+                        BufferedImage bi = Util.toBufferedImage(s.getNode().toImage());
+                        File outputfile = new File(filesPath,""+i+"_"+s.getTitle()+".png");
+                        ImageIO.write(bi, "png", outputfile);
+                    } catch (IOException e) {
+                        Logger.getLogger(getClass().getName()).info("IOException when exporting story card image to file." + e.toString());
+                    }
+                }
             } catch (IOException e) {
                 // FIXME: display a more friendly message to the user via the
                 // GUI, print the exception itself to stderr and append it to an

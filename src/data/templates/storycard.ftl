@@ -1,8 +1,9 @@
 <div class="storycard">
-    <div class="function">
-        <h2 class="function_name">${storyCard.Function.name}</h2>
-        <p class="function_description">${storyCard.Function.description}</p>
-        <div class="function_instructions">${storyCard.Function.instructions}</div>
+    <img src="${StoryMap.files}/${storyCard.number}_${storyCard.Function.name}.png" />
+    <div style="float:left;">
+        <h2 style="margin-top:0;">${storyCard.Function.name}</h2>
+        <p>${storyCard.Function.description}</p>
+        <div>${storyCard.Function.instructions}</div>
     </div>
-    <div class="usertext">${storyCard.text}</div>
+    <div style="clear:both; min-height:20em; border-top:thin solid black;">${storyCard.text}</div>
 </div>

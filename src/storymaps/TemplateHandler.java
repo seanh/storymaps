@@ -58,18 +58,21 @@ final class TemplateHandler {
      * @param m The StoryMap to be rendered
      * @return The rendered StoryMap (String)
      */
-    String renderStoryMap(StoryMap m) throws IOException, TemplateHandlerException {
+    String renderStoryMap(StoryMap m, String files) throws IOException, TemplateHandlerException {
         Map root = new HashMap();
         Map storyMap = new HashMap();
         root.put("StoryMap", storyMap);
         storyMap.put("title", m.getEditor().getTitle());
+        storyMap.put("files", files);
         List storyCards = new ArrayList<Map>();
-        for (StoryCard c : m.getStoryCards()) {
+        for (int i=0; i<m.getStoryCards().size(); i++) {
+            StoryCard c = m.getStoryCards().get(i);
             Map function = new HashMap();
             function.put("name", c.getFunction().getName());
             function.put("description", c.getFunction().getDescription());
             function.put("instructions", c.getFunction().getInstructions());
             Map storyCard = new HashMap();
+            storyCard.put("number",i);
             storyCard.put("Function",function);            
             storyCard.put("text",c.getEditor().getTextAsHTML());
             storyCards.add(storyCard);

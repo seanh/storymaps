@@ -132,19 +132,7 @@ div.footer-right {
         border: thin dashed black;
         margin-bottom:3em;
         padding:1em;
-        padding-top:0;
 }
-.function {
-        border-bottom: thin solid black;
-}
-.function_description, .function_instructions {
-        font-style:italic;
-}
-.usertext {
-        width:95%;
-        min-height:20em;
-}
-
 </style>
 <style type="text/css" media=print>
 #readInner {
