@@ -133,23 +133,11 @@ class FunctionEditor {
      * 
      */
     public String getTextAsHTML() {
-        // FIXME: this closes a paragraph at points where it should just put a
-        // <br/> (when the user has manually gone onto the next line, but has
-        // not left an empty line).
         String plainText = editor.getText();
         String html = "";
-        int mode = 0;
-        for (String part : plainText.split("\n")) {
-            if (mode == 0) {
-                html = html + "<p>";
-                mode = 1;
-            } else if (mode == 1) {
-                html = html + "</p> <p>";
-                mode = 0;
-            }
-            html = html + part;
+        for (String paragraph : plainText.split("\n\n")) {
+            html = html + "<p>" + paragraph.replace("\n", "<br/>") + "</p>";
         }
-        html = html + "</p>";
         return html;
     }
     
