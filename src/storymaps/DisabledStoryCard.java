@@ -29,8 +29,6 @@ class DisabledStoryCard extends StoryCardBase implements Originator {
         getNode().addAttribute("DisabledStoryCard",this);
         float t = .4f;
         getNode().setTransparency(t);
-        shadow.setVisible(false);
-        //getNode().setVisible(false);
         for (int i = 0; i < getNode().getChildrenCount(); i++) {
             PNode child = getNode().getChild(i);
             child.setTransparency(t);
@@ -43,7 +41,7 @@ class DisabledStoryCard extends StoryCardBase implements Originator {
                     // button send the "StoryCard double-clicked" message.
                     Messager m = Messager.getMessager();
                     m.send("StoryCard double-clicked", DisabledStoryCard.this);                
-                    goToHighDetail();
+                    //goToHighDetail();
                     event.setHandled(true);
                 }
             }
