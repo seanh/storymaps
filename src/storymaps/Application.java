@@ -1,25 +1,21 @@
 package storymaps;
 
-import edu.umd.cs.piccolo.PCamera;
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import java.awt.*;
-import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.Duration;
 import java.util.Date;
 import javax.xml.datatype.DatatypeFactory;
 import java.util.logging.*;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
+import java.awt.event.*;
+import edu.umd.cs.piccolo.*;
+import edu.umd.cs.piccolo.nodes.*;
+import edu.umd.cs.piccolo.event.*;
 
 /**
  * This is the main class of the StoryMaps application. It constructs the GUI
@@ -67,10 +63,6 @@ public class Application implements Receiver, Originator {
      */
     final JFileChooser fc_saveopen;
     /**
-     * The file chooser used for exporting stories.
-     */
-    final JFileChooser fc_export;
-    /**
      * Icon for the toolbar.
      */
     private ImageIcon aboutIcon;
@@ -82,6 +74,8 @@ public class Application implements Receiver, Originator {
      * The directory that autosave files will be saved to.
      */
     private File autosavedir;
+
+    final private PreviewDialog previewDialog;
 
     // Fields used for logging the duration of time that the editor is opened
     // for.
@@ -132,7 +126,7 @@ public class Application implements Receiver, Originator {
      */
     private static void export_functions_as_html(String path) {
         try {
-            String html = TemplateHandler.getInstance().renderFunctions();
+            String html = new TemplateHandler().renderFunctions();
             Util.writeTextToFile(html, path);
         } catch (IOException e) {
             System.out.println(e);
@@ -188,7 +182,6 @@ public class Application implements Receiver, Originator {
                 return "Storymap files";
             }
         });
-        fc_export = new JFileChooser();
 
         // Start a task that autosaves every 60 seconds.
         TimerTask autoSave = new TimerTask() {
@@ -222,6 +215,8 @@ public class Application implements Receiver, Originator {
         duration_editor_open = datatypeFactory.newDuration(true, 0, 0, 0, 0, 0, 0);
 
         makeFrame();
+
+        previewDialog = new PreviewDialog(frame);
     }
 
     /**
@@ -336,7 +331,6 @@ public class Application implements Receiver, Originator {
                 open();
             }
         });
-        fileMenu.addSeparator();
         JMenuItem saveItem = new JMenuItem("Save Your Story");
         fileMenu.add(saveItem);
         saveItem.addActionListener(new ActionListener() {
@@ -345,12 +339,26 @@ public class Application implements Receiver, Originator {
                 save();
             }
         });
-        JMenuItem exportItem = new JMenuItem("Export Your Story as HTML");
+        fileMenu.addSeparator();
+        JMenuItem previewItem = new JMenuItem("Preview Your Story");
+        fileMenu.add(previewItem);
+        previewItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                preview();
+            }
+        });
+        JMenuItem exportItem = new JMenuItem("Save Your Story as HTML");
         fileMenu.add(exportItem);
         exportItem.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
                 saveAsHTML();
+            }
+        });
+        JMenuItem printItem = new JMenuItem("Print Your Story");
+        fileMenu.add(printItem);
+        printItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                print();
             }
         });
     }
@@ -373,7 +381,7 @@ public class Application implements Receiver, Originator {
         Color grey = new Color(0.66f,0.66f,0.68f);
         map = new StoryMap(editor, width, height-cards.getNode().getHeight(), 0, cards.getNode().getHeight(), grey);
         home.addChild(map.getNode());
-
+        
         //writeStory = new WriteStoryButton();
         //second_home.addChild(writeStory);
 
@@ -579,57 +587,16 @@ public class Application implements Receiver, Originator {
         }
     }
 
-    /**
-     * This method is called when the "Save as HTML" button is pressed.
-     */
     void saveAsHTML() {
-        int returnVal = fc_export.showSaveDialog(frame);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                
-                String path = fc_export.getSelectedFile().getAbsolutePath();
-                if (!path.endsWith(".html")) {
-                    path = path + ".html";
-                }                
-                File parentDir = fc_export.getSelectedFile().getParentFile();
-                String fileName = fc_export.getSelectedFile().getName();
-                String filesDir = fileName+"_files";
-                File filesPath = new File(parentDir,filesDir);
-                filesPath.mkdirs();
-                String html = TemplateHandler.getInstance().renderStoryMap(map,filesDir);
-                Util.writeTextToFile(html, path);
-                for (int i=0; i < map.getStoryCards().size(); i++) {
-                    StoryCard s = map.getStoryCards().get(i);
-                    try {
-                        BufferedImage bi = Util.toBufferedImage(s.getNode().toImage());
-                        File outputfile = new File(filesPath,""+i+"_"+s.getTitle()+".png");
-                        ImageIO.write(bi, "png", outputfile);
-                    } catch (IOException e) {
-                        Logger.getLogger(getClass().getName()).info("IOException when exporting story card image to file." + e.toString());
-                    }
-                }
-            } catch (IOException e) {
-                // FIXME: display a more friendly message to the user via the
-                // GUI, print the exception itself to stderr and append it to an
-                // errors log file.
-                System.out.println("IOException when saving story as HTML");
-                System.out.println(e);
-            } catch (TemplateHandlerException e) {
-                // FIXME: display a more friendly message to the user via the
-                // GUI, print the exception itself to stderr and append it to an
-                // errors log file.
-                System.out.println("TemplateHandlerException when saving story as HTML");
-                System.out.println(e);
-            }
-        } else {
-            // Open command cancelled by user.
-        }
+        previewDialog.saveAsHTML(map);
     }
 
-    /**
-     * This method is called when the Print button is pressed.
-     */
-    private void print() {
+    void print() {
+        previewDialog.print(map);
+    }
+
+    void preview() {
+        previewDialog.show(map);
     }
 
     /**

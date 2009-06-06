@@ -235,17 +235,28 @@ class StoryEditor implements Receiver {
         
         bottomToolBar.add(new JSeparator(SwingConstants.VERTICAL));
 
-        JButton exportButton = addButton("Export Story as HTML", "/data/icons/save_as_html.png",bottomToolBar);
-        exportButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Application.getInstance().saveAsHTML();
-            }
-        });        
-        
         JButton saveButton = addButton("Save Story","/data/icons/save.png",bottomToolBar);
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Application.getInstance().save();
+            }
+        });
+        JButton previewButton = addButton("Preview Story","/data/icons/preview.png",bottomToolBar);
+        previewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Application.getInstance().preview();
+            }
+        });
+        JButton exportButton = addButton("Save Story as HTML", "/data/icons/save_as_html.png",bottomToolBar);
+        exportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Application.getInstance().saveAsHTML();
+            }
+        });
+        JButton printButton = addButton("Print Story","/data/icons/print.png",bottomToolBar);
+        printButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Application.getInstance().print();
             }
         });
     }

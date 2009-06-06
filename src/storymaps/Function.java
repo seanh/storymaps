@@ -51,7 +51,8 @@ final class Function implements Comparable, Originator {
      * HTML-formatted.
      */
     private final String instructions;
-    
+
+    private final String imageFilename;
     private final String imagePath;
     private final Image image;
     
@@ -96,7 +97,9 @@ final class Function implements Comparable, Originator {
         this.name = name;
         this.description = description;
         this.instructions = instructions;
-        this.imagePath = "/data/functions/"+number+".svg-512.png";
+        this.imageFilename  = number+".svg-512.png";
+        this.imagePath = "/data/functions/"+imageFilename;
+        System.out.println(imagePath);
         try {
             this.image = Util.readImageFromClassPath(imagePath);
         } catch (IOException e) {
@@ -111,6 +114,7 @@ final class Function implements Comparable, Originator {
     public String getDescription() { return description; }
     public String getInstructions() { return instructions; }
     public Image getImage() { return image; }
+    public String getImageFilename() { return imageFilename; }
     public String getImagePath() { return imagePath; }
     
     @Override

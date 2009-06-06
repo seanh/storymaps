@@ -4,7 +4,6 @@ import freemarker.template.*;
 import java.io.*;
 import java.util.*;
 
-
 /**
  * If FreeMarker throws its TemplateException then we wrap it in one of these
  * and throw it on.
@@ -16,8 +15,9 @@ class TemplateHandlerException extends Exception {
         super(detail,e);
     }
 }
+
 /**
- * Singleton that handles templating via FreeMarker.
+ * Class that handles templating via FreeMarker.
  * 
  * @author seanh
  */
@@ -26,44 +26,59 @@ final class TemplateHandler {
     /**
      * The FreeMarker configuration instance.
      */
-    private static final Configuration cfg = new Configuration();    
-    
-    /**
-     * The Singleton instance of this class.
-     */
-    private static TemplateHandler INSTANCE = null;
-    
-    /**
-     * Return the singleton instance of this class.
-     */
-    static TemplateHandler getInstance() throws IOException {
-        if (INSTANCE == null) {
-             INSTANCE = new TemplateHandler();
-        }
-        return INSTANCE;
-    }
+    private final Configuration cfg = new Configuration();
 
     /**
-     * Private constructor prevents instantiation from outside this class.
+     * Construct a new TemplateHandler instance using the default templates
+     * directory.
+     *
+     * @throws java.io.IOException
      */
-    private TemplateHandler() throws IOException {
-        cfg.setClassForTemplateLoading(Util.class, "/data/templates");
-        cfg.setObjectWrapper(new DefaultObjectWrapper());            
+    TemplateHandler() {
+        this("/data/templates");
     }
-    
+
+    TemplateHandler(String templateDir) {
+        cfg.setClassForTemplateLoading(Util.class, templateDir);
+        cfg.setObjectWrapper(new DefaultObjectWrapper());
+    }
+
+    String renderMap(Map m, String template_filename) throws IOException, TemplateHandlerException {
+        Template temp = null;
+        try {
+            temp = cfg.getTemplate(template_filename);
+        } catch (IOException e) {
+            throw new IOException("IOException when configuring template "+template_filename,e);
+        }
+        StringWriter out = new StringWriter();
+        try {
+            temp.process(m,out);
+        } catch (TemplateException e) {
+            String detail = "FreeMarker TemplateException when rendering template "+template_filename+" with contents "+m;
+            throw new TemplateHandlerException(detail, e);
+        } catch (IOException e) {
+            throw new IOException("IOException when rendering template "+template_filename+" with contents "+m,e);
+        }
+        out.flush();
+        return out.toString();
+    }
+
+    // FIXME: This method seems like it belong in the StoryMap class. Perhaps it
+    // could be combined with the Memento pattern.
     /**
-     * Render a StoryMap instance using the story.ftl template and return the
-     * result.
+     * Render a StoryMap rendered as HTML.
      * 
      * @param m The StoryMap to be rendered
+     * @param files_dir The path to the directory where the story map's images
+     * are stored. Image URLs in the HTML will be prefixed with this string.
      * @return The rendered StoryMap (String)
      */
-    String renderStoryMap(StoryMap m, String files) throws IOException, TemplateHandlerException {
+    String renderStoryMap(StoryMap m, String filesPath) throws IOException, TemplateHandlerException {
         Map root = new HashMap();
+        root.put("filesPath",filesPath);
         Map storyMap = new HashMap();
         root.put("StoryMap", storyMap);
         storyMap.put("title", m.getEditor().getTitle());
-        storyMap.put("files", files);
         List storyCards = new ArrayList<Map>();
         for (int i=0; i<m.getStoryCards().size(); i++) {
             StoryCard c = m.getStoryCards().get(i);
@@ -75,28 +90,11 @@ final class TemplateHandler {
             storyCard.put("number",i);
             storyCard.put("Function",function);            
             storyCard.put("text",c.getEditor().getTextAsHTML());
+            storyCard.put("imageFile",Util.joinClassPaths(filesPath,c.getFunction().getImageFilename()));
             storyCards.add(storyCard);
         }
         storyMap.put("storyCards", storyCards);
-
-        Template temp = null;
-        String template_filename = "story.ftl";
-        try {
-            temp = cfg.getTemplate(template_filename);
-        } catch (IOException e) {
-            throw new IOException("IOException when configuring template "+template_filename,e);
-        }
-        StringWriter out = new StringWriter();
-        try {
-            temp.process(root,out);
-        } catch (TemplateException e) {
-            String detail = "FreeMarker TemplateException when rendering template "+template_filename+" with contents "+root;
-            throw new TemplateHandlerException(detail, e);
-        } catch (IOException e) {
-            throw new IOException("IOException when rendering template "+template_filename+" with contents "+root,e);
-        }
-        out.flush();
-        return out.toString();
+        return renderMap(root, "story.ftl");
     }
 
     /**
@@ -107,7 +105,6 @@ final class TemplateHandler {
      */
     String renderFunctions() throws IOException, TemplateHandlerException {
         Template temp = null;
-        String template_filename = "functions.ftl";
         Map root = new HashMap();
         List functions = new ArrayList();
         for (Function f : Function.getFunctions()) {
@@ -119,49 +116,6 @@ final class TemplateHandler {
             functions.add(fmap);
         }
         root.put("functions", functions);
-        try {
-            temp = cfg.getTemplate(template_filename);
-        } catch (IOException e) {
-            throw new IOException("IOException when configuring template "+template_filename,e);
-        }
-        StringWriter out = new StringWriter();
-        try {
-            temp.process(root,out);
-        } catch (TemplateException e) {
-            String detail = "FreeMarker TemplateException when rendering template "+template_filename+" with contents "+root;
-            throw new TemplateHandlerException(detail, e);
-        } catch (IOException e) {
-            throw new IOException("IOException when rendering template "+template_filename+" with contents "+root,e);
-        }
-        out.flush();
-        return out.toString();
-    }
-    
-    /**
-     * Runs a simple test of FreeMarker templater rendering, renders
-     * templates/test.ftl and prints out the result.
-     */
-    public static void main(String[] args) {
-        Map root = new HashMap();
-        root.put("user","Big Joe");
-        Template temp = null;
-        try {
-            temp = cfg.getTemplate("test.ftl");
-        } catch (IOException e) {
-            System.out.println("IOException when loading template test.ftl "+e);
-            return;
-        }
-        StringWriter out = new StringWriter();
-        try {
-            temp.process(root,out);
-            out.flush();
-            System.out.println(out.toString());
-        } catch (TemplateException e) {
-            System.out.println("TemplateException when rendering template test.ftl" +e);
-            return;
-        } catch (IOException e) {
-            System.out.println("IOException when rendering template test.ftl" +e);            
-            return;
-        }
+        return renderMap(root,"functions.ftl");
     }
 }
