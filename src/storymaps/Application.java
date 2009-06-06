@@ -409,9 +409,6 @@ public class Application implements Receiver, Originator {
 
     private void zoomToHome() {
         StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
-        if (prev != null) {
-            prev.goToLowDetail();
-        }
         if (map.getEditor().isCollapsed()) {
             target = home;
         } else {
@@ -428,9 +425,6 @@ public class Application implements Receiver, Originator {
             /*StoryCardBase card = (StoryCardBase) sender_arg;
             PNode node = card.getNode();
             StoryCardBase prev = (StoryCardBase) target.getAttribute("StoryCardBase");
-            if (prev != null) {
-            prev.goToLowDetail();
-            }
             target = node;
             repositionCamera(750);*/
         } else if (name.equals("Editor uncollapsed")) {

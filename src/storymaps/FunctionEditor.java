@@ -83,7 +83,7 @@ class FunctionEditor {
         JPanel editorPanel = new JPanel(); // Hiding a field.
         editorPanel.setLayout(new BoxLayout(editorPanel,BoxLayout.X_AXIS));
 
-        JLabel storyCard = new JLabel(new ImageIcon(s.getNode().toImage()));
+        JLabel storyCard = new JLabel(new ImageIcon(s.getImage()));
         storyCard.setAlignmentY(Component.TOP_ALIGNMENT);
         editorPanel.add(storyCard);
 

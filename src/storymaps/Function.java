@@ -55,6 +55,8 @@ final class Function implements Comparable, Originator {
     private final String imageFilename;
     private final String imagePath;
     private final Image image;
+    private final String highDetailImagePath;
+    private Image highDetailImage;
     
     /**
      * A singleton list containing a Function object for every function
@@ -97,15 +99,21 @@ final class Function implements Comparable, Originator {
         this.name = name;
         this.description = description;
         this.instructions = instructions;
-        this.imageFilename  = number+".svg-512.png";
+        this.imageFilename  = number+".png";
         this.imagePath = "/data/functions/"+imageFilename;
-        System.out.println(imagePath);
+        this.highDetailImagePath = "/data/functions/"+number+"-detail.png";
         try {
             this.image = Util.readImageFromClassPath(imagePath);
         } catch (IOException e) {
             System.out.println("Couldn't load image for function "+imagePath);
             // FIXME: shouldn't need to crash here.
             throw new RuntimeException("Couldn't load image for function "+imagePath,e);
+        }
+        try {
+            this.highDetailImage = Util.readImageFromClassPath(highDetailImagePath);
+        } catch (IOException e) {
+            System.out.println("Couldn't load image for function "+imagePath);
+            this.highDetailImage = this.image;
         }
     }
         
@@ -116,6 +124,8 @@ final class Function implements Comparable, Originator {
     public Image getImage() { return image; }
     public String getImageFilename() { return imageFilename; }
     public String getImagePath() { return imagePath; }
+    public Image getHighDetailImage() { return highDetailImage; }
+    public String getHighDetailImagePath() { return highDetailImagePath; }
     
     @Override
     public String toString() {

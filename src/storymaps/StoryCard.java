@@ -54,7 +54,6 @@ class StoryCard extends StoryCardBase implements Receiver,
                     // button send the "StoryCard double-clicked" message.
                     Messager m = Messager.getMessager();
                     m.send("StoryCard double-clicked", StoryCard.this);
-                    goToHighDetail();
                     event.setHandled(true);
                 } else if (event.getButton() == 1 && event.getClickCount() == 1) {
                     // If the StoryCard is single-clicked with the left mouse
@@ -140,7 +139,6 @@ class StoryCard extends StoryCardBase implements Receiver,
             getNode().getParent().getParent().moveToFront();
             highlighted = true;
             smoothlyScale(1.5f);
-            goToHighDetail();
         }
     }
     
@@ -148,7 +146,6 @@ class StoryCard extends StoryCardBase implements Receiver,
         if (highlighted && !draggable.isDragging()) {
             highlighted = false;
             smoothlyScale(1.0f);
-            goToLowDetail();
         }
     }
                                  
@@ -185,7 +182,6 @@ class StoryCard extends StoryCardBase implements Receiver,
                         activity.terminate();
                     }
                     getNode().setScale(1.0);
-                    goToLowDetail();
                 }
             }
         }

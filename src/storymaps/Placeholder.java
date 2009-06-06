@@ -1,25 +1,20 @@
 package storymaps;
 
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import java.util.logging.Logger;
 
-class Placeholder implements Originator {
+class Placeholder extends StoryCardBase implements Originator {
             
-    private PNode background;
+    private PImage background;
     private boolean taken = false;
     private StoryCard storycard = null;
     
-    public Placeholder() {                
-        background = StoryCard.newRectangle();
-        background.addAttribute("Placeholder",this);
-        background.setPickable(false);
-        background.setVisible(false);
+    public Placeholder() {
+        super(Function.getFunctions().get(0));
+        getNode().addAttribute("Placeholder",this);
+        getNode().setVisible(false);
     }
-                                 
-    public PNode getNode() {
-        return background;
-    }
-    
+                                     
     public boolean taken() {
         return taken;
     }    
