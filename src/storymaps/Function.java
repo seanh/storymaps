@@ -99,7 +99,7 @@ final class Function implements Comparable, Originator {
         this.description = description;
         this.instructions = instructions;
         this.imagePath = "/data/functions/"+number+".png";
-        this.highDetailImagePath = "/data/functions/"+number+"-high.png";
+        this.highDetailImagePath = "/data/functions/"+number+"-detail.png";
         try {
             this.image = Util.readImageFromClassPath(imagePath);
         } catch (IOException e) {

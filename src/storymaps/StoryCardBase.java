@@ -28,7 +28,7 @@ abstract class StoryCardBase {
         node = new PNode();
         Image farImage = function.getImage();
         Image nearImage = function.getHighDetailImage();
-        image = new SemanticImageNode(farImage, nearImage, SCALE);
+        image = new SemanticImageNode(farImage, nearImage, SCALE+0.1);
         image.setOffset(-0.5*image.getWidth(),-0.5*image.getHeight());
         image.setScale(SCALE);
         image.setPickable(false);
