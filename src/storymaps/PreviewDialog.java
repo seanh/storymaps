@@ -187,7 +187,7 @@ public class PreviewDialog {
                 File filesPath = new File(parentDir,filesDir);
                 filesPath.mkdirs();
                 try {
-                    String html = new TemplateHandler().renderStoryMap(map, filesPath.getPath());
+                    String html = new TemplateHandler().renderStoryMap(map, filesDir);
                     Util.writeTextToFile(html,path);
                 } catch (TemplateHandlerException ex) {
                    logger.log(Level.SEVERE, "TemplateHandlerException when converting StoryMap to HTML.", ex);
