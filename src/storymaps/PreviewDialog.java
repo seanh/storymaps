@@ -9,11 +9,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.*;
 import javax.imageio.ImageIO;
+import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
+import javax.swing.text.html.StyleSheet;
 
 /**
  *
@@ -63,6 +65,14 @@ public class PreviewDialog {
         };
         editor.setEditorKit(kit);
         editor.setEditable(false);
+        editor.setContentType("text/html");
+
+        // Java's default style doesn't seem to leave any gaps between
+        // paragraphs.
+        StyleSheet styleSheet = kit.getStyleSheet();
+        styleSheet.addRule("p {margin-bottom:5px;}");
+        Document doc = kit.createDefaultDocument();
+        editor.setDocument(doc);
 
         JScrollPane editorScrollPane = new JScrollPane(editor);
         editorScrollPane.setVerticalScrollBarPolicy(
@@ -120,7 +130,6 @@ public class PreviewDialog {
     private void update(StoryMap map) {
         this.map = map;
         // Convert the story map to HTML and load it into the editor pane.
-        editor.setContentType("text/html");
         try {
             String html = new TemplateHandler().renderStoryMap(map,getClass().getResource("/data/functions/").toString());
             editor.setText(html);

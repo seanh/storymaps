@@ -60,7 +60,7 @@ class FunctionEditor {
     private JTextArea makeEditor(String text) {
         JTextArea editor = new JTextArea(); // Hiding a field.
         editor.setRows(8);
-        editor.setMaximumSize(new Dimension(700,100));
+        editor.setMaximumSize(new Dimension(650,100));
         editor.setLineWrap(true);
         editor.setWrapStyleWord(true);
         editor.setText(text);
@@ -69,13 +69,14 @@ class FunctionEditor {
         return editor;
     }
     
-    private JEditorPane makeInstructions(Color background) {
-        JEditorPane instructions = new JEditorPane("text/html",
-                "<html>"+function.getInstructions()+"</html>");
+    private JTextPane makeInstructions(Color background) {
+        JTextPane instructions = new JTextPane();
+        instructions.setContentType("text/html");
+        instructions.setText("<html>"+function.getInstructions()+"</html>");
         instructions.setEditable(false);
         instructions.setBackground(background);
         instructions.setFont(Fonts.NORMAL);
-        //instructions.setPreferredSize(new Dimension(400,0));
+        instructions.setMaximumSize(new Dimension(650,100));
         return instructions;
     }
         
@@ -110,6 +111,7 @@ class FunctionEditor {
         Border title = BorderFactory.createTitledBorder(function.getName());
         Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
         scrollPane.setBorder(BorderFactory.createCompoundBorder(title,empty));
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         return scrollPane;
     }
