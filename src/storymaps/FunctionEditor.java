@@ -49,8 +49,11 @@ class FunctionEditor {
         panel.add(west,BorderLayout.WEST);
         JPanel center = new JPanel();
         center.setLayout(new BorderLayout());
-        center.add(makeInstructions(center.getBackground()),BorderLayout.NORTH);
-        center.add(makeEditor(text),BorderLayout.CENTER);
+        center.add(makeInstructions(center.getBackground()),BorderLayout.CENTER);
+        editor = makeEditor(text);
+        JScrollPane editorScrollPane = new JScrollPane(editor);
+        editorScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        center.add(editorScrollPane,BorderLayout.SOUTH);
         panel.add(center,BorderLayout.CENTER);
     }
     
@@ -67,6 +70,7 @@ class FunctionEditor {
         _editor.setText(text);
         _editor.setFont(Fonts.LARGE);
         _editor.setBorder(BorderFactory.createLineBorder(Color.black));
+        _editor.setRows(8);
         return _editor;
     }
     
