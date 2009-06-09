@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.util.List;
+import java.util.ArrayList;
+
 import storymaps.ui.Fonts;
 
 /** 
@@ -18,28 +21,37 @@ class FunctionEditor {
     private Function function;
        
     /**
-     * The root JPanel of this function editor.
+     * The root panel of this function editor.
      */
-    private JComponent editorPanel;
-    
+    private JPanel panel;
+
     /**
-     * The text editor where the user enters her text for this Propp function.
+     * The editor component where the user types.
      */
     private JTextArea editor;
-    
+
     FunctionEditor(StoryCard s) {
         this(s,"");
     }
       
     FunctionEditor(StoryCard s, String text) {
         this.function = s.getFunction();
-        editorPanel = makeEditorPanel(s,text);
-    }
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
 
-    private JLabel makeName() {
-        JLabel name = new JLabel(function.getName());
-        name.setFont(Fonts.LARGE);
-        return name;
+        Border title = BorderFactory.createTitledBorder(function.getName());
+        Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
+        panel.setBorder(BorderFactory.createCompoundBorder(title,empty));
+
+        JPanel west = new JPanel();
+        JLabel image = makeImage();
+        west.add(image);
+        panel.add(west,BorderLayout.WEST);
+        JPanel center = new JPanel();
+        center.setLayout(new BorderLayout());
+        center.add(makeInstructions(center.getBackground()),BorderLayout.NORTH);
+        center.add(makeEditor(text),BorderLayout.CENTER);
+        panel.add(center,BorderLayout.CENTER);
     }
     
     private JLabel makeImage() {
@@ -47,77 +59,31 @@ class FunctionEditor {
         JLabel image = new JLabel(imageIcon);
         return image;        
     }
-    
-    private JEditorPane makeDescription(Color background) {
-        JEditorPane description = new JEditorPane("text/html",
-                "<html>"+function.getDescription()+"</html>");
-        description.setEditable(false);
-        description.setBackground(background);
-        //description.setPreferredSize(new Dimension(100,100));
-        return description;
-    }
-    
+        
     private JTextArea makeEditor(String text) {
-        JTextArea editor = new JTextArea(); // Hiding a field.
-        editor.setRows(8);
-        editor.setMaximumSize(new Dimension(650,100));
-        editor.setLineWrap(true);
-        editor.setWrapStyleWord(true);
-        editor.setText(text);
-        editor.setFont(Fonts.LARGE);
-        editor.setBorder(BorderFactory.createLineBorder(Color.black));
-        return editor;
+        JTextArea _editor = new JTextArea();
+        _editor.setLineWrap(true);
+        _editor.setWrapStyleWord(true);
+        _editor.setText(text);
+        _editor.setFont(Fonts.LARGE);
+        _editor.setBorder(BorderFactory.createLineBorder(Color.black));
+        return _editor;
     }
     
     private JTextPane makeInstructions(Color background) {
         JTextPane instructions = new JTextPane();
         instructions.setContentType("text/html");
-        instructions.setText("<html>"+function.getInstructions()+"</html>");
+        String text = "<h1>"+function.getName()+"</h1>";
+        text = text + function.getDescription();
+        text = text + function.getInstructions();
+        instructions.setText(text);
         instructions.setEditable(false);
         instructions.setBackground(background);
-        instructions.setFont(Fonts.NORMAL);
-        instructions.setMaximumSize(new Dimension(650,100));
         return instructions;
     }
-        
-    private JComponent makeEditorPanel(StoryCard s, String text) {
-        JPanel editorPanel = new JPanel(); // Hiding a field.
-        editorPanel.setLayout(new BoxLayout(editorPanel,BoxLayout.X_AXIS));
-
-        JLabel storyCard = new JLabel(new ImageIcon(s.getImage()));
-        storyCard.setAlignmentY(Component.TOP_ALIGNMENT);
-        editorPanel.add(storyCard);
-
-        JPanel innerPanel = new JPanel();
-        innerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-        innerPanel.setLayout(new BoxLayout(innerPanel,BoxLayout.Y_AXIS));
-        innerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-
-        JEditorPane description = makeDescription(innerPanel.getBackground());
-        description.setAlignmentX(Component.LEFT_ALIGNMENT);
-        innerPanel.add(description);
-
-        JEditorPane instructions = makeInstructions(innerPanel.getBackground());
-        instructions.setAlignmentX(Component.LEFT_ALIGNMENT);
-        innerPanel.add(instructions);
-
-        editor = makeEditor(text);
-        editor.setAlignmentX(Component.LEFT_ALIGNMENT);
-        innerPanel.add(editor);
-
-        editorPanel.add(innerPanel);
-
-        JScrollPane scrollPane = new JScrollPane(editorPanel);
-        Border title = BorderFactory.createTitledBorder(function.getName());
-        Border empty = BorderFactory.createEmptyBorder(10,10,10,10);
-        scrollPane.setBorder(BorderFactory.createCompoundBorder(title,empty));
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        return scrollPane;
-    }
-                    
+                            
     public JComponent getComponent() {
-        return editorPanel;
+        return panel;
     }
     
     public Function getFunction() {
@@ -160,5 +126,48 @@ class FunctionEditor {
             if (!(f.getText().equals(getText()))) { return false; }
             return true;
         }        
+    }
+
+    static class FunctionEditorTest {
+        private final JFrame frame = new JFrame(getClass().getName());
+        private final Container contentPane = frame.getContentPane();
+        private final List<FunctionEditor> functionEditors = new ArrayList<FunctionEditor>();
+        private JComponent currentComponent;
+        private int i = 0;
+
+        FunctionEditorTest() {
+            frame.setPreferredSize(new Dimension(600,400));
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            for (Function f : Function.getFunctions()) {
+                FunctionEditor fe = new FunctionEditor(new StoryCard(f));
+                functionEditors.add(fe);
+            }
+
+            currentComponent = functionEditors.get(0).getComponent();
+            contentPane.add(currentComponent,BorderLayout.CENTER);
+
+            JButton nextButton = new JButton("Next");
+            nextButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    i++;
+                    if (i>=functionEditors.size()) { i=0; }
+                    JComponent nextComponent = functionEditors.get(i).getComponent();
+                    contentPane.remove(currentComponent);
+                    contentPane.add(nextComponent,BorderLayout.CENTER);
+                    contentPane.validate();
+                    contentPane.repaint();
+                    currentComponent = nextComponent;
+                }
+            });
+            contentPane.add(nextButton,BorderLayout.SOUTH);
+
+            frame.pack();
+            frame.setVisible(true);
+        }
+    }
+
+    public static void main(String[] args) {
+        new FunctionEditorTest();
     }
 }
