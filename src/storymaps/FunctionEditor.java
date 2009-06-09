@@ -136,7 +136,7 @@ class FunctionEditor {
         private final JFrame frame = new JFrame(getClass().getName());
         private final Container contentPane = frame.getContentPane();
         private final List<FunctionEditor> functionEditors = new ArrayList<FunctionEditor>();
-        private JComponent currentComponent;
+        private JComponent currentComponent = null;
         private int i = 0;
 
         FunctionEditorTest() {
@@ -148,26 +148,33 @@ class FunctionEditor {
                 functionEditors.add(fe);
             }
 
-            currentComponent = functionEditors.get(0).getComponent();
-            contentPane.add(currentComponent,BorderLayout.CENTER);
+            replaceFunctionEditor(functionEditors.get(0));
 
             JButton nextButton = new JButton("Next");
             nextButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     i++;
                     if (i>=functionEditors.size()) { i=0; }
-                    JComponent nextComponent = functionEditors.get(i).getComponent();
-                    contentPane.remove(currentComponent);
-                    contentPane.add(nextComponent,BorderLayout.CENTER);
-                    contentPane.validate();
-                    contentPane.repaint();
-                    currentComponent = nextComponent;
+                    FunctionEditor next = functionEditors.get(i);
+                    replaceFunctionEditor(next);
                 }
             });
             contentPane.add(nextButton,BorderLayout.SOUTH);
 
             frame.pack();
             frame.setVisible(true);
+        }
+
+        private void replaceFunctionEditor(FunctionEditor next) {
+            if (currentComponent != null) {
+                contentPane.remove(currentComponent);
+            }
+            JScrollPane scrollPane = new JScrollPane(next.getComponent());
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            contentPane.add(scrollPane,BorderLayout.CENTER);
+            contentPane.validate();
+            contentPane.repaint();
+            currentComponent = scrollPane;
         }
     }
 
