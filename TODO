@@ -1,0 +1,69 @@
+    *   **Implement two-way communication between StoryMap and StoryEditor.**
+    *   **Make the autosave create a directory instead of putting files 
+    directly in the user's homedir.**
+    *   **Test that autosave works on Windows.**
+    *   **On exit ask the user if they want to save their story.**
+    *   Add an icon on low-detail story cards that indicates when they have 
+    user text associated.
+    *   The card store should have an optional behaviour that allows the same 
+    story card to be taken twice.
+    *   Implement logging of user actions and saving that log in the XML with 
+    everything else. (Use same framework as needed to implement undo?)
+    *   Implement blocking and non-blocking messages to the user in Piccolo. 
+    (See ZoomDesk).
+    *   Unlimited persistent undo and redo.
+    *   Should say 'Loading' when loading a story, instead of just freezing.
+    *   Should be able to load a story by drag-dropping the file to the story 
+    maps window.
+
+*   Use a different filechooser for Save and Save as HTML, and suggest the
+    extensions .story and .html.
+
+Testing
+=======
+
+*   Write JUnit test cases, especially for the basic classes such as Messager, drag-drop, and layout nodes.
+
+Refactoring
+===========
+
+*   The containers and drag-drop code should be made more like what I had in the earlier Panda3D version, and test cases written for it.
+
+*   Rename StoryCards to CardStore.
+
+*   Need to identify a common base class and interface for StoryMap and CardStore and for Placeholder and DisabledStoryCard, and for DisabledStoryCard and StoryCard.
+
+*   The static newInstanceFromMemento method is implemented in a number of places with the same signature, but can't be captured by any interface or base class because it's static. May need generics to fix this. Or use a non-static restoreFromMemento method as in the original design pattern.
+
+*   Split the swing GUI into a separate class, make it a singleton.
+
+*   Minimise accessibilty: make everything possible private or package-private. Define the public API of packages like drag-drop, util, UI.
+
+*   Override equals and hashcode for Function, but write test cases to make sure it works. The simplest thing might be to implement equals and hashcode and override comparable for Function but not for classes that have functions, like StoryCard, for them use a comparator:
+
+        interface Comparator<T> {
+            int compare(T t1, T t2);
+        }
+
+        class FunctionComparator implements Comparator<Function> {
+            private FunctionComparator() {}
+            public static final FunctionComparator
+                INSTANCE = new FunctionComparator();
+            public int compare(FunctionWrapper f1, FunctionWrapper f2) {
+                return f1.getFunction().compare(f2.getFunction());
+            }
+        }
+        
+    Now  StoryCard etc. need to extend a FunctionWrapper class (or implement an interface) that provides the getFunction() method and then the singleton FunctionComparator can be used to compare them. Also note that the FunctionComparator class itself can be a private inner class of Function, with the single instance a public field of Function.
+
+*   Override toString for all classes.
+
+*   Minimise mutability. Make immutability explicit for as many classes as possible. Function, the Memento classes, Placeholder and DisabledStoryCard... Even for mutable classes keep the amount of mutability minimal, use final and defensive copying wherever possible.
+
+*   Minimise inheritance, use composition instead. Write a forwarding class for PNode. The few classes that are inherited from should be designed and documented for inheritance (e.g. Placeholder and DisabledStoryCard, StoryCards and StoryMap).
+
+*   Use interfaces. For example, should the layout nodes all implement an interface? StoryMap could then implement the same interface and forward method calls to a layout node (and this forwarding class for a layout node could be implemented separately.)
+
+*   Always use interface types instead of concrete types, e.g. List<T> and Map<T> instead of ArrayList<T> and HashMap<T>. But also do this with your own types wherever possible. Don't use raw, non-parameterised collection types, e.g. List or Map without the <T>.
+
+*   Checking method parameters for validity and throwing IllegalArgumentException, IndexOutOfBoundsException or NullPointerException.

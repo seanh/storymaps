@@ -1,0 +1,8 @@
+build.xml
+build/
+dist/
+manifest.mf
+master-application.jnlp
+nbproject/
+preview-application.html
+*~

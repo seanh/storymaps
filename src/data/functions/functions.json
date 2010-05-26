@@ -1,0 +1,266 @@
+[
+    {
+        "number" : 0,
+        "name": "Home",
+        "description": "How the story starts.",
+        "instructions":
+            "<p>You could:</p> \
+            <ul> \
+            <li><b>introduce the main characters</b>, and</li> \
+            <li><b>introduce the time</b>, and</li> \
+            <li><b>introduce the place</b>, and</li> \
+            <li><b>introduce the situation</b>.</li> \
+            </ul>"
+    },
+
+    {
+        "number": 1,
+        "name": "Split Up",
+        "description": "Characters get split up.",
+        "instructions":
+            "<p>For example:</p> \
+            <ul> \
+            <li><b>grown-ups leave children alone</b>, or</li> \
+            <li><b>children go away on their own</b>.</li> \
+            </ul>"
+    },
+
+    {
+        "number": 2,
+        "name": "Warning",
+        "description": "Someone is given a warning.",
+        "instructions":
+        "<p> The <b>HERO</b> or the <b>VICTIM</b> is told that:</p> \
+        <ul> \
+        <li> they <i>must</i> do something, or </li> \
+        <li> they <i>must not</i> do something. </li> \
+        </ul>"
+    },
+    
+    {
+        "number": 3,
+        "name": "Ignored",
+        "description": "Someone ignores a warning.",
+        "instructions":
+            "<ul> \
+            <li>They do not do what they were told to do, or</li> \
+            <li>they do what they were told not to do.</li> \
+            </ul>"
+    },
+    
+    {
+        "number": 4,
+        "name": "Spying",
+        "description": "The <b>VILLAIN</b> tries to get some information.",
+        "instructions":
+            "<p>The villain could try to find out something about: <b>the thing he wants to steal or damage,</b> or <b>the victim he wants to kidnap or harm</b>.</p> \
+            <p>He might try to find out by: <b>spying</b>, or <b>asking questions</b>, or <b>your own idea</b>.</p> \
+            <p>Or the <b>HERO</b> tries to find out something about the <b>VILLAIN</b>.</p>"
+    },
+
+    {
+        "number": 5,
+        "name": "Information",
+        "description": "Someone gets the information they want.",
+        "instructions":
+            "<p>The villain finds out something about: <b>the thing he wants to steal or damage</b>, or <b>the victim he wants to kidnap or harm</b>.</p> \
+             <p>Or the <b>HERO</b> finds out something about the <b>VILLAIN</b>.</p>"
+    },
+    
+    {
+        "number": 6,
+        "name": "Trickery",
+        "description": "The <b>VILLAIN</b> tries to get the <b>VICTIM</b> to do something.",
+        "instructions":
+            "<p>The villain could try to: <b>trick the victim</b>, or <b>persuade the victim</b>, or <b>use magic on the victim</b>, to get the victim to do what he wants.</p>"
+    },  
+    
+    {
+        "number": 7,
+        "name": "Tricked",
+        "description": "The <b>VICTIM</b> does what the <b>VILLAIN</b> wants.",
+        "instructions":
+            "<p>The victim: <b>falls for the villain's trick</b>, or <b>agrees to the villain's persuasions</b>, or <b>falls under the villain's magic spell</b>, and does what the villain wants.</p>"
+    },
+        
+    {   
+        "number": 8,
+        "name": "Villainy!",
+        "description": "The <b>VILLAIN</b> does something bad.",
+        "instructions":
+            "<p>The villain could:</p> \
+            <ul> \
+            <li><b>steal</b> or <b>damage</b> something,</li> \
+            <li><b>kidnap</b> or <b>harm</b> the victim,</li> \
+            <li>or your own idea.</li> \
+            </ul>"
+    },
+
+    {
+        "number": 9,
+        "name": "Finds Out",
+        "description": "The <b>HERO</b> finds out about the villainy.",
+        "instructions":
+            "<p>The hero could find out about the villainy
+                because:</p> \
+            <ul> \
+            <li><b>someone calls for help</b>, or</li> \
+            <li><b>someone tells the hero about it</b>, or</li> \
+            <li><b>someone asks the hero to help</b>, or</li> \
+            <li>your own idea.</li> \
+            </ul>"
+    },
+    
+    {
+        "number": 10,
+        "name": "Decides",
+        "description": "The <b>HERO</b> decides to go on a journey to put right the villainy.",
+        "instructions":
+            ""
+    },
+
+    {
+        "number": 11,
+        "name": "Leaves",
+        "description": "The <b>HERO</b> leaves on a journey to put right the villainy.",
+        "instructions":
+            ""
+    },
+
+    {
+        "number": 12,
+        "name": "Test",
+        "description": "The <b>DONOR</b> gives the <b>HERO</b> a test.",
+        "instructions":
+            "<p>The donor could:</p> \
+            <ul> \
+            <li><b>ask the hero a question</b>, or</li> \
+            <li><b>ask the hero for help</b>, or</li> \
+            <li><b>attack the hero</b>, or</li> \
+            <li>your own idea.</li> \
+            </ul>"
+    },
+
+    {
+        "number": 13,
+        "name": "Answer",
+        "description": "The <b>HERO</b> answers the <b>DONOR</b>'s test.",
+        "instructions":        
+           "<p>The hero could:</p> \
+           <ul> \
+            <li><b>answer the donor's question correctly or
+                incorrectly</b>, or</li> \
+            <li><b>help or not help the donor</b>, or</li> \
+            <li><b>win or lose the fight with the donor</b>, or</li> \
+            <li>your own idea.</li> \
+            </ul>"
+    },
+
+        {
+            "number": 14,
+            "name": "Magic",
+            "description": "The <b>HERO</b> gets a <b>MAGIC THING</b>.",
+            "instructions":
+                "<p>The magic thing could be: <b>a magic animal that helps the hero</b>, or <b>a magic object</b>, or <b>a magic power.</b></p> \
+                <p>The hero could get it because: <b>the donor gives it to the hero</b>, or <b>the hero steals it from the donor</b>, or your own idea.</p>"
+        },
+
+    {
+        "number": 15,
+        "name": "Arrives",
+        "description": "The <b>HERO</b> gets to the destination of the journey.",
+        "instructions":
+            "<p>They might get there by: <b>travelling on an animal</b>, or <b>travelling on something magic</b>, or <b>following someone</b>, or <b>finding a special entrance</b>, or your own idea.</p>"
+    },
+
+    {
+        "number": 16,
+        "name": "Struggle",
+        "description": "The <b>HERO</b> confronts the <b>VILLAIN</b> using cleverness or combat.",
+        "instructions":
+            "<p>For example:</p> \
+            <ul> \
+            <li><b>The hero fights the villain</b>, or</li> \
+            <li><b>the hero plays a game against the villain</b>, or</li> \
+            <li>your own idea.</li> \
+            </ul>"
+    },
+
+    {
+        "number": 18,
+        "name": "Defeat",
+        "description": "The <b>VILLAIN</b> is defeated.",
+        "instructions":
+            "<p>For example:</p> \
+            <ul> \
+            <li><b>the villain loses the fight against the hero</b>, or</li> \
+            <li><b>the villain loses the game against the hero</b>, or</li> \
+            <li><b>the villain gets scared off</b>, or</li> \
+            <li><b>the villain gets killed</b>.</li> \
+            </ul>"
+    },
+
+    {
+        "number": 19,
+        "name": "Put right",
+        "description": "The villainy is put right.",
+        "instructions":
+            "<p>For example:</p> \
+            <ul> \
+            <li><b>the thing that the villain stole is returned</b>, or</li> \
+            <li><b>the person that the villain kidnapped is returned</b>, or</li> \
+            <li><b>the thing that the villain broke is fixed</b>, or</li> \
+            <li>your own idea.</li> \
+            </ul>"
+    },
+
+    {
+        "number": 20,
+        "name": "Return",
+        "description": "The <b>HERO</b> sets out to return home or escapes from the <b>VILLAIN</b>.",
+        "instructions":
+            ""
+    },
+
+    {
+        "number": 21,
+        "name": "Chase",
+        "description": "The <b>VILLAIN</b> chases the <b>HERO</b>.",
+        "instructions":
+            ""
+    },
+
+    {
+        "number": 22,
+        "name": "Rescue",
+        "description": "The <b>HERO</b> escapes or is rescued from the <b>VILLAIN</b>'s chase.",
+        "instructions":
+            ""
+    },
+
+    {
+        "number": 30,
+        "name": "Punishment",
+        "description": "The <b>VILLAIN</b> is punished.",
+        "instructions":
+            "<p><i>Choose from:</i></p> \
+            <ul> \
+            <li>The villain is punished, or</li> \
+            <li>the villain is forgiven.</li> \
+            </ul>"
+    },
+
+    {
+        "number": 31,
+        "name": "Reward",
+        "description": "The <b>HERO</b> gets a reward.",
+        "instructions":
+            "<p>For example:</p> \
+            <ul> \
+            <li>the hero gets <b>married</b>, or</li> \
+            <li>the hero gets a <b>new home</b>, or</li> \
+            <li>the hero gets <b>money</b> or <b>nice things</b>, or</li> \
+            <li>your own idea.</li> \
+            </ul>"
+    },
+]
