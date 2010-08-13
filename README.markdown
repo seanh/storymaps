@@ -25,50 +25,42 @@ To build the webstart version of the application:
 Notes on Building with NetBeans
 ===============================
 
-(With NetBeans 6.5 on Ubuntu 9.04)
+(With NetBeans 6.8 on Ubuntu 10.04)
 
 As well as class files NetBeans will build an executable JAR file and (with a
 little configuration) a Java Web Start version for you.
 
 If the NetBeans project is setup right NetBeans puts class files and some other
-files in build/ and puts an executable JAR file and other files for Java Web
-Start in dist/.
+files in `build/` and puts an executable JAR file and other files for Java Web
+Start in `dist/`.
 
-To create the NetBeans project from existing sources go to File->New Project
-and choose Java Project with Existing Sources. Set the top-level folder (the
-one that contains src/ and lib/) as the project folder. Set lib/ as the
-libraries folder and src/ as the only folder containing sources.
+To create the NetBeans project from existing sources go to **File->New
+Project** and choose _Java Project with Existing Sources_. Set the top-level
+folder (the one that contains `src/` and `lib/`) as the project folder. Set
+`lib/` as the libraries folder and `src/` as the only folder containing
+sources.
 
-Once the project is created add the JAR files in lib/ to the Libraries tree in
-NetBeans.
+Once the project is created add the JAR files in `lib/` to the Libraries tree
+in NetBeans.
 
-In the project configuration (Run->Set Project Configuration->Customize) under
-Application->Web Start, the settings to build the Web Start version are:
+In the project configuration (**Run->Set Project Configuration->Customize**)
+under **Application->Web Start**, the settings to build the Web Start version
+are:
 
 Check Enable Web Start  
 Codebase: User Defined (e.g. HTTP deployment)  
-Codebase Preview: http://homepages.inf.ed.ac.uk/s0094060/webstart/  
+Codebase Preview: http://seanh.github.com/storymaps/dist/  
 (or whatever URL your codebase is located at)  
 Check Allow offline  
 Check Self-signed  
 
-Make sure that the version of Java requested by the Web Start version is Java 5
-and not newer, otherwise it won't work on systems that have Java 5 and are
-locked down so that Java 6 cannot be installed (e.g. school computers). I
-believe the option Source/Binary Format under Sources in the Project Properties
-controls this, it should be set to JDK 5. But if you look inside the
-`launch.jnlp` file you can see what version of Java it demands, it should have
-a tag:
-
-    <j2se version="1.5+"/>
-
-Still in the project configuration, under Run set Main Class to
-'storymaps.Application'. Under Application fill in the project info (title,
+Still in the project configuration, under **Run** set **Main Class** to
+`storymaps.Application`. Under **Application** fill in the project info (title,
 vendor, description, homepage, splash screen).
 
-To publish the Java Web Start version of the application you have to put
-launch.jnlp, lib/ and StoryMaps.jar from the dist/ directory at the codebase
-URL that you specified in the project configuration. To publish a ZIP file that
-users can download, add StoryMaps.jar and lib/ from the dist/ dir to a ZIP.
-Users can download the zip, extract it, and double-click StoryMaps.jar to run
-the application.
+To publish the Java Web Start version of the application you have to put the
+contents of the `dist/` directory (`launch.jnlp`, `lib/` and `StoryMaps.jar`)
+at the codebase URL that you specified in the project configuration. To publish
+a ZIP file that users can download, add `StoryMaps.jar` and `lib/` to a ZIP.
+Users can download the zip, extract it, and double-click on `StoryMaps.jar` to
+run the application.
