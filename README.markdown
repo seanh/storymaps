@@ -1,14 +1,6 @@
-Story Maps is a [constructionist][] story planning and writing tool for children. The idea is to construct a map of a story that you want to write by combining story cards (or 'Propp cards'). You then use the map as an aid to write your story. It is based on ideas from [Vladimir Propp][]'s _Morphology of the Folktale_ and [Gianni Rodari][]'s _The Grammar of Fantasy_. We hope that the application will be a powerful tool for learning about stories and their construction, and will enable children to learn to write logically and artistically satisfying stories of their own. The current application is a prototype that I have created as a research tool for my PhD.
-
-[constructionist]: http://en.wikipedia.org/wiki/Constructionist_learning
-[Vladimir Propp]: http://en.wikipedia.org/wiki/Vladimir_Propp
-[Gianni Rodari]: http://en.wikipedia.org/wiki/Gianni_Rodari
-
-Click on the screenshot to launch the application with Java Web Start (requires Java version 1.5 or later).
-
-<a href="http://homepages.inf.ed.ac.uk/s0094060/webstart/launch.jnlp"><img src="http://homepages.inf.ed.ac.uk/s0094060/webstart/screenshot.png"  alt="StoryMaps prototype screenshot" title="Go on, click!" style="border:None;" /></a>
-
-For more info see the publications on [my university website](http://homepages.inf.ed.ac.uk/s0094060).
+[Story Maps](http://seanh.github.com/storymaps/) is a story planning and
+writing application for children. For screenshots and further information, see
+the [Story Maps website](http://seanh.github.com/storymaps/).
 
 Compiling and Running from the Command Line
 ===========================================
@@ -17,7 +9,8 @@ To compile run:
 
     javac -d build/classes/ -classpath lib/piccolo.jar:lib/piccolox.jar:lib/freemarker.jar:src/ src/storymaps/Application.java
 
-from inside this directory. Then to run the application directly from the class files do:
+from inside this directory. Then to run the application directly from the class
+files do:
 
     java -classpath lib/piccolo.jar:lib/piccolox.jar:lib/freemarker.jar:src:build/classes/ storymaps.Application
 
@@ -27,16 +20,19 @@ To pack the application up into an executable JAR file do:
 
 To build the webstart version of the application:
 
-TODO
+    TODO
 
 Notes on Building with NetBeans
 ===============================
 
 (With NetBeans 6.5 on Ubuntu 9.04)
 
-As well as class files NetBeans will build an executable JAR file and (with a little configuration) a Java Web Start version for you.
+As well as class files NetBeans will build an executable JAR file and (with a
+little configuration) a Java Web Start version for you.
 
-If the NetBeans project is setup right NetBeans puts class files and some other files in build/ and puts an executable JAR file and other files for Java Web Start in dist/.
+If the NetBeans project is setup right NetBeans puts class files and some other
+files in build/ and puts an executable JAR file and other files for Java Web
+Start in dist/.
 
 To create the NetBeans project from existing sources go to File->New Project and choose Java Project with Existing Sources. Set the top-level folder (the one that contains src/ and lib/) as the project folder. Set lib/ as the libraries folder and src/ as the only folder containing sources.
 
