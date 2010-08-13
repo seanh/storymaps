@@ -6,5 +6,4 @@ nbproject/
 preview-application.html
 *~
 *.swp
-dist/launch.html
-dist/README.TXT
+dist/*
