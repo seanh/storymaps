@@ -1,0 +1,248 @@
+# Thesis Presentation: Children's Story Authoring with Propp's Morphology
+
+The presentation should be a 'best bits' of the thesis: take the
+argument and structure of the thesis, condense it into the key points,
+put it in presentation format, back the points up with the best examples
+from the thesis. May improve on the thesis with new visuals and new
+examples (particularly excerpts from stories dug up from my data).
+
+The presentation should also highlight difficulties, try to anticipate
+criticisms, discuss decisions that were made and not made, lessons
+learned.
+
+## Introduction (5 mins)
+
+-	Slide: Thesis title and my name
+	*	Introduce yourself
+
+Get their attention early on with a couple of eye-grabbing slides, and
+_then_ outline the purpose and structure of the presentation:
+
+-	Slide: Story Maps screenshot & URL
+	*	Designed a story authoring tool for children
+
+-	Slide: some visualisation of Propp's Morphology
+	*	Based on a classic model of fairy tale narrative structure
+
+-	Slide: some visualisation of one of my school studies
+	*	Evaluated the tool in usability studies and in empirical studies of
+		children's story writing in schools.
+	*	Found that children were able to use the tool to plan and write
+		original stories.
+
+-	Slide:
+	*	Through using the tool they grasped
+		abstract narrative concepts and applied them to their own story
+		writing.
+	*	Using the tool improved some aspects of the stories written by
+		the children.
+	*	Children enjoyed using the tool and said that they found it
+		helpful to their story writing.
+
+-	Slide:
+	*	Purpose of presentation: to give an overview of the thesis work,
+		its central ideas, and the further work it identifies.
+
+## Body (30 mins)
+
+### Interactive Narrative in Education (motivation, 5 mins)
+
+*	Show some existing school writing materials, point out their
+	weaknesses. Motivate computer-based interactive narrative tools.
+
+	Slide: pretest & posttest crib sheet
+	Slide: control group planner
+	Slides: Collingwood and/or Maddistion story planners
+
+*	Show some existing tools, visualise their narrative structures.
+
+	Slide: Adventure Author
+	Slide: Script Cards
+
+	These tools lack an overall model of narrative to bring together all
+	of the components of a story into a coherent whole. It is the role
+	of each component with respect to the narrative as a whole that
+	makes a narrative structurally complete and well formed.
+	
+*	Give examples of what I mean by 'structurally complete and
+	well-formed' from Favat [p.69]
+	Maybe have a slide with a plot synopsis of a tale and point out each
+	of these features. These are medium-independent features of
+	narrative itself, as opposed to features of computer-based
+	interactive narrative as a medium.
+	-	Beginning, middle and end.
+	-	Conflict and resolution.
+	-	Characters acting in clear and consistent roles.
+	-	Characters actions are motivated.
+	-	Logical relationships between the events in a tale, each event has
+		a role to play in the tale as a whole and each event articulates
+		precisely with the other events in the tale: being sent to the
+		well enables the youngest daughter to meet the poor woman, which
+		enables the poor woman to test the daughter, which enables her
+		to respond, and so on.
+	-	Aesthetic relations, patterned contrastive repetitions at
+		multiple levels: the good young daughter goes to the well and
+		returns with the gift of flowers and jewels, the evil daughter
+		goes the well and returns with the curse of snakes and toads.
+	-	The moral order encoded in the structure of the tale: the
+		essential goodness of the younger daughter is rewarded, the
+		essential wickedness of the elder daugher is punished.
+
+*	Want a high-level model of narrative that embodies knowledge about
+	the overall structure of a narrative and the purpose of components such
+	as characters, actions and motivations within the whole.
+
+### Propp's morphology (the argument/hypothesis, 5 mins)
+
+
+
+Russian folklorist Vladimir Propp (slide with photo), studied Russian
+fairy tales collected by Afanas'ev (slide with photo of Afanas'ev or of
+the volume).
+
+He aimed to decompose tales into their component parts and study the
+relationsips of these components to each other and to the whole,
+producing an abstract compositional scheme of the fairy tales.
+
+-	Slide: Propp function example.
+-	Slide: Function: "an act of a character, defined from the point of
+	view of its significance for the course of action."
+
+Propp broke up plots into their constituent "functions": example from
+NILE 2009 presentation. A function of a plot event abstracted and
+defined from the point of view of its significance for the course of
+action. The abstract plot functions are the same across many tales, but
+the concrete details of how they are realised vary.
+
+Slide: Propp identified 31 functions that he claimed accounted for the
+plots of thousands of Russian fairy tales. Not every story contains
+every function, the functions always occur in the same order, no
+function excludes another.
+
+Slide: "this explains the two-fold quality of the tale: its amazing multiformity, picturesqueness, and color, and on the other hand, its no less striking uniformity, its repetition."
+
+Slide: character roles defined by their "spheres of action".
+
+Slide: there are many other elements also.
+
+Slide: these functions and roles can be seen as building blocks with
+which to construct new plots, and then fill in the concrete details for
+each block.
+
+*	Expand on how Propp's morphology could be useful, make the argument
+	for it.
+
+	Using existing interactive narrative tools you could tell the
+	children to make stories with a beginning, middle and end, a
+	conflict and resolution, well-motivated characters, etc., but the
+	tool itself doesn't give them any help with this. These tools
+	contain representations of branching plot etc., but don't actually
+	contain any support for the kind of narrative concepts that teachers
+	are trying to teach with their story writing crib sheets and
+	worksheets. In that sense it's no different than a piece of paper of
+	a word processor: you can tell them to apply concepts of good
+	narrative structure, but the word processor doesn't really help them
+	with it. We want a story making tool that actually _embodies_
+	abstract narrative concepts.
+
+*	Thesis Questions:
+
+	1.	How can Propp's morphology be represented in a story authoring
+		tool for children?
+	2.	Can children apply Propp's morphology to story writing?
+	3.	Does using Propp's morphology affect the quality of the stories
+		written by children? If so, in what ways?
+	
+	Children = 7-11 year-olds.
+
+### Exploratory Study (5 mins)
+
+-	Slide:
+	A two-week exploratory study that was carried out in an English
+	primary school, in which 42 participants aged 7-11 created stories
+	using paper 'Propp cards' and 'story maps'.
+-	Slide: image of a Propp card
+-	Slide: photo of a story map
+-	Slide: Research Question
+	Can children use Propp cards and story maps to write stories that
+	realise the Proppian narrative concepts that the Propp cards and
+	story maps aim to represent?
+-	Slide: Procedures, Week One
+	One-two hour story writing sessions with 5 participants in each.
+	Enumerated list of session procedures.
+-	Slide: Procedures, Week Two
+-	Slide: Quantitative Results
+-	Slide: Formalised Propp's morphology for story analysis.
+-	Slide(s):
+	The quantitative results show that children were successful at
+	writing stories that manifested the Proppian narrative structures
+	represented by the story maps. Using story maps children were able
+	to manifest the right Propp functions in the right order in their
+	stories. Children are able to grasp Propp's abstract concepts of
+	function and role and apply them to their own original story
+	writing. So Propp's morphology is a usable model of narrative for a
+	children's story authoring tool, and Propp cards and story maps are
+	a successful representation of Propp's morphology.
+-	Slide: limitations of the quantitative results.
+	-	Concerned with functions only
+	-	Don't account for originality
+	-	Don't account for quality
+	-	Don't measure learning
+-	Slide(s):
+	Observations to inform the design of the computer application.
+-	Slide(s):
+	Observations about how Propp cards and story maps affect children's
+	writing, generating hypothesis for future studies.
+-	Slide: Thesis Questions
+
+### Story Maps Application (5 mins)
+
+Show a series of screenshots, and give the application URL.
+
+Briefly mention the process by which the application was developed.
+
+See my interview notes.
+
+### Experimental Study (5 mins)
+
+-	Slide:
+	A three-week experimental study that compared stories written using
+	the story maps application to stories written using a typical
+	classroom story planning worksheet. Carried out in an English
+	primary school. 40 participants aged 8-11.
+-	Slide: Research Question
+	Does using the story maps application improve the narrative
+	structure of the stories written? If so, in what ways?
+-	Slide: Hypotheses
+-	Slide: Research Design
+	Pretest, posttest, control group.
+	Each participant wrote three stories.
+-	Slide(s): Procedures
+-	Slide: prestest and posttest instruction sheet
+-	Slide: control group story planner
+-	Quantitative Results
+	-	Slide: Quantitative Measure of Narrative Structure
+	-	Plot structure and character roles
+	-	Characters and their attributes
+	-	Settings and their attributes
+	-	Details of the action
+	-	Goals of the protagonist
+	-	Resolution and conclusion
+	-	Emotions
+	-	Coherence
+-	Slide: Feedback from Participants
+-	Slide: Thesis Questions
+
+### Further Work (5 mins)
+
+Slide: Outline
+
+Slide: Further Work (1)
+	Qualitative analysis using Propp's morphology. A story would first
+	be broken down into its Proppian structural components, and a
+	systematic qualitative description of the story would proceed from
+	this decomposition. Compare children's stories to each other, and to
+	traditional tales. Not whether or not participants have applied
+	Propp but _how_ they have used it in their stories.
+
+## Conclusion (5 mins)

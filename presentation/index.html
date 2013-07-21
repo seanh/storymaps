@@ -1,0 +1,590 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Sean Hammond PhD Thesis Presentation</title>
+<!--<base href="..." > -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<!-- <link rel="stylesheet" type="text/css" media="all" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="aural" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="braille" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="embossed" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="handheld" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="print" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="projection" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="screen" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="tty" href="mystyle.css" > -->
+<!-- <link rel="stylesheet" type="text/css" media="tv" href="mystyle.css" > -->
+<!-- <style type="text/css">
+</style> -->
+</head>
+<body>
+<h1>Children's Story Authoring with Propp's Morphology</h1>
+<p>Sean Hammond <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#110;&#104;&#109;&#110;&#100;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#115;&#110;&#104;&#109;&#110;&#100;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></p>
+<p>The slides are here: <strong><a href="thesis-presentation.svg">slides</a></strong>.<br>
+The controls (in your browser) are:</p>
+<ul>
+<li>Right/left arrow or page down/page up: Next/previous slide.</li>
+<li>Home/End: First/last slide.</li>
+<li>i: See an overview of all slides (use arrows and return to change</li>
+<li>slides).</li>
+</ul>
+<p>Here are the notes that go along with the slides:</p>
+<h3>Introduction</h3>
+<dl>
+<dt>Slide: Title Slide</dt>
+<dd>Introduce myself.</dd>
+<dt>Slide: Story Maps</dt>
+<dd>For my PhD I designed, implemented and evaluated a story authoring
+tool for children.</dd>
+<dt>Slide: Propp's Morphology</dt>
+<dd>The tool is based on Propp's classic model of fairy tale narrative
+structure, <em>Propp's morphology</em>.</dd>
+<dt>Slide: Story Writing Session</dt>
+<dd>I evaluated the tool in usability studies with children and
+teachers, and in empirical studies of children's story writing in
+schools.<br>
+I found that children were able to use the tool to plan and write
+their own original stories.</dd>
+<dt>Slide: Results</dt>
+<dd>
+<p>Through using the Story Maps application children were able to grasp
+abstract narrative concepts and apply them to their own writing;
+using the application improved some aspects of children's stories;
+and children reported that they enjoyed using the application and
+found that it was helpful to their story writing.</p>
+<p>Feedback from the children suggests that they enjoyed using the tool
+to write stories and found it helpful, that they felt a greater
+sense of creative freedom and ownership over their stories, and that
+the tool gave them confidence in the quality of their stories.</p>
+</dd>
+<dt>Slide: Outline</dt>
+<dd>
+<p>...</p>
+</dd>
+</dl>
+<h3>Motivation</h3>
+<dl>
+<dt>Slide: Outline</dt>
+<dd>...</dd>
+<dt>Slide: Riley &amp; Reedy</dt>
+<dt>Slide: A Woodlouse's Adventure</dt>
+<dt>Slide: The Little Flower</dt>
+<dd>These are typical classroom story-planning worksheets.
+TODO: Limitations of these.</dd>
+<dt>Slide: Adventure Author</dt>
+<dt>Slide: Script Cards</dt>
+<dd>These are existing 'interactive narrative' computer applications.
+TODO: What's missing from these.</dd>
+</dl>
+<p>TODO: slide about beginning, middle &amp; end; conflict &amp; resolution; clear
+and consistent roles; motivations.</p>
+<dl>
+<dt>Slide: Perrault's The Fairies (1)</dt>
+<dt>Slide: Perrault's The Fairies (2)</dt>
+<dt>Slide: Perrault's The Fairies (3)</dt>
+<dt>Slide: Perrault's The Fairies (4)</dt>
+<dd>
+<p>This story is given as an example of what I mean by fairy tale
+narrative structure.</p>
+<ul>
+<li>
+<p>There are logical relationships between the events in the tale,
+    each event has a role to play in the tale as a whole and each
+    event articulates precisely with the other events in the tale:
+    being sent to the well enables the youngest daughter to meet the
+    poor woman, which enables the poor woman to test the daughter,
+    which enables her to respond, and so on.</p>
+</li>
+<li>
+<p>There are aesthetic relations, patterned contrastive repetitions
+    at multiple levels: the good young daughter goes to the well and
+    returns with the gift of flowers and jewels, the evil daughter
+    goes the well and returns with the curse of snakes and toads.</p>
+</li>
+<li>
+<p>There is a moral order encoded in the structure of the tale: the
+    essential goodness of the younger daughter is rewarded, the
+    essential wickedness of the elder daugher is punished.</p>
+</li>
+</ul>
+<p>These are medium-independent, they are features or narrative itself,
+rather than features of interactive narrative as a medium.</p>
+<p>So what we want is a high-level model of narrative that embodies
+knowledge about the overall structure of a narrative and the purpose
+of components such as characters, actions and motivations within the
+whole.</p>
+</dd>
+</dl>
+<h3>Propp's Morphology</h3>
+<dl>
+<dt>Slide: Outline</dt>
+<dd>This thesis proposes that <em>Propp's morphology</em> is a suitable model.</dd>
+<dt>Slide: Vladimir Propp</dt>
+<dd>Propp was a Russian folklorist who in the early 20th century
+carried out a study of the narrative structures of traditional
+Russian fairy tales.</dd>
+<dt>Slide: Afanasyev</dt>
+<dd>Propp studied thousands of fairy tales from Afanasyev's collection
+of Russian folk tales.</dd>
+<dt>Slide: Morphology of the Folktale</dt>
+<dd>
+<p>Propp presented the results of his study in his book <em>Morphology of
+the Folktale</em>.</p>
+<p>In <em>Morphology</em> Propp aimed to decompose tales into their component
+parts and study the relationsips of these components to each other
+and to the whole. The result was an abstract structural composition
+or "morphology" that Propp claims underlies the type of tales that
+he studied.</p>
+</dd>
+<dt>Slide: Propp's Functions (1)</dt>
+<dd>
+<p>Propp breaks down tales into units that he calls "functions".
+This is an example of one of Propp's functions, <em>Arrival</em>.
+This one function appears in many different forms in many different
+tales. All of the concrete details: the characters, the objects, the
+locations, and the ways in which the function is realised, change
+from one tale to the next. But the function always remains the same.</p>
+</dd>
+<dt>Slide: Propp's Functions (2)</dt>
+<dd>
+<p>Propp defined a function as <em>an act of a character, defined from the
+point of view of its significance for the course of action</em>.</p>
+</dd>
+<dt>Slide: Propp's Functions (3)</dt>
+<dd>
+<p>Propp identified 31 functions that he claimed accounted for the
+plots of thousands of Russian fairy tales.</p>
+<p>Not every story contains every function, the functions always occur
+in the same order, no function excludes another.</p>
+</dd>
+<dt>Slide: Propp's Functions (4)</dt>
+<dd>
+<p>While all of the concrete details of the fairy tales vary widely,
+the functions are remarkably consistent.</p>
+<p>"This explains the two-fold quality of the tale: its amazing
+multiformity, picturesqueness, and color, and on the other hand, its
+no less striking uniformity, its repetition."</p>
+</dd>
+<dt>Slide: Propp's Functions (5)</dt>
+<dd>
+<p>What I've investigated in my thesis is the application of Propp's
+morphology as a story construction kit, to be used by children to
+plan and write their own original stories that display the true
+fairy tale form, that are structurally complete and well-formed.</p>
+<p>You construct a story by choosing what functions you want and then
+filling in the details.
+-   You can plan the whole thing first and then write it.
+-   Or you can be more spontaneous, selecting some elements and
+    writing that part of your story, then picking some more elements
+    and filling in those.
+-   Teachers can vary  the components that are available to choose
+    from, beginning with just a few of the basic components, and
+    building up to a much richer model of narrative with a large
+    number of components and with several different types of
+    component representing differetn narrative concepts.</p>
+<ul>
+<li>Propp's morphology embodies the fairy tale narrative structure:<ul>
+<li>The beginning, middle and end</li>
+<li>The conflict and resolution</li>
+<li>The character roles and motivations</li>
+<li>The logical, aesthetic and moral relationships and patterns</li>
+</ul>
+</li>
+<li>Children get to actively construct the narrative structure of
+    the story and fill in the concrete details themselves.</li>
+<li>So they will feel ownership over their stories, rather than
+    feeling like they are being told what to write about.</li>
+<li>The fairy tale components might assist children with ideas for
+    their stories: both in generating ideas and in realising the
+    ideas that children bring to it. Each function represents a
+    section of the fairy tale world, and is full of meaning.</li>
+<li>It is open to personalisation.</li>
+<li>The fairy tale structure appeals to the child's experience of
+    the world: prohibitions, missions and duels, difficult tests and
+    disappointments, magical gifts and donors, powerful allies and
+    diabolical enemies.</li>
+<li>It has cultural presence, in modern narratives that are popular
+    with children.</li>
+<li>It is empowering, because it reveals powerful knowledge about
+    narratives and how they are constructed.</li>
+<li>Through interacting with Propp's morphology, children may be
+    able to appropriate the fairy tale narrative structure for
+    themselves.</li>
+</ul>
+</dd>
+<dt>Slide: Thesis Questions</dt>
+<dd>
+<ol>
+<li>How can Propp's morphology be represented in a story authoring
+    tool for children?</li>
+<li>Can children apply Propp's morphology to story writing?</li>
+<li>Does using Propp's morphology affect the quality of the stories
+    written by children? If so, in what ways?</li>
+</ol>
+<p>Children = 7-11 year-olds.</p>
+</dd>
+</dl>
+<h3>Exploratory Study</h3>
+<dl>
+<dt>Slide: Outline</dt>
+<dd>...</dd>
+<dt>Slide: Exploratory Study (1)</dt>
+<dd>
+<p>This was a two-week study in which children wrote stories using
+paper 'Propp cards' and 'story maps', an early prototype of the
+planned computer application.</p>
+<p>Wanted to verify that children could grasp Propp's morphology and
+its abstract narrative concepts, such as the concept of function,
+and that they could use it to write stories with Proppian narrative
+structures.</p>
+<p>Wanted to try out Propp cards and story maps as an interface.</p>
+<p>Wanted to get experience working with children and story writing.</p>
+</dd>
+<dt>Slide: A Propp Card</dt>
+<dd>
+<p>This is one of the Propp cards used in the study. In the top-left is
+the name of the Propp function, an illustration, and some
+instructions. The rest of the card is left blank for the participant
+to write that part of their story.</p>
+</dd>
+<dt>Slide: A Story Map</dt>
+<dd>
+<p>This is one of the story maps used in the study. It is a sequence of
+Propp cards, laid out on a table or board.</p>
+</dd>
+<dt>Slide: Research Question</dt>
+<dd>
+<p>Can children use Propp cards and story maps to write stories that
+realise the Proppian narrative structures that the Propp cards and
+story maps aim to represent?</p>
+</dd>
+<dt>Slide: Week One: Recasting</dt>
+<dd>
+<p>In the first week children created new stories from existing sample
+stories. They were read a sample Proppian tale, shown the story map
+for the sample tale, and were then asked to write their own stories
+following the same story map.</p>
+</dd>
+<dt>Slide: Week Two: Constructing</dt>
+<dd>
+<p>In the second week the same children returned, and this time they
+wrote stories following story maps that they constructed themselves
+by selecting which Propp cards they wanted to use.</p>
+</dd>
+<dt>Slide: Interpretation of Propp's Morphology</dt>
+<dd>
+<p>We had to develop a means of assessing the stories written by the
+participants to decide, in a consistent and reliable way, what
+sequence of Propp functions was realised by each story.</p>
+<p>These sequences could then be compared to the sequences of functions
+represented by the story maps used, to measure how successfully the
+participants had followed the story maps.</p>
+<p>For this purpose we developed a clear, consistent and concise
+interpretation of Propp's morphology and a procedure for analysing a
+story using the interpretation, deriving a sequence of Propp
+functions from the story.</p>
+</dd>
+<dt>Slide: Quantitative Results</dt>
+<dd>
+<p>The quantitative results showed that the children were able to
+follow the story maps with a high degree of accuracy.</p>
+</dd>
+<dt>Slide: Limitations</dt>
+<dd>
+<p>These quantitative results have some important limitations:</p>
+<p>They concern Propp's functions only, and do not take into account
+the many other components of Propp's morphology.</p>
+<p>They do not account for the originality of the stories, do not
+distinguish between highly creative applications of Propp's
+morphology and simple rewrites of the sample stories. Qualitative
+analysis of the stories is needed.</p>
+<p>They do not account for the quality of the stories, or compare
+stories written with and without using Propp's morphology.</p>
+<p>They do not measure learning, no comparison of stories written
+before and after using Propp's morphology. Did the children
+appropriate Proppian narrative concepts from their experience with
+the tool?</p>
+</dd>
+<dt>Slide: Thesis Questions</dt>
+<dd>
+<p>So at this point in the research, where are we with respect to the
+thesis questions?</p>
+<p>Q1.
+We have confirmed that Propp cards and story maps are a successful
+representation of Propp's morphology for a story authoring tool.
+These basic interface elements, along with observations about how
+the children used them and what worked and what didn't, can now
+feed into the design of a computer application that will further
+answer Q1.</p>
+<p>Q2.
+We have shown that children can apply Propp's morphology to story
+writing. They were able to grasp Propp's abstract narrative
+concepts, such as the concept of function, and apply these concepts
+to their own writing.</p>
+<p>Q3.
+We have not made much progress on Q3 yet, there has been no
+comparison of stories written with and without using Propp's
+morphology.</p>
+</dd>
+</dl>
+<h3>The Story Maps Application</h3>
+<dl>
+<dt>Slide: Outline</dt>
+<dd>
+<p>Story Maps is a computer story authoring application that I
+developed and evaluated for this PhD.</p>
+<p>Its design is based on the exploratory study:</p>
+<ul>
+<li>The interpretation of Propp's morphology</li>
+<li>The Propp cards and story maps</li>
+<li>Observations of children's interaction with the Propp cards and
+    story maps, what worked and what didn't</li>
+</ul>
+<p>Requirements were drawn up, a prototype implemented and tested with
+teachers and children, and then the final version implemented and
+tested.</p>
+</dd>
+<dt>Slide: Planning View (1)</dt>
+<dt>Slide: Planning View (2)</dt>
+<dd>
+<p>The planning view is the opening screen of Story Maps. You are
+presented with a collection of story cards to choose from in the
+green area at the top. You can inspect each card more closely by
+moving the mouse cursor over a card to see it in more detail. You
+drag-and-drop the story cards that you want to use and arrange them
+into a story map in the grey area below. You can enter a title for
+your story in the toolbar at the bottom of the window.</p>
+</dd>
+<dt>Slide: Propp Cards</dt>
+<dd>
+<p>Propp cards were created for each of Propp's functions.
+Child-friendly texts for the cards were created based on our
+interpretation of Propp and on feedback from teachers.
+Illustrations were created by designer and illustrator Raymond Yuen,
+based on the texts.</p>
+</dd>
+<dt>Slide: Zooming</dt>
+<dd>
+<p>Each card has a title, short description, and longer description,
+these are progressively revealed as the user 'zooms in' on the card.</p>
+</dd>
+<dt>Slide: Story Editor</dt>
+<dd>
+<p>Clicking on the <em>Write your Story!</em> button brings up the story
+editor.  With your story map in view above, you use the text editor
+below to enter the text for your story. You have to fill in a part
+of your story for each story card in your story map. If you change
+your mind about one of the cards in your story map, you can go back
+to the planning view at any time by clicking the <em>Go back to
+planning</em> button.</p>
+</dd>
+<dt>Slide: Saving &amp; Opening</dt>
+<dd>
+<p>You can save your story map to file and open a saved story map to
+continue working on it later.</p>
+</dd>
+<dt>Slide: Export &amp; Print</dt>
+<dd>
+<p>You can export your story to HTML or print it.</p>
+</dd>
+<dt>Slide: Logging</dt>
+<dd>
+<p>The application automatically saves your story and keeps a log.</p>
+</dd>
+<dt>Slide: Story Maps URL</dt>
+<dd>
+<p>Story Maps is cross-platform and free software, you can download it
+from the website: <seanh.github.com/storymaps>.</p>
+</dd>
+</dl>
+<h3>Experimental Study</h3>
+<dl>
+<dt>Slide: Outline</dt>
+<dd>...</dd>
+<dt>Slide: Experiment</dt>
+<dd>...</dd>
+<dt>Slide: Research Question</dt>
+<dd>...</dd>
+<dt>Slide: Hypotheses</dt>
+<dd>
+<p>The expectation was that using the story maps application would
+improve some aspects of the stories written but not other aspects:</p>
+<p>We expected the plot structure of the stories to improve. Story Maps
+should encourage stories to have a clear build up, precipitating
+event, protagonist's goal, action and resolution, because this plot
+structure is embedded in the Propp cards and their sequence.</p>
+<p>We expected character roles to improve. Story Maps should encourage
+stories to contain characters that act in clear and consistent
+roles, such as protagonist and antagonist, because these roles are
+embodied by the spheres of action contained in Propp's functions.</p>
+<p>We expected the coherence of the stories to improve, because the
+Propp cards embody a logically and artistically sound sequence and
+flow of events.</p>
+<p>We did <em>not</em> expect the story maps application to affect the
+description of characters or settings and their attributes or of
+emotions because characters, settings and their attributes are not
+represented as first-class objects in the application.</p>
+</dd>
+<dt>Slide: Research Design</dt>
+<dd>
+<p>The study used a pre-test post-test with control group research
+design. Each participant wrote three stories during the study, at
+pre-test, control or treatment condition and post-test.</p>
+<p>For the pre-test all participants wrote stories using "crib sheet"
+that was created with the help of a teacher.</p>
+<p>Each participant was then randomly assigned to either the treatment
+group or the control group. Treatment group participants created
+stories using the story maps application, while the control group
+participants used a typical classroom story planner.</p>
+<p>Finally, all participants wrote a third story for post-test, using
+the same crib sheet as in the pre-test.</p>
+</dd>
+<dt>Slide: Pre-test</dt>
+<dd>
+<p>For the pre-test participants read a "crib sheet" of questions to
+keep in mind before writing their stories. On the back of the crib
+sheet were some story titles to help with ideas.</p>
+</dd>
+<dt>Slide: Treatment</dt>
+<dd>
+<p>For the treatment participants were given a 15-minute introduction
+to the story maps application and the narrative concepts it uses.
+They then used the application to plan their stories in the
+computers. Participants printed out their completed story maps, and
+used these to write their stories on paper.</p>
+</dd>
+<dt>Slide: Control</dt>
+<dd>
+<p>For the control condition participants planned their stories using a
+typical story planning framework, and then wrote them.</p>
+</dd>
+<dt>Slide: Post-test</dt>
+<dd>
+<p>The post-test was the same as the pre-test, but the suggested story
+titles on the back of the crib sheet were different.</p>
+</dd>
+<dt>Slide: Quantitative Measure of Narrative Structure</dt>
+<dd>
+<p>To analyse the stories a quantitative measure of narrative structure
+was developed using an independent set of stories written by
+children of the same age group.</p>
+<p>The construct of <em>narrative structure</em> that was to be measured was
+defined, the available procedures and tools were reviewed, and an
+existing analytic rating scale was selected. This scale was trialed
+on an independent set of real-world data and problems were found, so
+the scale was significantly improved based on the trial data. An
+inter-rater reliability test of the improved scale was carried out,
+with good results.</p>
+<p>The measure contains 11 scales such as the one shown, each measuring
+a different criteria. It records whether or not the story has a
+protagonist and antagonist, major and minor settings, a
+precipitating event and some causal build-up to the precipitating
+event, whether the protagonist has a goal and initiates actions in
+order to achieve the goal, whether the story has a resolution, and a
+few further details. Each scale is simple and unidimensional, the
+levels are clearly defined, and empirical examples from the trial
+data exemplify each level.</p>
+<p>This scale can tell us both <em>whether</em> and <em>in what ways</em> two sets of
+stories differ; it is reasonably quick to apply and can be used by
+non-experts; it is reliable; it is valid (it ticks all of the boxes
+on our defined construct of narrative structure); and it is more
+sensitive than other available quantitative measures.</p>
+</dd>
+<dt>Slide: Quantitative Results</dt>
+<dd>
+<p>We found that the story maps application did improve the narrative
+structure of the stories in some of the ways that we expected, but
+for some aspects of narrative structure there was no room for
+improvement. Specifically, Story Maps increased the incidence of
+stories that contained an antagonist and increased the causal
+complexity of story events leading up to the precipitating event.</p>
+<p>But these conclusions must be qualified. First, due to an unexpected
+difference between the control and treatment groups <em>at pre-test</em>,
+the rival hypothesis of regression toward the mean cannot be
+strongly refuted on the basis of the quantitative data. Second,
+insufficient evidence was found to conclude that any effect was
+retained at post-test.</p>
+<p>As expected, we found no evidence that the story maps application
+affected descriptions or emotions in the stories.</p>
+</dd>
+<dt>Slide: Thesis Questions</dt>
+<dd>
+<p>Where does this leave is with respect to the thesis questions?</p>
+<ol>
+<li>The Story Maps application has been developed and tested in
+formative usability studies and in empirical studies of children's
+story authoring in school settings. The application is a successful
+representation of Propp's morphology in a story authoring tool for
+children.</li>
+</ol>
+<p>The Story Maps application has limitations, including a lack of
+support for descriptions of characters and settings, and that only
+the most fundamental concepts from Propp's morphology are
+represented.</p>
+<ol>
+<li>The exploratory and experimental studies show that children can
+apply Propp's morphology to story writing.</li>
+</ol>
+<p>Again, only the most basic concepts from Propp have been studied.</p>
+<ol>
+<li>The experimental study has compared stories written using a story
+authoring tool based on Propp's morphology to stories written using
+a typical story planner, and shown (with qualifications) that
+certain aspects of the narrative structures of the stories were
+improved.</li>
+</ol>
+<p>Further qualitative analysis could tell us more about the quality of
+the stories, and abut how children have used Propp's concepts in
+their stories.</p>
+</dd>
+</dl>
+<h3>Further Work</h3>
+<dl>
+<dt>Slide: Outline</dt>
+<dd>...</dd>
+<dt>Slide: Further Work (1)</dt>
+<dd>
+<p>Several areas for further work have been identified, including:</p>
+<p>Qualitative analysis of the stories, using Propp's morphology.
+Stories would first be broken down into their Proppian components,
+and then systematic description would proceed from this analysis.
+Children's stories could be compared to each other and to
+traditional tales. The aim is a rich description of <em>how</em> children
+have made use of Propp's morphology in their stories, what they can
+do with it.</p>
+<p>Further formalisation of Propp's morphology.</p>
+<p>Integrating more of Propp's concepts into the Story Maps
+application, enriching the model of narrative structure embodied by
+the application.</p>
+<p>Longer-term study of children's acquisition of fairy-tale narrative
+structure through Propp's morphology. Both quantitative and
+qualitative analysis would be used. Pre-test post-test with control
+group, but with an intervention several sessions long. The aim is to
+show learning, to show a significant effect at post-test.</p>
+</dd>
+<dt>Slide: Further Work(2)</dt>
+<dd>
+<p>An agenda for further study could be as follows:</p>
+<p>Take one narrative concept from Propp's morphology at a time.</p>
+<p>Carry out formative studies to find out how to formalise the
+concept, and how to integrate it into a story authoring application.</p>
+<p>The result of these formative studies would be a new version of the
+story maps application with an additional narrative concept
+represented.</p>
+<p>This new version of the story authoring application could then be
+used in experimental studies of children's story authoring. Can
+children acquire the new narrative concept and apply it
+successfully? If so, how do they use the new concept in their
+stories?</p>
+<p>You would then take the next narrative concept from Propp's
+morphology and begin the cycle again.</p>
+</dd>
+</dl>
+<h3>Conclusion</h3>
+<dl>
+<dt>Slide: Questions?</dt>
+<dd>...</dd>
+</dl>
+</body>
+</html>
