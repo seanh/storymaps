@@ -1,0 +1,32 @@
+html
+{
+  border-top: solid 12px #bfd63d;
+  padding-top:12px;
+}
+body {
+  font-family: 'Ubuntu', Tahoma, sans-serif;
+  color:#333;
+  padding-bottom:3em;
+}
+pre, code {
+  font-family: 'Ubuntu Mono', 'Liberation Mono', 'Deja Vu Sans Mono', Menlo,
+    Monaco, Consolas, 'Droid Sans Mono', 'Courier New', monospace;
+}
+/* Don't make monospaced text tiny, I hate that. */
+pre, code {
+  font-size: inherit;
+  line-height: inherit;
+}
+p {
+  max-width:40em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight:400;
+}
+img, div.flowplayer {
+  margin-bottom:1em;
+  margin-right:1em;
+}
+h2 {
+  margin-top:0;
+}
