@@ -5,14 +5,15 @@ the [Story Maps website](http://seanh.github.com/storymaps/).
 Compiling and Running from the Command Line
 ===========================================
 
-To compile run:
+Tested on Ubuntu 17.04. To compile run:
 
-    javac -d build/classes/ -classpath lib/piccolo.jar:lib/piccolox.jar:lib/freemarker.jar:src/ src/storymaps/Application.java
+    sudo apt install libgoogle-gson-java
+    javac -d build/classes/ -classpath /usr/share/java/gson.jar:lib/piccolo.jar:lib/piccolox.jar:lib/freemarker.jar:src/ src/storymaps/Application.java
 
 from inside this directory. Then to run the application directly from the class
 files do:
 
-    java -classpath lib/piccolo.jar:lib/piccolox.jar:lib/freemarker.jar:src:build/classes/ storymaps.Application
+    java -classpath /usr/share/java/gson.jar:lib/piccolo.jar:lib/piccolox.jar:lib/freemarker.jar:src:build/classes/ storymaps.Application
 
 To pack the application up into an executable JAR file do:
 

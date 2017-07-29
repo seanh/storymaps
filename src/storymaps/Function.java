@@ -20,14 +20,12 @@
 */
 package storymaps;
 
-import org.json.JSONArray;
+import com.google.gson.*;
 
 import java.awt.Image;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.logging.Logger;
 
 /**
@@ -88,22 +86,33 @@ final class Function implements Comparable, Originator {
         if (functions == null) {
             try {
                 String jsonString = Util.readTextFileFromClassPath("/data/functions/functions.json");
-                JSONArray jsonArray = new JSONArray(jsonString);
+                // Use to debug the functions.json script when running in the source code:
+                // String jsonString = Util.readTextFileFromSystem("src/data/functions/functions.json");
+                JsonParser parser = new JsonParser();
+                JsonElement element = parser.parse(jsonString);
+                JsonArray jsonArray = element.getAsJsonArray();
+
                 functions = new ArrayList<Function>();
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    int number = jsonObject.getInt("number");
-                    String name = jsonObject.getString("name");
-                    String description = jsonObject.getString("description");
-                    String instructions = jsonObject.getString("instructions");
-                    Function function = new Function(number,name,description,instructions);
-                    functions.add(function);
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    if ( ! jsonArray.get(i).isJsonNull() ) {
+                        try {
+                            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                            int number = jsonObject.get("number").getAsInt();
+                            String name = jsonObject.get("name").toString();
+                            String description = jsonObject.get("description").toString();
+                            String instructions = jsonObject.get("instructions").toString();
+                            Function function = new Function(number,name,description,instructions);
+                            functions.add(function);
+                        } catch (IllegalStateException e) {
+                            throw new RuntimeException("Exception when reading function #"+i+" in functions file.",e);
+                        }
+                    }
                 }
             } catch (IOException e) {
                 // If we can't read the functions file then the application
                 // can't work.
                 throw new RuntimeException("Could not read functions.json file.",e);
-            } catch (JSONException e) {
+            } catch (JsonParseException e) {
                 throw new RuntimeException("Exception when reading functions file.",e);
             }
         }
@@ -225,3 +234,4 @@ final class Function implements Comparable, Originator {
                 f.getInstructions());
     }
 }
+
