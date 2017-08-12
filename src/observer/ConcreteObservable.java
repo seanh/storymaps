@@ -1,5 +1,5 @@
 /* 
-    Copyright: (c) 2006-2012 Sean Hammond <seanhammond@lavabit.com>
+    Copyright: (c) 2006-2012 Sean Hammond <seanhammond@seanh.cc>
 
     This file is part of Storymaps.
 
