@@ -1,0 +1,29 @@
+---
+layout: nil
+---
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp codebase="{{ site.base_url }}/storymaps/dist/" href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>StoryMaps</title>
+        <vendor>Sean Hammond</vendor>
+        <homepage href="{{ site.base_url }}/storymaps/"/>
+        <description>A story writing and planning application for children.</description>
+        <description kind="short">StoryMaps</description>
+    <offline-allowed/>
+</information>
+<security>
+<all-permissions/>
+</security>
+    <resources>
+<j2se version="1.5+"/>
+<jar eager="true" href="StoryMaps.jar" main="true"/>
+    <jar href="lib/freemarker.jar"/>
+<jar href="lib/piccolo.jar"/>
+<jar href="lib/piccolox.jar"/>
+<jar href="lib/freemarker.jar"/>
+<jar href="lib/piccolo.jar"/>
+<jar href="lib/piccolox.jar"/>
+</resources>
+    <application-desc main-class="storymaps.Application">
+    </application-desc>
+</jnlp>
